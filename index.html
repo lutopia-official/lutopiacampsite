@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LutopiaDulanCampsite 都蘭錄托邦露營區 - 費用試算與預約</title>
+
+<meta name="description" content="台東都蘭錄托邦露營區(Lutopia)官方費用試算與預約頁面。提供免裝備露營車、美式復古拖車、自搭帳營位、包場露營及場地租借服務。親子友善、動物友善、欣賞東海岸星空首選。">
+<meta name="keywords" content="都蘭露營, 台東露營, 免裝備露營, 錄托邦, Lutopia, 台東露營區, 都蘭露營區, 東海岸景點, 露營車住宿, 親子露營, 動物友善露營, 營區包場, 都蘭住宿, 東河露營, Camping">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://lutopiacamp.pages.dev/">    
+    <meta property="og:title" content="LutopiaDulanCampsite 都蘭錄托邦露營區" />
+    <meta property="og:description" content="輸入日期與露營類型，快速計算您的露營費用。親子動物星空露營，就在台東都蘭。" />
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_green.css">
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="logo-container">
+            <img src="logo.jpg" alt="Lutopia Dulan Logo" class="logo-img">
+            <div class="brand-name">
+                <h1>LutopiaDulanCampsite 都蘭錄托邦露營區</h1>
+                <p>親子露營・動物友善・動物園區・星空露營・台東都蘭</p>
+            </div>
+        </div>
+        <div class="social-links">
+            <a href="https://www.facebook.com/LutopiaDulan?locale=zh_TW" target="_blank" class="social-btn fb-btn">
+                <i class="fab fa-facebook-square"></i> 追蹤 FB
+            </a>
+            <a href="https://www.instagram.com/lutopia_dulan_camp/" target="_blank" class="social-btn ig-btn">
+                <i class="fab fa-instagram"></i> 追蹤 IG
+            </a>
+            <a href="https://line.me/R/ti/p/@lutopia" target="_blank" class="social-btn line-btn">
+                <i class="fab fa-line"></i> 加 LINE 好友
+            </a>
+            
+            <div class="lang-switch">
+                <button onclick="changeLang('zh')" class="lang-btn">🇹🇼 繁中</button>
+                <button onclick="changeLang('en')" class="lang-btn">🇺🇸 EN</button>
+                <button onclick="changeLang('jp')" class="lang-btn">🇯🇵 日本語</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="marquee-wrapper">
+        <div class="marquee-content">
+            <i class="fas fa-bullhorn"></i> 
+            <span id="marquee-text">
+                <span data-i18n="loading">資料載入中...</span>
+            </span>
+        </div>
+    </div>
+
+    <div class="main-wrapper">
+        
+        <div class="top-section">
+            <div class="container calculator-container" id="calculatorSection">
+                <h2 data-i18n="calc_title">🌲 露營/場地/周邊服務費用試算</h2>
+                
+                <div id="unitNotice" class="notice-box" style="background-color: #e3f2fd; color: #0d47a1; padding: 12px; border-radius: 6px; margin-bottom: 15px; border-left: 5px solid #2196F3; font-size: 0.95rem;">
+                    <i class="fas fa-info-circle"></i> <strong data-i18n="basic_unit">基本單位：4人 / 1車 / 1帳 / 1車邊帳or車尾帳</strong>
+                </div>
+
+                <div id="policyNotice" class="notice-box hidden" style="background-color: #fff8e1; color: #f57f17; padding: 12px; border-radius: 6px; margin-bottom: 15px; border-left: 5px solid #ffca28; font-size: 0.95rem;">
+                    <i class="fas fa-exclamation-circle"></i> <strong data-i18n="important_notice">重要提醒：</strong>
+                    <ul style="margin: 5px 0 0 20px; padding: 0;">
+                        <li>⏰ <strong data-i18n="checkin_time_label">入住時間：</strong><span id="checkInTimeText" data-i18n="checkin_time_val">下午 14:00 以後</span> <span data-i18n="dont_early">(請勿提早)</span></li>
+                        <li>♻️ <strong data-i18n="eco_policy_label">環保旅宿：</strong><span data-i18n="eco_policy_desc">不提供一次性備品 (請自備毛巾、牙刷)</span></li>
+                    </ul>
+                </div>
+
+                <div class="form-group">
+                    <label for="campType" data-i18n="label_type">類型選擇：</label>
+                    <select id="campType" onchange="toggleInputs()">
+                        <option value="" disabled selected data-i18n="select_placeholder">請選擇類型...</option>
+
+                        <optgroup label="⛺ 露營住宿 (Camping)" data-i18n-label="group_camping">
+                            <option value="tent" data-i18n="opt_tent">自搭帳篷 (Tent)</option>
+                            <option value="moto" data-i18n="opt_moto">機車單車露營 (Moto Camping)</option>
+                            <option value="solo" data-i18n="opt_solo">單人小帳棚露營 (Solo Camping)</option>
+                            <option value="car" data-i18n="opt_car">車泊、車露、加掛式車 (Car Camping)</option>
+                            <option value="camper" data-i18n="opt_camper">自備拖車/自走式露營車 (Self-driving RV)</option>
+                        </optgroup>
+                        <optgroup label="🚐 錄托邦免裝備租賃/民宿 (Rental)" data-i18n-label="group_rental">
+                            <option value="starcraft" data-i18n="opt_starcraft">錄托邦 StarCraft 美式復古拖車</option>
+                            <option value="dt392" data-i18n="opt_dt392">錄托邦 大馳 DT392 露營車</option>
+                            <option value="room" data-i18n="opt_room">錄托邦民宿房間</option>
+                        </optgroup>
+                        <optgroup label="🎉 包場住宿 (Full Booking - Overnight)" data-i18n-label="group_full">
+                            <option value="full_basic" data-i18n="opt_full_basic">純場地包場</option>
+                            <option value="full_vans" data-i18n="opt_full_vans">包場+2台露營車</option>
+                            <option value="full_all" data-i18n="opt_full_all">包場+2台露營車+房間</option>
+                        </optgroup>
+                        <optgroup label="🎪 場地活動租借 (Hourly Rental)" data-i18n-label="group_venue">
+                            <option value="venue_hourly" data-i18n="opt_venue_hourly">場地租借 (按時數計費)</option>
+                        </optgroup>
+                        <optgroup label="🚲 周邊服務 (Services)" data-i18n-label="group_bike">
+                            <option value="bicycle" data-i18n="opt_bicycle">單車租借 (Bicycle Rental)</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <div class="form-group two-col">
+                    <div>
+                        <label for="dateRange" data-i18n="label_date">預約日期：</label>
+                        <input type="text" id="dateRange" data-i18n-placeholder="date_placeholder" placeholder="請點擊選擇日期..." readonly style="background-color: #fff;">
+                        <div id="rushNotice" class="hidden" style="background-color: #fff3cd; border: 1px solid #ffeeba; color: #856404; padding: 10px; border-radius: 5px; margin-top: 8px; font-size: 0.9rem; line-height: 1.5;">
+                            <strong data-i18n="rush_notice_title">⚠️ 夜衝日期選擇教學：</strong><br>
+                            <span data-i18n="rush_notice_desc">請將「夜衝當晚」設為第一天。</span>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="visitTime" data-i18n="label_time">預計抵達/取車時間：</label>
+                        <select id="visitTime" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px; background-color:#fff;">
+                            <option value="" disabled selected data-i18n="time_placeholder">請選擇時間...</option>
+                            <option value="14:00">14:00 (最早入場)</option>
+                            <option value="15:00">15:00</option>
+                            <option value="16:00">16:00</option>
+                            <option value="17:00">17:00</option>
+                            <option value="18:00">18:00</option>
+                            <option value="19:00">19:00</option>
+                            <option value="20:00">20:00</option>
+                            <option value="21:00">21:00 (夜衝開始)</option>
+                            <option value="22:00">22:00</option>
+                            <option value="23:00">23:00 (最晚入場)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="nightsBlock" class="form-group">
+                    <label for="nights" data-i18n="label_nights">住宿晚數 (自動)：</label>
+                    <input type="number" id="nights" value="0" readonly style="background-color: #e9ecef; width: 100%;">
+                </div>
+
+                <div id="rentalDurationBlock" class="hidden"><div class="form-group"><label for="rentalScheme" data-i18n="label_rental_scheme">租借時數方案：</label><select id="rentalScheme" onchange="calculateTotal()"><option value="3hr">3hr</option><option value="5hr">5hr</option><option value="6hr">6hr</option><option value="8hr">8hr</option><option value="day">Full Day</option></select></div></div>
+                <div id="bikeBlock" class="hidden"><div class="form-group two-col"><div><label for="bikeQty" data-i18n="label_bike_qty">租借數量 (台)：</label><input type="number" id="bikeQty" value="1" min="1" max="20" onchange="calculateTotal()"></div><div><label for="bikeScheme" data-i18n="label_bike_scheme">租借方案：</label><select id="bikeScheme" onchange="calculateTotal()"><option value="2hr">2hr ($150)</option><option value="4hr">4hr ($250)</option><option value="day">Day ($400)</option><option value="24hr">24H ($600)</option><option value="15day">15 Days ($2,500)</option><option value="30day">30 Days ($3,500)</option></select></div></div></div>
+
+                <div id="addonBlock" class="hidden" style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px dashed #ced4da;">
+                    <h4 style="margin: 0 0 10px 0; color: #495057; font-size: 0.95rem;" data-i18n="addon_title">➕ 加購選項 (人/車/訪客)</h4>
+                    <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <div>
+                            <label style="font-size:0.85rem;"><span data-i18n="label_extra_people">加人 ($200/人)</span><br><small style="color:#888;" data-i18n="label_kid_free">*小一以下免費</small></label>
+                            <input type="number" id="extraPeople" value="0" min="0" onchange="calculateTotal()" style="width:100%; padding:8px;">
+                        </div>
+                        <div>
+                            <label style="font-size:0.85rem;" data-i18n="label_extra_car">加車 ($500/車)：</label>
+                            <input type="number" id="extraCars" value="0" min="0" onchange="calculateTotal()" style="width:100%; padding:8px; margin-top: 18px;">
+                        </div>
+                        <div style="grid-column: span 2;">
+                            <label style="font-size:0.85rem;" data-i18n="label_visitor">訪客 ($100/人，23:00離場)：</label>
+                            <input type="number" id="visitors" value="0" min="0" onchange="calculateTotal()" style="width:100%; padding:8px;">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="extraOptions" class="checkbox-group hidden">
+                    <label><input type="checkbox" id="isNightRush" onchange="calculateTotal()"> <strong data-i18n="cb_night_rush">我要夜衝 (21:00-23:00入場)</strong></label>
+                    <label><input type="checkbox" id="useAC" onchange="calculateTotal()"> <span data-i18n="cb_ac">使用冷氣 (+100元/晚)</span></label>
+                </div>
+
+                <div class="btn-group">
+                    <button onclick="calculateTotal()" class="calc-btn" data-i18n="btn_calc">更新費用</button>
+                    <button onclick="resetForm()" class="reset-btn" data-i18n="btn_reset">重新填寫</button>
+                </div>
+
+                <div id="resultBox" class="result-box hidden">
+                    <h3 data-i18n="result_title">試算結果</h3>
+                    <div class="result-row"><span data-i18n="res_base">基本費用：</span> <span id="basePrice">0</span> 元</div>
+                    <div class="result-row" id="rowAddons"><span data-i18n="res_addon">加購費用：</span> <span id="addonPrice">0</span> 元</div>
+                    <div class="result-row" id="rowRush"><span data-i18n="res_rush">夜衝費用：</span> <span id="rushPrice">0</span> 元</div>
+                    <div class="result-row" id="rowAC"><span data-i18n="res_ac">冷氣加價：</span> <span id="acPrice">0</span> 元</div>
+                    <div class="result-row discount"><span data-i18n="res_discount">符合折扣：</span> -<span id="discountPrice">0</span> 元</div>
+                    <hr>
+                    <div class="total-row">
+                        <span data-i18n="res_total">總計金額：</span>
+                        <span class="final-price">NT$ <span id="finalTotal">0</span></span>
+                    </div>
+
+                    <div class="booking-form-inline" style="margin-top: 20px; padding-top: 20px; border-top: 2px dashed #eee;">
+                        <h4 style="text-align:center; color:#2c5e50; margin-bottom:15px;" data-i18n="customer_info_title">📝 預訂資料填寫</h4>
+                        <div class="form-group"><input type="text" id="customerName" data-i18n-placeholder="ph_name" placeholder="您的姓名 (必填)" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ddd; border-radius:5px;"></div>
+                        <div class="form-group two-col"><input type="tel" id="customerPhone" data-i18n-placeholder="ph_phone" placeholder="聯絡電話 (必填)" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ddd; border-radius:5px;"><input type="text" id="customerLine" placeholder="FB 或 IG" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ddd; border-radius:5px;"></div>
+                        <div class="form-group"><textarea id="customerNote" data-i18n-placeholder="ph_note" placeholder="其他備註需求 (例如：露營相關、租單車者身高...)" rows="3" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;"></textarea></div>
+                        <button onclick="submitOrder()" id="submitBtn" style="width:100%; background-color:#d35400; color:white; padding:15px; border:none; border-radius:8px; font-size:1.1rem; cursor:pointer; font-weight:bold;" data-i18n="btn_submit">🚀 確認預訂並送出</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-panel">
+                <section class="gallery-section">
+                    <h3>探索 Lutopia 錄托邦</h3>
+                    <div class="gallery-grid">
+                        <a href="https://www.instagram.com/reel/CxP3YtGrSLs/" target="_blank" class="gallery-item video-item"><img src="video1.jpg" alt="大馳DT392"><div class="overlay"><i class="fas fa-play"></i></div></a>
+                        <a href="https://www.instagram.com/reel/Cxh6hi1rLti/" target="_blank" class="gallery-item video-item"><img src="video2.jpg" alt="美式拖車"><div class="overlay"><i class="fas fa-play"></i></div></a>
+                        <a href="https://www.instagram.com/reel/CxfY-oISiv0/" target="_blank" class="gallery-item video-item"><img src="video3.jpg" alt="錄托邦房間"><div class="overlay"><i class="fas fa-play"></i></div></a>
+                        <a href="https://www.instagram.com/reel/Cxz19HdS0OX/" target="_blank" class="gallery-item video-item"><img src="video4.jpg" alt="導覽"><div class="overlay"><i class="fas fa-map-marked-alt"></i></div><div class="video-label">📍 路線導覽</div></a>
+                    </div>
+                </section>
+                <section class="map-section">
+                    <h3>📍 交通指引</h3>
+                    <div class="map-container"><iframe width="100%" height="250" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3674.341492582766!2d121.2166667!3d22.9238889!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346fb7088ec18e69%3A0x6a0537035f6f4c71!2zTHV0b3BpYSDDtmzDtnRvcGlhIOmMhOmihOmdpg!5e0!3m2!1szh-TW!2stw!4v1700000000000!5m2!1szh-TW!2stw"></iframe></div>
+                    <a href="https://www.google.com/maps?ll=22.871011,121.226471&z=15&t=m&hl=zh-TW&gl=US&mapclient=embed&cid=5011053927100619235" target="_blank" class="nav-btn"><i class="fas fa-location-arrow"></i> 開啟 Google 導航</a>
+                </section>
+            </div>
+        </div> 
+
+        <div class="pricing-wrapper wide-layout">
+            <div class="pricing-title-area">
+                <h2 data-i18n="pricing_title">全區獨享包場方案</h2>
+                <p data-i18n="pricing_desc">選擇適合您的規模，平日/假日/連假皆有不同優惠</p>
+            </div>
+
+            <div class="camp-grid">
+                <div class="camp-card">
+                    <div class="card-header">
+                        <h3 data-i18n="plan_a_title">方案 A：純場地自由配</h3>
+                        <p data-i18n="plan_a_desc">自備裝備者最愛，CP值最高</p>
+                    </div>
+                    <table class="price-table">
+                        <thead>
+                            <tr>
+                                <th width="20%" data-i18n="th_period">時段</th>
+                                <th width="40%"><span class="level-tag tag-lite" data-i18n="tag_lite">微包場 (10帳內)</span></th>
+                                <th width="40%"><span class="level-tag tag-full" data-i18n="tag_full">全包場 (20帳)</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td data-i18n="td_weekday">平日</td>
+                                <td class="price-normal">$5,000</td>
+                                <td class="price-highlight">$6,000</td>
+                            </tr>
+                            <tr>
+                                <td data-i18n="td_weekend">假日</td>
+                                <td class="price-normal">$6,500</td>
+                                <td class="price-highlight">$8,000</td>
+                            </tr>
+                            <tr>
+                                <td data-i18n="td_holiday">連假</td>
+                                <td class="price-normal">$10,000</td>
+                                <td class="price-highlight">$12,000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="card-body">
+                        <ul class="feature-list">
+                            <li data-i18n="feat_a_1">全區草地營位使用</li>
+                            <li data-i18n="feat_a_2">適合：純露營團體、車隊</li>
+                            <li data-i18n="feat_a_3"><i>假日滿帳平均僅 $400/帳</i></li>
+                        </ul>
+                    </div>
+                    <button class="btn-book" onclick="selectPlan('full_basic')" data-i18n="btn_book_a">預約方案 A</button>
+                </div>
+
+                <div class="camp-card">
+                    <div class="card-header header-green">
+                        <h3 data-i18n="plan_b_title">方案 B：場地 + 露營車</h3>
+                        <p data-i18n="plan_b_desc">輕裝備首選，長輩小孩都開心</p>
+                    </div>
+                    <table class="price-table">
+                        <thead>
+                            <tr>
+                                <th width="20%" data-i18n="th_period">時段</th>
+                                <th width="40%"><span class="level-tag tag-lite" data-i18n="tag_lite">微包場 (10帳內)</span></th>
+                                <th width="40%"><span class="level-tag tag-full" data-i18n="tag_full">全包場 (20帳)</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td data-i18n="td_weekday">平日</td>
+                                <td class="price-normal">$7,500</td>
+                                <td class="price-highlight">$9,000</td>
+                            </tr>
+                            <tr>
+                                <td data-i18n="td_weekend">假日</td>
+                                <td class="price-normal">$8,500</td>
+                                <td class="price-highlight">$10,000</td>
+                            </tr>
+                            <tr>
+                                <td data-i18n="td_holiday">連假</td>
+                                <td class="price-normal">$12,000</td>
+                                <td class="price-highlight">$14,000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="card-body">
+                        <ul class="feature-list">
+                            <li data-i18n="feat_b_1">包含 <strong>2 台露營車</strong> 住宿</li>
+                            <li data-i18n="feat_b_2">適合：新手混合團、三代同堂</li>
+                            <li data-i18n="feat_b_3">免搭帳也能享受露營樂趣</li>
+                        </ul>
+                    </div>
+                    <button class="btn-book btn-green" onclick="selectPlan('full_vans')" data-i18n="btn_book_b">預約方案 B</button>
+                </div>
+
+                <div class="camp-card">
+                    <div class="card-header header-dark">
+                        <h3 data-i18n="plan_c_title">方案 C：豪華全配版</h3>
+                        <p data-i18n="plan_c_desc">露營車 + 民宿房間，懶人極致享受</p>
+                    </div>
+                    <table class="price-table">
+                        <thead>
+                            <tr>
+                                <th width="20%" data-i18n="th_period">時段</th>
+                                <th width="40%"><span class="level-tag tag-lite" data-i18n="tag_lite">微包場 (10帳內)</span></th>
+                                <th width="40%"><span class="level-tag tag-full" data-i18n="tag_full">全包場 (20帳)</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td data-i18n="td_weekday">平日</td>
+                                <td class="price-normal">$10,500</td>
+                                <td class="price-highlight">$12,000</td>
+                            </tr>
+                            <tr>
+                                <td data-i18n="td_weekend">假日</td>
+                                <td class="price-normal">$13,500</td>
+                                <td class="price-highlight">$15,000</td>
+                            </tr>
+                            <tr>
+                                <td data-i18n="td_holiday">連假</td>
+                                <td class="price-normal">$16,500</td>
+                                <td class="price-highlight">$18,000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="card-body">
+                        <ul class="feature-list">
+                            <li data-i18n="feat_c_1">含 <strong>2 台露營車 + 民宿房間</strong></li>
+                            <li data-i18n="feat_c_2">適合：重視睡眠品質、家族大聚會</li>
+                            <li data-i18n="feat_c_3">長輩住民宿，年輕人睡帳篷</li>
+                        </ul>
+                    </div>
+                    <button class="btn-book btn-dark" onclick="selectPlan('full_all')" data-i18n="btn_book_c">預約方案 C</button>
+                </div>
+            </div>
+            
+            <div class="footer-note">
+                <strong data-i18n="note_title">💡 價格說明與彈性升級：</strong>
+                <ul style="margin-top: 5px; padding-left: 20px; margin-bottom: 0;">
+                    <li data-i18n="note_1"><strong>微包場 (Level 1)：</strong> 適用於 10 帳/車以內之團體，盡量不接散客，有接的話不臨近。</li>
+                    <li data-i18n="note_2"><strong>全包場 (Level 2)：</strong> 適用於 20 帳/車以內之團體，享有人均最優惠價格。</li>
+                    <li data-i18n="note_3"><strong>彈性機制：</strong> 若訂微包場後人數增加，第 11 帳起每帳僅需補 $600 元，達全包場總價上限即不再加收。</li>                </ul>
+            </div>
+        </div>
+        <div id="campingRules" class="rules-section wide-layout">
+            <div class="rules-container">
+                <div class="rule-card basic-rules">
+                    <h3 data-i18n="rule_title_basic">🔷 收費標準與營區規定</h3>
+                    <div class="grid-2x2">
+                        <div class="mini-box">
+                            <h4 data-i18n="rule_sub_price">💰 營位計費標準</h4>
+                            <ul>
+                                <li data-i18n="rule_li_unit"><strong>基本單位：</strong>4人 / 1車 / 1帳 / 1炊事帳。</li>
+                                <li data-i18n="rule_li_add_person"><strong>加人：</strong>多1人加 $200 (國小一年級以下免費)。</li>
+                                <li data-i18n="rule_li_add_car"><strong>加車：</strong>多停一台車加收 $500。</li>
+                                <li data-i18n="rule_li_visitor"><strong>訪客：</strong>每人 $100，需於 23:00 前離場。</li>
+                            </ul>
+                        </div>
+                        <div class="mini-box">
+                            <h4 data-i18n="rule_sub_tent">⛺ 搭帳與冷氣規範</h4>
+                            <ul>
+                                <li data-i18n="rule_li_big_tent"><strong>大型帳篷：</strong>神殿、怪獸、5x8天幕等請<strong>訂2個營位</strong>。</li>
+                                <li data-i18n="rule_li_ac_fee"><strong>冷氣使用：</strong>車上/帳內使用冷氣接電，酌收 $100/晚。</li>
+                                <li class="alert-text" data-i18n="rule_li_warning">未告知搭設大帳者，現場將禁止搭設。</li>
+                            </ul>
+                        </div>
+                        <div class="mini-box">
+                            <h4 data-i18n="rule_sub_rush">🌙 夜衝服務 (限自搭帳)</h4>
+                            <ul>
+                                <li data-i18n="rule_li_rush_time"><strong>時間：</strong>22:00 後入場，23:30 前搭完。</li>
+                                <li data-i18n="rule_li_rush_price"><strong>費用：</strong>平日 500元 / 假日 600元 / 連假 800元。</li>
+                                <li class="highlight" data-i18n="rule_li_rush_rv">🚐 自備露營車夜衝依金額打 8 折。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rule-card policy-rules">
+                    <h3 data-i18n="rule_title_policy">⚠️ 住宿取消政策與付款</h3>
+                    <div class="policy-content">
+                        <h4 data-i18n="rule_sub_refund">📅 取消退費標準</h4>
+                        <ul class="refund-timeline">
+                            <li><span class="days" data-i18n="ref_14">14天前</span> <span class="desc" data-i18n="ref_desc_14">退 100% (扣手續費) 或改期</span></li>
+                            <li><span class="days" data-i18n="ref_10">10-13天前</span> <span class="desc" data-i18n="ref_desc_10">退 70% (2日內補差額)</span></li>
+                            <li><span class="days" data-i18n="ref_7">7-9天前</span> <span class="desc" data-i18n="ref_desc_7">退 50%</span></li>
+                            <li><span class="days" data-i18n="ref_4">4-6天前</span> <span class="desc" data-i18n="ref_desc_4">退 30%</span></li>
+                            <li><span class="days danger" data-i18n="ref_0">0-3天前</span> <span class="desc danger" data-i18n="ref_desc_0">視同取消，不退費</span></li>
+                        </ul>
+                        <div class="bank-area">
+                            <h4 data-i18n="rule_sub_bank">💰 付款資訊 (完成訂位後請全額匯款)</h4>
+                            <div class="bank-details">
+                                <p>合作金庫 (006)</p>
+                                <p class="account-number">5492988007780</p>
+                                <small data-i18n="rule_bank_note">請保留轉帳證明並回傳。</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="venueRules" class="rules-section wide-layout hidden">
+            <div class="rules-container">
+                <div class="rule-card basic-rules"><h3>🎪 場地租借使用規範</h3><div class="grid-2x2"><div class="mini-box"><h4>⏱️ 時間與費用</h4><ul><li>場佈及撤場時間需包含在租借時段內。</li><li><span class="lbl">提前進場：</span>1小時內免費。</li><li>超過1小時每30分鐘加收：平日早$400/晚$450、假日$500。</li></ul></div><div class="mini-box"><h4>🧹 清潔與環保</h4><ul><li>需自行帶走廚餘，餐盒紙杯需清洗分類。</li><li><span class="alert-text">清潔費：</span>若環境髒亂或未恢復原狀，加收 $3,000。</li></ul></div><div class="mini-box"><h4>🛠️ 佈置與器材</h4><ul><li>需自行佈置場地及排列桌椅 (我方提供器材)。</li><li>張貼海報需提前告知，限用不殘膠布膠。</li></ul></div><div class="mini-box"><h4>🔇 限制與責任</h4><ul><li>晚間 10:30 後請降低音量 (11:00後禁高音量)。</li><li>意外、設施損壞或噪音罰款由租借方全責。</li></ul></div></div></div>
+            </div>
+        </div>
+
+        <div id="bikeRules" class="rules-section wide-layout hidden">
+             <div class="rules-container">
+                <div class="rule-card basic-rules" style="border-top-color: #4CAF50;"><h3>🚲 單車租借使用規範</h3><div class="grid-2x2"><div class="mini-box"><h4>💰 短期租借費用</h4><ul><li><span class="lbl">2小時體驗：</span>$150</li><li><span class="lbl">半日遊 (4H)：</span>$250</li><li><span class="lbl">當日遊 (18:00前)：</span>$400</li><li><span class="lbl">24H 含過夜：</span>$600</li></ul></div><div class="mini-box"><h4>🗓️ 長期租借優惠</h4><ul><li><span class="lbl">15天 慢活租：</span>$2,500 (平均$166/天)</li><li><span class="lbl">30天 月租：</span>$3,500 (平均$116/天)</li><li class="highlight">長租需押金 $2,000 或 證件。</li></ul></div><div class="mini-box"><h4>⚠️ 責任與賠償</h4><ul><li>長租期間之<span class="alert-text">輪胎破風(爆胎)</span>需由承租人自行負責修補。</li><li>自然耗損(如煞車皮磨光)由我方負責。</li><li>車輛遺失或人為損壞需照價賠償。</li></ul></div><div class="mini-box"><h4>🛡️ 租借須知</h4><ul><li>附上鎖具保管車輛。</li><li>歸還時需將車身與租借時保持原樣。</li><li>推薦路線：都蘭糖廠、舊省道漫遊。</li></ul></div></div></div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="site-footer">
+        <p>📍 營本部：959台東縣東河鄉39-1號</p>
+        <p>© 2025 LutopiaDulanCampsite. All Rights Reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/zh.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
