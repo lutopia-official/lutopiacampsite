@@ -618,10 +618,9 @@ function toggleInputs() {
     const rowAddons = document.getElementById('rowAddons');
     if(rowAddons) rowAddons.classList.add('hidden');
 
-    // 👇 如果未選擇類型 (例如剛進網頁)，隱藏結果並返回
+    // 👇 如果未選擇類型，隱藏結果並返回
     if (!type || type === "") {
         hideResult();
-        // 修正：如果沒選類型，預設顯示露營規則，避免切換語言後消失
         campingRules.classList.remove('hidden'); 
         return;
     }
@@ -639,8 +638,6 @@ function toggleInputs() {
         // --- 住宿/包場/租賃/露營 ---
         nightsBlock.classList.remove('hidden');
         campingRules.classList.remove('hidden');
-        
-        // 顯示加購區塊
         if(addonBlock) addonBlock.classList.remove('hidden');
 
         // 包場時隱藏基本單位提示
@@ -653,14 +650,13 @@ function toggleInputs() {
             }
         }
 
-        // 顯示政策提醒框
         if(policyNotice) policyNotice.classList.remove('hidden');
 
-        // 🔥 處理時間選項的顯示/隱藏與文字修改 🔥
+        // 🔥 處理時間選項 🔥
         const checkInText = document.getElementById('checkInTimeText');
         const visitTimeSelect = document.getElementById('visitTime');
         
-        // 【重置步驟】先將所有選項恢復原狀 (顯示、啟用、文字還原)
+        // 【重置】先把所有時間都打開
         for (let i = 0; i < visitTimeSelect.options.length; i++) {
             let opt = visitTimeSelect.options[i];
             opt.disabled = false;
@@ -681,49 +677,41 @@ function toggleInputs() {
                 checkInText.style.fontWeight = "bold";
             }
             
-            // 2. 隱藏不適用時間 (14:00, 14:30, 21:00, 23:00)
+            // 2. 🔥【關鍵修改】只隱藏 15:00 以前的時間 (14:00, 14:30)
+            // 21:00 和 23:00 現在會保留顯示
             let opt1400 = visitTimeSelect.querySelector('option[value="14:00"]');
             let opt1430 = visitTimeSelect.querySelector('option[value="14:30"]');
-            let opt2100 = visitTimeSelect.querySelector('option[value="21:00"]');
-            let opt2300 = visitTimeSelect.querySelector('option[value="23:00"]');
             
-            // 設定 hidden=true 會讓它在清單中直接消失
             if(opt1400) { opt1400.disabled = true; opt1400.hidden = true; } 
             if(opt1430) { opt1430.disabled = true; opt1430.hidden = true; }
-            if(opt2100) { opt2100.disabled = true; opt2100.hidden = true; }
-            if(opt2300) { opt2300.disabled = true; opt2300.hidden = true; }
 
-            // 🔥【新增】修改 15:00 的顯示文字
+            // 3. 修改 15:00 顯示文字
             let opt1500 = visitTimeSelect.querySelector('option[value="15:00"]');
             if(opt1500) {
                 opt1500.text = "15:00 (check in time)";
             }
 
-            // 檢查若目前選到的值是被隱藏的，重置為空
-            const invalidValues = ["14:00", "14:30", "21:00", "23:00"];
-            if(invalidValues.includes(visitTimeSelect.value)) {
+            // 檢查若目前選到的值是被隱藏的 (例如切換前選了 14:00)，重置為空
+            if(visitTimeSelect.value === "14:00" || visitTimeSelect.value === "14:30") {
                 visitTimeSelect.value = ""; 
             }
 
         } else {
-            // 如果是 露營：
-            // 改回一般文字
+            // 如果是 露營：改回一般文字
             if(checkInText) {
                 checkInText.innerText = TRANSLATIONS[currentLang].checkin_time_val;
                 checkInText.style.color = ""; 
                 checkInText.style.fontWeight = "";
             }
-            // 注意：15:00 的文字已經在上面的 for 迴圈中被自動改回 "15:00" 了
         }
         
-        // 只有「自搭帳/車露」等特定類型顯示 夜衝/冷氣 與 夜衝日期提示
+        // 只有「自搭帳/車露」顯示夜衝/冷氣
         if (type === 'tent' || type === 'car' || type === 'camper' || type === 'moto' || type === 'solo') {
             extraOptions.classList.remove('hidden');
             document.getElementById('rowRush').classList.remove('hidden');
             document.getElementById('rowAC').classList.remove('hidden');
             if(rushNotice) rushNotice.classList.remove('hidden'); 
         } else {
-            // 民宿或包場，重置夜衝與冷氣勾選
             document.getElementById('isNightRush').checked = false;
             document.getElementById('useAC').checked = false;
         }
