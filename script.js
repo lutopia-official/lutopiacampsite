@@ -663,9 +663,10 @@ function toggleInputs() {
         const checkInText = document.getElementById('checkInTimeText');
         const visitTimeSelect = document.getElementById('visitTime');
         
-        // 先重置所有選項為可用
+        // 🔥【關鍵修改 1】先重置所有時間選項為「可用」且「顯示」
         for (let i = 0; i < visitTimeSelect.options.length; i++) {
             visitTimeSelect.options[i].disabled = false;
+            visitTimeSelect.options[i].hidden = false; // 確保之前的隱藏被取消
         }
 
         if (type === 'room' || type === 'starcraft' || type === 'dt392') {
@@ -673,7 +674,7 @@ function toggleInputs() {
             // 1. 改文字 (使用新版翻譯)
             if(checkInText) {
                 checkInText.innerText = TRANSLATIONS[currentLang].checkin_time_val_room;
-                // 🔥 關鍵修改：字體變紫色並加粗
+                // 字體變紫色並加粗
                 checkInText.style.color = "#800080"; 
                 checkInText.style.fontWeight = "bold";
             }
@@ -681,11 +682,20 @@ function toggleInputs() {
             // 2. 禁用 14:00 和 14:30
             let opt1400 = visitTimeSelect.querySelector('option[value="14:00"]');
             let opt1430 = visitTimeSelect.querySelector('option[value="14:30"]');
-            if(opt1400) opt1400.disabled = true;
-            if(opt1430) opt1430.disabled = true;
+            if(opt1400) { opt1400.disabled = true; opt1400.hidden = true; } // 加 hidden 讓它直接消失
+            if(opt1430) { opt1430.disabled = true; opt1430.hidden = true; }
 
-            if(visitTimeSelect.value === "14:00" || visitTimeSelect.value === "14:30") {
-                visitTimeSelect.value = ""; // 重置
+            // 🔥【關鍵修改 2】針對錄托邦住宿，隱藏 21:00 (夜衝) 和 23:00 (最晚)
+            let opt2100 = visitTimeSelect.querySelector('option[value="21:00"]');
+            let opt2300 = visitTimeSelect.querySelector('option[value="23:00"]');
+            
+            if(opt2100) { opt2100.disabled = true; opt2100.hidden = true; } // 隱藏夜衝
+            if(opt2300) { opt2300.disabled = true; opt2300.hidden = true; } // 隱藏最晚入場
+
+            // 檢查若目前選到的值是被禁用的，重置為空
+            const invalidValues = ["14:00", "14:30", "21:00", "23:00"];
+            if(invalidValues.includes(visitTimeSelect.value)) {
+                visitTimeSelect.value = ""; 
             }
 
         } else {
@@ -693,7 +703,7 @@ function toggleInputs() {
             // 1. 改回一般文字
             if(checkInText) {
                 checkInText.innerText = TRANSLATIONS[currentLang].checkin_time_val;
-                // 🔥 關鍵修改：恢復預設黑色
+                // 恢復預設黑色
                 checkInText.style.color = ""; 
                 checkInText.style.fontWeight = "";
             }
