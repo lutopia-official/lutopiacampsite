@@ -149,7 +149,6 @@ const TRANSLATIONS = {
         note_1: "微包場 (Level 1)：適用於 10 帳/車以內之團體，保證不接散客，獨享全區。",
         note_2: "全包場 (Level 2)：適用於 20 帳/車以內之團體，享有人均最優惠價格。",
         
-        // 🔥【更新】將金額改為 $600 🔥
         note_3: "彈性機制：若訂微包場後人數增加，第 11 帳起每帳僅需補 $600 元，達全包場總價上限即不再加收。",
     },
     en: {
@@ -296,7 +295,6 @@ const TRANSLATIONS = {
         note_1: "Lite (Level 1): For groups under 10 tents/cars. Guaranteed privacy.",
         note_2: "Full (Level 2): For groups under 20 tents/cars. Best per-person rate.",
         
-        // 🔥【更新】將金額改為 $600 🔥
         note_3: "Elasticity: If you book Lite but add more people later, just pay +$600/tent until the Full price cap is reached.",
     },
     jp: {
@@ -443,7 +441,6 @@ const TRANSLATIONS = {
         note_1: "小規模 (Level 1)：10張/台以内の団体向け。貸切保証。",
         note_2: "全貸切 (Level 2)：20張/台以内の団体向け。一人当たり最安。",
         
-        // 🔥【更新】將金額改為 $600 🔥
         note_3: "柔軟対応：小規模で予約後、人数が増えた場合は1張につき+$600で追加可能（全貸切料金が上限）。",
     }
 };
@@ -539,7 +536,7 @@ let selectedDates = [];
 flatpickr("#dateRange", {
     mode: "range",
     minDate: "today",
-    dateFormat: "Y-m-d",
+    dateFormat: "Y-m-d (D)", // 🔥 【修改】加上 (D) 顯示週幾
     locale: "zh",
     onChange: function(dates) {
         updateNights(dates);
@@ -646,7 +643,7 @@ function toggleInputs() {
         // 顯示加購區塊
         if(addonBlock) addonBlock.classList.remove('hidden');
 
-        // 🔥【更新】包場時隱藏基本單位提示 🔥
+        // 包場時隱藏基本單位提示
         const isFullBooking = (type === 'full_basic' || type === 'full_vans' || type === 'full_all');
         if(unitNotice) {
             if (isFullBooking) {
@@ -656,43 +653,53 @@ function toggleInputs() {
             }
         }
 
-        // 👇 顯示政策提醒框
+        // 顯示政策提醒框
         if(policyNotice) policyNotice.classList.remove('hidden');
 
-        // 🔥 處理房間與露營的入住時間差異 (需配合語言)
+        // 🔥 處理時間選項的顯示/隱藏與文字修改 🔥
         const checkInText = document.getElementById('checkInTimeText');
         const visitTimeSelect = document.getElementById('visitTime');
         
-        // 🔥【關鍵修改 1】先重置所有時間選項為「可用」且「顯示」
+        // 【重置步驟】先將所有選項恢復原狀 (顯示、啟用、文字還原)
         for (let i = 0; i < visitTimeSelect.options.length; i++) {
-            visitTimeSelect.options[i].disabled = false;
-            visitTimeSelect.options[i].hidden = false; // 確保之前的隱藏被取消
+            let opt = visitTimeSelect.options[i];
+            opt.disabled = false;
+            opt.hidden = false;
+            
+            // 如果是被改過的 15:00，改回原本單純的 "15:00"
+            if (opt.value === "15:00") {
+                opt.text = "15:00";
+            }
         }
 
         if (type === 'room' || type === 'starcraft' || type === 'dt392') {
             // 如果是 房間/露營車/民宿：
-            // 1. 改文字 (使用新版翻譯)
+            // 1. 改上方提示文字
             if(checkInText) {
                 checkInText.innerText = TRANSLATIONS[currentLang].checkin_time_val_room;
-                // 字體變紫色並加粗
                 checkInText.style.color = "#800080"; 
                 checkInText.style.fontWeight = "bold";
             }
             
-            // 2. 禁用 14:00 和 14:30
+            // 2. 隱藏不適用時間 (14:00, 14:30, 21:00, 23:00)
             let opt1400 = visitTimeSelect.querySelector('option[value="14:00"]');
             let opt1430 = visitTimeSelect.querySelector('option[value="14:30"]');
-            if(opt1400) { opt1400.disabled = true; opt1400.hidden = true; } // 加 hidden 讓它直接消失
-            if(opt1430) { opt1430.disabled = true; opt1430.hidden = true; }
-
-            // 🔥【關鍵修改 2】針對錄托邦住宿，隱藏 21:00 (夜衝) 和 23:00 (最晚)
             let opt2100 = visitTimeSelect.querySelector('option[value="21:00"]');
             let opt2300 = visitTimeSelect.querySelector('option[value="23:00"]');
             
-            if(opt2100) { opt2100.disabled = true; opt2100.hidden = true; } // 隱藏夜衝
-            if(opt2300) { opt2300.disabled = true; opt2300.hidden = true; } // 隱藏最晚入場
+            // 設定 hidden=true 會讓它在清單中直接消失
+            if(opt1400) { opt1400.disabled = true; opt1400.hidden = true; } 
+            if(opt1430) { opt1430.disabled = true; opt1430.hidden = true; }
+            if(opt2100) { opt2100.disabled = true; opt2100.hidden = true; }
+            if(opt2300) { opt2300.disabled = true; opt2300.hidden = true; }
 
-            // 檢查若目前選到的值是被禁用的，重置為空
+            // 🔥【新增】修改 15:00 的顯示文字
+            let opt1500 = visitTimeSelect.querySelector('option[value="15:00"]');
+            if(opt1500) {
+                opt1500.text = "15:00 (check in time)";
+            }
+
+            // 檢查若目前選到的值是被隱藏的，重置為空
             const invalidValues = ["14:00", "14:30", "21:00", "23:00"];
             if(invalidValues.includes(visitTimeSelect.value)) {
                 visitTimeSelect.value = ""; 
@@ -700,13 +707,13 @@ function toggleInputs() {
 
         } else {
             // 如果是 露營：
-            // 1. 改回一般文字
+            // 改回一般文字
             if(checkInText) {
                 checkInText.innerText = TRANSLATIONS[currentLang].checkin_time_val;
-                // 恢復預設黑色
                 checkInText.style.color = ""; 
                 checkInText.style.fontWeight = "";
             }
+            // 注意：15:00 的文字已經在上面的 for 迴圈中被自動改回 "15:00" 了
         }
         
         // 只有「自搭帳/車露」等特定類型顯示 夜衝/冷氣 與 夜衝日期提示
