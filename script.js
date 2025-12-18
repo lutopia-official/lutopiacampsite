@@ -131,7 +131,7 @@ const TRANSLATIONS = {
 
         feat_a_1: "全區草地營位使用",
         feat_a_2: "適合：純露營團體、車隊",
-        feat_a_3: "假日滿帳平均僅 $400/帳",
+        feat_a_3: "假日滿帳平均僅 $500/帳",
         
         feat_b_1: "包含 2 台露營車 住宿",
         feat_b_2: "適合：新手混合團、三代同堂",
@@ -277,7 +277,7 @@ const TRANSLATIONS = {
 
         feat_a_1: "Exclusive use of the entire campsite",
         feat_a_2: "Suitable for: Camping groups, car clubs",
-        feat_a_3: "Avg $400/tent on holidays (Full)",
+        feat_a_3: "Avg $500/tent on holidays (Full)",
         
         feat_b_1: "Includes 2 RVs (StarCraft/DT392)",
         feat_b_2: "Suitable for: 3-generation families",
@@ -561,9 +561,9 @@ const CAMPING_CONFIG = {
     room: { rates: { weekday: 2000, weekend: 2500, holiday: 2800 }, discountType: "percentage" },
     
     // --- C. 包場住宿 (🔥 已依照階梯式價格更新計算機全包場基底) ---
-    full_basic: { rates: { weekday: 6000, weekend: 8000, holiday: 12000 }, discountType: "full_venue_promo" },
-    full_vans: { rates: { weekday: 9000, weekend: 11000, holiday: 14000 }, discountType: "full_venue_promo" },
-    full_all: { rates: { weekday: 12000, weekend: 15000, holiday: 18000 }, discountType: "full_venue_promo" },
+    full_basic: { rates: { weekday: 7000, weekend: 10000, holiday: 15000 }, discountType: "full_venue_promo" },
+    full_vans: { rates: { weekday: 10000, weekend: 16000, holiday: 18000 }, discountType: "full_venue_promo" },
+    full_all: { rates: { weekday: 13000, weekend: 18000, holiday: 20000 }, discountType: "full_venue_promo" },
     
     // --- D. 場地租借 ---
     venue_hourly: { 
