@@ -25,7 +25,7 @@ const TRANSLATIONS = {
         group_bike: "🚲 周邊服務",
         
         opt_tent: "自搭帳篷",
-        opt_moto: "機車單車露營",
+        opt_moto: "機車or單車露營",
         opt_solo: "單人小帳棚",
         opt_car: "車泊、車露",
         opt_camper: "自備露營車/拖車",
@@ -550,8 +550,8 @@ flatpickr("#dateRange", {
 const CAMPING_CONFIG = {
     // --- A. 露營住宿類 ---
     tent: { rates: { weekday: 700, weekend: 800, holiday: 1000 }, nightRush: { weekday: 500, weekend: 600, holiday: 700 }, discountType: "fixed_amount" },
-    moto: { rates: { weekday: 300, weekend: 500, holiday: 600 }, nightRush: { weekday: 200, weekend: 300, holiday: 400 }, discountType: "fixed_amount" },
-    solo: { rates: { weekday: 300, weekend: 500, holiday: 600 }, nightRush: { weekday: 200, weekend: 300, holiday: 400 }, discountType: "fixed_amount" },
+    moto: { rates: { weekday: 500, weekend: 600, holiday: 800 }, nightRush: { weekday: 200, weekend: 300, holiday: 400 }, discountType: "fixed_amount" },
+    solo: { rates: { weekday: 500, weekend: 600, holiday: 800 }, nightRush: { weekday: 200, weekend: 300, holiday: 400 }, discountType: "fixed_amount" },
     car: { rates: { weekday: 600, weekend: 800, holiday: 1000 }, nightRush: { weekday: 500, weekend: 600, holiday: 700 }, discountType: "fixed_amount" },
     camper: { rates: { weekday: 800, weekend: 1000, holiday: 1200 }, nightRush: { weekday: 600, weekend: 700, holiday: 800 }, discountType: "fixed_amount_premium" },
     
