@@ -18,6 +18,9 @@ const TRANSLATIONS = {
         
         label_type: "類型選擇：",
         select_placeholder: "請選擇類型...",
+        label_unit_qty: "預訂數量 (帳/車/間)：",
+        guest_name_label: "第 {n} 位代表姓名：",
+
         group_camping: "⛺ 露營住宿",
         group_rental: "🚐 免裝備租賃/民宿",
         group_full: "🎉 包場住宿",
@@ -25,7 +28,7 @@ const TRANSLATIONS = {
         group_bike: "🚲 周邊服務",
         
         opt_tent: "自搭帳篷",
-        opt_moto: "機車or單車露營",
+        opt_moto: "機車、單車露營",
         opt_solo: "單人小帳棚",
         opt_car: "車泊、車露",
         opt_camper: "自備露營車/拖車",
@@ -58,7 +61,7 @@ const TRANSLATIONS = {
         label_visitor: "訪客 ($100/人，23:00離場)",
         
         cb_night_rush: "我要夜衝 (21:00-23:00入場)",
-        cb_ac: "使用冷氣 (+100元/晚)",
+        cb_ac: "使用冷氣 (+200元/晚)",
         
         btn_calc: "更新費用",
         btn_reset: "重新填寫",
@@ -81,7 +84,6 @@ const TRANSLATIONS = {
         confirm_room_policy: "🛑【訂位前請確認】\n\n1. ⏰ 入住時間：15:00 以後。\n   (請勿提早，若要提早放行李請先告知)\n\n2. ♻️ 環保旅宿：不提供一次性備品。\n   (請自備毛巾、牙刷)\n\n請問您是否接受並繼續訂位？",
         sent_success: "🎉 預訂成功！\n\n營主已收到您的訂單，將盡快與您聯繫確認。\n(您無需再進行其他操作)",
 
-        // --- 規則區塊翻譯 ---
         rule_title_basic: "🔷 收費標準與營區規定",
         rule_sub_price: "💰 營位計費標準",
         rule_li_unit: "基本單位：4人 / 1車 / 1帳 / 1炊事帳。",
@@ -91,7 +93,7 @@ const TRANSLATIONS = {
 
         rule_sub_tent: "⛺ 搭帳與冷氣規範",
         rule_li_big_tent: "大型帳篷：神殿、怪獸、5x8天幕等請訂2個營位。",
-        rule_li_ac_fee: "冷氣使用：車上/帳內使用冷氣接電，酌收 $100/晚。",
+        rule_li_ac_fee: "冷氣使用：車上/帳內使用冷氣接電，酌收 $200/晚。",
         rule_li_warning: "未告知搭設大帳者，現場將禁止搭設。",
 
         rule_sub_rush: "🌙 夜衝服務 (限自搭帳)",
@@ -110,7 +112,6 @@ const TRANSLATIONS = {
         rule_sub_bank: "💰 付款資訊 (完成訂位後請全額匯款)",
         rule_bank_note: "請保留轉帳證明並回傳。",
 
-        // 🔥 包場價格表 (Pricing Table) 翻譯 🔥
         pricing_title: "全區獨享包場方案",
         pricing_desc: "選擇適合您的規模，平日/假日/連假皆有不同優惠",
         
@@ -165,6 +166,9 @@ const TRANSLATIONS = {
         
         label_type: "Select Type:",
         select_placeholder: "Choose...",
+        label_unit_qty: "Quantity (Unit):",
+        guest_name_label: "Guest Name #{n}:",
+
         group_camping: "⛺ Camping",
         group_rental: "🚐 Rental / Room",
         group_full: "🎉 Full Booking",
@@ -204,7 +208,7 @@ const TRANSLATIONS = {
         label_visitor: "Visitor ($100, leave by 23:00)",
         
         cb_night_rush: "Night Rush (21:00-23:00)",
-        cb_ac: "Use A/C (+$100/night)",
+        cb_ac: "Use A/C (+$200/night)",
         
         btn_calc: "Update Price",
         btn_reset: "Reset",
@@ -227,7 +231,6 @@ const TRANSLATIONS = {
         confirm_room_policy: "🛑【Please Confirm】\n\n1. ⏰ Check-in is after 15:00.\n2. ♻️ No disposable amenities provided.\n   (Bring your own towels/toothbrush)\n\nAccept and continue?",
         sent_success: "🎉 Booking Confirmed!\n\nWe have received your order and will contact you shortly.",
 
-        // --- Rules Translation ---
         rule_title_basic: "🔷 Rules & Fees",
         rule_sub_price: "💰 Camping Fees",
         rule_li_unit: "Unit: 4 Pax / 1 Vehicle / 1 Tent.",
@@ -237,7 +240,7 @@ const TRANSLATIONS = {
 
         rule_sub_tent: "⛺ Tents & A/C",
         rule_li_big_tent: "Big Tents: Please book 2 sites.",
-        rule_li_ac_fee: "A/C Usage: +$100/night.",
+        rule_li_ac_fee: "A/C Usage: +$200/night.",
         rule_li_warning: "Undeclared big tents are prohibited.",
 
         rule_sub_rush: "🌙 Night Rush (Tent Only)",
@@ -256,7 +259,6 @@ const TRANSLATIONS = {
         rule_sub_bank: "💰 Payment (Transfer Full Amount)",
         rule_bank_note: "Please keep the transfer receipt.",
 
-        // 🔥 Pricing Table EN 🔥
         pricing_title: "Exclusive Full Venue Booking",
         pricing_desc: "Choose the scale that fits your group. Discounts for weekdays!",
         
@@ -311,6 +313,9 @@ const TRANSLATIONS = {
         
         label_type: "タイプ選択：",
         select_placeholder: "選択してください...",
+        label_unit_qty: "数量 (台/張)：",
+        guest_name_label: "ゲスト名 #{n}:",
+
         group_camping: "⛺ キャンプ",
         group_rental: "🚐 キャンピングカー / 部屋",
         group_full: "🎉 貸切",
@@ -350,7 +355,7 @@ const TRANSLATIONS = {
         label_visitor: "日帰り客 ($100/人 23時退出)",
         
         cb_night_rush: "前泊・夜間入場 (21:00-23:00)",
-        cb_ac: "エアコン利用 (+$100/泊)",
+        cb_ac: "エアコン利用 (+$200/泊)",
         
         btn_calc: "料金更新",
         btn_reset: "リセット",
@@ -373,7 +378,6 @@ const TRANSLATIONS = {
         confirm_room_policy: "🛑【確認事項】\n\n1. ⏰ チェックインは 15:00 以降です。\n2. ♻️ アメニティの提供はありません。\n   (タオル・歯ブラシをご持参ください)\n\n了承して予約しますか？",
         sent_success: "🎉 予約完了！\n\nご注文を受け付けました。オーナーよりご連絡いたします。",
 
-        // --- Rules Translation ---
         rule_title_basic: "🔷 料金・ルール",
         rule_sub_price: "💰 キャンプ料金",
         rule_li_unit: "基本：4名 / 車1台 / テント1張。",
@@ -383,7 +387,7 @@ const TRANSLATIONS = {
 
         rule_sub_tent: "⛺ テント・エアコン",
         rule_li_big_tent: "大型テント：2区画予約してください。",
-        rule_li_ac_fee: "エアコン利用：+$100/泊。",
+        rule_li_ac_fee: "エアコン利用：+$200/泊。",
         rule_li_warning: "申告のない大型テントは設営禁止。",
 
         rule_sub_rush: "🌙 前泊 (テントのみ)",
@@ -402,7 +406,6 @@ const TRANSLATIONS = {
         rule_sub_bank: "💰 お支払い (全額振込)",
         rule_bank_note: "振込明細を保存してください。",
 
-        // 🔥 Pricing Table JP 🔥
         pricing_title: "全エリア貸切プラン",
         pricing_desc: "規模に合わせてプランを選択。平日はさらにお得！",
         
@@ -423,7 +426,7 @@ const TRANSLATIONS = {
 
         feat_a_1: "キャンプ場エリア完全貸切",
         feat_a_2: "最適：キャンプグループ、車クラブ",
-        feat_a_3: "休日満員時 平均 $400/張",
+        feat_a_3: "休日満員時 平均 $500/張",
         
         feat_b_1: "キャンピングカー2台付き",
         feat_b_2: "最適：3世代家族旅行",
@@ -479,6 +482,7 @@ function changeLang(lang) {
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzpiqltgo7ewZnP3fGJWV0fgszW5OMmBsDWBH0pIbh3sFzDwyOqYEx3WdYgkXRJxBS2/exec"; 
 
 // 📅 2025-2026 國定假日與連假清單 (YYYY-MM-DD)
+// 包含 2025 連假 + 2026 預估連假
 const HOLIDAYS = [
     // --- 2025 年 ---
     "2025-01-01", 
@@ -492,14 +496,14 @@ const HOLIDAYS = [
     "2025-12-31", // 2025 跨年夜
 
     // --- 2026 年 (預估) ---
-    "2026-01-01",
+    "2026-01-01", "2026-01-02", "2026-01-03", // 元旦連假
     "2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17", "2026-02-18",
-    "2026-02-19", "2026-02-20", "2026-02-21", "2026-02-22",
-    "2026-02-27", "2026-02-28", "2026-03-01",
-    "2026-04-03", "2026-04-04", "2026-04-05", "2026-04-06",
-    "2026-06-19", "2026-06-20", "2026-06-21",
-    "2026-09-25", "2026-09-26", "2026-09-27",
-    "2026-10-09", "2026-10-10", "2026-10-11",
+    "2026-02-19", "2026-02-20", "2026-02-21", "2026-02-22", // 春節連假 (初一2/17)
+    "2026-02-27", "2026-02-28", "2026-03-01", // 228連假
+    "2026-04-03", "2026-04-04", "2026-04-05", "2026-04-06", // 清明連假
+    "2026-06-19", "2026-06-20", "2026-06-21", // 端午連假
+    "2026-09-25", "2026-09-26", "2026-09-27", // 中秋連假
+    "2026-10-09", "2026-10-10", "2026-10-11", // 國慶連假
     "2026-12-31" // 2026 跨年夜
 ];
 
@@ -536,7 +540,7 @@ let selectedDates = [];
 flatpickr("#dateRange", {
     mode: "range",
     minDate: "today",
-    dateFormat: "Y-m-d (D)", // 🔥 【修改】加上 (D) 顯示週幾
+    dateFormat: "Y-m-d (D)",
     locale: "zh",
     onChange: function(dates) {
         updateNights(dates);
@@ -598,6 +602,9 @@ function toggleInputs() {
     const campingRules = document.getElementById('campingRules');
     const venueRules = document.getElementById('venueRules');
     const bikeRules = document.getElementById('bikeRules');
+
+    const unitQtyBlock = document.getElementById('qtyBlock'); // 數量選單
+    const guestListBlock = document.getElementById('guestListBlock'); // 朋友名單區
 
     // 1. 先全部隱藏
     nightsBlock.classList.add('hidden');
@@ -677,8 +684,7 @@ function toggleInputs() {
                 checkInText.style.fontWeight = "bold";
             }
             
-            // 2. 🔥【關鍵修改】只隱藏 15:00 以前的時間 (14:00, 14:30)
-            // 21:00 和 23:00 現在會保留顯示
+            // 2. 只隱藏 15:00 以前的時間 (14:00, 14:30)
             let opt1400 = visitTimeSelect.querySelector('option[value="14:00"]');
             let opt1430 = visitTimeSelect.querySelector('option[value="14:30"]');
             
@@ -691,7 +697,7 @@ function toggleInputs() {
                 opt1500.text = "15:00 (check in time)";
             }
 
-            // 檢查若目前選到的值是被隱藏的 (例如切換前選了 14:00)，重置為空
+            // 檢查若目前選到的值是被隱藏的
             if(visitTimeSelect.value === "14:00" || visitTimeSelect.value === "14:30") {
                 visitTimeSelect.value = ""; 
             }
@@ -716,8 +722,67 @@ function toggleInputs() {
             document.getElementById('useAC').checked = false;
         }
     }
+
+    // 🔥 處理「數量」與「朋友名單」的顯示邏輯
+    if (type.includes('full') || type === 'bicycle' || type === 'venue_hourly') {
+        if(unitQtyBlock) unitQtyBlock.classList.add('hidden');
+        if(guestListBlock) guestListBlock.classList.add('hidden');
+        document.getElementById('unitQty').value = 1; 
+    } else {
+        if(unitQtyBlock) unitQtyBlock.classList.remove('hidden');
+        generateGuestInputs(); // 檢查是否需要顯示名單
+    }
     
     calculateTotal();
+}
+
+// 🔥 新增：當數量改變時觸發
+function onQtyChange() {
+    generateGuestInputs(); // 產生欄位
+    calculateTotal();      // 重新算錢
+}
+
+// 🔥 新增：動態產生朋友姓名欄位
+function generateGuestInputs() {
+    const qty = parseInt(document.getElementById('unitQty').value);
+    const container = document.getElementById('guestInputsContainer');
+    const block = document.getElementById('guestListBlock');
+    
+    if(!container || !block) return;
+
+    // 清空原本的欄位
+    container.innerHTML = "";
+
+    // 如果數量 > 1，才顯示這個區塊
+    if (qty > 1) {
+        block.classList.remove('hidden');
+        
+        // 從第 2 位開始產生 (因為第 1 位是訂購人自己)
+        for (let i = 2; i <= qty; i++) {
+            const div = document.createElement('div');
+            div.style.marginBottom = "10px";
+            
+            const label = document.createElement('label');
+            label.style.fontSize = "0.9rem";
+            label.style.color = "#555";
+            label.innerText = `第 ${i} 位代表姓名：`; 
+            
+            const input = document.createElement('input');
+            input.type = "text";
+            input.className = "guest-name-input"; 
+            input.placeholder = `請輸入第 ${i} 帳/車的代表姓名`;
+            input.style.width = "100%";
+            input.style.padding = "8px";
+            input.style.border = "1px solid #ddd";
+            input.style.borderRadius = "4px";
+
+            div.appendChild(label);
+            div.appendChild(input);
+            container.appendChild(div);
+        }
+    } else {
+        block.classList.add('hidden');
+    }
 }
 
 function updateNights(dates) {
@@ -801,8 +866,36 @@ function calculateTotal() {
     const nights = parseInt(document.getElementById('nights').value);
     if (nights < 1) { hideResult(); return; }
 
+    // 🔥 取得數量 (如果隱藏了，預設為 1)
+    let qty = 1;
+    const qtyBlock = document.getElementById('qtyBlock');
+    if (qtyBlock && !qtyBlock.classList.contains('hidden')) {
+        qty = parseInt(document.getElementById('unitQty').value) || 1;
+    }
+
     const isNightRush = document.getElementById('isNightRush').checked;
     const useAC = document.getElementById('useAC').checked;
+
+    // 🔥【防呆提示】如果只選1晚卻勾夜衝，提醒客人 🔥
+    let rushWarning = document.getElementById('rushWarningText');
+    if (!rushWarning) {
+        const rushOption = document.getElementById('isNightRush').parentElement;
+        rushWarning = document.createElement('div');
+        rushWarning.id = 'rushWarningText';
+        rushWarning.style.color = 'red';
+        rushWarning.style.fontSize = '0.9rem';
+        rushWarning.style.marginTop = '5px';
+        rushWarning.style.fontWeight = 'bold';
+        rushOption.parentElement.appendChild(rushWarning);
+    }
+    
+    if (isNightRush && nights === 1) {
+        rushWarning.innerText = "💡 提醒：您只選了 1 晚，系統將僅計算「純夜衝」費用。若您是要「夜衝+續住露營」，請務必選擇 2 晚 (例如週五~週日)。";
+        rushWarning.classList.remove('hidden');
+    } else {
+        rushWarning.classList.add('hidden');
+    }
+
 
     let basePrice = 0;
     let rushPrice = 0;
@@ -825,6 +918,7 @@ function calculateTotal() {
             hasWeekend = true; 
         }
 
+        // 第一晚如果是夜衝，算夜衝價；否則算原價
         if (i === 0 && isNightRush && config.nightRush) {
             let rushType = rateType; 
             if(type === 'camper') {
@@ -836,10 +930,17 @@ function calculateTotal() {
             basePrice += config.rates[rateType];
         }
 
-        if (useAC) { acPrice += 100; }
+        // 🔥【修改】冷氣費 $200 (注意：之前您說改成100，後來又說200，這裡先設為200)
+        // 若要改回100，請改這裡
+        if (useAC) { acPrice += 200; }
 
         currentDate.setDate(currentDate.getDate() + 1);
     }
+
+    // 🔥 乘上數量
+    basePrice = basePrice * qty;
+    if (useAC) { acPrice = acPrice * qty; }
+    if (isNightRush) { rushPrice = rushPrice * qty; }
 
     // ➕ 加購計算 (人/車/訪客)
     const extraPeople = parseInt(document.getElementById('extraPeople').value) || 0;
@@ -847,7 +948,7 @@ function calculateTotal() {
     const visitors = parseInt(document.getElementById('visitors').value) || 0;
 
     const extraPeopleCost = extraPeople * 200 * nights;
-    const extraCarsCost = extraCars * 500 * nights;
+    const extraCarsCost = extraCars * 300 * nights;
     const visitorsCost = visitors * 100;
     
     const totalAddonCost = extraPeopleCost + extraCarsCost + visitorsCost;
@@ -874,6 +975,8 @@ function calculateTotal() {
         checkDate.setDate(checkDate.getDate() + 1);
     }
 
+    // 這裡的 totalPriceForDiscount 應該是單一單位的價格，還是總價？
+    // 通常折扣是針對總價打折
     let totalPriceForDiscount = basePrice + rushPrice + acPrice; 
 
     if (config.discountType === 'full_venue_promo') {
@@ -882,9 +985,13 @@ function calculateTotal() {
         if (isHolidayForDiscount && nights >= 3) discount = totalPriceForDiscount * 0.15;
         else if (nights >= 2) discount = totalPriceForDiscount * 0.10;
     } else if (config.discountType === 'fixed_amount' || config.discountType === 'fixed_amount_premium') {
-        if (isHolidayForDiscount && nights >= 3) discount = 500;
-        else if (hasWeekend && nights === 3) discount = (config.discountType === 'fixed_amount_premium') ? 500 : 200;
-        else if (!hasWeekend && !isHolidayForDiscount && nights >= 3) discount = 100 * nights;
+        // 固定金額折扣也要乘上數量嗎？通常是「每帳優惠多少」
+        let perUnitDiscount = 0;
+        if (isHolidayForDiscount && nights >= 3) perUnitDiscount = 500;
+        else if (hasWeekend && nights === 3) perUnitDiscount = (config.discountType === 'fixed_amount_premium') ? 500 : 200;
+        else if (!hasWeekend && !isHolidayForDiscount && nights >= 3) perUnitDiscount = 100 * nights;
+        
+        discount = perUnitDiscount * qty;
     }
 
     let total = Math.round(basePrice + rushPrice + acPrice + totalAddonCost - discount);
@@ -936,11 +1043,18 @@ function submitOrder() {
     // --- 組合訂單內容 ---
     let details = `【${typeText}】`;
 
+    // 取得數量
+    let qty = 1;
+    const qtyBlock = document.getElementById('qtyBlock');
+    if (qtyBlock && !qtyBlock.classList.contains('hidden')) {
+        qty = parseInt(document.getElementById('unitQty').value);
+    }
+
     if (typeValue === 'bicycle') {
-        const qty = document.getElementById('bikeQty').value;
+        const qtyBike = document.getElementById('bikeQty').value;
         const schemeSelect = document.getElementById('bikeScheme');
         const schemeText = schemeSelect.options[schemeSelect.selectedIndex].text;
-        details += ` / 數量:${qty} / 方案:${schemeText}`;
+        details += ` / 數量:${qtyBike} / 方案:${schemeText}`;
     } else if (typeValue === 'venue_hourly') {
         const schemeSelect = document.getElementById('rentalScheme');
         const schemeText = schemeSelect.options[schemeSelect.selectedIndex].text;
@@ -949,6 +1063,11 @@ function submitOrder() {
         const nights = document.getElementById('nights').value;
         details += ` / ${nights}晚`;
         
+        // 顯示數量 (如果大於1)
+        if (qty > 1) {
+            details += ` x ${qty}組`;
+        }
+
         // 加購項目
         const extraPeople = document.getElementById('extraPeople').value;
         const extraCars = document.getElementById('extraCars').value;
@@ -961,6 +1080,19 @@ function submitOrder() {
         if (!document.getElementById('extraOptions').classList.contains('hidden')) {
             if(document.getElementById('isNightRush').checked) { details += " (含夜衝)"; }
             if(document.getElementById('useAC').checked) { details += " (含冷氣)"; }
+        }
+
+        // 🔥 收集朋友名單
+        const guestInputs = document.querySelectorAll('.guest-name-input');
+        let guestNames = [];
+        guestInputs.forEach((input, index) => {
+            if(input.value.trim() !== "") {
+                guestNames.push(`(第${index+2}位: ${input.value.trim()})`);
+            }
+        });
+        
+        if (guestNames.length > 0) {
+            details += `\n同行：${guestNames.join('、')}`;
         }
     }
 
