@@ -96,7 +96,7 @@ select, input[type="number"], input[type="text"] { width: 100%; padding: 12px; b
 @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
 @media (max-width: 768px) { .marquee-content { font-size: 0.9rem; animation: marquee 15s linear infinite; } }
 
-/* 🔥 語言切換區 (已更新為觸碰變色樣式) */
+/* 🔥 語言切換區 (已更新為三色獨立樣式) */
 .lang-switch {
     display: flex;
     justify-content: center; /* 置中 */
@@ -104,6 +104,46 @@ select, input[type="number"], input[type="text"] { width: 100%; padding: 12px; b
     margin: 20px 0;
 }
 
+.lang-btn {
+    font-size: 1.1rem;
+    cursor: pointer;
+    background: #ffffff;       /* 預設背景：白色 */
+    border: 1px solid #ccc;    /* 預設邊框：淺灰 */
+    border-radius: 8px;        /* 圓角 */
+    padding: 8px 16px;         /* 內距 */
+    transition: all 0.2s ease; /* 動畫 */
+    color: #555;               /* 預設文字顏色 */
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* 🟢 中文 (zh) - 綠色系 */
+#btn-zh:hover, #btn-zh:active {
+    background-color: #f6ffed; /* 淺綠底 */
+    border-color: #52c41a;     /* 鮮綠框 */
+    color: #237804;            /* 深綠字 */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(82, 196, 26, 0.2);
+}
+
+/* 🔵 英文 (en) - 藍色系 */
+#btn-en:hover, #btn-en:active {
+    background-color: #e6f7ff; /* 淺藍底 */
+    border-color: #1890ff;     /* 鮮藍框 */
+    color: #0050b3;            /* 深藍字 */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(24, 144, 255, 0.2);
+}
+
+/* 🔴 日文 (jp) - 紅色系 */
+#btn-jp:hover, #btn-jp:active {
+    background-color: #fff1f0; /* 淺紅底 */
+    border-color: #ff4d4f;     /* 鮮紅框 */
+    color: #cf1322;            /* 深紅字 */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 77, 79, 0.2);
+}
 .lang-btn {
     font-size: 1.1rem;
     cursor: pointer;
