@@ -58,7 +58,10 @@ const TRANSLATIONS = {
         ph_note: "其他備註需求 (例如：露營相關、租單車者身高...)", btn_submit: "🚀 確認預訂並送出",
         alert_fill: "請務必填寫「姓名」與「電話」才能送出訂單喔！",
         confirm_room_policy: "🛑【訂位前請確認】\n\n1. 🏡 錄托邦住宿入住時間：下午 15:00 以後。\n   (請勿提早，可以提早放置行李，請先告知)\n\n2. ♻️ 環保旅宿：不提供一次性備品。\n   (請自備毛巾、牙刷)\n\n請問您是否接受並繼續訂位？",
-        sent_success: "🎉 預訂成功！\n\n營主已收到您的訂單，將盡快與您聯繫確認。\n(您無需再進行其他操作)",
+        
+        // 🔥 修改這裡：中文版送出成功文字
+        sent_success: "🎉 預訂成功！\n\n全額匯款後才算預訂完成唷，退費標準請詳見網頁下方。",
+        
         rule_title_basic: "🔷 收費標準與營區規定", rule_sub_price: "💰 營位計費標準",
         rule_li_unit: "基本單位：4人 / 1車 / 1帳 / 1炊事帳。", rule_li_add_person: "加人：多1人加 $200 (國小一年級以下免費)。",
         rule_li_add_car: "加車：多停一台車加收 $300 (拖車不在此限)。", rule_li_visitor: "訪客：每人 $100，需於 23:00 前離場。",
@@ -140,7 +143,10 @@ const TRANSLATIONS = {
         ph_note: "Notes / Requests...", btn_submit: "🚀 Submit Order",
         alert_fill: "Please fill in Name and Phone!",
         confirm_room_policy: "🛑【Please Confirm】\n\n1. ⏰ Check-in is after 15:00.\n2. ♻️ No disposable amenities provided.\n   (Bring your own towels/toothbrush)\n\nAccept and continue?",
-        sent_success: "🎉 Booking Confirmed!\n\nWe have received your order and will contact you shortly.",
+        
+        // 🔥 修改這裡：英文版送出成功文字
+        sent_success: "🎉 Order Sent!\n\nPlease note: Reservation is confirmed only after full payment.\nRefer to the bottom of the page for refund policies.",
+        
         rule_title_basic: "🔷 Rules & Fees", rule_sub_price: "💰 Camping Fees",
         rule_li_unit: "Unit: 4 Pax / 1 Vehicle / 1 Tent.", rule_li_add_person: "Extra Person: +$200 (Kids < 7 Free).",
         rule_li_add_car: "Extra Car: +$300 (Trailers excluded).", rule_li_visitor: "Visitor: $100/person (Leave by 23:00).",
@@ -222,7 +228,10 @@ const TRANSLATIONS = {
         ph_note: "備考・リクエスト...", btn_submit: "🚀 予約を送信",
         alert_fill: "お名前と電話番号を入力してください！",
         confirm_room_policy: "🛑【確認事項】\n\n1. ⏰ チェックインは 15:00 以降です。\n2. ♻️ アメニティの提供はありません。\n   (タオル・歯ブラシをご持参ください)\n\n了承して予約しますか？",
-        sent_success: "🎉 予約完了！\n\nご注文を受け付けました。オーナーよりご連絡いたします。",
+        
+        // 🔥 修改這裡：日文版送出成功文字
+        sent_success: "🎉 送信完了！\n\n全額のお振込をもって予約確定となります。\nキャンセル規定はページ下部をご覧ください。",
+        
         rule_title_basic: "🔷 料金・ルール", rule_sub_price: "💰 キャンプ料金",
         rule_li_unit: "基本：4名 / 車1台 / テント1張。", rule_li_add_person: "追加人数：+$200 (小1以下無料)。",
         rule_li_add_car: "追加車両：+$300 (トレーラー除く)。", rule_li_visitor: "日帰り：$100/人 (23時退出)。",
@@ -259,7 +268,9 @@ const TRANSLATIONS = {
 
         // Dropdown Translations (jp)
         opt_inc_dt392: "(DT392 込み)",
+        opt_inc_dt392_room: "(DT392 + 部屋 込み)",
         opt_inc_starcraft: "(StarCraft 込み)",
+        opt_inc_starcraft_room: "(StarCraft + 部屋 込み)",
         opt_inc_room: "(民宿の部屋 込み)",
         opt_inc_both_rv: "(StarCraft + DT392 込み)",
         opt_inc_room_starcraft: "(StarCraft + 部屋 込み)",
@@ -658,7 +669,7 @@ function calculateTotal() {
         qty = parseInt(document.getElementById('unitQty').value) || 1;
     }
 
-    // 自動判定是否為夜衝
+    // 自動判定是否為夜衝（看時間是否 >= 21:00）
     let isNightRush = false;
     const visitTime = document.getElementById('visitTime').value;
     if (visitTime && config.nightRush) {
