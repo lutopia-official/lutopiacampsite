@@ -771,4 +771,5 @@ function selectPlan(planValue) {
     const select = document.getElementById('campType'); select.value = planValue;
     toggleInputs(); const target = document.getElementById('calculatorSection');
     if(target) { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    
 }
