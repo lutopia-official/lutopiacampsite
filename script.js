@@ -341,19 +341,27 @@ function toggleInputs() {
     const guestListBlock = document.getElementById('guestListBlock');
     const unitQtySelect = document.getElementById('unitQty');
     
+    // === 1. 下拉選單選項邏輯 (針對露營車限制數量) ===
     let newOptions = "";
     if (type === 'room') {
         newOptions = '<option value="1">1 (房間僅此一間)</option>';
     } else if (type === 'starcraft') {
-        newOptions = `<option value="1">1</option><option value="2">2 (含 大馳 DT392 露營車)</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10 (團體請洽官方)</option>`;
+        newOptions = `<option value="1">1</option><option value="2">2 (含 大馳 DT392 露營車)</option>`;
     } else if (type === 'dt392') {
-        newOptions = `<option value="1">1</option><option value="2">2 (含 StarCraft 美式復古拖車)</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10 (團體請洽官方)</option>`;
+        newOptions = `<option value="1">1</option><option value="2">2 (含 StarCraft 美式復古拖車)</option>`;
     } else {
         newOptions = `<option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10 (團體請洽官方)</option>`;
     }
     unitQtySelect.innerHTML = newOptions;
-    unitQtySelect.value = 1;
+    
+    // 防呆：如果切換後數值不合法(例如原本選5，現在變露營車只能選2)，重置為1
+    if ((type === 'starcraft' || type === 'dt392') && parseInt(unitQtySelect.value) > 2) {
+        unitQtySelect.value = 1;
+    } else if (!unitQtySelect.value) {
+        unitQtySelect.value = 1;
+    }
 
+    // === 2. 顯示/隱藏區塊 ===
     nightsBlock.classList.add('hidden');
     rentalBlock.classList.add('hidden');
     bikeBlock.classList.add('hidden');
@@ -383,6 +391,7 @@ function toggleInputs() {
         bikeBlock.classList.remove('hidden');
         if(bikeRules) bikeRules.classList.remove('hidden');
     } else {
+        // === 住宿/露營類 ===
         nightsBlock.classList.remove('hidden');
         campingRules.classList.remove('hidden');
         if(addonBlock) addonBlock.classList.remove('hidden');
@@ -395,6 +404,8 @@ function toggleInputs() {
             }
         }
         if(policyNotice) policyNotice.classList.remove('hidden');
+        
+        // --- 處理入住時間文字 ---
         const checkInText = document.getElementById('checkInTimeText');
         const visitTimeSelect = document.getElementById('visitTime');
         for (let i = 0; i < visitTimeSelect.options.length; i++) {
@@ -403,6 +414,7 @@ function toggleInputs() {
             opt.hidden = false;
             if (opt.value === "15:00") { opt.text = "15:00"; }
         }
+        
         if (type === 'room' || type === 'starcraft' || type === 'dt392') {
             if(checkInText) {
                 checkInText.innerText = TRANSLATIONS[currentLang].checkin_time_val_room;
@@ -421,6 +433,32 @@ function toggleInputs() {
                 checkInText.style.color = ""; checkInText.style.fontWeight = "";
             }
         }
+
+        // --- 處理民宿 vs 露營 的加購邏輯 (您的新需求) ---
+        const extraPeopleLabel = document.querySelector('[data-i18n="label_extra_people"]');
+        const extraPeopleInput = document.getElementById('extraPeople');
+        const basicUnitDesc = document.querySelector('[data-i18n="basic_unit"]');
+
+        if (type === 'room') {
+            // 🔥 民宿設定：兩人基本，加人 $300，最多加2人
+            if(basicUnitDesc) basicUnitDesc.innerText = "基本單位：2人 / 1間 (第三人起需加購)";
+            if(extraPeopleLabel) extraPeopleLabel.innerText = "➕ 加購選項 (第三/人) 加人 ($300/人)";
+            if(extraPeopleInput) {
+                extraPeopleInput.max = 2; // 設定上限
+                extraPeopleInput.placeholder = "最多加 2 人";
+                if(extraPeopleInput.value > 2) extraPeopleInput.value = 2;
+            }
+        } else {
+            // 露營設定：恢復預設值
+            if(basicUnitDesc) basicUnitDesc.innerText = TRANSLATIONS[currentLang].basic_unit;
+            if(extraPeopleLabel) extraPeopleLabel.innerText = TRANSLATIONS[currentLang].label_extra_people;
+            if(extraPeopleInput) {
+                extraPeopleInput.removeAttribute('max'); // 移除上限
+                extraPeopleInput.placeholder = "0";
+            }
+        }
+
+        // 露營類顯示夜衝與冷氣
         if (type === 'tent' || type === 'car' || type === 'camper' || type === 'moto' || type === 'solo') {
             extraOptions.classList.remove('hidden');
             document.getElementById('rowRush').classList.remove('hidden');
@@ -606,7 +644,14 @@ function calculateTotal() {
     const extraPeople = parseInt(document.getElementById('extraPeople').value) || 0;
     const extraCars = parseInt(document.getElementById('extraCars').value) || 0;
     const visitors = parseInt(document.getElementById('visitors').value) || 0;
-    const extraPeopleCost = extraPeople * 200 * nights;
+    
+    // 🔥 修改這裡：判斷民宿價格 (民宿$300，其他$200)
+    let extraPersonRate = 200; 
+    if (type === 'room') {
+        extraPersonRate = 300; 
+    }
+    const extraPeopleCost = extraPeople * extraPersonRate * nights;
+    
     const extraCarsCost = extraCars * 300 * nights;
     const visitorsCost = visitors * 100;
     const totalAddonCost = extraPeopleCost + extraCarsCost + visitorsCost;
