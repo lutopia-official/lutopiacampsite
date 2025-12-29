@@ -95,9 +95,36 @@ select, input[type="number"], input[type="text"] { width: 100%; padding: 12px; b
 .marquee-content i { margin-right: 10px; color: #d35400; }
 @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
 @media (max-width: 768px) { .marquee-content { font-size: 0.9rem; animation: marquee 15s linear infinite; } }
-.lang-switch { display: flex; gap: 10px; margin-top: 10px; }
-.lang-btn { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.5); color: white; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; transition: 0.3s; }
-.lang-btn:hover { background: rgba(255,255,255,0.4); }
+
+/* 🔥 語言切換區 (已更新為觸碰變色樣式) */
+.lang-switch {
+    display: flex;
+    justify-content: center; /* 置中 */
+    gap: 15px; /* 按鈕間距 */
+    margin: 20px 0;
+}
+
+.lang-btn {
+    font-size: 1.1rem;
+    cursor: pointer;
+    background: #ffffff;       /* 預設背景：白色 */
+    border: 1px solid #ccc;    /* 預設邊框：淺灰 */
+    border-radius: 8px;        /* 圓角 */
+    padding: 8px 16px;         /* 內距 */
+    transition: all 0.2s ease; /* 動畫 */
+    color: #333;               /* 文字顏色 */
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.lang-btn:hover, .lang-btn:active {
+    background-color: #e6f7ff; /* 淺藍背景 */
+    border-color: #1890ff;     /* 深藍邊框 */
+    color: #000;
+    transform: translateY(-2px); /* 浮起效果 */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* 陰影 */
+}
 
 /* 規則區 (手機滑動) */
 .rules-section { width: 100%; max-width: 1200px; margin: 30px auto; overflow: hidden; }
@@ -127,7 +154,7 @@ select, input[type="number"], input[type="text"] { width: 100%; padding: 12px; b
 .account-number { font-family: monospace; font-size: 1.3rem; color: #2c5e50; letter-spacing: 1px; margin: 5px 0 !important; user-select: all; }
 .bank-details small { color: #666; font-weight: normal; font-size: 0.8rem; }
 
-/* 🔥 新增 Pricing Table 樣式 (已調整為配合主色系) 🔥 */
+/* Pricing Table */
 .pricing-wrapper { width: 100%; max-width: 1200px; margin: 20px auto; padding: 0 10px; box-sizing: border-box; }
 .pricing-title-area { text-align: center; margin-bottom: 30px; }
 .pricing-title-area h2 { font-size: 2em; color: #2c5e50; margin-bottom: 10px; }
@@ -136,8 +163,8 @@ select, input[type="number"], input[type="text"] { width: 100%; padding: 12px; b
 .camp-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); flex: 1; min-width: 300px; max-width: 360px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.3s ease; }
 .camp-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
 .card-header { background-color: #2c5e50; color: white; padding: 20px; text-align: center; }
-.header-green { background-color: #3d7a40; } /* 方案 B 顏色 */
-.header-dark { background-color: #1e4220; } /* 方案 C 顏色 */
+.header-green { background-color: #3d7a40; } 
+.header-dark { background-color: #1e4220; } 
 .card-header h3 { margin: 0; font-size: 1.4em; color: white; border: none; }
 .card-header p { margin: 5px 0 0; font-size: 0.9em; opacity: 0.9; color: rgba(255,255,255,0.9); }
 .price-table { width: 100%; border-collapse: collapse; margin-bottom: 0; }
