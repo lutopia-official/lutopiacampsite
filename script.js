@@ -49,7 +49,8 @@ const TRANSLATIONS = {
         label_bike_qty: "租借數量 (台)：", label_bike_scheme: "租借方案：",
         addon_title: "➕ 加購選項 (人/車/訪客)", label_extra_people: "加人 ($200/人/晚)", label_kid_free: "*小一以下免費",
         label_extra_car: "加車 ($300/車，拖車不在此限)", label_visitor: "訪客 ($100/人，23:00離場)",
-        cb_night_rush: "我要夜衝 (21:00-23:00入場)", cb_ac: "使用冷氣 (+200元/晚)",
+        cb_night_rush: "我要夜衝 (21:00-23:00入場)", 
+        cb_ac: "使用冷氣 (+100元/晚)",
         btn_calc: "更新費用", btn_reset: "重新填寫",
         result_title: "試算結果", res_base: "基本費用：", res_addon: "加購費用：", res_rush: "夜衝費用：",
         res_ac: "冷氣加價：", res_discount: "符合折扣：", res_total: "總計金額：",
@@ -62,35 +63,35 @@ const TRANSLATIONS = {
         rule_li_unit: "基本單位：4人 / 1車 / 1帳 / 1炊事帳。", rule_li_add_person: "加人：多1人加 $200 (國小一年級以下免費)。",
         rule_li_add_car: "加車：多停一台車加收 $300 (拖車不在此限)。", rule_li_visitor: "訪客：每人 $100，需於 23:00 前離場。",
         rule_sub_tent: "⛺ 搭帳與冷氣規範", rule_li_big_tent: "大型帳篷：神殿、怪獸、5x8天幕等請訂2個營位。",
-        rule_li_ac_fee: "冷氣使用：車上/帳內使用冷氣接電，酌收 $200/晚。", rule_li_warning: "未告知搭設大帳者，現場將禁止搭設。",
+        rule_li_ac_fee: "冷氣使用：車上/帳內使用冷氣接電，酌收 $100/晚。", rule_li_warning: "未告知搭設大帳者，現場將禁止搭設。",
         rule_sub_rush: "🌙 夜衝服務 (限自搭帳)", rule_li_rush_time: "時間：22:00 後入場，23:30 前搭完。",
         rule_li_rush_price: "費用：平日 500元 / 假日 600元 / 連假 800元。", rule_li_rush_rv: "🚐 自備露營車夜衝依金額打 8 折。",
         rule_title_policy: "⚠️ 住宿取消政策與付款", rule_sub_refund: "📅 取消退費標準",
         ref_14: "14天前", ref_desc_14: "退 100% (扣手續費) 或改期", ref_10: "10-13天前", ref_desc_10: "退 70% (2日內補差額)",
         ref_7: "7-9天前", ref_desc_7: "退 50%", ref_4: "4-6天前", ref_desc_4: "退 30%", ref_0: "0-3天前", ref_desc_0: "視同取消，不退費",
         rule_sub_bank: "💰 付款資訊 (完成訂位後請全額匯款)", rule_bank_note: "請保留轉帳證明並回傳。",
-        pricing_title: "全區獨享包場方案", pricing_desc: "選擇適合您的規模，平日/假日/連假皆有不同優惠",
-        plan_a_title: "方案 A：純場地自由配", plan_a_desc: "自備裝備者最愛，CP值最高",
-        plan_b_title: "方案 B：場地 + 露營車", plan_b_desc: "輕裝備首選，長輩小孩都開心",
-        plan_c_title: "方案 C：豪華全配版", plan_c_desc: "露營車 + 民宿房間，懶人極致享受",
-        th_period: "時段", tag_lite: "微包場 (10帳內)", tag_full: "全包場 (20帳)",
-        td_weekday: "平日", td_weekend: "假日", td_holiday: "連假",
-        feat_a_1: "全區草地營位使用", feat_a_2: "適合：純露營團體、車隊", feat_a_3: "假日滿帳平均僅 $500/帳",
-        feat_b_1: "包含 2 台露營車 住宿", feat_b_2: "適合：新手混合團、三代同堂", feat_b_3: "免搭帳也能享受露營樂趣",
-        feat_c_1: "含 2 台露營車 + 民宿房間", feat_c_2: "適合：重視睡眠品質、家族大聚會", feat_c_3: "長輩住民宿，年輕人睡帳篷",
-        btn_book_a: "預約方案 A", btn_book_b: "預約方案 B", btn_book_c: "預約方案 C",
-        note_title: "💡 價格說明與彈性升級：",
-        note_1: "微包場 (Level 1)：適用於 10 帳/車以內之團體，保證不接散客，獨享全區。",
-        note_2: "全包場 (Level 2)：適用於 20 帳/車以內之團體，享有人均最優惠價格。",
-        note_3: "彈性機制：若訂微包場後人數增加，第 11 帳起每帳僅需補 $600 元，達全包場總價上限即不再加收。",
-        bar_title: "🍹 吐煙怪獸酒吧 (Toen Kaijyu Bar)",
-        bar_desc: "當夜幕低垂，營區化身為都蘭最Chill的角落。這裡沒有怪獸，只有好笑與故事。",
-        bar_feat_1: "🦖 <strong>怪獸特調：</strong>只有這裡喝得到的獨家風味。",
-        bar_feat_2: "🍺 <strong>沁涼生啤：</strong>大口喝酒大聊特聊，臉色擺好。",
-        bar_feat_3: "🎵 <strong>音樂氛圍：</strong>精選歌單，伴隨夜幕輕飄飄。",
+        pricing_title: "Exclusive Full Venue Booking", pricing_desc: "Choose the scale that fits your group. Discounts for weekdays!",
+        plan_a_title: "Plan A: Venue Only", plan_a_desc: "Best CP value. Bring your own tents.",
+        plan_b_title: "Plan B: Venue + 2 RVs", plan_b_desc: "Great for mixed groups (Elderly/Kids friendly).",
+        plan_c_title: "Plan C: Luxury Full Set", plan_c_desc: "Venue + 2 RVs + Guest Room. Max comfort.",
+        th_period: "Period", tag_lite: "Lite (Max 10)", tag_full: "Full (Max 20)",
+        td_weekday: "平日", td_weekend: "Weekend", td_holiday: "Holiday",
+        feat_a_1: "Exclusive use of the entire campsite", feat_a_2: "Suitable for: Camping groups, car clubs", feat_a_3: "Avg $500/tent on holidays (Full)",
+        feat_b_1: "Includes 2 RVs (StarCraft/DT392)", feat_b_2: "Suitable for: 3-generation families", feat_b_3: "Enjoy camping without gear",
+        feat_c_1: "Includes 2 RVs + Guest Room", feat_c_2: "Suitable for: Large family reunions", feat_c_3: "Elders in room, young ones in tents",
+        btn_book_a: "Book Plan A", btn_book_b: "Book Plan B", btn_book_c: "Book Plan C",
+        note_title: "💡 Pricing Notes & Elastic Upgrade:",
+        note_1: "Lite (Level 1): For groups under 10 tents/cars. Guaranteed privacy.",
+        note_2: "Full (Level 2): For groups under 20 tents/cars. Best per-person rate.",
+        note_3: "Elasticity: If you book Lite but add more people later, just pay +$600/tent until the Full price cap is reached.",
+        bar_title: "🍹 Toen Kaijyu Bar",
+        bar_desc: "As night falls, the campsite transforms into the chillest corner of Dulan. No monsters here, just laughter and stories.",
+        bar_feat_1: "🦖 <strong>Monster Specials:</strong> Exclusive flavors found only here.",
+        bar_feat_2: "🍺 <strong>Ice-Cold Draft:</strong> Drink big, chat big, good vibes only.",
+        bar_feat_3: "🎵 <strong>Musical Atmosphere:</strong> Curated playlists floating through the night.",
         bar_promo: "✨ <em>露營/住宿住客 憑訂位資訊 獨享專屬優惠！</em>",
-        bar_info: "📍 地點：就在營區旁 / 營業時間：目前為五六日 9:00PM 固定營業，詳細依IG公告為主",
-        bar_btn_ig: "追蹤吐煙怪獸 IG",
+        bar_info: "📍 Location: Next to campsite / Hours: Fri-Sun 9:00 PM (Check IG for details)",
+        bar_btn_ig: "Follow Toen Kaijyu IG",
     },
     en: {
         loading: "Loading data...",
@@ -120,7 +121,8 @@ const TRANSLATIONS = {
         label_bike_qty: "Quantity:", label_bike_scheme: "Plan:",
         addon_title: "➕ Add-ons", label_extra_people: "Extra Person ($200/night)", label_kid_free: "*Free for kids under 7",
         label_extra_car: "Extra Car ($300/night, No Trailers)", label_visitor: "Visitor ($100, leave by 23:00)",
-        cb_night_rush: "Night Rush (21:00-23:00)", cb_ac: "Use A/C (+$200/night)",
+        cb_night_rush: "Night Rush (21:00-23:00)", 
+        cb_ac: "Use A/C (+$100/night)",
         btn_calc: "Update Price", btn_reset: "Reset",
         result_title: "Result", res_base: "Base Price:", res_addon: "Add-ons:", res_rush: "Night Rush:",
         res_ac: "A/C Fee:", res_discount: "Discount:", res_total: "Total:",
@@ -133,7 +135,7 @@ const TRANSLATIONS = {
         rule_li_unit: "Unit: 4 Pax / 1 Vehicle / 1 Tent.", rule_li_add_person: "Extra Person: +$200 (Kids < 7 Free).",
         rule_li_add_car: "Extra Car: +$300 (Trailers excluded).", rule_li_visitor: "Visitor: $100/person (Leave by 23:00).",
         rule_sub_tent: "⛺ Tents & A/C", rule_li_big_tent: "Big Tents: Please book 2 sites.",
-        rule_li_ac_fee: "A/C Usage: +$200/night.", rule_li_warning: "Undeclared big tents are prohibited.",
+        rule_li_ac_fee: "A/C Usage: +$100/night.", rule_li_warning: "Undeclared big tents are prohibited.",
         rule_sub_rush: "🌙 Night Rush (Tent Only)", rule_li_rush_time: "Time: 22:00-23:30 Check-in.",
         rule_li_rush_price: "Fee: Weekday $500 / W-end $600 / Holiday $800.", rule_li_rush_rv: "🚐 RV Night Rush: 20% Off.",
         rule_title_policy: "⚠️ Cancellation & Payment", rule_sub_refund: "📅 Refund Policy",
@@ -159,7 +161,7 @@ const TRANSLATIONS = {
         bar_feat_1: "🦖 <strong>Monster Specials:</strong> Exclusive flavors found only here.",
         bar_feat_2: "🍺 <strong>Ice-Cold Draft:</strong> Drink big, chat big, good vibes only.",
         bar_feat_3: "🎵 <strong>Musical Atmosphere:</strong> Curated playlists floating through the night.",
-        bar_promo: "✨ <em>Exclusive: Camping/Lodging guests get special discounts with booking proof!</em>",
+        bar_promo: "✨ <em>露營/住宿住客 憑訂位資訊 獨享專屬優惠！</em>",
         bar_info: "📍 Location: Next to campsite / Hours: Fri-Sun 9:00 PM (Check IG for details)",
         bar_btn_ig: "Follow Toen Kaijyu IG",
     },
@@ -191,7 +193,8 @@ const TRANSLATIONS = {
         label_bike_qty: "台数：", label_bike_scheme: "プラン：",
         addon_title: "➕ オプション追加", label_extra_people: "追加人数 ($200/泊)", label_kid_free: "*小学1年生以下無料",
         label_extra_car: "追加車両 ($300/泊、トレーラー除く)", label_visitor: "日帰り客 ($100/人 23時退出)",
-        cb_night_rush: "前泊・夜間入場 (21:00-23:00)", cb_ac: "エアコン利用 (+$200/泊)",
+        cb_night_rush: "前泊・夜間入場 (21:00-23:00)", 
+        cb_ac: "エアコン利用 (+$100/泊)",
         btn_calc: "料金更新", btn_reset: "リセット",
         result_title: "計算結果", res_base: "基本料金：", res_addon: "追加料金：", res_rush: "前泊(夜間)：",
         res_ac: "エアコン：", res_discount: "割引：", res_total: "合計金額：",
@@ -204,7 +207,7 @@ const TRANSLATIONS = {
         rule_li_unit: "基本：4名 / 車1台 / テント1張。", rule_li_add_person: "追加人数：+$200 (小1以下無料)。",
         rule_li_add_car: "追加車両：+$300 (トレーラー除く)。", rule_li_visitor: "日帰り：$100/人 (23時退出)。",
         rule_sub_tent: "⛺ テント・エアコン", rule_li_big_tent: "大型テント：2区画予約してください。",
-        rule_li_ac_fee: "エアコン利用：+$200/泊。", rule_li_warning: "申告のない大型テントは設営禁止。",
+        rule_li_ac_fee: "エアコン利用：+$100/泊。", rule_li_warning: "申告のない大型テントは設営禁止。",
         rule_sub_rush: "🌙 前泊 (テントのみ)", rule_li_rush_time: "時間：22:00-23:30 入場。",
         rule_li_rush_price: "料金：平日 500元 / 休日 600元 / 連休 800元。", rule_li_rush_rv: "🚐 キャンピングカー前泊：20% OFF。",
         rule_title_policy: "⚠️ キャンセル・支払い", rule_sub_refund: "📅 返金ポリシー",
@@ -231,28 +234,10 @@ const TRANSLATIONS = {
         bar_feat_2: "🍺 <strong>冷えた生ビール：</strong>豪快に飲んで、語り合って、最高の気分で。",
         bar_feat_3: "🎵 <strong>音楽の雰囲気：</strong>夜に浮かぶ厳選されたプレイリスト。",
         bar_promo: "✨ <em>宿泊者限定：予約提示で専用割引あり！</em>",
-        bar_info: "📍 場所：キャンプ場横 / 営業：金・土・日 21:00〜 (詳細はIGにて)",
-        bar_btn_ig: "IGをフォロー",
+        bar_info: "📍 Location: Next to campsite / Hours: Fri-Sun 9:00 PM (Check IG for details)",
+        bar_btn_ig: "Follow Toen Kaijyu IG",
     }
 };
-
-function changeLang(lang) {
-    currentLang = lang;
-    const t = TRANSLATIONS[lang];
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (t[key]) el.innerHTML = t[key];
-    });
-    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-        const key = el.getAttribute('data-i18n-placeholder');
-        if (t[key]) el.placeholder = t[key];
-    });
-    document.querySelectorAll('[data-i18n-label]').forEach(el => {
-        const key = el.getAttribute('data-i18n-label');
-        if (t[key]) el.label = t[key];
-    });
-    toggleInputs(); 
-}
 
 const HOLIDAYS = [
     "2025-01-01", "2025-01-25", "2025-01-26", "2025-01-27", "2025-01-28", "2025-01-29",
@@ -272,6 +257,12 @@ window.onload = function() {
     if(!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL === "") {
         console.warn("GAS 網址未設定");
         return;
+    }
+    
+    // 🔥 新增：監聽抵達時間變更，以便自動計算夜衝
+    const visitTimeSelect = document.getElementById('visitTime');
+    if (visitTimeSelect) {
+        visitTimeSelect.addEventListener('change', calculateTotal);
     }
 
     fetch(GOOGLE_SCRIPT_URL)
@@ -309,10 +300,15 @@ flatpickr("#dateRange", {
 });
 
 const CAMPING_CONFIG = {
+    // ⛺ 帳篷：平日700 / 假日800 / 連假1000 / 夜衝維持標準500/600/700
     tent: { rates: { weekday: 700, weekend: 800, holiday: 1000 }, nightRush: { weekday: 500, weekend: 600, holiday: 700 }, discountType: "fixed_amount" },
+    
     moto: { rates: { weekday: 500, weekend: 600, holiday: 800 }, nightRush: { weekday: 200, weekend: 300, holiday: 400 }, discountType: "fixed_amount" },
     solo: { rates: { weekday: 500, weekend: 600, holiday: 800 }, nightRush: { weekday: 200, weekend: 300, holiday: 400 }, discountType: "fixed_amount" },
+    
+    // 🚗 車露：平日600 / 假日800 / 連假1000 / 夜衝 500/600/700
     car: { rates: { weekday: 600, weekend: 800, holiday: 1000 }, nightRush: { weekday: 500, weekend: 600, holiday: 700 }, discountType: "fixed_amount" },
+    
     camper: { rates: { weekday: 800, weekend: 1000, holiday: 1200 }, nightRush: { weekday: 600, weekend: 700, holiday: 800 }, discountType: "fixed_amount_premium" },
     starcraft: { rates: { weekday: 1800, weekend: 2000, holiday: 2200 }, discountType: "percentage" },
     dt392: { rates: { weekday: 1800, weekend: 2000, holiday: 2200 }, discountType: "percentage" },
@@ -341,7 +337,7 @@ function toggleInputs() {
     const guestListBlock = document.getElementById('guestListBlock');
     const unitQtySelect = document.getElementById('unitQty');
     
-    // === 1. 下拉選單選項邏輯 (針對露營車限制數量) ===
+    // === 1. 下拉選單選項邏輯 ===
     let newOptions = "";
     if (type === 'room') {
         newOptions = '<option value="1">1 (房間僅此一間)</option>';
@@ -354,7 +350,7 @@ function toggleInputs() {
     }
     unitQtySelect.innerHTML = newOptions;
     
-    // 防呆：如果切換後數值不合法(例如原本選5，現在變露營車只能選2)，重置為1
+    // 防呆
     if ((type === 'starcraft' || type === 'dt392') && parseInt(unitQtySelect.value) > 2) {
         unitQtySelect.value = 1;
     } else if (!unitQtySelect.value) {
@@ -373,7 +369,10 @@ function toggleInputs() {
     campingRules.classList.add('hidden');
     venueRules.classList.add('hidden');
     if(bikeRules) bikeRules.classList.add('hidden');
+    
+    // 🔥 修改：強制隱藏夜衝勾選框 (改為自動判斷，不給手動選)
     document.getElementById('rowRush').classList.add('hidden');
+    
     document.getElementById('rowAC').classList.add('hidden');
     const rowAddons = document.getElementById('rowAddons');
     if(rowAddons) rowAddons.classList.add('hidden');
@@ -434,13 +433,13 @@ function toggleInputs() {
             }
         }
 
-        // --- 處理民宿 vs 露營 的加購邏輯 (您的新需求) ---
+        // --- 民宿 vs 露營 的加購邏輯 ---
         const extraPeopleLabel = document.querySelector('[data-i18n="label_extra_people"]');
         const extraPeopleInput = document.getElementById('extraPeople');
         const basicUnitDesc = document.querySelector('[data-i18n="basic_unit"]');
 
         if (type === 'room') {
-            // 🔥 民宿設定：兩人基本，加人 $300，最多加2人
+            // 民宿設定
             if(basicUnitDesc) basicUnitDesc.innerText = "基本單位：2人 / 1間 (第三人起需加購)";
             if(extraPeopleLabel) extraPeopleLabel.innerText = "➕ 加購選項 (第三/人) 加人 ($300/人)";
             if(extraPeopleInput) {
@@ -449,7 +448,7 @@ function toggleInputs() {
                 if(extraPeopleInput.value > 2) extraPeopleInput.value = 2;
             }
         } else {
-            // 露營設定：恢復預設值
+            // 露營設定
             if(basicUnitDesc) basicUnitDesc.innerText = TRANSLATIONS[currentLang].basic_unit;
             if(extraPeopleLabel) extraPeopleLabel.innerText = TRANSLATIONS[currentLang].label_extra_people;
             if(extraPeopleInput) {
@@ -458,10 +457,10 @@ function toggleInputs() {
             }
         }
 
-        // 露營類顯示夜衝與冷氣
+        // 露營類顯示夜衝(改為自動判定不顯示勾選框)與冷氣
         if (type === 'tent' || type === 'car' || type === 'camper' || type === 'moto' || type === 'solo') {
             extraOptions.classList.remove('hidden');
-            document.getElementById('rowRush').classList.remove('hidden');
+            // document.getElementById('rowRush').classList.remove('hidden'); // 註解掉，不顯示手動勾選
             document.getElementById('rowAC').classList.remove('hidden');
             if(rushNotice) rushNotice.classList.remove('hidden'); 
         } else {
@@ -597,7 +596,19 @@ function calculateTotal() {
         qty = parseInt(document.getElementById('unitQty').value) || 1;
     }
 
-    const isNightRush = document.getElementById('isNightRush').checked;
+    // 🔥 修改：自動判定是否為夜衝（看時間是否 >= 21:00）
+    let isNightRush = false;
+    const visitTime = document.getElementById('visitTime').value;
+    // 如果有選時間，且時間 >= 21:00，且設定檔有夜衝價格(排除民宿等)
+    if (visitTime && config.nightRush) {
+        const hour = parseInt(visitTime.split(':')[0]);
+        if (hour >= 21) {
+            isNightRush = true;
+        }
+    }
+    // 同步更新隱藏的 checkbox 狀態，以防 submitOrder 需要讀取
+    document.getElementById('isNightRush').checked = isNightRush;
+    
     const useAC = document.getElementById('useAC').checked;
     
     let rushWarning = document.getElementById('rushWarningText');
@@ -633,7 +644,7 @@ function calculateTotal() {
             if(type === 'camper') { rushPrice += config.nightRush[rushType] * 0.8; } 
             else { rushPrice += config.nightRush[rushType]; }
         } else { basePrice += config.rates[rateType]; }
-        if (useAC) { acPrice += 200; }
+        if (useAC) { acPrice += 100; }
         currentDate.setDate(currentDate.getDate() + 1);
     }
 
@@ -645,7 +656,6 @@ function calculateTotal() {
     const extraCars = parseInt(document.getElementById('extraCars').value) || 0;
     const visitors = parseInt(document.getElementById('visitors').value) || 0;
     
-    // 🔥 修改這裡：判斷民宿價格 (民宿$300，其他$200)
     let extraPersonRate = 200; 
     if (type === 'room') {
         extraPersonRate = 300; 
@@ -699,6 +709,12 @@ function calculateTotal() {
 }
 
 function submitOrder() {
+    // 🔥 新增：在下單時跳出重要警語確認
+    const warningMsg = "⚠️抵達營區入口時，請勿直接入場，請先撥電話告知營主！非常重要❗️感謝配合🙏";
+    if (!confirm(warningMsg + "\n\n確認送出訂單？")) {
+        return; // 客人按取消，停止送單
+    }
+
     const name = document.getElementById('customerName').value.trim();
     const phone = document.getElementById('customerPhone').value.trim();
     const line = document.getElementById('customerLine').value.trim();
