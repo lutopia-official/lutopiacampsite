@@ -2,6 +2,14 @@
 // 0. 多語言設定 (i18n)
 // ==========================================
 let currentLang = 'zh'; // 預設語言
+let selectedDates = [];
+// 🔥 新增：用來儲存從後端抓回來的「各類別忙碌日期」
+let GLOBAL_BLOCKED_DATA = {
+    full: [],
+    starcraft: [],
+    dt392: [],
+    room: []
+};
 
 const TRANSLATIONS = {
     zh: {
@@ -57,7 +65,7 @@ const TRANSLATIONS = {
         addon_title: "➕ 加購選項 (人/車/訪客)",
         label_extra_people: "加人 ($200/人/晚)",
         label_kid_free: "*小一以下免費",
-        label_extra_car: "加車 ($500/車/晚)",
+        label_extra_car: "加車 ($300/車，拖車不在此限)",
         label_visitor: "訪客 ($100/人，23:00離場)",
         
         cb_night_rush: "我要夜衝 (21:00-23:00入場)",
@@ -88,7 +96,7 @@ const TRANSLATIONS = {
         rule_sub_price: "💰 營位計費標準",
         rule_li_unit: "基本單位：4人 / 1車 / 1帳 / 1炊事帳。",
         rule_li_add_person: "加人：多1人加 $200 (國小一年級以下免費)。",
-        rule_li_add_car: "加車：多停一台車加收 $500。",
+        rule_li_add_car: "加車：多停一台車加收 $300 (拖車不在此限)。",
         rule_li_visitor: "訪客：每人 $100，需於 23:00 前離場。",
 
         rule_sub_tent: "⛺ 搭帳與冷氣規範",
@@ -149,8 +157,16 @@ const TRANSLATIONS = {
         note_title: "💡 價格說明與彈性升級：",
         note_1: "微包場 (Level 1)：適用於 10 帳/車以內之團體，保證不接散客，獨享全區。",
         note_2: "全包場 (Level 2)：適用於 20 帳/車以內之團體，享有人均最優惠價格。",
-        
         note_3: "彈性機制：若訂微包場後人數增加，第 11 帳起每帳僅需補 $600 元，達全包場總價上限即不再加收。",
+
+        bar_title: "🍹 吐煙怪獸酒吧 (Toen Kaijyu Bar)",
+        bar_desc: "當夜幕低垂，營區化身為都蘭最Chill的角落。這裡沒有怪獸，只有好笑與故事。",
+        bar_feat_1: "🦖 <strong>怪獸特調：</strong>只有這裡喝得到的獨家風味。",
+        bar_feat_2: "🍺 <strong>沁涼生啤：</strong>大口喝酒大聊特聊，臉色擺好。",
+        bar_feat_3: "🎵 <strong>音樂氛圍：</strong>精選歌單，伴隨夜幕輕飄飄。",
+        bar_promo: "✨ <em>露營/住宿住客 憑訂位資訊 獨享專屬優惠！</em>",
+        bar_info: "📍 地點：就在營區旁 / 營業時間：目前為五六日 9:00PM 固定營業，詳細依IG公告為主",
+        bar_btn_ig: "追蹤吐煙怪獸 IG",
     },
     en: {
         loading: "Loading data...",
@@ -204,7 +220,7 @@ const TRANSLATIONS = {
         addon_title: "➕ Add-ons",
         label_extra_people: "Extra Person ($200/night)",
         label_kid_free: "*Free for kids under 7",
-        label_extra_car: "Extra Car ($500/night)",
+        label_extra_car: "Extra Car ($300/night, No Trailers)",
         label_visitor: "Visitor ($100, leave by 23:00)",
         
         cb_night_rush: "Night Rush (21:00-23:00)",
@@ -235,7 +251,7 @@ const TRANSLATIONS = {
         rule_sub_price: "💰 Camping Fees",
         rule_li_unit: "Unit: 4 Pax / 1 Vehicle / 1 Tent.",
         rule_li_add_person: "Extra Person: +$200 (Kids < 7 Free).",
-        rule_li_add_car: "Extra Car: +$500.",
+        rule_li_add_car: "Extra Car: +$300 (Trailers excluded).",
         rule_li_visitor: "Visitor: $100/person (Leave by 23:00).",
 
         rule_sub_tent: "⛺ Tents & A/C",
@@ -296,8 +312,16 @@ const TRANSLATIONS = {
         note_title: "💡 Pricing Notes & Elastic Upgrade:",
         note_1: "Lite (Level 1): For groups under 10 tents/cars. Guaranteed privacy.",
         note_2: "Full (Level 2): For groups under 20 tents/cars. Best per-person rate.",
-        
         note_3: "Elasticity: If you book Lite but add more people later, just pay +$600/tent until the Full price cap is reached.",
+
+        bar_title: "🍹 Toen Kaijyu Bar",
+        bar_desc: "As night falls, the campsite transforms into the chillest corner of Dulan. No monsters here, just laughter and stories.",
+        bar_feat_1: "🦖 <strong>Monster Specials:</strong> Exclusive flavors found only here.",
+        bar_feat_2: "🍺 <strong>Ice-Cold Draft:</strong> Drink big, chat big, good vibes only.",
+        bar_feat_3: "🎵 <strong>Musical Atmosphere:</strong> Curated playlists floating through the night.",
+        bar_promo: "✨ <em>Exclusive: Camping/Lodging guests get special discounts with booking proof!</em>",
+        bar_info: "📍 Location: Next to campsite / Hours: Fri-Sun 9:00 PM (Check IG for details)",
+        bar_btn_ig: "Follow Toen Kaijyu IG",
     },
     jp: {
         loading: "読み込み中...",
@@ -351,7 +375,7 @@ const TRANSLATIONS = {
         addon_title: "➕ オプション追加",
         label_extra_people: "追加人数 ($200/泊)",
         label_kid_free: "*小学1年生以下無料",
-        label_extra_car: "追加車両 ($500/泊)",
+        label_extra_car: "追加車両 ($300/泊、トレーラー除く)",
         label_visitor: "日帰り客 ($100/人 23時退出)",
         
         cb_night_rush: "前泊・夜間入場 (21:00-23:00)",
@@ -382,7 +406,7 @@ const TRANSLATIONS = {
         rule_sub_price: "💰 キャンプ料金",
         rule_li_unit: "基本：4名 / 車1台 / テント1張。",
         rule_li_add_person: "追加人数：+$200 (小1以下無料)。",
-        rule_li_add_car: "追加車両：+$500。",
+        rule_li_add_car: "追加車両：+$300 (トレーラー除く)。",
         rule_li_visitor: "日帰り：$100/人 (23時退出)。",
 
         rule_sub_tent: "⛺ テント・エアコン",
@@ -443,8 +467,16 @@ const TRANSLATIONS = {
         note_title: "💡 料金とアップグレードについて：",
         note_1: "小規模 (Level 1)：10張/台以内の団体向け。貸切保証。",
         note_2: "全貸切 (Level 2)：20張/台以内の団体向け。一人当たり最安。",
-        
         note_3: "柔軟対応：小規模で予約後、人数が増えた場合は1張につき+$600で追加可能（全貸切料金が上限）。",
+
+        bar_title: "🍹 吐煙怪獸（トエン・カイジュウ）バー",
+        bar_desc: "夜の帳が下りると、キャンプ場は都蘭で最もチルな場所に。ここには怪獣はいません、あるのは笑いと物語だけ。",
+        bar_feat_1: "🦖 <strong>怪獣特製カクテル：</strong>ここでしか味わえない限定の味。",
+        bar_feat_2: "🍺 <strong>冷えた生ビール：</strong>豪快に飲んで、語り合って、最高の気分で。",
+        bar_feat_3: "🎵 <strong>音楽の雰囲気：</strong>夜に浮かぶ厳選されたプレイリスト。",
+        bar_promo: "✨ <em>宿泊者限定：予約提示で専用割引あり！</em>",
+        bar_info: "📍 場所：キャンプ場横 / 営業：金・土・日 21:00〜 (詳細はIGにて)",
+        bar_btn_ig: "IGをフォロー",
     }
 };
 
@@ -455,7 +487,7 @@ function changeLang(lang) {
     // 1. 更新所有有 data-i18n 的文字
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
-        if (t[key]) el.innerText = t[key];
+        if (t[key]) el.innerHTML = t[key]; // 🔥 改用 innerHTML 以支援 <strong> 標籤
     });
 
     // 2. 更新 placeholder
@@ -514,7 +546,7 @@ const MAKEUP_DAYS = [
 
 // 網頁載入後：抓取公告 & 空位表
 window.onload = function() {
-    if(GOOGLE_SCRIPT_URL.includes("請換成您自己的網址") || GOOGLE_SCRIPT_URL === "") {
+    if(GOOGLE_SCRIPT_URL.includes("https://script.google.com/macros/s/AKfycbzpiqltgo7ewZnP3fGJWV0fgszW5OMmBsDWBH0pIbh3sFzDwyOqYEx3WdYgkXRJxBS2/exec") || GOOGLE_SCRIPT_URL === "") {
         console.warn("尚未設定 Google Apps Script 網址，跳過資料抓取功能。");
         return;
     }
@@ -528,6 +560,15 @@ window.onload = function() {
             }
             if (data.vacancy && data.vacancy.length > 1) {
                 renderVacancyTable(data.vacancy);
+            }
+
+            // 🔥 核心更新：接收分類好的忙碌日期
+            if (data.blockedDates) {
+                GLOBAL_BLOCKED_DATA = data.blockedDates;
+                console.log("已同步訂房狀態:", GLOBAL_BLOCKED_DATA);
+                
+                // 預設先更新一次日曆 (預設可能是空或者是某個類型)
+                updateCalendarBlocking();
             }
         })
         .catch(error => {
@@ -606,7 +647,39 @@ function toggleInputs() {
     const unitQtyBlock = document.getElementById('qtyBlock'); // 數量選單
     const guestListBlock = document.getElementById('guestListBlock'); // 朋友名單區
 
-    // 1. 先全部隱藏
+    // --- 1. 定義標準數量選項 (1-10) ---
+    const unitQtySelect = document.getElementById('unitQty');
+    const standardOptions = `
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10 (團體請洽官方)</option>
+    `;
+
+    // --- 2. 針對「房間」修改選項 ---
+    if (type === 'room') {
+        // 如果選房間，鎖定只能選 1
+        if (!unitQtySelect.innerHTML.includes("僅此一間")) {
+            unitQtySelect.innerHTML = '<option value="1">1 (房間僅此一間)</option>';
+            unitQtySelect.value = 1;
+        }
+    } else {
+        // 如果不是房間，且目前被鎖定過 (或是空的/只有一個選項)，則恢復標準選項
+        // 但要注意：如果目前是單車或其他特殊類型，可能會有不同邏輯
+        // 這裡確保只有在需要時才恢復
+        if (unitQtySelect.innerHTML.includes("僅此一間") || unitQtySelect.options.length < 2) {
+            unitQtySelect.innerHTML = standardOptions;
+            unitQtySelect.value = 1; 
+        }
+    }
+
+    // 3. 先全部隱藏
     nightsBlock.classList.add('hidden');
     rentalBlock.classList.add('hidden');
     bikeBlock.classList.add('hidden');
@@ -632,7 +705,7 @@ function toggleInputs() {
         return;
     }
 
-    // 2. 依類型顯示對應區塊
+    // 4. 依類型顯示對應區塊
     if (type === 'venue_hourly') {
         rentalBlock.classList.remove('hidden');
         venueRules.classList.remove('hidden');
@@ -733,7 +806,49 @@ function toggleInputs() {
         generateGuestInputs(); // 檢查是否需要顯示名單
     }
     
+    // 🔥 呼叫更新日曆鎖定的函式
+    updateCalendarBlocking();
+
     calculateTotal();
+}
+
+// 🔥 新增函式：根據選擇的房型，動態鎖定日曆
+function updateCalendarBlocking() {
+    const type = document.getElementById('campType').value;
+    const picker = document.querySelector("#dateRange")._flatpickr;
+    
+    if (!picker) return;
+
+    // 1. 基礎：永遠鎖定「全包場」的日子
+    let datesToDisable = [...(GLOBAL_BLOCKED_DATA.full || [])];
+
+    // 2. 根據類型追加鎖定
+    if (type === 'starcraft') {
+        // 如果選美式拖車，要加上「已被訂走的拖車日期」
+        if(GLOBAL_BLOCKED_DATA.starcraft) {
+            datesToDisable = datesToDisable.concat(GLOBAL_BLOCKED_DATA.starcraft);
+        }
+    } else if (type === 'dt392') {
+        // 如果選大馳露營車
+        if(GLOBAL_BLOCKED_DATA.dt392) {
+            datesToDisable = datesToDisable.concat(GLOBAL_BLOCKED_DATA.dt392);
+        }
+    } else if (type === 'room') {
+        // 如果選民宿房間
+        if(GLOBAL_BLOCKED_DATA.room) {
+            datesToDisable = datesToDisable.concat(GLOBAL_BLOCKED_DATA.room);
+        }
+    } else if (type && type.includes('full')) {
+        // 如果客人想訂「包場」，那只要「任何房型」有人訂的那天，都不能包場
+        // 所以要把所有忙碌日期都加進來
+        datesToDisable = datesToDisable
+            .concat(GLOBAL_BLOCKED_DATA.starcraft || [])
+            .concat(GLOBAL_BLOCKED_DATA.dt392 || [])
+            .concat(GLOBAL_BLOCKED_DATA.room || []);
+    }
+
+    // 3. 更新 Flatpickr 設定
+    picker.set('disable', datesToDisable);
 }
 
 // 🔥 新增：當數量改變時觸發
@@ -948,6 +1063,7 @@ function calculateTotal() {
     const visitors = parseInt(document.getElementById('visitors').value) || 0;
 
     const extraPeopleCost = extraPeople * 200 * nights;
+    // 🔥 已更新：加車 $300
     const extraCarsCost = extraCars * 300 * nights;
     const visitorsCost = visitors * 100;
     
