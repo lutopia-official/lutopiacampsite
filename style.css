@@ -96,7 +96,7 @@ select, input[type="number"], input[type="text"] { width: 100%; padding: 12px; b
 @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
 @media (max-width: 768px) { .marquee-content { font-size: 0.9rem; animation: marquee 15s linear infinite; } }
 
-/* 🔥 語言切換區 (文字固定黑色，背景變色版) */
+/* 🔥 語言切換區 - 修正版 */
 .lang-switch {
     display: flex;
     justify-content: center; /* 置中 */
@@ -107,44 +107,43 @@ select, input[type="number"], input[type="text"] { width: 100%; padding: 12px; b
 .lang-btn {
     font-size: 1.1rem;
     cursor: pointer;
-    background: #ffffff;       /* 預設背景：白色 */
-    border: 1px solid #ccc;    /* 預設邊框：淺灰 */
+    background-color: #ffffff; /* 預設白色背景 */
+    border: 1px solid #ccc;    /* 預設淺灰邊框 */
     border-radius: 8px;        /* 圓角 */
     padding: 8px 16px;         /* 內距 */
-    transition: all 0.2s ease; /* 動畫 */
-    color: #333;               /* 預設文字：深灰黑 */
+    transition: all 0.2s ease; /* 動畫效果 */
+    color: #333333;            /* 預設深灰字 */
     display: flex;
     align-items: center;
     gap: 5px;
 }
 
-/* 🟢 中文 (zh) - 背景變綠，文字維持黑 */
+/* 🟢 中文 (zh) - 觸碰變綠 */
 #btn-zh:hover, #btn-zh:active {
-    background-color: #d9f7be; /* 淺綠色背景 */
-    border-color: #52c41a;     /* 深綠色邊框 */
-    color: #000000;            /* 文字：純黑 */
-    transform: translateY(-2px);
+    background-color: #d9f7be; /* 淺綠底 */
+    border-color: #52c41a;     /* 深綠框 */
+    color: #000000;            /* 純黑字 */
+    transform: translateY(-2px); /* 浮起 */
     box-shadow: 0 4px 8px rgba(82, 196, 26, 0.2);
 }
 
-/* 🔵 英文 (en) - 背景變藍，文字維持黑 */
+/* 🔵 英文 (en) - 觸碰變藍 */
 #btn-en:hover, #btn-en:active {
-    background-color: #bae7ff; /* 淺藍色背景 */
-    border-color: #1890ff;     /* 深藍色邊框 */
-    color: #000000;            /* 文字：純黑 */
-    transform: translateY(-2px);
+    background-color: #bae7ff; /* 淺藍底 */
+    border-color: #1890ff;     /* 深藍框 */
+    color: #000000;            /* 純黑字 */
+    transform: translateY(-2px); /* 浮起 */
     box-shadow: 0 4px 8px rgba(24, 144, 255, 0.2);
 }
 
-/* 🔴 日文 (jp) - 背景變紅，文字維持黑 */
+/* 🔴 日文 (jp) - 觸碰變紅 */
 #btn-jp:hover, #btn-jp:active {
-    background-color: #ffccc7; /* 淺紅色背景 */
-    border-color: #ff4d4f;     /* 深紅色邊框 */
-    color: #000000;            /* 文字：純黑 */
-    transform: translateY(-2px);
+    background-color: #ffccc7; /* 淺紅底 */
+    border-color: #ff4d4f;     /* 深紅框 */
+    color: #000000;            /* 純黑字 */
+    transform: translateY(-2px); /* 浮起 */
     box-shadow: 0 4px 8px rgba(255, 77, 79, 0.2);
 }
-
 /* 規則區 (手機滑動) */
 .rules-section { width: 100%; max-width: 1200px; margin: 30px auto; overflow: hidden; }
 .rules-container { display: flex; flex-direction: row; gap: 15px; overflow-x: auto; padding-bottom: 15px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
