@@ -1,9 +1,9 @@
 // ==========================================
-// 0. 多語言設定 (i18n)
+// 0. 全域變數與設定
 // ==========================================
 let currentLang = 'zh'; // 預設語言
 let selectedDates = [];
-// 🔥 新增：用來儲存從後端抓回來的「各類別忙碌日期」
+// 用來儲存從後端抓回來的「各類別忙碌日期」
 let GLOBAL_BLOCKED_DATA = {
     full: [],
     starcraft: [],
@@ -546,7 +546,7 @@ const MAKEUP_DAYS = [
 
 // 網頁載入後：抓取公告 & 空位表
 window.onload = function() {
-    if(GOOGLE_SCRIPT_URL.includes("https://script.google.com/macros/s/AKfycbzpiqltgo7ewZnP3fGJWV0fgszW5OMmBsDWBH0pIbh3sFzDwyOqYEx3WdYgkXRJxBS2/exec") || GOOGLE_SCRIPT_URL === "") {
+    if(GOOGLE_SCRIPT_URL.includes("請換成您自己的網址") || GOOGLE_SCRIPT_URL === "") {
         console.warn("尚未設定 Google Apps Script 網址，跳過資料抓取功能。");
         return;
     }
@@ -647,37 +647,65 @@ function toggleInputs() {
     const unitQtyBlock = document.getElementById('qtyBlock'); // 數量選單
     const guestListBlock = document.getElementById('guestListBlock'); // 朋友名單區
 
-    // --- 1. 定義標準數量選項 (1-10) ---
+    // 🔥🔥 數量選單邏輯更新 🔥🔥
     const unitQtySelect = document.getElementById('unitQty');
-    const standardOptions = `
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="8">8</option>
-        <option value="9">9</option>
-        <option value="10">10 (團體請洽官方)</option>
-    `;
+    
+    let newOptions = "";
 
-    // --- 2. 針對「房間」修改選項 ---
     if (type === 'room') {
-        // 如果選房間，鎖定只能選 1
-        if (!unitQtySelect.innerHTML.includes("僅此一間")) {
-            unitQtySelect.innerHTML = '<option value="1">1 (房間僅此一間)</option>';
-            unitQtySelect.value = 1;
-        }
+        // 房間：固定 1
+        newOptions = '<option value="1">1 (房間僅此一間)</option>';
+        
+    } else if (type === 'starcraft') {
+        // StarCraft：2 的時候提示含 DT392
+        newOptions = `
+            <option value="1">1</option>
+            <option value="2">2 (含 大馳 DT392 露營車)</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10 (團體請洽官方)</option>
+        `;
+        
+    } else if (type === 'dt392') {
+        // DT392：2 的時候提示含 StarCraft
+        newOptions = `
+            <option value="1">1</option>
+            <option value="2">2 (含 StarCraft 美式復古拖車)</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10 (團體請洽官方)</option>
+        `;
+        
     } else {
-        // 如果不是房間，且目前被鎖定過 (或是空的/只有一個選項)，則恢復標準選項
-        // 但要注意：如果目前是單車或其他特殊類型，可能會有不同邏輯
-        // 這裡確保只有在需要時才恢復
-        if (unitQtySelect.innerHTML.includes("僅此一間") || unitQtySelect.options.length < 2) {
-            unitQtySelect.innerHTML = standardOptions;
-            unitQtySelect.value = 1; 
-        }
+        // 其他 (標準 1-10)
+        newOptions = `
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10 (團體請洽官方)</option>
+        `;
     }
+
+    // 更新 HTML 並重置為 1
+    unitQtySelect.innerHTML = newOptions;
+    unitQtySelect.value = 1;
+
 
     // 3. 先全部隱藏
     nightsBlock.classList.add('hidden');
