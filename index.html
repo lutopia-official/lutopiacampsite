@@ -53,7 +53,7 @@
         <button onclick="changeLanguage('jp')" id="btn-jp" class="lang-btn">
               🇯🇵 日本語
         </button>
-</div>  
+        </div>  
 
 </header>
 
@@ -89,13 +89,14 @@
                     <select id="campType" onchange="toggleInputs()">
                         <option value="" disabled selected data-i18n="select_placeholder">請選擇類型...</option>
 
-                        <optgroup label="⛺ 露營住宿 (Camping)" data-i18n-label="group_camping">
+                        <optgroup label="⛺ 露營模式 (Camping Mode)" data-i18n-label="group_camping">
                             <option value="tent" data-i18n="opt_tent">自搭帳篷 (Tent)</option>
                             <option value="moto" data-i18n="opt_moto">機車、單車露營 (Moto or bike Camping)</option>
                             <option value="solo" data-i18n="opt_solo">單人小帳篷 (Solo Camping)</option>
                             <option value="car" data-i18n="opt_car">車泊、車露、加掛式車 (Car Camping)</option>
                             <option value="camper" data-i18n="opt_camper">自備拖車/自走式露營車 (Self-driving RV)</option>
                         </optgroup>
+                        
                         <optgroup label="🚐 錄托邦免裝備租賃/民宿 (Rental)" data-i18n-label="group_rental">
                             <option value="starcraft" data-i18n="opt_starcraft">錄托邦 StarCraft 美式復古拖車</option>
                             <option value="dt392" data-i18n="opt_dt392">錄托邦 大馳 DT392 露營車</option>
@@ -184,7 +185,7 @@
                     <h4 style="margin: 0 0 10px 0; color: #495057; font-size: 0.95rem;" data-i18n="addon_title">➕ 加購選項 (人/車/訪客)</h4>
                     <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                         <div>
-                            <label style="font-size:0.85rem;"><span data-i18n="label_extra_people">加人 ($200/人)</span><br><small style="color:#888;" data-i18n="label_kid_free">*小一以下免費</small></label>
+                            <label style="font-size:0.85rem;"><span data-i18n="label_extra_people">加人 ($300/人)</span><br><small style="color:#888;" data-i18n="label_kid_free">*小一以下免費</small></label>
                             <input type="number" id="extraPeople" value="0" min="0" onchange="calculateTotal()" style="width:100%; padding:8px;">
                         </div>
                         <div>
@@ -399,7 +400,7 @@
                             <h4 data-i18n="rule_sub_price">💰 營位計費標準</h4>
                             <ul>
                                 <li data-i18n="rule_li_unit"><strong>基本單位：</strong>4人 / 1車 / 1帳 / 1炊事帳。</li>
-                                <li data-i18n="rule_li_add_person"><strong>加人：</strong>多1人加 $200 (國小一年級以下免費)。</li>
+                                <li data-i18n="rule_li_add_person"><strong>加人：</strong>多1人加 $300 (國小一年級以下免費)。</li>
                                 <li data-i18n="rule_li_add_car"><strong>加車：</strong>多停一台車加收 $300 (拖車不在此限)。</li>
                                 <li data-i18n="rule_li_visitor"><strong>訪客：</strong>每人 $100，需於 23:00 前離場。</li>
                             </ul>

@@ -46,14 +46,12 @@ const TRANSLATIONS = {
         label_nights: "住宿晚數 (自動)：", label_rental_scheme: "租借時數方案：",
         label_bike_qty: "租借數量 (台)：", label_bike_scheme: "租借方案：",
         
-        // 🔥 修改：加人費用顯示更新
         addon_title: "➕ 加購選項 (人/車/訪客)", 
         label_extra_people: "加人 ($300/人/晚)", 
         label_kid_free: "*小一以下免費",
         label_extra_car: "加車 ($300/車，拖車不在此限)", label_visitor: "訪客 ($100/人，23:00離場)",
         
         cb_night_rush: "我要夜衝 (21:00-23:00入場)", 
-        // 🔥 修改：冷氣費用顯示更新
         cb_ac: "使用冷氣 (+200元/晚)",
         
         btn_calc: "更新費用", btn_reset: "重新填寫",
@@ -65,7 +63,6 @@ const TRANSLATIONS = {
         confirm_room_policy: "🛑【訂位前請確認】\n\n1. 🏡 錄托邦住宿入住時間：下午 15:00 以後。\n   (請勿提早，可以提早放置行李，請先告知)\n\n2. ♻️ 環保旅宿：不提供一次性備品。\n   (請自備毛巾、牙刷)\n\n請問您是否接受並繼續訂位？",
         sent_success: "🎉 預訂成功！\n\n全額匯款後才算預訂完成唷，退費標準請詳見網頁下方。",
         rule_title_basic: "🔷 收費標準與營區規定", rule_sub_price: "💰 營位計費標準",
-        // 🔥 修改：加人與冷氣規則文字更新
         rule_li_unit: "基本單位：4人 / 1車 / 1帳 / 1炊事帳。", 
         rule_li_add_person: "加人：多1人加 $300 (國小一年級以下免費)。",
         rule_li_add_car: "加車：多停一台車加收 $300 (拖車不在此限)。", rule_li_visitor: "訪客：每人 $100，需於 23:00 前離場。",
@@ -137,14 +134,12 @@ const TRANSLATIONS = {
         label_nights: "Nights:", label_rental_scheme: "Duration:",
         label_bike_qty: "Quantity:", label_bike_scheme: "Plan:",
         
-        // 🔥 Update Fees
         addon_title: "➕ Add-ons", 
         label_extra_people: "Extra Person ($300/night)", 
         label_kid_free: "*Free for kids under 7",
         label_extra_car: "Extra Car ($300/night, No Trailers)", label_visitor: "Visitor ($100, leave by 23:00)",
         
         cb_night_rush: "Night Rush (21:00-23:00)", 
-        // 🔥 Update Fees
         cb_ac: "Use A/C (+$200/night)",
         
         btn_calc: "Update Price", btn_reset: "Reset",
@@ -157,7 +152,6 @@ const TRANSLATIONS = {
         sent_success: "🎉 Order Sent!\n\nPlease note: Reservation is confirmed only after full payment.\nRefer to the bottom of the page for refund policies.",
         rule_title_basic: "🔷 Rules & Fees", rule_sub_price: "💰 Camping Fees",
         
-        // 🔥 Update Fees
         rule_li_unit: "Unit: 4 Pax / 1 Vehicle / 1 Tent.", 
         rule_li_add_person: "Extra Person: +$300 (Kids < 7 Free).",
         rule_li_add_car: "Extra Car: +$300 (Trailers excluded).", rule_li_visitor: "Visitor: $100/person (Leave by 23:00).",
@@ -230,13 +224,11 @@ const TRANSLATIONS = {
         label_nights: "泊数：", label_rental_scheme: "利用時間：",
         label_bike_qty: "台数：", label_bike_scheme: "プラン：",
         
-        // 🔥 Update Fees
         addon_title: "➕ オプション追加", label_extra_people: "追加人数 ($300/泊)", 
         label_kid_free: "*小学1年生以下無料",
         label_extra_car: "追加車両 ($300/泊、トレーラー除く)", label_visitor: "日帰り客 ($100/人 23時退出)",
         
         cb_night_rush: "前泊・夜間入場 (21:00-23:00)", 
-        // 🔥 Update Fees
         cb_ac: "エアコン利用 (+$200/泊)",
         
         btn_calc: "料金更新", btn_reset: "リセット",
@@ -249,7 +241,6 @@ const TRANSLATIONS = {
         sent_success: "🎉 送信完了！\n\n全額のお振込をもって予約確定となります。\nキャンセル規定はページ下部をご覧ください。",
         rule_title_basic: "🔷 料金・ルール", rule_sub_price: "💰 キャンプ料金",
         
-        // 🔥 Update Fees
         rule_li_unit: "基本：4名 / 車1台 / テント1張。", 
         rule_li_add_person: "追加人数：+$300 (小1以下無料)。",
         rule_li_add_car: "追加車両：+$300 (トレーラー除く)。", rule_li_visitor: "日帰り：$100/人 (23時退出)。",
@@ -390,17 +381,20 @@ flatpickr("#dateRange", {
 });
 
 const CAMPING_CONFIG = {
-    // ⛺ 帳篷：平日700 / 假日800 / 連假1000 / 夜衝維持標準500/600/700
-    tent: { rates: { weekday: 700, weekend: 800, holiday: 1000 }, nightRush: { weekday: 500, weekend: 600, holiday: 700 }, discountType: "fixed_amount" },
+    // ⛺ 帳篷：平日700 / 假日800 / 連假1200
+    tent: { rates: { weekday: 700, weekend: 800, holiday: 1200 }, nightRush: { weekday: 500, weekend: 600, holiday: 700 }, discountType: "fixed_amount" },
     
-    // 🔥 修改：機車/單人夜衝費 改為 300起
-    moto: { rates: { weekday: 500, weekend: 600, holiday: 800 }, nightRush: { weekday: 300, weekend: 400, holiday: 500 }, discountType: "fixed_amount" },
-    solo: { rates: { weekday: 500, weekend: 600, holiday: 800 }, nightRush: { weekday: 300, weekend: 400, holiday: 500 }, discountType: "fixed_amount" },
+    // 🔥 修改：機車/單人 連假 1200
+    moto: { rates: { weekday: 500, weekend: 600, holiday: 1200 }, nightRush: { weekday: 300, weekend: 400, holiday: 500 }, discountType: "fixed_amount" },
+    solo: { rates: { weekday: 500, weekend: 600, holiday: 1200 }, nightRush: { weekday: 300, weekend: 400, holiday: 500 }, discountType: "fixed_amount" },
     
-    // 🚗 車露：平日600 / 假日800 / 連假1000 / 夜衝 500/600/700
-    car: { rates: { weekday: 600, weekend: 800, holiday: 1000 }, nightRush: { weekday: 500, weekend: 600, holiday: 700 }, discountType: "fixed_amount" },
+    // 🚗 車露：平日600 / 假日800 / 連假1200
+    car: { rates: { weekday: 600, weekend: 800, holiday: 1200 }, nightRush: { weekday: 500, weekend: 600, holiday: 700 }, discountType: "fixed_amount" },
     
-    camper: { rates: { weekday: 800, weekend: 1000, holiday: 1200 }, nightRush: { weekday: 600, weekend: 700, holiday: 800 }, discountType: "fixed_amount_premium" },
+    // 🚐 自備露營車：連假 1500
+    camper: { rates: { weekday: 800, weekend: 1000, holiday: 1500 }, nightRush: { weekday: 600, weekend: 700, holiday: 800 }, discountType: "fixed_amount_premium" },
+    
+    // 以下項目價格不變
     starcraft: { rates: { weekday: 1800, weekend: 2000, holiday: 2200 }, discountType: "percentage" },
     dt392: { rates: { weekday: 1800, weekend: 2000, holiday: 2200 }, discountType: "percentage" },
     room: { rates: { weekday: 2000, weekend: 2500, holiday: 2800 }, discountType: "percentage" },
@@ -564,8 +558,7 @@ function toggleInputs() {
         // 露營類顯示夜衝(自動)與冷氣
         if (type === 'tent' || type === 'car' || type === 'camper' || type === 'moto' || type === 'solo') {
             extraOptions.classList.remove('hidden');
-            // 🔥 修改：這行被移除了，夜衝教學文字不會再顯示
-            // if(rushNotice) rushNotice.classList.remove('hidden'); 
+            // if(rushNotice) rushNotice.classList.remove('hidden'); // 依需求隱藏
             
             document.getElementById('rowAC').classList.remove('hidden');
         } else {
@@ -605,7 +598,7 @@ function updateCalendarBlocking() {
 
 function onQtyChange() {
     generateGuestInputs(); 
-    calculateTotal();      
+    calculateTotal();       
 }
 
 function generateGuestInputs() {
@@ -797,7 +790,6 @@ function calculateTotal() {
     
     // 🔥 修改：加人費變為 300
     let extraPersonRate = 300; 
-    // 民宿原本是 300，現在統一了，可以保持或移除這行，結果一樣
     if (type === 'room') {
         extraPersonRate = 300; 
     }
