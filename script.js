@@ -45,10 +45,17 @@ const TRANSLATIONS = {
         label_time: "預計抵達/取車時間：", time_placeholder: "請選擇時間...",
         label_nights: "住宿晚數 (自動)：", label_rental_scheme: "租借時數方案：",
         label_bike_qty: "租借數量 (台)：", label_bike_scheme: "租借方案：",
-        addon_title: "➕ 加購選項 (人/車/訪客)", label_extra_people: "加人 ($200/人/晚)", label_kid_free: "*小一以下免費",
+        
+        // 🔥 修改：加人費用顯示更新
+        addon_title: "➕ 加購選項 (人/車/訪客)", 
+        label_extra_people: "加人 ($300/人/晚)", 
+        label_kid_free: "*小一以下免費",
         label_extra_car: "加車 ($300/車，拖車不在此限)", label_visitor: "訪客 ($100/人，23:00離場)",
+        
         cb_night_rush: "我要夜衝 (21:00-23:00入場)", 
-        cb_ac: "使用冷氣 (+100元/晚)",
+        // 🔥 修改：冷氣費用顯示更新
+        cb_ac: "使用冷氣 (+200元/晚)",
+        
         btn_calc: "更新費用", btn_reset: "重新填寫",
         result_title: "試算結果", res_base: "基本費用：", res_addon: "加購費用：", res_rush: "夜衝費用：",
         res_ac: "冷氣加價：", res_discount: "符合折扣：", res_total: "總計金額：",
@@ -58,10 +65,13 @@ const TRANSLATIONS = {
         confirm_room_policy: "🛑【訂位前請確認】\n\n1. 🏡 錄托邦住宿入住時間：下午 15:00 以後。\n   (請勿提早，可以提早放置行李，請先告知)\n\n2. ♻️ 環保旅宿：不提供一次性備品。\n   (請自備毛巾、牙刷)\n\n請問您是否接受並繼續訂位？",
         sent_success: "🎉 預訂成功！\n\n全額匯款後才算預訂完成唷，退費標準請詳見網頁下方。",
         rule_title_basic: "🔷 收費標準與營區規定", rule_sub_price: "💰 營位計費標準",
-        rule_li_unit: "基本單位：4人 / 1車 / 1帳 / 1炊事帳。", rule_li_add_person: "加人：多1人加 $200 (國小一年級以下免費)。",
+        // 🔥 修改：加人與冷氣規則文字更新
+        rule_li_unit: "基本單位：4人 / 1車 / 1帳 / 1炊事帳。", 
+        rule_li_add_person: "加人：多1人加 $300 (國小一年級以下免費)。",
         rule_li_add_car: "加車：多停一台車加收 $300 (拖車不在此限)。", rule_li_visitor: "訪客：每人 $100，需於 23:00 前離場。",
         rule_sub_tent: "⛺ 搭帳與冷氣規範", rule_li_big_tent: "大型帳篷：神殿、怪獸、5x8天幕等請訂2個營位。",
-        rule_li_ac_fee: "冷氣使用：車上/帳內使用冷氣接電，酌收 $100/晚。", rule_li_warning: "未告知搭設大帳者，現場將禁止搭設。",
+        rule_li_ac_fee: "冷氣使用：車上/帳內使用冷氣接電，酌收 $200/晚。", 
+        rule_li_warning: "未告知搭設大帳者，現場將禁止搭設。",
         rule_sub_rush: "🌙 夜衝服務 (限自搭帳)", rule_li_rush_time: "時間：22:00 後入場，23:30 前搭完。",
         rule_li_rush_price: "費用：平日 500元 / 假日 600元 / 連假 800元。", rule_li_rush_rv: "🚐 自備露營車夜衝依金額打 8 折。",
         rule_title_policy: "⚠️ 住宿取消政策與付款", rule_sub_refund: "📅 取消退費標準",
@@ -126,10 +136,17 @@ const TRANSLATIONS = {
         label_time: "Arrival Time:", time_placeholder: "Select Time...",
         label_nights: "Nights:", label_rental_scheme: "Duration:",
         label_bike_qty: "Quantity:", label_bike_scheme: "Plan:",
-        addon_title: "➕ Add-ons", label_extra_people: "Extra Person ($200/night)", label_kid_free: "*Free for kids under 7",
+        
+        // 🔥 Update Fees
+        addon_title: "➕ Add-ons", 
+        label_extra_people: "Extra Person ($300/night)", 
+        label_kid_free: "*Free for kids under 7",
         label_extra_car: "Extra Car ($300/night, No Trailers)", label_visitor: "Visitor ($100, leave by 23:00)",
+        
         cb_night_rush: "Night Rush (21:00-23:00)", 
-        cb_ac: "Use A/C (+$100/night)",
+        // 🔥 Update Fees
+        cb_ac: "Use A/C (+$200/night)",
+        
         btn_calc: "Update Price", btn_reset: "Reset",
         result_title: "Result", res_base: "Base Price:", res_addon: "Add-ons:", res_rush: "Night Rush:",
         res_ac: "A/C Fee:", res_discount: "Discount:", res_total: "Total:",
@@ -139,10 +156,14 @@ const TRANSLATIONS = {
         confirm_room_policy: "🛑【Please Confirm】\n\n1. ⏰ Check-in is after 15:00.\n2. ♻️ No disposable amenities provided.\n   (Bring your own towels/toothbrush)\n\nAccept and continue?",
         sent_success: "🎉 Order Sent!\n\nPlease note: Reservation is confirmed only after full payment.\nRefer to the bottom of the page for refund policies.",
         rule_title_basic: "🔷 Rules & Fees", rule_sub_price: "💰 Camping Fees",
-        rule_li_unit: "Unit: 4 Pax / 1 Vehicle / 1 Tent.", rule_li_add_person: "Extra Person: +$200 (Kids < 7 Free).",
+        
+        // 🔥 Update Fees
+        rule_li_unit: "Unit: 4 Pax / 1 Vehicle / 1 Tent.", 
+        rule_li_add_person: "Extra Person: +$300 (Kids < 7 Free).",
         rule_li_add_car: "Extra Car: +$300 (Trailers excluded).", rule_li_visitor: "Visitor: $100/person (Leave by 23:00).",
         rule_sub_tent: "⛺ Tents & A/C", rule_li_big_tent: "Big Tents: Please book 2 sites.",
-        rule_li_ac_fee: "A/C Usage: +$100/night.", rule_li_warning: "Undeclared big tents are prohibited.",
+        rule_li_ac_fee: "A/C Usage: +$200/night.", 
+        rule_li_warning: "Undeclared big tents are prohibited.",
         rule_sub_rush: "🌙 Night Rush (Tent Only)", rule_li_rush_time: "Time: 22:00-23:30 Check-in.",
         rule_li_rush_price: "Fee: Weekday $500 / W-end $600 / Holiday $800.", rule_li_rush_rv: "🚐 RV Night Rush: 20% Off.",
         rule_title_policy: "⚠️ Cancellation & Payment", rule_sub_refund: "📅 Refund Policy",
@@ -171,7 +192,8 @@ const TRANSLATIONS = {
         bar_promo: "✨ <em>Exclusive: Camping/Lodging guests get special discounts with booking proof!</em>",
         bar_info: "📍 Location: Next to campsite / Hours: Fri-Sun 9:00 PM (Check IG for details)",
         bar_btn_ig: "Follow Toen Kaijyu IG",
-        
+
+        // Dropdown Translations (en)
         opt_inc_dt392: "(w/ DT392 RV)",
         opt_inc_starcraft: "(w/ StarCraft Trailer)",
         opt_inc_room: "(w/ Guest Room)",
@@ -207,10 +229,16 @@ const TRANSLATIONS = {
         label_time: "到着予定時刻：", time_placeholder: "時間を選択...",
         label_nights: "泊数：", label_rental_scheme: "利用時間：",
         label_bike_qty: "台数：", label_bike_scheme: "プラン：",
-        addon_title: "➕ オプション追加", label_extra_people: "追加人数 ($200/泊)", label_kid_free: "*小学1年生以下無料",
+        
+        // 🔥 Update Fees
+        addon_title: "➕ オプション追加", label_extra_people: "追加人数 ($300/泊)", 
+        label_kid_free: "*小学1年生以下無料",
         label_extra_car: "追加車両 ($300/泊、トレーラー除く)", label_visitor: "日帰り客 ($100/人 23時退出)",
+        
         cb_night_rush: "前泊・夜間入場 (21:00-23:00)", 
-        cb_ac: "エアコン利用 (+$100/泊)",
+        // 🔥 Update Fees
+        cb_ac: "エアコン利用 (+$200/泊)",
+        
         btn_calc: "料金更新", btn_reset: "リセット",
         result_title: "計算結果", res_base: "基本料金：", res_addon: "追加料金：", res_rush: "前泊(夜間)：",
         res_ac: "エアコン：", res_discount: "割引：", res_total: "合計金額：",
@@ -220,10 +248,14 @@ const TRANSLATIONS = {
         confirm_room_policy: "🛑【確認事項】\n\n1. ⏰ チェックインは 15:00 以降です。\n2. ♻️ アメニティの提供はありません。\n   (タオル・歯ブラシをご持参ください)\n\n了承して予約しますか？",
         sent_success: "🎉 送信完了！\n\n全額のお振込をもって予約確定となります。\nキャンセル規定はページ下部をご覧ください。",
         rule_title_basic: "🔷 料金・ルール", rule_sub_price: "💰 キャンプ料金",
-        rule_li_unit: "基本：4名 / 車1台 / テント1張。", rule_li_add_person: "追加人数：+$200 (小1以下無料)。",
+        
+        // 🔥 Update Fees
+        rule_li_unit: "基本：4名 / 車1台 / テント1張。", 
+        rule_li_add_person: "追加人数：+$300 (小1以下無料)。",
         rule_li_add_car: "追加車両：+$300 (トレーラー除く)。", rule_li_visitor: "日帰り：$100/人 (23時退出)。",
         rule_sub_tent: "⛺ テント・エアコン", rule_li_big_tent: "大型テント：2区画予約してください。",
-        rule_li_ac_fee: "エアコン利用：+$100/泊。", rule_li_warning: "申告のない大型テントは設営禁止。",
+        rule_li_ac_fee: "エアコン利用：+$200/泊。", 
+        rule_li_warning: "申告のない大型テントは設営禁止。",
         rule_sub_rush: "🌙 前泊 (テントのみ)", rule_li_rush_time: "時間：22:00-23:30 入場。",
         rule_li_rush_price: "料金：平日 500元 / 休日 600元 / 連休 800元。", rule_li_rush_rv: "🚐 キャンピングカー前泊：20% OFF。",
         rule_title_policy: "⚠️ キャンセル・支払い", rule_sub_refund: "📅 返金ポリシー",
@@ -243,7 +275,7 @@ const TRANSLATIONS = {
         note_title: "💡 料金とアップグレードについて：",
         note_1: "小規模 (Level 1)：10張/台以内の団体向け。貸切保証。",
         note_2: "全貸切 (Level 2)：20張/台以内の団体向け。一人当たり最安。",
-        note_3: "柔軟対応：小規模で予約後、人数が増えた場合は1張につき+$600で追加可能（全貸切料金が上限）。",
+        note_3: "柔軟対応：小規模で予約後、人數が増えた場合は1張につき+$600で追加可能（全貸切料金が上限）。",
         bar_title: "🍹 吐煙怪獸（トエン・カイジュウ）バー",
         bar_desc: "夜の帳が下りると、キャンプ場は都蘭で最もチルな場所に。ここには怪獣はいません、あるのは笑いと物語だけ。",
         bar_feat_1: "🦖 <strong>怪獣特製カクテル：</strong>ここでしか味わえない限定の味。",
@@ -252,7 +284,8 @@ const TRANSLATIONS = {
         bar_promo: "✨ <em>宿泊者限定：予約提示で専用割引あり！</em>",
         bar_info: "📍 場所：キャンプ場横 / 営業：金・土・日 21:00〜 (詳細はIGにて)",
         bar_btn_ig: "IGをフォロー",
-        
+
+        // Dropdown Translations (jp)
         opt_inc_dt392: "(DT392 込み)",
         opt_inc_starcraft: "(StarCraft 込み)",
         opt_inc_room: "(民宿の部屋 込み)",
@@ -357,10 +390,16 @@ flatpickr("#dateRange", {
 });
 
 const CAMPING_CONFIG = {
+    // ⛺ 帳篷：平日700 / 假日800 / 連假1000 / 夜衝維持標準500/600/700
     tent: { rates: { weekday: 700, weekend: 800, holiday: 1000 }, nightRush: { weekday: 500, weekend: 600, holiday: 700 }, discountType: "fixed_amount" },
-    moto: { rates: { weekday: 500, weekend: 600, holiday: 800 }, nightRush: { weekday: 200, weekend: 300, holiday: 400 }, discountType: "fixed_amount" },
-    solo: { rates: { weekday: 500, weekend: 600, holiday: 800 }, nightRush: { weekday: 200, weekend: 300, holiday: 400 }, discountType: "fixed_amount" },
+    
+    // 🔥 修改：機車/單人夜衝費 改為 300起
+    moto: { rates: { weekday: 500, weekend: 600, holiday: 800 }, nightRush: { weekday: 300, weekend: 400, holiday: 500 }, discountType: "fixed_amount" },
+    solo: { rates: { weekday: 500, weekend: 600, holiday: 800 }, nightRush: { weekday: 300, weekend: 400, holiday: 500 }, discountType: "fixed_amount" },
+    
+    // 🚗 車露：平日600 / 假日800 / 連假1000 / 夜衝 500/600/700
     car: { rates: { weekday: 600, weekend: 800, holiday: 1000 }, nightRush: { weekday: 500, weekend: 600, holiday: 700 }, discountType: "fixed_amount" },
+    
     camper: { rates: { weekday: 800, weekend: 1000, holiday: 1200 }, nightRush: { weekday: 600, weekend: 700, holiday: 800 }, discountType: "fixed_amount_premium" },
     starcraft: { rates: { weekday: 1800, weekend: 2000, holiday: 2200 }, discountType: "percentage" },
     dt392: { rates: { weekday: 1800, weekend: 2000, holiday: 2200 }, discountType: "percentage" },
@@ -427,7 +466,6 @@ function toggleInputs() {
         unitQtySelect.value = 1;
     }
 
-    // === 2. 顯示/隱藏區塊 ===
     nightsBlock.classList.add('hidden');
     rentalBlock.classList.add('hidden');
     bikeBlock.classList.add('hidden');
@@ -484,7 +522,7 @@ function toggleInputs() {
         
         if (type === 'room' || type === 'starcraft' || type === 'dt392') {
             if(checkInText) {
-                checkInText.innerText = t.checkin_time_val_room;
+                checkInText.innerText = TRANSLATIONS[currentLang].checkin_time_val_room;
                 checkInText.style.color = "#800080"; checkInText.style.fontWeight = "bold";
             }
             let opt1400 = visitTimeSelect.querySelector('option[value="14:00"]');
@@ -496,7 +534,7 @@ function toggleInputs() {
             if(visitTimeSelect.value === "14:00" || visitTimeSelect.value === "14:30") { visitTimeSelect.value = ""; }
         } else {
             if(checkInText) {
-                checkInText.innerText = t.checkin_time_val;
+                checkInText.innerText = TRANSLATIONS[currentLang].checkin_time_val;
                 checkInText.style.color = ""; checkInText.style.fontWeight = "";
             }
         }
@@ -748,7 +786,8 @@ function calculateTotal() {
             }
         } 
         
-        if (useAC) { acPrice += 100 * qty; }
+        // 🔥 修改：冷氣費變為 200
+        if (useAC) { acPrice += 200 * qty; }
         currentDate.setDate(currentDate.getDate() + 1);
     }
 
@@ -756,7 +795,9 @@ function calculateTotal() {
     const extraCars = parseInt(document.getElementById('extraCars').value) || 0;
     const visitors = parseInt(document.getElementById('visitors').value) || 0;
     
-    let extraPersonRate = 200; 
+    // 🔥 修改：加人費變為 300
+    let extraPersonRate = 300; 
+    // 民宿原本是 300，現在統一了，可以保持或移除這行，結果一樣
     if (type === 'room') {
         extraPersonRate = 300; 
     }
@@ -824,7 +865,6 @@ function submitOrder() {
     const line = document.getElementById('customerLine').value.trim();
     const note = document.getElementById('customerNote').value.trim();
     const visitTime = document.getElementById('visitTime').value; 
-    // 🔥 修正：這裡的 alert 也需要支援多國語言
     if (!name || !phone) { alert(t.alert_fill); return; }
     
     const typeSelect = document.getElementById('campType');
@@ -832,7 +872,6 @@ function submitOrder() {
     const typeValue = typeSelect.value; 
     
     if (typeValue === 'room' || typeValue === 'starcraft' || typeValue === 'dt392') {
-        // 🔥 修正：這裡的確認視窗也需要支援多國語言
         const confirmMsg = t.confirm_room_policy; 
         if (!confirm(confirmMsg)) { return; }
     }
@@ -889,7 +928,6 @@ function submitOrder() {
         method: "POST", body: JSON.stringify(orderData), headers: { "Content-Type": "text/plain" }
     })
     .then(response => {
-        // 🔥 修正：成功訊息也支援多國語言
         alert(t.sent_success);
         document.getElementById('customerName').value = ''; document.getElementById('customerPhone').value = '';
         document.getElementById('customerLine').value = ''; document.getElementById('customerNote').value = '';
