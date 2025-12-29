@@ -3,10 +3,8 @@
 // ==========================================
 let currentLang = 'zh'; // 預設語言
 
-// 🔥 修正重點：selectedDates 只在這裡宣告一次
 let selectedDates = []; 
 
-// 用來儲存從後端抓回來的「各類別忙碌日期」
 let GLOBAL_BLOCKED_DATA = {
     full: [],
     starcraft: [],
@@ -58,10 +56,7 @@ const TRANSLATIONS = {
         ph_note: "其他備註需求 (例如：露營相關、租單車者身高...)", btn_submit: "🚀 確認預訂並送出",
         alert_fill: "請務必填寫「姓名」與「電話」才能送出訂單喔！",
         confirm_room_policy: "🛑【訂位前請確認】\n\n1. 🏡 錄托邦住宿入住時間：下午 15:00 以後。\n   (請勿提早，可以提早放置行李，請先告知)\n\n2. ♻️ 環保旅宿：不提供一次性備品。\n   (請自備毛巾、牙刷)\n\n請問您是否接受並繼續訂位？",
-        
-        // 🔥 修改這裡：中文版送出成功文字
         sent_success: "🎉 預訂成功！\n\n全額匯款後才算預訂完成唷，退費標準請詳見網頁下方。",
-        
         rule_title_basic: "🔷 收費標準與營區規定", rule_sub_price: "💰 營位計費標準",
         rule_li_unit: "基本單位：4人 / 1車 / 1帳 / 1炊事帳。", rule_li_add_person: "加人：多1人加 $200 (國小一年級以下免費)。",
         rule_li_add_car: "加車：多停一台車加收 $300 (拖車不在此限)。", rule_li_visitor: "訪客：每人 $100，需於 23:00 前離場。",
@@ -143,10 +138,7 @@ const TRANSLATIONS = {
         ph_note: "Notes / Requests...", btn_submit: "🚀 Submit Order",
         alert_fill: "Please fill in Name and Phone!",
         confirm_room_policy: "🛑【Please Confirm】\n\n1. ⏰ Check-in is after 15:00.\n2. ♻️ No disposable amenities provided.\n   (Bring your own towels/toothbrush)\n\nAccept and continue?",
-        
-        // 🔥 修改這裡：英文版送出成功文字
         sent_success: "🎉 Order Sent!\n\nPlease note: Reservation is confirmed only after full payment.\nRefer to the bottom of the page for refund policies.",
-        
         rule_title_basic: "🔷 Rules & Fees", rule_sub_price: "💰 Camping Fees",
         rule_li_unit: "Unit: 4 Pax / 1 Vehicle / 1 Tent.", rule_li_add_person: "Extra Person: +$200 (Kids < 7 Free).",
         rule_li_add_car: "Extra Car: +$300 (Trailers excluded).", rule_li_visitor: "Visitor: $100/person (Leave by 23:00).",
@@ -228,10 +220,7 @@ const TRANSLATIONS = {
         ph_note: "備考・リクエスト...", btn_submit: "🚀 予約を送信",
         alert_fill: "お名前と電話番号を入力してください！",
         confirm_room_policy: "🛑【確認事項】\n\n1. ⏰ チェックインは 15:00 以降です。\n2. ♻️ アメニティの提供はありません。\n   (タオル・歯ブラシをご持参ください)\n\n了承して予約しますか？",
-        
-        // 🔥 修改這裡：日文版送出成功文字
         sent_success: "🎉 送信完了！\n\n全額のお振込をもって予約確定となります。\nキャンセル規定はページ下部をご覧ください。",
-        
         rule_title_basic: "🔷 料金・ルール", rule_sub_price: "💰 キャンプ料金",
         rule_li_unit: "基本：4名 / 車1台 / テント1張。", rule_li_add_person: "追加人数：+$200 (小1以下無料)。",
         rule_li_add_car: "追加車両：+$300 (トレーラー除く)。", rule_li_visitor: "日帰り：$100/人 (23時退出)。",
@@ -268,9 +257,7 @@ const TRANSLATIONS = {
 
         // Dropdown Translations (jp)
         opt_inc_dt392: "(DT392 込み)",
-        opt_inc_dt392_room: "(DT392 + 部屋 込み)",
         opt_inc_starcraft: "(StarCraft 込み)",
-        opt_inc_starcraft_room: "(StarCraft + 部屋 込み)",
         opt_inc_room: "(民宿の部屋 込み)",
         opt_inc_both_rv: "(StarCraft + DT392 込み)",
         opt_inc_room_starcraft: "(StarCraft + 部屋 込み)",
@@ -300,11 +287,14 @@ window.onload = function() {
         return;
     }
     
+    // ✅ 修正：把「監聽抵達時間」的程式碼放進來
     const visitTimeSelect = document.getElementById('visitTime');
     if (visitTimeSelect) {
         visitTimeSelect.addEventListener('change', calculateTotal);
     }
     
+    // ✅ 修正：這裡一定要綁定按鈕，語言切換才會生效！
+    // 假設您的 HTML 中有這些 ID 的按鈕
     const btnZh = document.getElementById('btn-zh');
     const btnEn = document.getElementById('btn-en');
     const btnJp = document.getElementById('btn-jp');
@@ -346,6 +336,7 @@ flatpickr("#dateRange", {
     }
 });
 
+// ✅ 修正：把 changeLanguage 函式加回來
 function changeLanguage(lang) {
     currentLang = lang;
     
@@ -360,9 +351,10 @@ function changeLanguage(lang) {
         }
     });
 
-    toggleInputs();
+    toggleInputs(); // 切換語言後，重繪下拉選單
     calculateTotal();
 }
+// 讓全域可以呼叫 (如果您的 HTML 使用 onclick="changeLanguage(...)")
 window.changeLanguage = changeLanguage;
 
 const CAMPING_CONFIG = {
@@ -398,7 +390,7 @@ function toggleInputs() {
     const guestListBlock = document.getElementById('guestListBlock');
     const unitQtySelect = document.getElementById('unitQty');
     
-    // 🔥 修改：下拉選單邏輯 (支援 4 種組合，且支援多國語言)
+    // ✅ 修正：使用 TRANSLATIONS[currentLang] 來取得正確語言
     const t = TRANSLATIONS[currentLang];
     
     let newOptions = "";
@@ -429,14 +421,12 @@ function toggleInputs() {
     }
     unitQtySelect.innerHTML = newOptions;
     
-    // 防呆：切換類型後，如果當前數量在選項裡不存在，重置為1
     if ((type === 'starcraft' || type === 'dt392' || type === 'room') && parseInt(unitQtySelect.value) > 4) {
         unitQtySelect.value = 1;
     } else if (!unitQtySelect.value) {
         unitQtySelect.value = 1;
     }
 
-    // === 2. 顯示/隱藏區塊 ===
     nightsBlock.classList.add('hidden');
     rentalBlock.classList.add('hidden');
     bikeBlock.classList.add('hidden');
@@ -467,7 +457,6 @@ function toggleInputs() {
         bikeBlock.classList.remove('hidden');
         if(bikeRules) bikeRules.classList.remove('hidden');
     } else {
-        // === 住宿/露營類 ===
         nightsBlock.classList.remove('hidden');
         campingRules.classList.remove('hidden');
         if(addonBlock) addonBlock.classList.remove('hidden');
@@ -481,7 +470,6 @@ function toggleInputs() {
         }
         if(policyNotice) policyNotice.classList.remove('hidden');
         
-        // --- 處理入住時間文字 ---
         const checkInText = document.getElementById('checkInTimeText');
         const visitTimeSelect = document.getElementById('visitTime');
         for (let i = 0; i < visitTimeSelect.options.length; i++) {
@@ -510,7 +498,6 @@ function toggleInputs() {
             }
         }
 
-        // --- 民宿 vs 露營 的加購邏輯 ---
         const extraPeopleLabel = document.querySelector('[data-i18n="label_extra_people"]');
         const extraPeopleInput = document.getElementById('extraPeople');
         const basicUnitDesc = document.querySelector('[data-i18n="basic_unit"]');
@@ -532,7 +519,6 @@ function toggleInputs() {
             }
         }
 
-        // 露營類顯示夜衝(自動)與冷氣
         if (type === 'tent' || type === 'car' || type === 'camper' || type === 'moto' || type === 'solo') {
             extraOptions.classList.remove('hidden');
             document.getElementById('rowAC').classList.remove('hidden');
@@ -669,7 +655,6 @@ function calculateTotal() {
         qty = parseInt(document.getElementById('unitQty').value) || 1;
     }
 
-    // 自動判定是否為夜衝（看時間是否 >= 21:00）
     let isNightRush = false;
     const visitTime = document.getElementById('visitTime').value;
     if (visitTime && config.nightRush) {
@@ -710,48 +695,38 @@ function calculateTotal() {
         else if (HOLIDAYS.includes(dateStr)) { rateType = 'holiday'; } 
         else if (dayOfWeek === 5 || dayOfWeek === 6) { rateType = 'weekend'; hasWeekend = true; }
 
-        // 🔥 核心邏輯：計算混合住宿的房價
-        // 注意：這裡的 Qty 代表的是「組合」，不是單純的數量，所以要針對每一種組合去算錢
         let dailyBase = 0;
         let rate_room = CAMPING_CONFIG.room.rates[rateType];
         let rate_star = CAMPING_CONFIG.starcraft.rates[rateType];
         let rate_dt = CAMPING_CONFIG.dt392.rates[rateType];
 
         if (type === 'room') {
-            // 主選：民宿
             if (qty === 1) dailyBase = rate_room;
-            else if (qty === 2) dailyBase = rate_room + rate_star; // + StarCraft
-            else if (qty === 3) dailyBase = rate_room + rate_dt;   // + DT392
-            else if (qty === 4) dailyBase = rate_room + rate_star + rate_dt; // All 3
+            else if (qty === 2) dailyBase = rate_room + rate_star; 
+            else if (qty === 3) dailyBase = rate_room + rate_dt;   
+            else if (qty === 4) dailyBase = rate_room + rate_star + rate_dt; 
         } else if (type === 'starcraft') {
-            // 主選：StarCraft
             if (qty === 1) dailyBase = rate_star;
-            else if (qty === 2) dailyBase = rate_star + rate_room; // + Room
-            else if (qty === 3) dailyBase = rate_star + rate_dt;   // + DT392
-            else if (qty === 4) dailyBase = rate_star + rate_room + rate_dt; // All 3
+            else if (qty === 2) dailyBase = rate_star + rate_room; 
+            else if (qty === 3) dailyBase = rate_star + rate_dt;   
+            else if (qty === 4) dailyBase = rate_star + rate_room + rate_dt; 
         } else if (type === 'dt392') {
-            // 主選：DT392
             if (qty === 1) dailyBase = rate_dt;
-            else if (qty === 2) dailyBase = rate_dt + rate_room;   // + Room
-            else if (qty === 3) dailyBase = rate_dt + rate_star;   // + StarCraft
-            else if (qty === 4) dailyBase = rate_dt + rate_room + rate_star; // All 3
+            else if (qty === 2) dailyBase = rate_dt + rate_room;   
+            else if (qty === 3) dailyBase = rate_dt + rate_star;   
+            else if (qty === 4) dailyBase = rate_dt + rate_room + rate_star; 
         } else {
-            // 其他類型 (帳篷等)，單純相乘
             dailyBase = config.rates[rateType] * qty;
         }
         
-        // 累加每日房價
         basePrice += dailyBase;
 
-        // 計算夜衝 (只在第一晚且符合資格時)
-        // 針對混搭，夜衝費我們簡單處理：有露營車就算露營車的夜衝費
         if (i === 0 && isNightRush && config.nightRush) {
             let rushType = rateType; 
             if(type === 'camper') { 
                 rushPrice += config.nightRush[rushType] * 0.8 * qty; 
             } else if (type === 'starcraft' || type === 'dt392' || type === 'room') {
-                // 免裝備住宿的夜衝邏輯：暫時只計算主單位的夜衝費 (目前設定是 0 或不適用，視您的設定檔而定)
-                // 如果您希望這三種也有夜衝價，需要在 CONFIG 裡補上 nightRush 設定
+                // 免裝備住宿夜衝暫無加價
             } else { 
                 rushPrice += config.nightRush[rushType] * qty; 
             }
@@ -790,7 +765,6 @@ function calculateTotal() {
         checkDate.setDate(checkDate.getDate() + 1);
     }
     
-    // 計算折扣用的基準總價 (不含加購)
     let totalPriceForDiscount = basePrice + rushPrice + acPrice; 
     
     if (config.discountType === 'full_venue_promo') {
@@ -849,7 +823,6 @@ function submitOrder() {
     if (qtyBlock && !qtyBlock.classList.contains('hidden')) {
         const unitQtySelect = document.getElementById('unitQty');
         qty = parseInt(unitQtySelect.value);
-        // 取得下拉選單選中的文字 (例如 "2 (含 DT392)")
         const qtyText = unitQtySelect.options[unitQtySelect.selectedIndex].text;
         details += ` / 數量:${qtyText}`; 
     }
