@@ -511,8 +511,7 @@ function changeLang(lang) {
 // ==========================================
 
 // ✅ 您的 Google Apps Script 網址
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzpiqltgo7ewZnP3fGJWV0fgszW5OMmBsDWBH0pIbh3sFzDwyOqYEx3WdYgkXRJxBS2/exec"; 
-
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzpiqltgo7ewZnP3fGJWV0fgszW5OMmBsDWBH0pIbh3sFzDwyOqYEx3WdYgkXRJxBS2/exec";
 // 📅 2025-2026 國定假日與連假清單 (YYYY-MM-DD)
 // 包含 2025 連假 + 2026 預估連假
 const HOLIDAYS = [
