@@ -118,31 +118,46 @@ select, input[type="number"], input[type="text"] { width: 100%; padding: 12px; b
     gap: 5px;
 }
 
-/* 🟢 中文 (zh) - 觸碰變綠 */
+/* =========================================
+   1. 按鈕基礎樣式 (設定過渡動畫)
+   ========================================= */
+/* 請確保這些 ID 都有設定 transition，這樣移入和移出都會有動畫 */
+#btn-zh, #btn-en, #btn-jp {
+    /* 這裡放您原本的按鈕尺寸、字體等設定 */
+    
+    /* ✨ 關鍵屬性：0.3秒的平滑過渡 */
+    transition: all 0.3s ease; 
+}
+
+/* =========================================
+   2. 觸碰 (Hover) / 點擊 (Active) 效果
+   ========================================= */
+
+/* 🟢 中文 (zh) - 變深綠底 + 白字 */
 #btn-zh:hover, #btn-zh:active {
-    background-color: #d9f7be; /* 淺綠底 */
-    border-color: #52c41a;     /* 深綠框 */
-    color: #000000;            /* 純黑字 */
-    transform: translateY(-2px); /* 浮起 */
-    box-shadow: 0 4px 8px rgba(82, 196, 26, 0.2);
+    background-color: #52c41a; 
+    border-color: #52c41a;     
+    color: #ffffff;            /* 建議配白字以利閱讀 */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(82, 196, 26, 0.4);
 }
 
-/* 🔵 英文 (en) - 觸碰變藍 */
+/* 🔵 英文 (en) - 變深藍底 + 白字 */
 #btn-en:hover, #btn-en:active {
-    background-color: #bae7ff; /* 淺藍底 */
-    border-color: #1890ff;     /* 深藍框 */
-    color: #000000;            /* 純黑字 */
-    transform: translateY(-2px); /* 浮起 */
-    box-shadow: 0 4px 8px rgba(24, 144, 255, 0.2);
+    background-color: #1890ff; 
+    border-color: #1890ff;     
+    color: #ffffff;            
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(24, 144, 255, 0.4);
 }
 
-/* 🔴 日文 (jp) - 觸碰變紅 */
+/* 🔴 日文 (jp) - 變深紅底 + 白字 */
 #btn-jp:hover, #btn-jp:active {
-    background-color: #ffccc7; /* 淺紅底 */
-    border-color: #ff4d4f;     /* 深紅框 */
-    color: #000000;            /* 純黑字 */
-    transform: translateY(-2px); /* 浮起 */
-    box-shadow: 0 4px 8px rgba(255, 77, 79, 0.2);
+    background-color: #ff4d4f; 
+    border-color: #ff4d4f;     
+    color: #ffffff;            
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 77, 79, 0.4);
 }
 /* 規則區 (手機滑動) */
 .rules-section { width: 100%; max-width: 1200px; margin: 30px auto; overflow: hidden; }
