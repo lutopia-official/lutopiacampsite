@@ -557,10 +557,11 @@ function toggleInputs() {
 
         // 露營類顯示夜衝(自動)與冷氣
         if (type === 'tent' || type === 'car' || type === 'camper' || type === 'moto' || type === 'solo') {
-            extraOptions.classList.remove('hidden');
-            // if(rushNotice) rushNotice.classList.remove('hidden'); // 依需求隱藏
+            // ⚠️ 修正：已移除 extraOptions.classList.remove('hidden')
+            // 因此夜衝和冷氣的勾選框將保持隱藏
             
-            document.getElementById('rowAC').classList.remove('hidden');
+            // 如果需要完全不顯示冷氣列，這裡也註解掉
+            // document.getElementById('rowAC').classList.remove('hidden');
         } else {
             document.getElementById('isNightRush').checked = false;
             document.getElementById('useAC').checked = false;
