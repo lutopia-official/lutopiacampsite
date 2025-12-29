@@ -91,7 +91,6 @@ const TRANSLATIONS = {
         bar_info: "📍 地點：就在營區旁 / 營業時間：目前為五六日 9:00PM 固定營業，詳細依IG公告為主",
         bar_btn_ig: "追蹤吐煙怪獸 IG",
         
-        // 下拉選單翻譯 (zh)
         opt_inc_dt392: "(含 大馳 DT392)",
         opt_inc_starcraft: "(含 StarCraft 美式復古拖車)",
         opt_inc_room: "(含 錄托邦民宿房間)",
@@ -172,8 +171,7 @@ const TRANSLATIONS = {
         bar_promo: "✨ <em>Exclusive: Camping/Lodging guests get special discounts with booking proof!</em>",
         bar_info: "📍 Location: Next to campsite / Hours: Fri-Sun 9:00 PM (Check IG for details)",
         bar_btn_ig: "Follow Toen Kaijyu IG",
-
-        // Dropdown Translations (en)
+        
         opt_inc_dt392: "(w/ DT392 RV)",
         opt_inc_starcraft: "(w/ StarCraft Trailer)",
         opt_inc_room: "(w/ Guest Room)",
@@ -254,8 +252,7 @@ const TRANSLATIONS = {
         bar_promo: "✨ <em>宿泊者限定：予約提示で専用割引あり！</em>",
         bar_info: "📍 場所：キャンプ場横 / 営業：金・土・日 21:00〜 (詳細はIGにて)",
         bar_btn_ig: "IGをフォロー",
-
-        // Dropdown Translations (jp)
+        
         opt_inc_dt392: "(DT392 込み)",
         opt_inc_starcraft: "(StarCraft 込み)",
         opt_inc_room: "(民宿の部屋 込み)",
@@ -281,20 +278,43 @@ const HOLIDAYS = [
 ];
 const MAKEUP_DAYS = ["2025-02-08"];
 
+// 🔥 修正重點：changeLanguage 必須被定義為全域函式，才能被 HTML 的 onclick 呼叫
+function changeLanguage(lang) {
+    console.log("Switching language to:", lang); // Debug Log
+    currentLang = lang;
+    
+    // 防呆：如果找不到該語言的翻譯，預設回中文，避免報錯
+    const t = TRANSLATIONS[lang] || TRANSLATIONS['zh'];
+
+    document.querySelectorAll('[data-i18n]').forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        if (t && t[key]) {
+            if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                element.placeholder = t[key];
+            } else {
+                element.innerHTML = t[key];
+            }
+        }
+    });
+
+    toggleInputs(); // 重繪下拉選單
+    calculateTotal(); // 重新計算價格
+}
+// 將函式掛載到 window，確保 HTML 中的 onclick="changeLanguage(...)" 找得到它
+window.changeLanguage = changeLanguage;
+
 window.onload = function() {
     if(!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL === "") {
         console.warn("GAS 網址未設定");
         return;
     }
     
-    // ✅ 修正：把「監聽抵達時間」的程式碼放進來
     const visitTimeSelect = document.getElementById('visitTime');
     if (visitTimeSelect) {
         visitTimeSelect.addEventListener('change', calculateTotal);
     }
     
-    // ✅ 修正：這裡一定要綁定按鈕，語言切換才會生效！
-    // 假設您的 HTML 中有這些 ID 的按鈕
+    // 綁定語言按鈕 (若是用 ID 綁定)
     const btnZh = document.getElementById('btn-zh');
     const btnEn = document.getElementById('btn-en');
     const btnJp = document.getElementById('btn-jp');
@@ -336,27 +356,6 @@ flatpickr("#dateRange", {
     }
 });
 
-// ✅ 修正：把 changeLanguage 函式加回來
-function changeLanguage(lang) {
-    currentLang = lang;
-    
-    document.querySelectorAll('[data-i18n]').forEach(element => {
-        const key = element.getAttribute('data-i18n');
-        if (TRANSLATIONS[lang] && TRANSLATIONS[lang][key]) {
-            if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
-                element.placeholder = TRANSLATIONS[lang][key];
-            } else {
-                element.innerHTML = TRANSLATIONS[lang][key];
-            }
-        }
-    });
-
-    toggleInputs(); // 切換語言後，重繪下拉選單
-    calculateTotal();
-}
-// 讓全域可以呼叫 (如果您的 HTML 使用 onclick="changeLanguage(...)")
-window.changeLanguage = changeLanguage;
-
 const CAMPING_CONFIG = {
     tent: { rates: { weekday: 700, weekend: 800, holiday: 1000 }, nightRush: { weekday: 500, weekend: 600, holiday: 700 }, discountType: "fixed_amount" },
     moto: { rates: { weekday: 500, weekend: 600, holiday: 800 }, nightRush: { weekday: 200, weekend: 300, holiday: 400 }, discountType: "fixed_amount" },
@@ -390,8 +389,8 @@ function toggleInputs() {
     const guestListBlock = document.getElementById('guestListBlock');
     const unitQtySelect = document.getElementById('unitQty');
     
-    // ✅ 修正：使用 TRANSLATIONS[currentLang] 來取得正確語言
-    const t = TRANSLATIONS[currentLang];
+    // 🔥 修改：下拉選單邏輯 (支援 4 種組合，且支援多國語言)
+    const t = TRANSLATIONS[currentLang] || TRANSLATIONS['zh']; // 防呆 fallback
     
     let newOptions = "";
     if (type === 'room') {
@@ -421,12 +420,14 @@ function toggleInputs() {
     }
     unitQtySelect.innerHTML = newOptions;
     
+    // 防呆：切換類型後，如果當前數量在選項裡不存在，重置為1
     if ((type === 'starcraft' || type === 'dt392' || type === 'room') && parseInt(unitQtySelect.value) > 4) {
         unitQtySelect.value = 1;
     } else if (!unitQtySelect.value) {
         unitQtySelect.value = 1;
     }
 
+    // === 2. 顯示/隱藏區塊 ===
     nightsBlock.classList.add('hidden');
     rentalBlock.classList.add('hidden');
     bikeBlock.classList.add('hidden');
@@ -457,6 +458,7 @@ function toggleInputs() {
         bikeBlock.classList.remove('hidden');
         if(bikeRules) bikeRules.classList.remove('hidden');
     } else {
+        // === 住宿/露營類 ===
         nightsBlock.classList.remove('hidden');
         campingRules.classList.remove('hidden');
         if(addonBlock) addonBlock.classList.remove('hidden');
@@ -470,6 +472,7 @@ function toggleInputs() {
         }
         if(policyNotice) policyNotice.classList.remove('hidden');
         
+        // --- 處理入住時間文字 ---
         const checkInText = document.getElementById('checkInTimeText');
         const visitTimeSelect = document.getElementById('visitTime');
         for (let i = 0; i < visitTimeSelect.options.length; i++) {
@@ -481,7 +484,7 @@ function toggleInputs() {
         
         if (type === 'room' || type === 'starcraft' || type === 'dt392') {
             if(checkInText) {
-                checkInText.innerText = TRANSLATIONS[currentLang].checkin_time_val_room;
+                checkInText.innerText = t.checkin_time_val_room;
                 checkInText.style.color = "#800080"; checkInText.style.fontWeight = "bold";
             }
             let opt1400 = visitTimeSelect.querySelector('option[value="14:00"]');
@@ -493,11 +496,12 @@ function toggleInputs() {
             if(visitTimeSelect.value === "14:00" || visitTimeSelect.value === "14:30") { visitTimeSelect.value = ""; }
         } else {
             if(checkInText) {
-                checkInText.innerText = TRANSLATIONS[currentLang].checkin_time_val;
+                checkInText.innerText = t.checkin_time_val;
                 checkInText.style.color = ""; checkInText.style.fontWeight = "";
             }
         }
 
+        // --- 民宿 vs 露營 的加購邏輯 ---
         const extraPeopleLabel = document.querySelector('[data-i18n="label_extra_people"]');
         const extraPeopleInput = document.getElementById('extraPeople');
         const basicUnitDesc = document.querySelector('[data-i18n="basic_unit"]');
@@ -511,16 +515,20 @@ function toggleInputs() {
                 if(extraPeopleInput.value > 2) extraPeopleInput.value = 2;
             }
         } else {
-            if(basicUnitDesc) basicUnitDesc.innerText = TRANSLATIONS[currentLang].basic_unit;
-            if(extraPeopleLabel) extraPeopleLabel.innerText = TRANSLATIONS[currentLang].label_extra_people;
+            if(basicUnitDesc) basicUnitDesc.innerText = t.basic_unit;
+            if(extraPeopleLabel) extraPeopleLabel.innerText = t.label_extra_people;
             if(extraPeopleInput) {
                 extraPeopleInput.removeAttribute('max'); 
                 extraPeopleInput.placeholder = "0";
             }
         }
 
+        // 露營類顯示夜衝(自動)與冷氣
         if (type === 'tent' || type === 'car' || type === 'camper' || type === 'moto' || type === 'solo') {
             extraOptions.classList.remove('hidden');
+            // 🔥 修改：這行被移除了，夜衝教學文字不會再顯示
+            // if(rushNotice) rushNotice.classList.remove('hidden'); 
+            
             document.getElementById('rowAC').classList.remove('hidden');
         } else {
             document.getElementById('isNightRush').checked = false;
@@ -655,6 +663,7 @@ function calculateTotal() {
         qty = parseInt(document.getElementById('unitQty').value) || 1;
     }
 
+    // 自動判定是否為夜衝
     let isNightRush = false;
     const visitTime = document.getElementById('visitTime').value;
     if (visitTime && config.nightRush) {
@@ -695,32 +704,39 @@ function calculateTotal() {
         else if (HOLIDAYS.includes(dateStr)) { rateType = 'holiday'; } 
         else if (dayOfWeek === 5 || dayOfWeek === 6) { rateType = 'weekend'; hasWeekend = true; }
 
+        // 🔥 核心邏輯：計算混合住宿的房價
         let dailyBase = 0;
         let rate_room = CAMPING_CONFIG.room.rates[rateType];
         let rate_star = CAMPING_CONFIG.starcraft.rates[rateType];
         let rate_dt = CAMPING_CONFIG.dt392.rates[rateType];
 
         if (type === 'room') {
+            // 主選：民宿
             if (qty === 1) dailyBase = rate_room;
-            else if (qty === 2) dailyBase = rate_room + rate_star; 
-            else if (qty === 3) dailyBase = rate_room + rate_dt;   
-            else if (qty === 4) dailyBase = rate_room + rate_star + rate_dt; 
+            else if (qty === 2) dailyBase = rate_room + rate_star; // + StarCraft
+            else if (qty === 3) dailyBase = rate_room + rate_dt;   // + DT392
+            else if (qty === 4) dailyBase = rate_room + rate_star + rate_dt; // All 3
         } else if (type === 'starcraft') {
+            // 主選：StarCraft
             if (qty === 1) dailyBase = rate_star;
-            else if (qty === 2) dailyBase = rate_star + rate_room; 
-            else if (qty === 3) dailyBase = rate_star + rate_dt;   
-            else if (qty === 4) dailyBase = rate_star + rate_room + rate_dt; 
+            else if (qty === 2) dailyBase = rate_star + rate_room; // + Room
+            else if (qty === 3) dailyBase = rate_star + rate_dt;   // + DT392
+            else if (qty === 4) dailyBase = rate_star + rate_room + rate_dt; // All 3
         } else if (type === 'dt392') {
+            // 主選：DT392
             if (qty === 1) dailyBase = rate_dt;
-            else if (qty === 2) dailyBase = rate_dt + rate_room;   
-            else if (qty === 3) dailyBase = rate_dt + rate_star;   
-            else if (qty === 4) dailyBase = rate_dt + rate_room + rate_star; 
+            else if (qty === 2) dailyBase = rate_dt + rate_room;   // + Room
+            else if (qty === 3) dailyBase = rate_dt + rate_star;   // + StarCraft
+            else if (qty === 4) dailyBase = rate_dt + rate_room + rate_star; // All 3
         } else {
+            // 其他類型 (帳篷等)，單純相乘
             dailyBase = config.rates[rateType] * qty;
         }
         
+        // 累加每日房價
         basePrice += dailyBase;
 
+        // 計算夜衝 (只在第一晚且符合資格時)
         if (i === 0 && isNightRush && config.nightRush) {
             let rushType = rateType; 
             if(type === 'camper') { 
@@ -795,6 +811,9 @@ function calculateTotal() {
 }
 
 function submitOrder() {
+    // 取得當前語言的翻譯，若無則預設中文
+    const t = TRANSLATIONS[currentLang] || TRANSLATIONS['zh'];
+    
     const warningMsg = "⚠️抵達營區入口時，請勿直接入場，請先撥電話告知營主！非常重要❗️感謝配合🙏";
     if (!confirm(warningMsg + "\n\n確認送出訂單？")) {
         return; 
@@ -805,12 +824,16 @@ function submitOrder() {
     const line = document.getElementById('customerLine').value.trim();
     const note = document.getElementById('customerNote').value.trim();
     const visitTime = document.getElementById('visitTime').value; 
-    if (!name || !phone) { alert(TRANSLATIONS[currentLang].alert_fill); return; }
+    // 🔥 修正：這裡的 alert 也需要支援多國語言
+    if (!name || !phone) { alert(t.alert_fill); return; }
+    
     const typeSelect = document.getElementById('campType');
     const typeText = typeSelect.options[typeSelect.selectedIndex].text;
     const typeValue = typeSelect.value; 
+    
     if (typeValue === 'room' || typeValue === 'starcraft' || typeValue === 'dt392') {
-        const confirmMsg = TRANSLATIONS[currentLang].confirm_room_policy; 
+        // 🔥 修正：這裡的確認視窗也需要支援多國語言
+        const confirmMsg = t.confirm_room_policy; 
         if (!confirm(confirmMsg)) { return; }
     }
     const dateRange = document.getElementById('dateRange').value;
@@ -866,7 +889,8 @@ function submitOrder() {
         method: "POST", body: JSON.stringify(orderData), headers: { "Content-Type": "text/plain" }
     })
     .then(response => {
-        alert(TRANSLATIONS[currentLang].sent_success);
+        // 🔥 修正：成功訊息也支援多國語言
+        alert(t.sent_success);
         document.getElementById('customerName').value = ''; document.getElementById('customerPhone').value = '';
         document.getElementById('customerLine').value = ''; document.getElementById('customerNote').value = '';
         btn.innerText = "✅ 完成";
