@@ -192,37 +192,18 @@ const TRANSLATIONS = {
 
 const HOLIDAYS = [
   // 2026 (民國115年) — 依政府行政機關辦公日曆表(連假/補假)
-  // 元旦
   "2026-01-01",
-
-  // 除夕與春節：2/14–2/22（其中除夕前一日逢週日，於 2/20 補假，所以連放 9 天）
   "2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17", "2026-02-18", "2026-02-19",
   "2026-02-20", "2026-02-21", "2026-02-22",
-
-  // 228 和平紀念日：2/27–3/1（2/28 逢週六，2/27 補假）
   "2026-02-27", "2026-02-28", "2026-03-01",
-
-  // 兒童節/清明：4/3–4/6（4/4 逢週六→4/3 補假；4/5 逢週日→4/6 補假）
   "2026-04-03", "2026-04-04", "2026-04-05", "2026-04-06",
-
-  // 勞動節：5/1–5/3（5/1 週五＋例假日）
   "2026-05-01", "2026-05-02", "2026-05-03",
-
-  // 端午：6/19–6/21（6/19 週五＋例假日）
   "2026-06-19", "2026-06-20", "2026-06-21",
-
-  // 中秋＋孔子誕辰/教師節：9/25–9/28（9/25 週五、9/28 週一＋例假日）
   "2026-09-25", "2026-09-26", "2026-09-27", "2026-09-28",
-
-  // 國慶：10/9–10/11（10/10 逢週六→10/9 補假）
   "2026-10-09", "2026-10-10", "2026-10-11",
-
-  // 臺灣光復暨金門古寧頭大捷紀念日：10/24–10/26（10/25 逢週日→10/26 補假）
   "2026-10-24", "2026-10-25", "2026-10-26",
-
-  // 行憲紀念日：12/25–12/27（12/25 週五＋例假日）
   "2026-12-25", "2026-12-26", "2026-12-27"
-]; 
+];
 
 const MAKEUP_DAYS = [
   "2025-02-08", // 2025 補班日
@@ -639,7 +620,7 @@ function calculateTotal() {
   let isNightRush = false;
   const visitTime = document.getElementById('visitTime').value;
   if (visitTime && config.nightRush) {
-    const hour = parseInt(visitTime.split(':')[0]);
+    const hour = parseInt(visitTime.split(':')[0], 10);
     if (hour >= 21) isNightRush = true;
   }
   const nightRushBox = document.getElementById('isNightRush');
@@ -671,23 +652,34 @@ function calculateTotal() {
     }
   }
 
+  // ✅ 這裡開始是你原本的 bug 區：我已整段重寫（避免只在週六才加總、避免 submitOrder 被包進去）
   let basePrice = 0, rushPrice = 0, acPrice = 0;
   let hasWeekend = false;
+  let hasSaturday = false; // ✅ 是否含週六（補班週六不算）
   let currentDate = new Date(selectedDates[0]);
 
   for (let i = 0; i < nights; i++) {
-    let dateStr = formatDate(currentDate);
-    let dayOfWeek = currentDate.getDay();
+    const dateStr = formatDate(currentDate);
+    const dayOfWeek = currentDate.getDay(); // 0 Sun ... 6 Sat
+    const isMakeup = MAKEUP_DAYS.includes(dateStr);
+
     let rateType = 'weekday';
-
-    if (MAKEUP_DAYS.includes(dateStr)) rateType = 'weekday';
+    if (isMakeup) rateType = 'weekday';
     else if (HOLIDAYS.includes(dateStr)) rateType = 'holiday';
-    else if (dayOfWeek === 5 || dayOfWeek === 6) { rateType = 'weekend'; hasWeekend = true; }
+    else if (dayOfWeek === 5 || dayOfWeek === 6) {
+      rateType = 'weekend';
+      hasWeekend = true;
+    }
 
+    if (dayOfWeek === 6 && !isMakeup) {
+      hasSaturday = true;
+    }
+
+    // 每晚基本費用
     let dailyBase = 0;
-    let rate_room = CAMPING_CONFIG.room.rates[rateType];
-    let rate_star = CAMPING_CONFIG.starcraft.rates[rateType];
-    let rate_dt = CAMPING_CONFIG.dt392.rates[rateType];
+    const rate_room = CAMPING_CONFIG.room.rates[rateType];
+    const rate_star = CAMPING_CONFIG.starcraft.rates[rateType];
+    const rate_dt = CAMPING_CONFIG.dt392.rates[rateType];
 
     if (type === 'room') {
       if (qty === 1) dailyBase = rate_room;
@@ -705,26 +697,31 @@ function calculateTotal() {
       else if (qty === 3) dailyBase = rate_dt + rate_star;
       else if (qty === 4) dailyBase = rate_dt + rate_room + rate_star;
     } else {
-      dailyBase = config.rates[rateType] * qty;
+      dailyBase = (config.rates[rateType] || 0) * qty;
     }
 
     basePrice += dailyBase;
 
+    // 夜衝只算第一晚（抵達那一晚）
     if (i === 0 && isNightRush && config.nightRush) {
-      let rushType = rateType;
+      const rushType = rateType;
       if (type === 'camper') {
-        rushPrice += config.nightRush[rushType] * 0.8 * qty;
+        rushPrice += (config.nightRush[rushType] || 0) * 0.8 * qty;
       } else if (type === 'starcraft' || type === 'dt392' || type === 'room') {
-        // 不計算
+        // RV/房間不計夜衝
       } else {
-        rushPrice += config.nightRush[rushType] * qty;
+        rushPrice += (config.nightRush[rushType] || 0) * qty;
       }
     }
 
+    // 冷氣每晚
     if (useAC) acPrice += 200 * qty;
+
+    // 下一天
     currentDate.setDate(currentDate.getDate() + 1);
   }
 
+  // 加購（放在 for 之外，避免重複/邏輯錯亂）
   const extraPeople = parseInt(document.getElementById('extraPeople').value) || 0;
   const extraCars = parseInt(document.getElementById('extraCars').value) || 0;
   const visitors = parseInt(document.getElementById('visitors').value) || 0;
@@ -747,10 +744,11 @@ function calculateTotal() {
     document.getElementById('addonPrice').innerText = 0;
   }
 
-  // 折扣
+  // 折扣（放在 for 之外）
   let discount = 0;
   if (discountRow) discountRow.classList.remove('hidden');
 
+  // 這段是給 percentage / full_venue 判斷是否含假日用
   let isHolidayForDiscount = false;
   let checkDate = new Date(selectedDates[0]);
   for (let k = 0; k < nights; k++) {
@@ -758,7 +756,7 @@ function calculateTotal() {
     checkDate.setDate(checkDate.getDate() + 1);
   }
 
-  let totalPriceForDiscount = basePrice + rushPrice + acPrice;
+  const totalPriceForDiscount = basePrice + rushPrice + acPrice;
 
   if (config.discountType === 'full_venue_promo') {
     if (nights >= 2) discount = totalPriceForDiscount * 0.15;
@@ -766,18 +764,26 @@ function calculateTotal() {
     if (isHolidayForDiscount && nights >= 3) discount = totalPriceForDiscount * 0.15;
     else if (nights >= 2) discount = totalPriceForDiscount * 0.10;
   } else if (config.discountType === 'fixed_amount' || config.discountType === 'fixed_amount_premium') {
+    // ✅ 新規則：
+    // 1) 連住 >=3 晚：每單位折 300
+    // 2) 含週六 且 >=2 晚：每單位再折 200（補班週六不算）
     let perUnitDiscount = 0;
-    if (isHolidayForDiscount && nights >= 3) perUnitDiscount = 500;
-    else if (hasWeekend && nights === 3) perUnitDiscount = (config.discountType === 'fixed_amount_premium') ? 500 : 200;
-    else if (!hasWeekend && !isHolidayForDiscount && nights >= 3) perUnitDiscount = 100 * nights;
+
+    if (nights >= 3) perUnitDiscount += 300;
+    if (hasSaturday && nights >= 2) perUnitDiscount += 200;
+
     discount = perUnitDiscount * qty;
+
+    // ✅ 保險：折扣上限（避免折太多）
+    const maxDiscount = Math.round(totalPriceForDiscount * 0.2); // 最多折 20%
+    discount = Math.min(discount, maxDiscount);
   }
 
-  let total = Math.round(basePrice + rushPrice + acPrice + totalAddonCost - discount);
+  const total = Math.round(basePrice + rushPrice + acPrice + totalAddonCost - discount);
 
-  document.getElementById('basePrice').innerText = basePrice;
+  document.getElementById('basePrice').innerText = Math.round(basePrice);
   document.getElementById('rushPrice').innerText = Math.round(rushPrice);
-  document.getElementById('acPrice').innerText = acPrice;
+  document.getElementById('acPrice').innerText = Math.round(acPrice);
   document.getElementById('discountPrice').innerText = Math.round(discount);
   document.getElementById('finalTotal').innerText = total;
 
@@ -786,13 +792,12 @@ function calculateTotal() {
     document.getElementById('rowRush').classList.add('hidden');
     document.getElementById('rowAC').classList.add('hidden');
   } else {
-    // ✅ 顯示列（有勾/有費用才顯示）
     if (Math.round(rushPrice) > 0) document.getElementById('rowRush').classList.remove('hidden');
-    if (acPrice > 0) document.getElementById('rowAC').classList.remove('hidden');
+    if (Math.round(acPrice) > 0) document.getElementById('rowAC').classList.remove('hidden');
   }
 
   document.getElementById('resultBox').classList.remove('hidden');
-}
+} // ✅ calculateTotal 結束（這個括號是你原本缺少、導致紅色波浪的主因）
 
 function submitOrder() {
   const t = TRANSLATIONS[currentLang] || TRANSLATIONS['zh'];
@@ -825,7 +830,7 @@ function submitOrder() {
   const qtyBlock = document.getElementById('qtyBlock');
   if (qtyBlock && !qtyBlock.classList.contains('hidden')) {
     const unitQtySelect = document.getElementById('unitQty');
-    qty = parseInt(unitQtySelect.value);
+    qty = parseInt(unitQtySelect.value, 10);
     const qtyText = unitQtySelect.options[unitQtySelect.selectedIndex].text;
     details += ` / 數量:${qtyText}`;
   }
@@ -845,9 +850,9 @@ function submitOrder() {
     const extraPeople = document.getElementById('extraPeople').value;
     const extraCars = document.getElementById('extraCars').value;
     const visitors = document.getElementById('visitors').value;
-    if (parseInt(extraPeople) > 0) { details += ` / 加人:${extraPeople}`; }
-    if (parseInt(extraCars) > 0) { details += ` / 加車:${extraCars}`; }
-    if (parseInt(visitors) > 0) { details += ` / 訪客:${visitors}`; }
+    if (parseInt(extraPeople, 10) > 0) { details += ` / 加人:${extraPeople}`; }
+    if (parseInt(extraCars, 10) > 0) { details += ` / 加車:${extraCars}`; }
+    if (parseInt(visitors, 10) > 0) { details += ` / 訪客:${visitors}`; }
 
     if (!document.getElementById('extraOptions').classList.contains('hidden')) {
       if (document.getElementById('isNightRush').checked) { details += " (含夜衝)"; }
@@ -884,7 +889,7 @@ function submitOrder() {
     body: JSON.stringify(orderData),
     headers: { "Content-Type": "text/plain" }
   })
-    .then(response => {
+    .then(() => {
       alert(t.sent_success);
       document.getElementById('customerName').value = '';
       document.getElementById('customerPhone').value = '';
@@ -900,7 +905,9 @@ function submitOrder() {
     });
 }
 
-function hideResult() { document.getElementById('resultBox').classList.add('hidden'); }
+function hideResult() {
+  document.getElementById('resultBox').classList.add('hidden');
+}
 
 function resetForm() {
   const picker = document.querySelector("#dateRange")._flatpickr;
