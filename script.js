@@ -33,12 +33,14 @@ function restoreVisitTimeOptions() {
   });
 }
 
-// ✅ 移除選項文字中的夜衝提示（不刪除時間，只刪括號文字）
+// ✅ 免裝備住宿：移除選項文字中的夜衝提示（不刪除時間，只刪括號文字）
 function stripNightRushLabels() {
   const sel = document.getElementById('visitTime');
   if (!sel) return;
 
-  const re = /\s*\((夜衝開始|夜衝結束|Night Rush Start|Night Rush End|前泊開始|前泊終了)\)\s*/g;
+  // ✅ 移除： (夜衝開始) / (夜衝結束) / (最晚入場) 以及英文/日文常見變體
+  const re = /\s*\((夜衝開始|夜衝結束|最晚入場|Night Rush Start|Night Rush End|Latest Entry|前泊開始|前泊終了)\)\s*/g;
+
   Array.from(sel.options).forEach(opt => {
     opt.text = opt.text.replace(re, '');
   });
@@ -226,41 +228,21 @@ const TRANSLATIONS = {
 };
 
 const HOLIDAYS = [
-  // 2026 (民國115年) — 依政府行政機關辦公日曆表(連假/補假)
   "2026-01-01",
-
-  // 除夕與春節：2/14–2/22（其中除夕前一日逢週日，於 2/20 補假，所以連放 9 天）
   "2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17", "2026-02-18", "2026-02-19",
   "2026-02-20", "2026-02-21", "2026-02-22",
-
-  // 228 和平紀念日：2/27–3/1（2/28 逢週六，2/27 補假）
   "2026-02-27", "2026-02-28", "2026-03-01",
-
-  // 兒童節/清明：4/3–4/6（4/4 逢週六→4/3 補假；4/5 逢週日→4/6 補假）
   "2026-04-03", "2026-04-04", "2026-04-05", "2026-04-06",
-
-  // 勞動節：5/1–5/3（5/1 週五＋例假日）
   "2026-05-01", "2026-05-02", "2026-05-03",
-
-  // 端午：6/19–6/21（6/19 週五＋例假日）
   "2026-06-19", "2026-06-20", "2026-06-21",
-
-  // 中秋＋孔子誕辰/教師節：9/25–9/28（9/25 週五、9/28 週一＋例假日）
   "2026-09-25", "2026-09-26", "2026-09-27", "2026-09-28",
-
-  // 國慶：10/9–10/11（10/10 逢週六→10/9 補假）
   "2026-10-09", "2026-10-10", "2026-10-11",
-
-  // 臺灣光復暨金門古寧頭大捷紀念日：10/24–10/26（10/25 逢週日→10/26 補假）
   "2026-10-24", "2026-10-25", "2026-10-26",
-
-  // 行憲紀念日：12/25–12/27（12/25 週五＋例假日）
   "2026-12-25", "2026-12-26", "2026-12-27"
 ];
 
 const MAKEUP_DAYS = [
-  "2025-02-08", // 2025 補班日
-  // 2026（民國115年）：無「調整上班」補班日
+  "2025-02-08"
 ];
 
 function changeLanguage(lang) {
@@ -289,7 +271,7 @@ window.onload = function () {
 
   const visitTimeSelect = document.getElementById('visitTime');
   if (visitTimeSelect) {
-    cacheVisitTimeOptions(); // ✅ 新增：記住原始選項
+    cacheVisitTimeOptions(); // ✅ 記住原始選項
     visitTimeSelect.addEventListener('change', calculateTotal);
   }
 
@@ -318,7 +300,6 @@ window.onload = function () {
     .catch(error => { console.error('資料讀取失敗:', error); });
 };
 
-/* ✅ range 模式仍保留，但 updateNights 會保留單日 dates，讓 bike/venue 可計算 */
 flatpickr("#dateRange", {
   mode: "range",
   minDate: "today",
@@ -363,7 +344,6 @@ function toggleInputs() {
 
   const t = TRANSLATIONS[currentLang] || TRANSLATIONS['zh'];
 
-  // 動態調整 unitQty 的顯示文字
   let newOptions = "";
   if (type === 'room') {
     newOptions = `<option value="1">1</option><option value="2">2 ${t.opt_inc_starcraft}</option><option value="3">3 ${t.opt_inc_dt392}</option><option value="4">4 ${t.opt_inc_both_rv}</option>`;
@@ -382,7 +362,6 @@ function toggleInputs() {
     unitQtySelect.value = 1;
   }
 
-  // 先全部隱藏
   nightsBlock.classList.add('hidden');
   rentalBlock.classList.add('hidden');
   bikeBlock.classList.add('hidden');
@@ -409,7 +388,6 @@ function toggleInputs() {
   } else if (type === 'bicycle') {
     bikeBlock.classList.remove('hidden');
   } else {
-    // === 住宿/露營類 ===
     nightsBlock.classList.remove('hidden');
     if (campingRules) campingRules.classList.remove('hidden');
     if (addonBlock) addonBlock.classList.remove('hidden');
@@ -421,20 +399,11 @@ function toggleInputs() {
     }
     if (policyNotice) policyNotice.classList.remove('hidden');
 
-    // 入住時間文字
     const checkInText = document.getElementById('checkInTimeText');
     const visitTimeSelect = document.getElementById('visitTime');
 
     // ✅ 每次切換類型先還原(包含夜衝字樣)
     restoreVisitTimeOptions();
-
-    if (visitTimeSelect) {
-      for (let i = 0; i < visitTimeSelect.options.length; i++) {
-        let opt = visitTimeSelect.options[i];
-        opt.disabled = false;
-        opt.hidden = false;
-      }
-    }
 
     if (type === 'room' || type === 'starcraft' || type === 'dt392') {
       if (checkInText) {
@@ -456,7 +425,7 @@ function toggleInputs() {
         }
       }
 
-      // ✅ 免裝備住宿：移除(夜衝開始)/(夜衝結束)字樣
+      // ✅ 免裝備：移除 (夜衝開始)/(夜衝結束)/(最晚入場)
       stripNightRushLabels();
 
     } else {
@@ -467,7 +436,6 @@ function toggleInputs() {
       }
     }
 
-    // 民宿 vs 露營
     const extraPeopleLabel = document.querySelector('[data-i18n="label_extra_people"]');
     const extraPeopleInput = document.getElementById('extraPeople');
     const basicUnitDesc = document.querySelector('[data-i18n="basic_unit"]');
@@ -489,22 +457,18 @@ function toggleInputs() {
       }
     }
 
-    // 露營類顯示夜衝/冷氣/寵物
     if (type === 'tent' || type === 'car' || type === 'camper' || type === 'moto' || type === 'solo') {
       extraOptions.classList.remove('hidden');
     } else {
       const nightRushBox = document.getElementById('isNightRush');
-      if (nightRushBox) nightRushBox.checked = false;
-
       const acBox = document.getElementById('useAC');
-      if (acBox) acBox.checked = false;
-
       const petBox = document.getElementById('bringPet');
+      if (nightRushBox) nightRushBox.checked = false;
+      if (acBox) acBox.checked = false;
       if (petBox) petBox.checked = false;
     }
   }
 
-  // qty + guest list
   if (type.includes('full') || type === 'bicycle' || type === 'venue_hourly') {
     if (unitQtyBlock) unitQtyBlock.classList.add('hidden');
     if (guestListBlock) guestListBlock.classList.add('hidden');
@@ -579,7 +543,6 @@ function generateGuestInputs() {
   }
 }
 
-/* ✅ 不再把單日選取清空，讓 bike/venue 可用 */
 function updateNights(dates) {
   selectedDates = Array.isArray(dates) ? dates : [];
 
@@ -599,7 +562,6 @@ function formatDate(date) {
   return `${year}-${month}-${day}`;
 }
 
-/* ✅ bike/venue 只需 1 天即可計算；露營住宿仍需 2 天 range */
 function calculateTotal() {
   const type = document.getElementById('campType').value;
   if (!type || type === "") { hideResult(); return; }
@@ -607,7 +569,6 @@ function calculateTotal() {
   const config = CAMPING_CONFIG[type];
   if (!config) { hideResult(); return; }
 
-  // 重置列（避免切換類型時殘留）
   const rowAddons = document.getElementById('rowAddons');
   if (rowAddons) rowAddons.classList.add('hidden');
   document.getElementById('rowRush').classList.add('hidden');
@@ -615,11 +576,10 @@ function calculateTotal() {
   const discountRow = document.getElementById('discountPrice')?.parentElement;
   if (discountRow) discountRow.classList.remove('hidden');
 
-  // ====== 1) 單車租借：只要選 1 天就能算 ======
+  // 1) 單車
   if (type === 'bicycle') {
     if (selectedDates.length < 1) { hideResult(); return; }
 
-    // 清掉露營加購 checkbox（避免送單備註混入）
     const nightRushBox = document.getElementById('isNightRush');
     const acBox = document.getElementById('useAC');
     const petBox = document.getElementById('bringPet');
@@ -643,7 +603,7 @@ function calculateTotal() {
     return;
   }
 
-  // ====== 2) 場地租借：只要選 1 天即可判斷假日價 ======
+  // 2) 場地
   if (type === 'venue_hourly') {
     if (selectedDates.length < 1) { hideResult(); return; }
 
@@ -680,7 +640,7 @@ function calculateTotal() {
     return;
   }
 
-  // ====== 3) 住宿/露營：必須 range 兩日 ======
+  // 3) 住宿/露營
   if (selectedDates.length < 2) { hideResult(); return; }
 
   const nights = parseInt(document.getElementById('nights').value);
@@ -692,7 +652,6 @@ function calculateTotal() {
     qty = parseInt(document.getElementById('unitQty').value) || 1;
   }
 
-  // 夜衝由抵達時間自動判斷（若是露營類）
   let isNightRush = false;
   const visitTime = document.getElementById('visitTime').value;
   if (visitTime && config.nightRush) {
@@ -705,7 +664,6 @@ function calculateTotal() {
   const useAC = document.getElementById('useAC')?.checked || false;
   const bringPet = document.getElementById('bringPet')?.checked || false;
 
-  // 夜衝 1 晚提醒
   let rushWarning = document.getElementById('rushWarningText');
   if (!rushWarning) {
     const rushOption = document.getElementById('isNightRush')?.parentElement;
@@ -731,12 +689,11 @@ function calculateTotal() {
   let basePrice = 0;
   let rushPrice = 0;
   let acPrice = 0;
-  let hasSaturday = false; // ✅ 是否含週六（補班週六不算）
+  let hasSaturday = false;
   let isHolidayForDiscount = false;
 
   let currentDate = new Date(selectedDates[0]);
 
-  // ✅ 正確：每晚都要計算（你原本的版本只在週六才累加，會算錯）
   for (let i = 0; i < nights; i++) {
     const dateStr = formatDate(currentDate);
     const dayOfWeek = currentDate.getDay();
@@ -750,7 +707,6 @@ function calculateTotal() {
     if (dayOfWeek === 6 && !isMakeup) hasSaturday = true;
     if (HOLIDAYS.includes(dateStr)) isHolidayForDiscount = true;
 
-    // 日租金
     let dailyBase = 0;
     const rate_room = CAMPING_CONFIG.room.rates[rateType];
     const rate_star = CAMPING_CONFIG.starcraft.rates[rateType];
@@ -777,7 +733,6 @@ function calculateTotal() {
 
     basePrice += dailyBase;
 
-    // 夜衝只算第一晚
     if (i === 0 && isNightRush && config.nightRush) {
       const rushType = rateType;
       if (type === 'camper') {
@@ -789,22 +744,18 @@ function calculateTotal() {
       }
     }
 
-    // 冷氣：每晚
     if (useAC) acPrice += 200 * qty;
 
-    // 下一天
     currentDate.setDate(currentDate.getDate() + 1);
   }
 
-  // 加購
   const extraPeople = parseInt(document.getElementById('extraPeople').value) || 0;
   const extraCars = parseInt(document.getElementById('extraCars').value) || 0;
   const visitors = parseInt(document.getElementById('visitors').value) || 0;
 
-  const extraPersonRate = 300; // room 也是 300
-  const extraPeopleCost = extraPeople * extraPersonRate * nights;
+  const extraPeopleCost = extraPeople * 300 * nights;
   const extraCarsCost = extraCars * 300 * nights;
-  const visitorsCost = visitors * 100; // 訪客通常算一次
+  const visitorsCost = visitors * 100;
   const petCost = bringPet ? (50 * qty * nights) : 0;
 
   const totalAddonCost = extraPeopleCost + extraCarsCost + visitorsCost + petCost;
@@ -817,7 +768,6 @@ function calculateTotal() {
     document.getElementById('addonPrice').innerText = 0;
   }
 
-  // 折扣
   let discount = 0;
   if (discountRow) discountRow.classList.remove('hidden');
 
@@ -829,31 +779,24 @@ function calculateTotal() {
     if (isHolidayForDiscount && nights >= 3) discount = totalPriceForDiscount * 0.15;
     else if (nights >= 2) discount = totalPriceForDiscount * 0.10;
   } else if (config.discountType === 'fixed_amount' || config.discountType === 'fixed_amount_premium') {
-    // ✅ 新規則：
-    // 1) 連住 >=3 晚：每單位折 300
-    // 2) 含週六 且 >=2 晚：每單位再折 200（補班週六不算）
     let perUnitDiscount = 0;
-
     if (nights >= 3) perUnitDiscount += 300;
     if (hasSaturday && nights >= 2) perUnitDiscount += 200;
 
     discount = perUnitDiscount * qty;
 
-    // ✅ 保險：折扣上限（避免折太多）
-    const maxDiscount = Math.round(totalPriceForDiscount * 0.2); // 最多折 20%
+    const maxDiscount = Math.round(totalPriceForDiscount * 0.2);
     discount = Math.min(discount, maxDiscount);
   }
 
   const total = Math.round(basePrice + rushPrice + acPrice + totalAddonCost - discount);
 
-  // 更新 UI
   document.getElementById('basePrice').innerText = Math.round(basePrice);
   document.getElementById('rushPrice').innerText = Math.round(rushPrice);
   document.getElementById('acPrice').innerText = Math.round(acPrice);
   document.getElementById('discountPrice').innerText = Math.round(discount);
   document.getElementById('finalTotal').innerText = total;
 
-  // 若 extraOptions 被隱藏，就把夜衝/冷氣行也隱藏
   if (document.getElementById('extraOptions').classList.contains('hidden')) {
     document.getElementById('rowRush').classList.add('hidden');
     document.getElementById('rowAC').classList.add('hidden');
