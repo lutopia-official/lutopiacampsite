@@ -18,14 +18,21 @@
         @media (max-width: 768px) { .grid-2x2 { grid-template-columns: 1fr; } }
         .mini-box { background: #fff; padding: 15px; border-radius: 8px; border: 1px solid #eee; }
         .hidden { display: none !important; }
+        
         /* 樣式補強 */
         .price-table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 0.9rem; }
         .price-table th, .price-table td { border: 1px solid #eee; padding: 8px; text-align: center; }
         .price-table th { background: #f8f9fa; }
         .price-highlight { color: #d35400; font-weight: bold; }
         .level-tag { font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; background: #e9ecef; margin-left: 4px; }
-        .bar-img-box { flex: 1; min-height: 300px; border-radius: 0 12px 12px 0; background-size: cover; background-position: center; }
-        @media (max-width: 768px) { .bar-img-box { border-radius: 0 0 12px 12px; } }
+        
+        .bar-container { display: flex; align-items: center; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-top: 30px; }
+        .bar-text { padding: 30px; flex: 1; }
+        .bar-img-box { flex: 1; min-height: 300px; background-size: cover; background-position: center; border-radius: 0 12px 12px 0; }
+        @media (max-width: 768px) { 
+            .bar-container { flex-direction: column; }
+            .bar-img-box { width: 100%; min-height: 200px; border-radius: 0 0 12px 12px; }
+        }
     </style>
 </head>
 <body>
@@ -124,10 +131,6 @@
                     <div>
                         <label for="dateRange" data-i18n="label_date">預約日期：</label>
                         <input type="text" id="dateRange" data-i18n-placeholder="date_placeholder" placeholder="請點擊選擇日期..." readonly style="background-color: #fff;">
-                        <div id="rushNotice" class="hidden" style="background-color: #fff3cd; border: 1px solid #ffeeba; color: #856404; padding: 10px; border-radius: 5px; margin-top: 8px; font-size: 0.9rem; line-height: 1.5;">
-                            <strong data-i18n="rush_notice_title">⚠️ 夜衝日期選擇教學：</strong><br>
-                            <span data-i18n="rush_notice_desc">請將「夜衝當晚」設為第一天。</span>
-                        </div>
                     </div>
                     <div>
                         <label for="visitTime" data-i18n="label_time">預計抵達/取車時間：</label>
@@ -184,10 +187,6 @@
 
                 <div id="extraOptions" class="checkbox-group hidden">
                     <label>
-                        <input type="checkbox" id="isNightRush" onchange="calculateTotal()"> 
-                        <strong data-i18n="cb_night_rush">我要夜衝 (21:00-23:00入場)</strong>
-                    </label>
-                    <label>
                         <input type="checkbox" id="useAC" value="200" onchange="calculateTotal()"> 
                         <span data-i18n="cb_ac">使用冷氣 (+200元/晚)</span>
                     </label>
@@ -195,7 +194,6 @@
                         <input type="checkbox" id="bringPet" value="50" onchange="calculateTotal()"> 
                         <span data-i18n="cb_pet">攜帶寵物 (+50元/晚)</span>
                     </label>
-                    <div id="rushWarningText" class="hidden" style="color: red; font-size: 0.9rem; margin-top: 5px; font-weight: bold;"></div>
                 </div>
 
                 <div class="btn-group">
@@ -207,7 +205,6 @@
                     <h3 data-i18n="result_title">試算結果</h3>
                     <div class="result-row"><span data-i18n="res_base">基本費用：</span> <span id="basePrice">0</span> 元</div>
                     <div class="result-row" id="rowAddons"><span data-i18n="res_addon">加購費用：</span> <span id="addonPrice">0</span> 元</div>
-                    <div class="result-row" id="rowRush"><span data-i18n="res_rush">夜衝費用：</span> <span id="rushPrice">0</span> 元</div>
                     <div class="result-row" id="rowAC"><span data-i18n="res_ac">冷氣加價：</span> <span id="acPrice">0</span> 元</div>
                     <div class="result-row discount"><span data-i18n="res_discount">符合折扣：</span> -<span id="discountPrice">0</span> 元</div>
                     <hr>
@@ -316,7 +313,7 @@
                         <div class="mini-box">
                             <h4 data-i18n="rule_sub_rush">🌙 夜衝服務 (限自搭帳)</h4>
                             <ul>
-                                <li data-i18n="rule_li_rush_time"><strong>時間：</strong>22:00 後入場，23:30 前搭完。</li>
+                                <li data-i18n="rule_li_rush_time"><strong>時間：</strong>21:00 後入場，23:30 前搭完。</li>
                                 <li data-i18n="rule_li_rush_price"><strong>費用：</strong>平日 500元 / 假日 600元 / 連假 800元。</li>
                                 <li class="highlight" data-i18n="rule_li_rush_rv">🚐 自備露營車夜衝依金額打 8 折。</li>
                             </ul>
@@ -362,12 +359,12 @@
         </div>
 
         <div class="bar-section wide-layout">
-            <div class="bar-container" style="display: flex; align-items: center; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
-                <div class="bar-text" style="padding: 30px; flex: 1;">
-                    <h2 data-i18n="bar_title"> 附屬酒吧 🍹 吐煙怪獸酒吧 (Toen Kaijyu Bar)</h2>
-                    <p data-i18n="bar_desc">當夜幕低垂，營區化身為都蘭最Chill的角落。</p>
+            <div class="bar-container">
+                <div class="bar-text">
+                    <h2> 附屬酒吧 🍹 吐煙怪獸酒吧 (Toen Kaijyu Bar)</h2>
+                    <p>當夜幕低垂，營區化身為都蘭最Chill的角落。</p>
                 </div>
-                <div class="bar-img-box" style="flex: 1; min-height: 300px; background-image: url('shisha bar icon.jpg'); background-size: cover; background-position: center;"></div>
+                <div class="bar-img-box" style="background-image: url('shisha bar icon.jpg');"></div>
             </div>
         </div>
     </div>
@@ -391,6 +388,43 @@
 
     // ⚠️ 請確認這是您最新的網址
     const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzpiqltgo7ewZnP3fGJWV0fgszW5OMmBsDWBH0pIbh3sFzDwyOqYEx3WdYgkXRJxBS2/exec"; 
+
+    // ✅ 記住「預計抵達/取車時間」原始選項文字（用於切換類型時還原）
+    let VISIT_TIME_ORIGINAL_OPTIONS = null;
+
+    function cacheVisitTimeOptions() {
+        const sel = document.getElementById('visitTime');
+        if (!sel || VISIT_TIME_ORIGINAL_OPTIONS) return;
+        VISIT_TIME_ORIGINAL_OPTIONS = Array.from(sel.options).map(o => ({
+            value: o.value,
+            text: o.text
+        }));
+    }
+
+    function restoreVisitTimeOptions() {
+        const sel = document.getElementById('visitTime');
+        if (!sel || !VISIT_TIME_ORIGINAL_OPTIONS) return;
+
+        Array.from(sel.options).forEach(opt => {
+            const found = VISIT_TIME_ORIGINAL_OPTIONS.find(x => x.value === opt.value);
+            if (found) opt.text = found.text;
+            opt.disabled = false;
+            opt.hidden = false;
+        });
+    }
+
+    // ✅ 免裝備住宿：移除選項文字中的夜衝提示（不刪除時間，只刪括號文字）
+    function stripNightRushLabels() {
+        const sel = document.getElementById('visitTime');
+        if (!sel) return;
+
+        // ✅ 移除： (夜衝開始) / (夜衝結束) / (最晚入場) 以及英文/日文常見變體
+        const re = /\s*\((夜衝開始|夜衝結束|最晚入場|Night Rush Start|Night Rush End|Latest Entry|前泊開始|前泊終了)\)\s*/g;
+
+        Array.from(sel.options).forEach(opt => {
+            opt.text = opt.text.replace(re, '');
+        });
+    }
 
     const TRANSLATIONS = {
         zh: {
@@ -425,7 +459,6 @@
             label_kid_free: "*小一以下免費",
             label_extra_car: "加車 ($300/車，拖車不在此限)", label_visitor: "訪客 ($100/人，23:00離場)",
             
-            // 🔥 新增翻譯
             cb_night_rush: "我要夜衝 (21:00-23:00入場)", 
             cb_ac: "使用冷氣 (+200元/晚)",
             cb_pet: "攜帶寵物 (+50元/晚)",
@@ -520,7 +553,7 @@
             rule_sub_tent: "⛺ Tents & A/C", rule_li_big_tent: "Big Tents: Please book 2 sites.",
             rule_li_ac_fee: "A/C Usage: +$200/night.", 
             rule_li_warning: "Undeclared big tents are prohibited.",
-            rule_sub_rush: "🌙 Night Rush (Tent Only)", rule_li_rush_time: "Time: 22:00-23:30 Check-in.",
+            rule_sub_rush: "🌙 Night Rush (Tent Only)", rule_li_rush_time: "Time: 21:00-23:30 Check-in.",
             rule_li_rush_price: "Fee: Weekday $500 / W-end $600 / Holiday $800.", rule_li_rush_rv: "🚐 RV Night Rush: 20% Off.",
             rule_title_policy: "⚠️ Cancellation & Payment", rule_sub_refund: "📅 Refund Policy",
             ref_14: "14 days", ref_desc_14: "100% Refund", ref_10: "10-13 days", ref_desc_10: "70% Refund",
@@ -590,7 +623,7 @@
             rule_sub_tent: "⛺ テント・エアコン", rule_li_big_tent: "大型テント：2区画予約してください。",
             rule_li_ac_fee: "エアコン利用：+$200/泊。", 
             rule_li_warning: "申告のない大型テントは設営禁止。",
-            rule_sub_rush: "🌙 前泊 (テントのみ)", rule_li_rush_time: "時間：22:00-23:30 入場。",
+            rule_sub_rush: "🌙 前泊 (テントのみ)", rule_li_rush_time: "時間：21:00-23:30 入場。",
             rule_li_rush_price: "料金：平日 500元 / 休日 600元 / 連休 800元。", rule_li_rush_rv: "🚐 キャンピングカー前泊：20% OFF。",
             rule_title_policy: "⚠️ キャンセル・支払い", rule_sub_refund: "📅 返金ポリシー",
             ref_14: "14日前", ref_desc_14: "100% 返金", ref_10: "10-13日前", ref_desc_10: "70% 返金",
@@ -615,27 +648,20 @@
     };
 
     const HOLIDAYS = [
-        // 2025 (既存)
         "2025-01-01", "2025-01-25", "2025-01-26", "2025-01-27", "2025-01-28", "2025-01-29",
         "2025-01-30", "2025-01-31", "2025-02-01", "2025-02-02", "2025-02-28", "2025-03-01",
         "2025-03-02", "2025-04-03", "2025-04-04", "2025-04-05", "2025-04-06", "2025-05-30",
         "2025-05-31", "2025-06-01", "2025-10-04", "2025-10-05", "2025-10-06", "2025-10-10",
         "2025-10-11", "2025-10-12", "2025-12-31",
-        
-        // 2026 (新增 - 民國115年)
-        "2026-01-01", "2026-01-02", // 元旦
-        "2026-02-16", "2026-02-17", "2026-02-18", "2026-02-19", "2026-02-20", // 春節
-        "2026-02-27", // 228
-        "2026-04-03", "2026-04-06", // 清明
-        "2026-06-19", // 端午
-        "2026-09-25", // 中秋
-        "2026-10-09", // 國慶
-        "2026-12-31" // 跨年
+        "2026-01-01", "2026-01-02", "2026-01-03", "2026-01-04",
+        "2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17", "2026-02-18", "2026-02-19", "2026-02-20", "2026-02-21", "2026-02-22",
+        "2026-02-27", "2026-02-28", "2026-03-01",
+        "2026-04-03", "2026-04-04", "2026-04-05", "2026-04-06",
+        "2026-06-19", "2026-06-20", "2026-06-21",
+        "2026-09-25", "2026-09-26", "2026-09-27",
+        "2026-10-09", "2026-10-10", "2026-10-11"
     ];
-    const MAKEUP_DAYS = [
-        "2025-02-08", // 2025
-        "2026-01-10", "2026-02-07" // 2026 (預估)
-    ];
+    const MAKEUP_DAYS = ["2025-02-08", "2026-02-07", "2026-03-07"];
 
     function changeLanguage(lang) {
         currentLang = lang;
@@ -663,6 +689,7 @@
         
         const visitTimeSelect = document.getElementById('visitTime');
         if (visitTimeSelect) {
+            cacheVisitTimeOptions(); // ✅ 記住原始選項
             visitTimeSelect.addEventListener('change', calculateTotal);
         }
         
@@ -726,7 +753,7 @@
         const extraOptions = document.getElementById('extraOptions');
         const addonBlock = document.getElementById('addonBlock');
         const unitNotice = document.getElementById('unitNotice');
-        const rushNotice = document.getElementById('rushNotice');
+        
         const policyNotice = document.getElementById('policyNotice');
         const campingRules = document.getElementById('campingRules');
         const unitQtyBlock = document.getElementById('qtyBlock');
@@ -759,11 +786,9 @@
         extraOptions.classList.add('hidden'); 
         if(addonBlock) addonBlock.classList.add('hidden'); 
         if(unitNotice) unitNotice.classList.add('hidden'); 
-        if(rushNotice) rushNotice.classList.add('hidden');
         if(policyNotice) policyNotice.classList.add('hidden'); 
         campingRules.classList.add('hidden');
         
-        document.getElementById('rowRush').classList.add('hidden');
         document.getElementById('rowAC').classList.add('hidden');
         const rowAddons = document.getElementById('rowAddons');
         if(rowAddons) rowAddons.classList.add('hidden');
@@ -793,6 +818,11 @@
             // --- 處理入住時間文字 ---
             const checkInText = document.getElementById('checkInTimeText');
             const visitTimeSelect = document.getElementById('visitTime');
+
+            // ✅ 每次切換類型先還原
+            restoreVisitTimeOptions();
+
+            // 預設全部開啟
             for (let i = 0; i < visitTimeSelect.options.length; i++) {
                 let opt = visitTimeSelect.options[i];
                 opt.disabled = false; opt.hidden = false;
@@ -811,6 +841,10 @@
                 let opt1500 = visitTimeSelect.querySelector('option[value="15:00"]');
                 if(opt1500) { opt1500.text = "15:00 (check in time)"; }
                 if(visitTimeSelect.value === "14:00" || visitTimeSelect.value === "14:30") { visitTimeSelect.value = ""; }
+
+                // ✅ 移除夜衝提示文字
+                stripNightRushLabels();
+
             } else {
                 if(checkInText) {
                     checkInText.innerText = TRANSLATIONS[currentLang].checkin_time_val;
@@ -843,7 +877,6 @@
                 // 🔥 確保加購選項區塊顯示
                 extraOptions.classList.remove('hidden'); 
             } else {
-                document.getElementById('isNightRush').checked = false;
                 document.getElementById('useAC').checked = false;
                 // 🔥 非露營類，重置寵物
                 const petBox = document.getElementById('bringPet');
@@ -986,29 +1019,12 @@
                 isNightRush = true;
             }
         }
-        document.getElementById('isNightRush').checked = isNightRush;
         
         const useAC = document.getElementById('useAC').checked;
         // 🔥 新增：取得寵物勾選
         const bringPetInput = document.getElementById('bringPet');
         const bringPet = bringPetInput ? bringPetInput.checked : false;
         
-        let rushWarning = document.getElementById('rushWarningText');
-        if (!rushWarning) {
-            const rushOption = document.getElementById('isNightRush').parentElement;
-            rushWarning = document.createElement('div');
-            rushWarning.id = 'rushWarningText';
-            rushWarning.style.color = 'red'; rushWarning.style.fontSize = '0.9rem';
-            rushWarning.style.marginTop = '5px'; rushWarning.style.fontWeight = 'bold';
-            rushOption.parentElement.appendChild(rushWarning);
-        }
-        if (isNightRush && nights === 1) {
-            rushWarning.innerText = "💡 提醒：您只選了 1 晚，系統將僅計算「純夜衝」費用。若您是要「夜衝+續住露營」，請務必選擇 2 晚 (例如週五~週日)。";
-            rushWarning.classList.remove('hidden');
-        } else {
-            rushWarning.classList.add('hidden');
-        }
-
         let basePrice = 0; let rushPrice = 0; let acPrice = 0;
         let hasWeekend = false;
         let currentDate = new Date(selectedDates[0]);
@@ -1112,13 +1128,11 @@
 
         let total = Math.round(basePrice + rushPrice + acPrice + totalAddonCost - discount);
         document.getElementById('basePrice').innerText = basePrice;
-        document.getElementById('rushPrice').innerText = Math.round(rushPrice); 
         document.getElementById('acPrice').innerText = acPrice;
         document.getElementById('discountPrice').innerText = Math.round(discount);
         document.getElementById('finalTotal').innerText = total;
         
         if (document.getElementById('extraOptions').classList.contains('hidden')) {
-            document.getElementById('rowRush').classList.add('hidden');
             document.getElementById('rowAC').classList.add('hidden');
         }
         document.getElementById('resultBox').classList.remove('hidden');
@@ -1177,7 +1191,6 @@
             if(parseInt(extraCars) > 0) { details += ` / 加車:${extraCars}`; }
             if(parseInt(visitors) > 0) { details += ` / 訪客:${visitors}`; }
             if (!document.getElementById('extraOptions').classList.contains('hidden')) {
-                if(document.getElementById('isNightRush').checked) { details += " (含夜衝)"; }
                 if(document.getElementById('useAC').checked) { details += " (含冷氣)"; }
                 // 🔥 新增：訂單備註寵物
                 if(document.getElementById('bringPet').checked) { details += " (含寵物)"; }
@@ -1199,7 +1212,19 @@
             method: "POST", body: JSON.stringify(orderData), headers: { "Content-Type": "text/plain" }
         })
         .then(response => {
-            alert(t.sent_success);
+            // 🔥 LINE Jump 邏輯
+            const lineId = "@lutopia";
+            const message = `你好，我是 ${name}，\n我已送出預訂：${dateRange}。\n\n這是我的匯款帳號後五碼/明細：\n(請在此輸入)`;
+            const encodedMsg = encodeURIComponent(message);
+            const lineUrl = `https://line.me/R/oaMessage/${lineId}/?${encodedMsg}`;
+
+            let successMsg = t.sent_success;
+            successMsg += "\n\n⚠️ 重要：系統將自動開啟 LINE，請按下傳送鍵並補充「匯款收據/後五碼」才算完成訂位喔！";
+            alert(successMsg);
+            
+            // 跳轉至 LINE
+            window.location.href = lineUrl;
+
             document.getElementById('customerName').value = ''; document.getElementById('customerPhone').value = '';
             document.getElementById('customerLine').value = ''; document.getElementById('customerNote').value = '';
             btn.innerText = "✅ 完成";
@@ -1216,7 +1241,6 @@
         const picker = document.querySelector("#dateRange")._flatpickr; picker.clear();
         document.getElementById('campType').value = ""; toggleInputs(); 
         document.getElementById('nights').value = '0';
-        document.getElementById('isNightRush').checked = false; 
         document.getElementById('useAC').checked = false;
         // 🔥 重置寵物
         const petBox = document.getElementById('bringPet');
