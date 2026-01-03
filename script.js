@@ -191,13 +191,43 @@ const TRANSLATIONS = {
 };
 
 const HOLIDAYS = [
-  "2025-01-01", "2025-01-25", "2025-01-26", "2025-01-27", "2025-01-28", "2025-01-29",
-  "2025-01-30", "2025-01-31", "2025-02-01", "2025-02-02", "2025-02-28", "2025-03-01",
-  "2025-03-02", "2025-04-03", "2025-04-04", "2025-04-05", "2025-04-06", "2025-05-30",
-  "2025-05-31", "2025-06-01", "2025-10-04", "2025-10-05", "2025-10-06", "2025-10-10",
-  "2025-10-11", "2025-10-12", "2025-12-31"
+  // 2026 (民國115年) — 依政府行政機關辦公日曆表(連假/補假)
+  // 元旦
+  "2026-01-01",
+
+  // 除夕與春節：2/14–2/22（其中除夕前一日逢週日，於 2/20 補假，所以連放 9 天）
+  "2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17", "2026-02-18", "2026-02-19",
+  "2026-02-20", "2026-02-21", "2026-02-22",
+
+  // 228 和平紀念日：2/27–3/1（2/28 逢週六，2/27 補假）
+  "2026-02-27", "2026-02-28", "2026-03-01",
+
+  // 兒童節/清明：4/3–4/6（4/4 逢週六→4/3 補假；4/5 逢週日→4/6 補假）
+  "2026-04-03", "2026-04-04", "2026-04-05", "2026-04-06",
+
+  // 勞動節：5/1–5/3（5/1 週五＋例假日）
+  "2026-05-01", "2026-05-02", "2026-05-03",
+
+  // 端午：6/19–6/21（6/19 週五＋例假日）
+  "2026-06-19", "2026-06-20", "2026-06-21",
+
+  // 中秋＋孔子誕辰/教師節：9/25–9/28（9/25 週五、9/28 週一＋例假日）
+  "2026-09-25", "2026-09-26", "2026-09-27", "2026-09-28",
+
+  // 國慶：10/9–10/11（10/10 逢週六→10/9 補假）
+  "2026-10-09", "2026-10-10", "2026-10-11",
+
+  // 臺灣光復暨金門古寧頭大捷紀念日：10/24–10/26（10/25 逢週日→10/26 補假）
+  "2026-10-24", "2026-10-25", "2026-10-26",
+
+  // 行憲紀念日：12/25–12/27（12/25 週五＋例假日）
+  "2026-12-25", "2026-12-26", "2026-12-27"
+]; 
+
+const MAKEUP_DAYS = [
+  "2025-02-08", // 2025 補班日
+  // 2026（民國115年）：無「調整上班」補班日
 ];
-const MAKEUP_DAYS = ["2025-02-08"];
 
 function changeLanguage(lang) {
   currentLang = lang;
@@ -266,10 +296,10 @@ flatpickr("#dateRange", {
 });
 
 const CAMPING_CONFIG = {
-  tent: { rates: { weekday: 700, weekend: 800, holiday: 1200 }, nightRush: { weekday: 500, weekend: 600, holiday: 700 }, discountType: "fixed_amount" },
+  tent: { rates: { weekday: 700, weekend: 800, holiday: 1200 }, nightRush: { weekday: 500, weekend: 600, holiday: 800 }, discountType: "fixed_amount" },
   moto: { rates: { weekday: 500, weekend: 600, holiday: 1200 }, nightRush: { weekday: 300, weekend: 400, holiday: 500 }, discountType: "fixed_amount" },
   solo: { rates: { weekday: 500, weekend: 600, holiday: 1200 }, nightRush: { weekday: 300, weekend: 400, holiday: 500 }, discountType: "fixed_amount" },
-  car: { rates: { weekday: 600, weekend: 800, holiday: 1200 }, nightRush: { weekday: 500, weekend: 600, holiday: 700 }, discountType: "fixed_amount" },
+  car:  { rates: { weekday: 600, weekend: 800, holiday: 1200 }, nightRush: { weekday: 500, weekend: 600, holiday: 800 }, discountType: "fixed_amount" },
   camper: { rates: { weekday: 800, weekend: 1000, holiday: 1500 }, nightRush: { weekday: 600, weekend: 700, holiday: 800 }, discountType: "fixed_amount_premium" },
   starcraft: { rates: { weekday: 1800, weekend: 2000, holiday: 2200 }, discountType: "percentage" },
   dt392: { rates: { weekday: 1800, weekend: 2000, holiday: 2200 }, discountType: "percentage" },
