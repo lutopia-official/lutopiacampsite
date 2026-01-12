@@ -857,7 +857,7 @@ function selectPlan(planValue) {
   const target = document.getElementById('calculatorSection');
   if (target) { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
 }
-// 放在 <script> 標籤內的任意位置
+
 function copyBankInfo() {
     const account = document.getElementById('bankAccount').innerText;
     navigator.clipboard.writeText(account).then(() => {

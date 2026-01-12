@@ -164,7 +164,7 @@ select, input[type="number"], input[type="text"] { width: 100%; padding: 12px; b
 .rules-container { display: flex; flex-direction: row; gap: 15px; overflow-x: auto; padding-bottom: 15px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
 .rules-container::-webkit-scrollbar { height: 6px; }
 .rules-container::-webkit-scrollbar-thumb { background-color: #ccc; border-radius: 10px; }
-.rule-card { background-color: rgba(255, 255, 255, 0.95); padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 5px solid #2c5e50; min-width: 90vw; flex-shrink: 0; scroll-snap-align: center; }
+.rule-card { background-color: rgba(255, 255, 255, 0.95); padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 5px solid #2c5e50; min-width: 80vw; flex-shrink: 0; scroll-snap-align: center; }
 @media (min-width: 1024px) { .rule-card { min-width: 0; flex: 1; } .basic-rules { flex: 3; } .policy-rules { flex: 2; } .rules-container { overflow-x: visible; padding-bottom: 0; } }
 .policy-rules { border-top-color: #d32f2f; }
 .rule-card h3 { margin-top: 0; margin-bottom: 15px; color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px; font-size: 1.2rem; white-space: nowrap; }
