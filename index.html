@@ -215,9 +215,19 @@
 
                     <div class="booking-form-inline" style="margin-top: 20px; padding-top: 20px; border-top: 2px dashed #eee;">
                         <h4 style="text-align:center; color:#2c5e50; margin-bottom:15px;" data-i18n="customer_info_title">📝 預訂資料填寫</h4>
+
                         <div class="form-group"><input type="text" id="customerName" data-i18n-placeholder="ph_name" placeholder="您的姓名 (必填)" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ddd; border-radius:5px;"></div>
-                        <div class="form-group two-col"><input type="tel" id="customerPhone" data-i18n-placeholder="ph_phone" placeholder="聯絡電話 (必填)" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ddd; border-radius:5px;"><input type="text" id="customerLine" placeholder="FB 或 IG" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ddd; border-radius:5px;"></div>
-                        <div class="form-group"><textarea id="customerNote" data-i18n-placeholder="ph_note" placeholder="其他備註需求 (例如：露營相關、租單車者身高...)" rows="3" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;"></textarea></div>
+                            <input type="text" id="customerName" data-i18n-placeholder="ph_name" placeholder="您的姓名 (必填)" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ddd; border-radius:5px;">
+                        </div>
+
+                            <div class="form-group two-col">
+                                <input type="tel" id="customerPhone" data-i18n-placeholder="ph_phone" placeholder="聯絡電話 (必填)" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ddd; border-radius:5px;">
+                                <input type="text" id="customerLine" placeholder="FB 或 IG" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ddd; border-radius:5px;">
+                            </div>
+                        <div class="form-group">
+                            <textarea id="customerNote" data-i18n-placeholder="ph_note" placeholder="其他備註需求 (例如：露營相關、租單車者身高...)" rows="3" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;"></textarea>
+                        </div>
+
                         <div class="bank-highlight-mobile"></div>
                             <h4>💰 匯款資訊 (訂位後請全額匯款)</h4>
                             <p>銀行：<strong>合作金庫 (006)</strong></p>
@@ -230,9 +240,7 @@
                     </div>
                     <small>⚠️ 請保留轉帳證明，並於跳轉 LINE 後傳送給營主。</small>
                 </div>
-                        <button onclick="submitOrder()" id="submitBtn" style="width:100%; background-color:#d35400; color:white; padding:15px; border:none; border-radius:8px; font-size:1.1rem; cursor:pointer; font-weight:bold;" data-i18n="btn_submit">🚀 確認預訂並送出</button>
-                    </div>
-                </div>
+                <button onclick="submitOrder()" id="submitBtn" style="width:100%; background-color:#d35400; color:white; padding:15px; border:none; border-radius:8px; font-size:1.1rem; cursor:pointer; font-weight:bold;" data-i18n="btn_submit">🚀 確認預訂並送出</button>
             </div>
 
             <div class="info-panel">
