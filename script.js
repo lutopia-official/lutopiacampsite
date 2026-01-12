@@ -790,6 +790,21 @@ function submitOrder() {
     headers: { "Content-Type": "text/plain" }
   })
     .then(() => {
+        let successMsg = "🎉 預訂資料已送出！\n\n";
+        successMsg += "【請務必完成匯款以保留營位】\n";
+        successMsg += "🏦 合作金庫 (006)\n";
+        successMsg += "💰 帳號：5492988007780\n\n";
+        successMsg += "⚠️ 系統將自動開啟 LINE，請務必「貼上」剛剛複製的帳號或截圖回傳給營主確認！";
+
+        alert(successMsg);
+
+        const lineId = "@lutopia";
+        const message = `你好，我是 ${name}，\n我已送出預訂：${dateRange}。\n\n我的匯款帳號後五碼/明細：\n(請在此輸入)\n\n------------------\n提醒自己：\n營區帳號：合作金庫(006) 5492988007780`;
+
+        const encodedMsg = encodeURIComponent(message);
+        const lineUrl = `https://line.me/R/oaMessage/${lineId}/?${encodedMsg}`;
+
+        window.location.href = lineUrl;
       alert(t.sent_success);
       document.getElementById('customerName').value = '';
       document.getElementById('customerPhone').value = '';
@@ -841,4 +856,14 @@ function selectPlan(planValue) {
   toggleInputs();
   const target = document.getElementById('calculatorSection');
   if (target) { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+}
+// 放在 <script> 標籤內的任意位置
+function copyBankInfo() {
+    const account = document.getElementById('bankAccount').innerText;
+    navigator.clipboard.writeText(account).then(() => {
+        alert("✅ 帳號已複製！\n請開啟您的銀行 APP 進行轉帳。");
+    }).catch(err => {
+        console.error('複製失敗', err);
+        alert("複製失敗，請手動選取複製");
+    });
 }
