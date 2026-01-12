@@ -123,9 +123,6 @@ select, input[type="number"], input[type="text"] { width: 100%; padding: 12px; b
    ========================================= */
 /* 請確保這些 ID 都有設定 transition，這樣移入和移出都會有動畫 */
 #btn-zh, #btn-en, #btn-jp {
-    /* 這裡放您原本的按鈕尺寸、字體等設定 */
-    
-    /* ✨ 關鍵屬性：0.3秒的平滑過渡 */
     transition: all 0.3s ease; 
 }
 
@@ -137,7 +134,7 @@ select, input[type="number"], input[type="text"] { width: 100%; padding: 12px; b
 #btn-zh:hover, #btn-zh:active {
     background-color: #52c41a; 
     border-color: #52c41a;     
-    color: #ffffff;            /* 建議配白字以利閱讀 */
+    color: #ffffff;            
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(82, 196, 26, 0.4);
 }
@@ -159,12 +156,13 @@ select, input[type="number"], input[type="text"] { width: 100%; padding: 12px; b
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(255, 77, 79, 0.4);
 }
-/* 規則區 (手機滑動) */
+
+/* 規則區 (手機滑動預設設定，下方會被覆蓋) */
 .rules-section { width: 100%; max-width: 1200px; margin: 30px auto; overflow: hidden; }
 .rules-container { display: flex; flex-direction: row; gap: 15px; overflow-x: auto; padding-bottom: 15px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
 .rules-container::-webkit-scrollbar { height: 6px; }
 .rules-container::-webkit-scrollbar-thumb { background-color: #ccc; border-radius: 10px; }
-.rule-card { background-color: rgba(255, 255, 255, 0.95); padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 5px solid #2c5e50; min-width: 70vw; flex-shrink: 0; scroll-snap-align: center; }
+.rule-card { background-color: rgba(255, 255, 255, 0.95); padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 5px solid #2c5e50; min-width: 90vw; flex-shrink: 0; scroll-snap-align: center; }
 @media (min-width: 1024px) { .rule-card { min-width: 0; flex: 1; } .basic-rules { flex: 3; } .policy-rules { flex: 2; } .rules-container { overflow-x: visible; padding-bottom: 0; } }
 .policy-rules { border-top-color: #d32f2f; }
 .rule-card h3 { margin-top: 0; margin-bottom: 15px; color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px; font-size: 1.2rem; white-space: nowrap; }
@@ -217,6 +215,7 @@ select, input[type="number"], input[type="text"] { width: 100%; padding: 12px; b
 .tag-lite { background: #e3f2fd; color: #1565c0; }
 .tag-full { background: #e8f5e9; color: #2e7d32; }
 .footer-note { background: #f8f9fa; padding: 15px; margin-top: 30px; border-radius: 8px; font-size: 0.9em; color: #666; border-left: 4px solid #ffc107; }
+
 /* 強制匯款資訊醒目化 */
 .bank-highlight-mobile {
     background-color: #fff8e1; /* 亮黃色背景 */
@@ -272,4 +271,23 @@ select, input[type="number"], input[type="text"] { width: 100%; padding: 12px; b
 .copy-btn:active {
     background-color: #1a3e35;
     transform: scale(0.95);
+}
+
+/* =========================================
+   🔥 新增：手機版規則區改為上下排列
+   ========================================= */
+@media (max-width: 768px) {
+    .rules-container {
+        flex-direction: column !important; /* 改為垂直上下排列 */
+        overflow-x: visible !important;    /* 移除橫向滑動 */
+        padding-bottom: 0 !important;
+    }
+
+    .rule-card {
+        min-width: 100% !important; /* 讓卡片寬度佔滿螢幕 */
+        width: 100% !important;
+        flex-shrink: 1 !important;
+        scroll-snap-align: none !important;
+        margin-bottom: 20px; /* 增加兩張卡片之間的距離 */
+    }
 }
