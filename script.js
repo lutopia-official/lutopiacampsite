@@ -81,7 +81,7 @@ const TRANSLATIONS = {
 
     cb_night_rush: "我要夜衝 (21:00-23:00入場)",
     cb_ac: "使用冷氣 (+200元/晚)",
-    cb_pet: "攜帶寵物 (+50元/晚)",
+    cb_pet: "攜帶寵物 (+100元/晚)",
 
     btn_calc: "更新費用", btn_reset: "重新填寫",
     result_title: "試算結果", res_base: "基本費用：", res_addon: "加購費用：", res_rush: "夜衝費用：",
@@ -724,7 +724,8 @@ function calculateTotal() {
   const extraPeopleCost = extraPeople * 300 * nights;
   const extraCarsCost = extraCars * 300 * nights;
   const visitorsCost = visitors * 100;
-  const petCost = bringPet ? (50 * qty * nights) : 0;
+  // 🔥 寵物費用統一為 100元/晚 (依照HTML顯示)
+  const petCost = bringPet ? (100 * qty * nights) : 0;
 
   const totalAddonCost = extraPeopleCost + extraCarsCost + visitorsCost + petCost;
 
@@ -876,6 +877,11 @@ function submitOrder() {
   btn.innerText = "⏳ 處理中...";
   btn.disabled = true;
 
+  // ✅ 抓取後五碼
+  const last5 = document.getElementById('last5').value.trim(); 
+  // ✅ 合併後五碼到備註
+  const noteCombined = (last5 ? `[末五碼:${last5}] ` : "") + note;
+
   const orderData = {
     name: name,
     phone: phone,
@@ -883,7 +889,8 @@ function submitOrder() {
     dateRange: dateRange,
     itemDetails: details,
     totalPrice: total,
-    note: note
+    note: noteCombined, // 傳送合併後的備註給 Google Sheet
+    last5: last5 // 另外傳送後五碼給 LINE 用
   };
 
   fetch(GOOGLE_SCRIPT_URL, {
@@ -900,18 +907,13 @@ function submitOrder() {
         
         alert(successMsg);
 
-        const lineId = "@lutopia";
-        const message = `你好，我是 ${name}，\n我已送出預訂：${dateRange}。\n\n我的匯款帳號後五碼/明細：\n(請在此輸入)\n\n------------------\n提醒自己：\n營區帳號：合作金庫(006) 5492988007780`;
-        
-        const encodedMsg = encodeURIComponent(message);
-        const lineUrl = `https://line.me/R/oaMessage/${lineId}/?${encodedMsg}`;
-        
-        window.location.href = lineUrl;
+        openLineApp(orderData); // ✅ 呼叫 LINE 跳轉函式
 
         document.getElementById('customerName').value = '';
         document.getElementById('customerPhone').value = '';
         document.getElementById('customerLine').value = '';
         document.getElementById('customerNote').value = '';
+        document.getElementById('last5').value = ''; // 清空後五碼
         btn.innerText = "✅ 完成";
         setTimeout(() => { btn.innerText = originalText; btn.disabled = false; }, 3000);
     })
@@ -921,6 +923,44 @@ function submitOrder() {
       btn.innerText = originalText;
       btn.disabled = false;
     });
+}
+
+// ✅ 新增：LINE 跳轉函式
+function openLineApp(formData) {
+  const LINE_ID = "@lutopia"; 
+
+  // 您的合作金庫帳號
+  const BANK_INFO = `
+【匯款資訊】
+銀行代碼：006 (合作金庫)
+銀行帳號：5492-9880-07780
+戶名：錄托邦露營區
+  `.trim();
+
+  // 取得後五碼 (如果沒填就顯示「尚未填寫」)
+  const last5Text = formData.last5 ? formData.last5 : "尚未匯款";
+
+  // 組合訊息內容 (加入後五碼欄位)
+  const message = `
+Hi 錄托邦，我剛剛在官網下單了！
+這是我的訂單資訊，請確認：
+
+👤 姓名：${formData.name}
+📞 電話：${formData.phone}
+📅 日期：${formData.dateRange}
+⛺ 項目：${formData.itemDetails}
+💰 總金額：$${formData.totalPrice}
+🏧 帳號末五碼：${last5Text}
+📝 備註：${formData.note || "無"}
+
+${BANK_INFO}
+
+請幫我保留營位，我匯款後會再通知您！謝謝！
+  `.trim();
+
+  const encodedMsg = encodeURIComponent(message);
+  const lineUrl = `https://line.me/R/oaMessage/${LINE_ID}/?${encodedMsg}`;
+  window.location.href = lineUrl;
 }
 
 function hideResult() {
@@ -953,6 +993,10 @@ function resetForm() {
   if(carBedId) carBedId.value = '';
   const carBedTent = document.getElementById('carBedTent');
   if(carBedTent) carBedTent.checked = false;
+  
+  // 清空後五碼
+  const last5 = document.getElementById('last5');
+  if(last5) last5.value = '';
 
   hideResult();
 }
