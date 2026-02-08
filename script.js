@@ -82,7 +82,7 @@ const TRANSLATIONS = {
 
     cb_night_rush: "我要夜衝 (21:00-23:00入場)",
     cb_ac: "使用冷氣 (+200元/晚)",
-    cb_pet: "攜帶寵物 (+50元/晚)",
+    cb_pet: "攜帶寵物 (+100元/晚)",
 
     btn_calc: "更新費用", btn_reset: "重新填寫",
     result_title: "試算結果", res_base: "基本費用：", res_addon: "加購費用：", res_rush: "夜衝費用：",
@@ -716,7 +716,7 @@ function calculateTotal() {
   const extraPeopleCost = extraPeople * 300 * nights;
   const extraCarsCost = extraCars * 300 * nights;
   const visitorsCost = visitors * 100;
-  const petCost = bringPet ? (50 * qty * nights) : 0;
+  const petCost = bringPet ? (100 * qty * nights) : 0;
 
   const totalAddonCost = extraPeopleCost + extraCarsCost + visitorsCost + petCost;
 
