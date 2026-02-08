@@ -38,7 +38,6 @@ function stripNightRushLabels() {
   const sel = document.getElementById('visitTime');
   if (!sel) return;
 
-  // ✅ 同時支援半形()與全形（）
   const re = /\s*[\(\（]\s*(夜衝開始|夜衝結束|最晚入場|Night Rush Start|Night Rush End|Latest Entry|前泊開始|前泊終了)\s*[\)\）]\s*/g;
 
   Array.from(sel.options).forEach(opt => {
@@ -82,7 +81,7 @@ const TRANSLATIONS = {
 
     cb_night_rush: "我要夜衝 (21:00-23:00入場)",
     cb_ac: "使用冷氣 (+200元/晚)",
-    cb_pet: "攜帶寵物 (+100元/晚)",
+    cb_pet: "攜帶寵物 (+50元/晚)",
 
     btn_calc: "更新費用", btn_reset: "重新填寫",
     result_title: "試算結果", res_base: "基本費用：", res_addon: "加購費用：", res_rush: "夜衝費用：",
@@ -231,7 +230,7 @@ const CAMPING_CONFIG = {
   solo: { rates: { weekday: 500, weekend: 600, holiday: 1200 }, nightRush: { weekday: 300, weekend: 400, holiday: 500 }, discountType: "fixed_amount" },
   car: { rates: { weekday: 600, weekend: 800, holiday: 1200 }, nightRush: { weekday: 500, weekend: 600, holiday: 800 }, discountType: "fixed_amount" },
   
-  // 🔥 新增：車床天地會員的價格設定 (依據您的圖片)
+  // 🔥 車床天地會員的價格設定
   car_bed_vip: { 
       // 改用陣列/物件存不同人數的價格
       // 格式：people_rates[人數] = { weekday: 平日價, weekend: 假日價 }
@@ -244,10 +243,10 @@ const CAMPING_CONFIG = {
       // 搭帳篷(車邊/車尾)的加價
       tent_add_on: { weekday: 50, weekend: 50 }, 
       
-      // 車床VIP冷氣加購價 (依圖片是+50)
+      // 🔥 車床VIP冷氣加購價設定為 50
       ac_fee: 50,
 
-      // 夜衝價格 (這裡示範比照平日價，如需不同可修改)
+      // 夜衝價格
       nightRush: { weekday: 300, weekend: 400, holiday: 500 }, 
       discountType: "none" 
   },
@@ -331,13 +330,22 @@ function toggleInputs() {
     nightsBlock.classList.remove('hidden');
     if (campingRules) campingRules.classList.remove('hidden');
     
-    // 如果是車床會員，顯示專屬區塊；否則顯示一般加購區塊
+    // 🔥【關鍵邏輯】如果是車床會員，顯示專屬區塊；並將冷氣選項文字改為 $50
     if (type === 'car_bed_vip') {
         if(carBedBlock) carBedBlock.classList.remove('hidden');
         // 車床天地仍需要顯示冷氣與寵物選項
         extraOptions.classList.remove('hidden'); 
+        
+        // 🔥 動態修改文字：讓客人看到是 +50
+        const acSpan = document.querySelector('[data-i18n="cb_ac"]');
+        if(acSpan) acSpan.innerText = "使用冷氣 (+50元/晚)";
+        
     } else {
         if(addonBlock) addonBlock.classList.remove('hidden');
+        
+        // 恢復正常文字
+        const acSpan = document.querySelector('[data-i18n="cb_ac"]');
+        if(acSpan) acSpan.innerText = TRANSLATIONS[currentLang].cb_ac || "使用冷氣 (+200元/晚)";
     }
 
     const isFullBooking = (type === 'full_basic' || type === 'full_vans' || type === 'full_all');
@@ -697,9 +705,9 @@ function calculateTotal() {
     }
 
     if (useAC) {
-        // 🔥 車床天地會員冷氣費只要 50
+        // 🔥【修改重點】車床天地會員冷氣費只要 50
         if (type === 'car_bed_vip') {
-            acPrice += config.ac_fee * qty; 
+            acPrice += 50 * qty; 
         } else {
             acPrice += 200 * qty;
         }
@@ -716,7 +724,7 @@ function calculateTotal() {
   const extraPeopleCost = extraPeople * 300 * nights;
   const extraCarsCost = extraCars * 300 * nights;
   const visitorsCost = visitors * 100;
-  const petCost = bringPet ? (100 * qty * nights) : 0;
+  const petCost = bringPet ? (50 * qty * nights) : 0;
 
   const totalAddonCost = extraPeopleCost + extraCarsCost + visitorsCost + petCost;
 
