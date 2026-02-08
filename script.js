@@ -7,7 +7,7 @@ let selectedDates = []; // ✅ 允許 [單日] or [起訖兩日]
 let GLOBAL_BLOCKED_DATA = { full: [], starcraft: [], dt392: [], room: [] };
 
 // ⚠️ 請確認這是您最新的網址
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzpiqltgo7ewZnP3fGJWV0fgszW5OMmBsDWBH0pIbh3sFzDwyOqYEx3WdYgkXRJxBS2/exec";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwE4JzNMfmaLDF997ZphXIZklweAqwkKiij-jueG_AhQHGuiV1mAHaUG70zt2RLWpjo7g/exec";
 
 // ✅ 記住「預計抵達/取車時間」原始選項文字（用於切換類型時還原）
 let VISIT_TIME_ORIGINAL_OPTIONS = null;
