@@ -198,17 +198,13 @@
                 <div id="bikeBlock" class="hidden"><div class="form-group two-col"><div><label for="bikeQty" data-i18n="label_bike_qty">租借數量 (台)：</label><input type="number" id="bikeQty" value="1" min="1" max="20" onchange="calculateTotal()"></div><div><label for="bikeScheme" data-i18n="label_bike_scheme">租借方案：</label><select id="bikeScheme" onchange="calculateTotal()"><option value="2hr">2hr ($150)</option><option value="4hr">4hr ($250)</option><option value="day">Day ($400)</option><option value="24hr">24H ($600)</option><option value="15day">15 Days ($2,500)</option><option value="30day">30 Days ($3,500)</option></select></div></div></div>
 
                 <div id="addonBlock" class="hidden" style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px dashed #ced4da;">
-                    <h4 style="margin: 0 0 10px 0; color: #495057; font-size: 0.95rem;" data-i18n="addon_title">➕ 加購選項 (人/車/訪客)</h4>
+                    <h4 style="margin: 0 0 10px 0; color: #495057; font-size: 0.95rem;" data-i18n="addon_title">➕ 加購選項 (人/訪客)</h4>
                     <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                         <div>
                             <label style="font-size:0.85rem;"><span data-i18n="label_extra_people">加人 ($300/人)</span><br><small style="color:#888;" data-i18n="label_kid_free">*小一以下免費</small></label>
                             <input type="number" id="extraPeople" value="0" min="0" onchange="calculateTotal()" style="width:100%; padding:8px;">
                         </div>
                         <div>
-                            <label style="font-size:0.85rem;" data-i18n="label_extra_car">加車 ($300/車，拖車不在此限)：</label>
-                            <input type="number" id="extraCars" value="0" min="0" onchange="calculateTotal()" style="width:100%; padding:8px; margin-top: 18px;">
-                        </div>
-                        <div style="grid-column: span 2;">
                             <label style="font-size:0.85rem;" data-i18n="label_visitor">訪客 ($100/人，23:00離場)：</label>
                             <input type="number" id="visitors" value="0" min="0" onchange="calculateTotal()" style="width:100%; padding:8px;">
                         </div>

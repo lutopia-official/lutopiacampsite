@@ -717,17 +717,16 @@ function calculateTotal() {
   }
 
   // 加人/加車/訪客 計算
+  // ✅ 移除加車計算
   const extraPeople = parseInt(document.getElementById('extraPeople').value) || 0;
-  const extraCars = parseInt(document.getElementById('extraCars').value) || 0;
   const visitors = parseInt(document.getElementById('visitors').value) || 0;
 
   const extraPeopleCost = extraPeople * 300 * nights;
-  const extraCarsCost = extraCars * 300 * nights;
   const visitorsCost = visitors * 100;
   // 🔥 寵物費用統一為 100元/晚 (依照HTML顯示)
   const petCost = bringPet ? (100 * qty * nights) : 0;
 
-  const totalAddonCost = extraPeopleCost + extraCarsCost + visitorsCost + petCost;
+  const totalAddonCost = extraPeopleCost + visitorsCost + petCost;
 
   if (totalAddonCost > 0) {
     if (rowAddons) rowAddons.classList.remove('hidden');
@@ -830,11 +829,10 @@ function submitOrder() {
     details += ` / ${nights}晚`;
 
     // 取得加購資料
+    // ✅ 移除加車邏輯
     const extraPeople = parseInt(document.getElementById('extraPeople').value);
-    const extraCars = parseInt(document.getElementById('extraCars').value);
     const visitors = parseInt(document.getElementById('visitors').value);
     if (extraPeople > 0) details += ` / 加人:${extraPeople}`;
-    if (extraCars > 0) details += ` / 加車:${extraCars}`;
     if (visitors > 0) details += ` / 訪客:${visitors}`;
 
     // 🔥 車床天地 VIP 專屬資訊
@@ -984,7 +982,7 @@ function resetForm() {
 
   document.getElementById('bikeQty').value = 1;
   document.getElementById('extraPeople').value = 0;
-  document.getElementById('extraCars').value = 0;
+  // ✅ 移除重置加車
   document.getElementById('visitors').value = 0;
   document.getElementById('visitTime').selectedIndex = 0;
   
