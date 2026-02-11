@@ -2,14 +2,14 @@
    0. 全域變數與設定
 ========================================== */
 let currentLang = 'zh';
-let selectedDates = []; // ✅ 允許 [單日] or [起訖兩日]
+let selectedDates = []; 
 
 let GLOBAL_BLOCKED_DATA = { full: [], starcraft: [], dt392: [], room: [] };
 
 // ⚠️ 請確認這是您最新的網址
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwE4JzNMfmaLDF997ZphXIZklweAqwkKiij-jueG_AhQHGuiV1mAHaUG70zt2RLWpjo7g/exec";
 
-// ✅ 記住「預計抵達/取車時間」原始選項文字（用於切換類型時還原）
+// ✅ 記住「預計抵達/取車時間」原始選項文字
 let VISIT_TIME_ORIGINAL_OPTIONS = null;
 
 function cacheVisitTimeOptions() {
@@ -33,13 +33,10 @@ function restoreVisitTimeOptions() {
   });
 }
 
-// ✅ 免裝備住宿：移除選項文字中的夜衝提示（不刪除時間，只刪括號文字）
 function stripNightRushLabels() {
   const sel = document.getElementById('visitTime');
   if (!sel) return;
-
   const re = /\s*[\(\（]\s*(夜衝開始|夜衝結束|最晚入場|Night Rush Start|Night Rush End|Latest Entry|前泊開始|前泊終了)\s*[\)\）]\s*/g;
-
   Array.from(sel.options).forEach(opt => {
     opt.text = String(opt.text || '').replace(re, '');
   });
@@ -78,11 +75,9 @@ const TRANSLATIONS = {
     label_kid_free: "*小一以下免費",
     label_extra_car: "加車 ($300/車，拖車不在此限)",
     label_visitor: "訪客 ($100/人，23:00離場)",
-
     cb_night_rush: "我要夜衝 (21:00-23:00入場)",
     cb_ac: "使用冷氣 (+200元/晚)",
     cb_pet: "攜帶寵物 (+100元/晚)",
-
     btn_calc: "更新費用", btn_reset: "重新填寫",
     result_title: "試算結果", res_base: "基本費用：", res_addon: "加購費用：", res_rush: "夜衝費用：",
     res_ac: "冷氣加價：", res_discount: "符合折扣：", res_total: "總計金額：",
@@ -91,7 +86,6 @@ const TRANSLATIONS = {
     alert_fill: "請務必填寫「姓名」與「電話」才能送出訂單喔！",
     confirm_room_policy: "🛑【訂位前請確認】\n\n1. 🏡 錄托邦住宿入住時間：下午 15:00 以後。\n   (請勿提早，可以提早放置行李，請先告知)\n\n2. ♻️ 環保旅宿：不提供一次性備品。\n   (請自備毛巾、牙刷)\n\n請問您是否接受並繼續訂位？",
     sent_success: "🎉 預訂成功！\n\n全額匯款後才算預訂完成唷，退費標準請詳見網頁下方。",
-
     rule_title_basic: "🔷 收費標準與營區規定", rule_sub_price: "💰 營位計費標準",
     rule_li_unit: "基本單位：4人 / 1車 / 1帳 / 1炊事帳。",
     rule_li_add_person: "加人：多1人加 $300 (國小一年級以下免費)。",
@@ -105,7 +99,6 @@ const TRANSLATIONS = {
     ref_14: "14天前", ref_desc_14: "退 100% (扣手續費) 或改期", ref_10: "10-13天前", ref_desc_10: "退 70% (2日內補差額)",
     ref_7: "7-9天前", ref_desc_7: "退 50%", ref_4: "4-6天前", ref_desc_4: "退 30%", ref_0: "0-3天前", ref_desc_0: "視同取消，不退費",
     rule_sub_bank: "💰 付款資訊 (完成訂位後請全額匯款)", rule_bank_note: "請保留轉帳證明並回傳。",
-
     opt_inc_dt392: "(含 大馳 DT392)", opt_inc_starcraft: "(含 StarCraft 美式復古拖車)",
     opt_inc_room: "(含 錄托邦民宿房間)", opt_inc_both_rv: "(含 StarCraft + DT392)",
     opt_inc_room_starcraft: "(含 StarCraft + 民宿房間)", opt_inc_room_dt392: "(含 DT392 + 民宿房間)",
@@ -116,46 +109,40 @@ const TRANSLATIONS = {
 };
 
 // ==========================================
-// 📅 設定假日與補班日 (2026 年版)
+// 📅 設定假日 (包含連假)
 // ==========================================
 const HOLIDAYS = [
-    // --- 2026 年 (民國115年) ---
-    "2026-01-01", // 元旦
-    
-    // 農曆過年 (預估 2/14-2/22)
+    // 2026 元旦
+    "2026-01-01", 
+    // 2026 過年 (這段在下方 CNY_DAYS 也有，不影響)
     "2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17", "2026-02-18", 
     "2026-02-19", "2026-02-20", "2026-02-21", "2026-02-22", 
-
     // 228
     "2026-02-27", "2026-02-28", "2026-03-01", 
-
     // 清明
     "2026-04-03", "2026-04-04", "2026-04-05", "2026-04-06",
-
     // 勞動
     "2026-05-01", "2026-05-02", "2026-05-03",
-
     // 端午
     "2026-06-19", "2026-06-20", "2026-06-21",
-
     // 中秋
     "2026-09-25", "2026-09-26", "2026-09-27",
-
     // 國慶
     "2026-10-09", "2026-10-10", "2026-10-11",
-
     // 跨年
-    "2026-12-31",
-
-    // --- 2027 年預估 ---
-    "2027-01-01",
-    "2027-02-05", "2027-02-06", "2027-02-07", "2027-02-08", "2027-02-09"
+    "2026-12-31"
 ];
 
-// 定義補班日
+// ✅ 補班日
 const MAKEUP_DAYS = [
     "2026-02-07", 
     "2026-02-21"
+];
+
+// ✅ 【新增】定義過年期間 (Chinese New Year)
+const CNY_DAYS = [
+    "2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17", 
+    "2026-02-18", "2026-02-19", "2026-02-20", "2026-02-21", "2026-02-22"
 ];
 
 function changeLanguage(lang) {
@@ -220,44 +207,106 @@ flatpickr("#dateRange", {
   locale: "zh",
   onChange: function (dates) {
     updateNights(dates);
+    checkCarBedVipAvailability(); 
     calculateTotal();
   }
 });
 
-const CAMPING_CONFIG = {
-  tent: { rates: { weekday: 700, weekend: 800, holiday: 1200 }, nightRush: { weekday: 500, weekend: 600, holiday: 800 }, discountType: "fixed_amount" },
-  moto: { rates: { weekday: 500, weekend: 600, holiday: 1200 }, nightRush: { weekday: 300, weekend: 400, holiday: 500 }, discountType: "fixed_amount" },
-  solo: { rates: { weekday: 500, weekend: 600, holiday: 1200 }, nightRush: { weekday: 300, weekend: 400, holiday: 500 }, discountType: "fixed_amount" },
-  car: { rates: { weekday: 600, weekend: 800, holiday: 1200 }, nightRush: { weekday: 500, weekend: 600, holiday: 800 }, discountType: "fixed_amount" },
-  
-  // 🔥 車床天地會員的價格設定
-  car_bed_vip: { 
-      // 改用陣列/物件存不同人數的價格
-      // 格式：people_rates[人數] = { weekday: 平日價, weekend: 假日價 }
-      people_rates: {
-          1: { weekday: 250, weekend: 350 },
-          2: { weekday: 300, weekend: 400 },
-          3: { weekday: 400, weekend: 500 },
-          4: { weekday: 500, weekend: 600 }
-      },
-      // 搭帳篷(車邊/車尾)的加價
-      tent_add_on: { weekday: 50, weekend: 50 }, 
-      
-      // 🔥 車床VIP冷氣加購價設定為 50
-      ac_fee: 50,
+// 檢查車床天地連假限制
+function checkCarBedVipAvailability() {
+    const carBedOption = document.querySelector('option[value="car_bed_vip"]');
+    if (!carBedOption) return;
 
-      // 夜衝價格
-      nightRush: { weekday: 300, weekend: 400, holiday: 500 }, 
+    let hasHoliday = false;
+    if (selectedDates.length >= 2) {
+        let currentDate = new Date(selectedDates[0]);
+        const endDate = new Date(selectedDates[1]);
+        while (currentDate < endDate) {
+            const dateStr = formatDate(currentDate);
+            // 只要是 HOLIDAYS 或 CNY_DAYS 都算連假 (除了補班日)
+            if ((HOLIDAYS.includes(dateStr) || CNY_DAYS.includes(dateStr)) && !MAKEUP_DAYS.includes(dateStr)) {
+                hasHoliday = true;
+                break;
+            }
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
+    }
+
+    const campTypeSelect = document.getElementById('campType');
+    if (hasHoliday) {
+        carBedOption.disabled = true;
+        carBedOption.text = "🚙 車床天地特約 (連假不適用)";
+        if (campTypeSelect.value === 'car_bed_vip') {
+            alert("⚠️ 抱歉，車床天地特約方案「連假期間」不適用，請改選一般車泊或其他方案。");
+            campTypeSelect.value = "";
+            toggleInputs();
+        }
+    } else {
+        carBedOption.disabled = false;
+        carBedOption.text = "🚙 車床天地特約會員 (需驗證編號)";
+    }
+}
+
+// ==========================================
+// 💰 價格設定 (新增 cny: 過年價格)
+// ==========================================
+const CAMPING_CONFIG = {
+  // 1. 自搭帳篷
+  tent: { 
+      rates: { weekday: 700, weekend: 800, holiday: 1000, cny: 1200 }, 
+      nightRush: { weekday: 500, weekend: 600, holiday: 800, cny: 800 }, 
+      discountType: "fixed_amount" 
+  },
+  
+  // 2. 機車露營 (未指定過年，暫訂同連假)
+  moto: { rates: { weekday: 500, weekend: 600, holiday: 1200, cny: 1200 }, nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 }, discountType: "fixed_amount" },
+  
+  // 3. 單人 (未指定過年，暫訂同連假)
+  solo: { rates: { weekday: 500, weekend: 600, holiday: 1200, cny: 1200 }, nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 }, discountType: "fixed_amount" },
+  
+  // 4. 車泊 (Car)
+  car: { 
+      rates: { weekday: 600, weekend: 800, holiday: 1000, cny: 1200 }, 
+      nightRush: { weekday: 500, weekend: 600, holiday: 800, cny: 800 }, 
+      discountType: "fixed_amount" 
+  },
+  
+  // 5. 車床天地 (連假不可訂，所以 cny 設多少沒差，設為 holiday 以防萬一)
+  car_bed_vip: { 
+      people_rates: {
+          1: { weekday: 250, weekend: 350, holiday: 350, cny: 350 },
+          2: { weekday: 300, weekend: 400, holiday: 400, cny: 400 },
+          3: { weekday: 400, weekend: 500, holiday: 500, cny: 500 },
+          4: { weekday: 500, weekend: 600, holiday: 600, cny: 600 }
+      },
+      tent_add_on: { weekday: 50, weekend: 50, holiday: 50, cny: 50 }, 
+      ac_fee: 50,
+      nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 }, 
       discountType: "none" 
   },
 
-  camper: { rates: { weekday: 800, weekend: 1000, holiday: 1500 }, nightRush: { weekday: 600, weekend: 700, holiday: 800 }, discountType: "fixed_amount_premium" },
-  starcraft: { rates: { weekday: 1800, weekend: 2000, holiday: 2200 }, discountType: "percentage" },
-  dt392: { rates: { weekday: 1800, weekend: 2000, holiday: 2200 }, discountType: "percentage" },
-  room: { rates: { weekday: 2000, weekend: 2500, holiday: 2800 }, discountType: "percentage" },
-  full_basic: { rates: { weekday: 7000, weekend: 10000, holiday: 15000 }, discountType: "full_venue_promo" },
-  full_vans: { rates: { weekday: 10000, weekend: 16000, holiday: 18000 }, discountType: "full_venue_promo" },
-  full_all: { rates: { weekday: 13000, weekend: 18000, holiday: 20000 }, discountType: "full_venue_promo" },
+  // 6. 自備露營車 (Camper)
+  camper: { 
+      rates: { weekday: 800, weekend: 1000, holiday: 1200, cny: 1500 }, 
+      nightRush: { weekday: 600, weekend: 700, holiday: 800, cny: 800 }, 
+      discountType: "fixed_amount_premium" 
+  },
+  
+  // 7. StarCraft
+  starcraft: { rates: { weekday: 2000, weekend: 2200, holiday: 2400, cny: 2400 }, discountType: "percentage" },
+  
+  // 8. DT392
+  dt392: { rates: { weekday: 1800, weekend: 2000, holiday: 2200, cny: 2200 }, discountType: "percentage" },
+  
+  // 9. 民宿
+  room: { rates: { weekday: 2000, weekend: 2500, holiday: 2800, cny: 2800 }, discountType: "percentage" },
+  
+  // 10. 包場
+  full_basic: { rates: { weekday: 7000, weekend: 10000, holiday: 15000, cny: 15000 }, discountType: "full_venue_promo" },
+  full_vans: { rates: { weekday: 10000, weekend: 16000, holiday: 18000, cny: 18000 }, discountType: "full_venue_promo" },
+  full_all: { rates: { weekday: 13000, weekend: 18000, holiday: 20000, cny: 20000 }, discountType: "full_venue_promo" },
+  
+  // 11. 其他
   venue_hourly: { type: "venue_hourly", weekdayRates: { '3hr': 3000, '5hr': 4500, '6hr': 6000, '8hr': 7500, 'day': 12000 }, holidayRates: { '3hr': 4500, '5hr': null, '6hr': 5500, '8hr': 7000, 'day': 15000 } },
   bicycle: { type: "bicycle", rates: { '2hr': 150, '4hr': 250, 'day': 400, '24hr': 600, '15day': 2500, '30day': 3500 } }
 };
@@ -276,9 +325,7 @@ function toggleInputs() {
   const guestListBlock = document.getElementById('guestListBlock');
   const unitQtySelect = document.getElementById('unitQty');
   
-  // 🔥 車床天地專屬區塊
   const carBedBlock = document.getElementById('carBedBlock');
-
   const t = TRANSLATIONS[currentLang] || TRANSLATIONS['zh'];
 
   let newOptions = "";
@@ -299,7 +346,6 @@ function toggleInputs() {
     unitQtySelect.value = 1;
   }
 
-  // 先隱藏所有動態區塊
   nightsBlock.classList.add('hidden');
   rentalBlock.classList.add('hidden');
   bikeBlock.classList.add('hidden');
@@ -326,24 +372,17 @@ function toggleInputs() {
   } else if (type === 'bicycle') {
     bikeBlock.classList.remove('hidden');
   } else {
-    // 住宿類共同顯示
     nightsBlock.classList.remove('hidden');
     if (campingRules) campingRules.classList.remove('hidden');
     
-    // 🔥【關鍵邏輯】如果是車床會員，顯示專屬區塊；並將冷氣選項文字改為 $50
     if (type === 'car_bed_vip') {
         if(carBedBlock) carBedBlock.classList.remove('hidden');
-        // 車床天地仍需要顯示冷氣與寵物選項
         extraOptions.classList.remove('hidden'); 
-        
-        // 🔥 動態修改文字：讓客人看到是 +50
         const acSpan = document.querySelector('[data-i18n="cb_ac"]');
         if(acSpan) acSpan.innerText = "使用冷氣 (+50元/晚)";
         
     } else {
         if(addonBlock) addonBlock.classList.remove('hidden');
-        
-        // 恢復正常文字
         const acSpan = document.querySelector('[data-i18n="cb_ac"]');
         if(acSpan) acSpan.innerText = TRANSLATIONS[currentLang].cb_ac || "使用冷氣 (+200元/晚)";
     }
@@ -358,7 +397,6 @@ function toggleInputs() {
     const checkInText = document.getElementById('checkInTimeText');
     const visitTimeSelect = document.getElementById('visitTime');
 
-    // ✅ 每次切換類型先還原(包含夜衝字樣)
     restoreVisitTimeOptions();
 
     if (type === 'room' || type === 'starcraft' || type === 'dt392') {
@@ -380,10 +418,7 @@ function toggleInputs() {
           visitTimeSelect.value = "";
         }
       }
-
-      // ✅ 免裝備：移除 (夜衝開始)/(夜衝結束)/(最晚入場)
       stripNightRushLabels();
-
     } else {
       if (checkInText) {
         checkInText.innerText = TRANSLATIONS[currentLang].checkin_time_val;
@@ -413,7 +448,6 @@ function toggleInputs() {
       }
     }
 
-    // 露營類 (含車床VIP) 顯示選項
     if (type === 'tent' || type === 'car' || type === 'camper' || type === 'moto' || type === 'solo' || type === 'car_bed_vip') {
       extraOptions.classList.remove('hidden');
     } else {
@@ -424,13 +458,11 @@ function toggleInputs() {
     }
   }
 
-  // 隱藏不需要數量的類型
   if (type.includes('full') || type === 'bicycle' || type === 'venue_hourly') {
     if (unitQtyBlock) unitQtyBlock.classList.add('hidden');
     if (guestListBlock) guestListBlock.classList.add('hidden');
     document.getElementById('unitQty').value = 1;
   } else {
-    // 車床VIP也需要選車數(預設1)，所以顯示
     if (unitQtyBlock) unitQtyBlock.classList.remove('hidden');
     generateGuestInputs();
   }
@@ -502,7 +534,6 @@ function generateGuestInputs() {
 
 function updateNights(dates) {
   selectedDates = Array.isArray(dates) ? dates : [];
-
   if (dates.length === 2) {
     const diffTime = Math.abs(dates[1] - dates[0]);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
@@ -533,43 +564,34 @@ function calculateTotal() {
   const discountRow = document.getElementById('discountPrice')?.parentElement;
   if (discountRow) discountRow.classList.remove('hidden');
 
-  // 1) 單車
   if (type === 'bicycle') {
     if (selectedDates.length < 1) { hideResult(); return; }
-
     const acBox = document.getElementById('useAC');
     const petBox = document.getElementById('bringPet');
     if (acBox) acBox.checked = false;
     if (petBox) petBox.checked = false;
-
     const qty = parseInt(document.getElementById('bikeQty').value) || 1;
     const scheme = document.getElementById('bikeScheme').value;
     const finalPrice = (config.rates[scheme] || 0) * qty;
-
     document.getElementById('basePrice').innerText = finalPrice;
     document.getElementById('addonPrice').innerText = 0;
     document.getElementById('rushPrice').innerText = 0;
     document.getElementById('acPrice').innerText = 0;
     document.getElementById('discountPrice').innerText = 0;
     document.getElementById('finalTotal').innerText = finalPrice;
-
     if (discountRow) discountRow.classList.add('hidden');
     document.getElementById('resultBox').classList.remove('hidden');
     return;
   }
 
-  // 2) 場地
   if (type === 'venue_hourly') {
     if (selectedDates.length < 1) { hideResult(); return; }
-
     const scheme = document.getElementById('rentalScheme').value;
     const checkInDate = new Date(selectedDates[0]);
     const dateStr = formatDate(checkInDate);
     const dayOfWeek = checkInDate.getDay();
-
     let isVenueHoliday = (dayOfWeek === 5 || dayOfWeek === 6 || dayOfWeek === 0 || HOLIDAYS.includes(dateStr));
     if (MAKEUP_DAYS.includes(dateStr)) { isVenueHoliday = false; }
-
     let finalPrice = 0;
     if (isVenueHoliday) {
       if (scheme === '5hr') {
@@ -582,22 +604,18 @@ function calculateTotal() {
     } else {
       finalPrice = config.weekdayRates[scheme];
     }
-
     document.getElementById('basePrice').innerText = finalPrice;
     document.getElementById('addonPrice').innerText = 0;
     document.getElementById('rushPrice').innerText = 0;
     document.getElementById('acPrice').innerText = 0;
     document.getElementById('discountPrice').innerText = 0;
     document.getElementById('finalTotal').innerText = finalPrice;
-
     if (discountRow) discountRow.classList.add('hidden');
     document.getElementById('resultBox').classList.remove('hidden');
     return;
   }
 
-  // 3) 住宿/露營
   if (selectedDates.length < 2) { hideResult(); return; }
-
   const nights = parseInt(document.getElementById('nights').value);
   if (nights < 1) { hideResult(); return; }
 
@@ -631,44 +649,41 @@ function calculateTotal() {
     const isMakeup = MAKEUP_DAYS.includes(dateStr);
 
     let rateType = 'weekday';
-    if (isMakeup) rateType = 'weekday';
-    else if (HOLIDAYS.includes(dateStr)) rateType = 'holiday';
-    else if (dayOfWeek === 5 || dayOfWeek === 6) rateType = 'weekend';
+    
+    // ✅ 【新增】判斷優先順序：過年 > 補班 > 連假 > 週末 > 平日
+    if (CNY_DAYS.includes(dateStr)) {
+        rateType = 'cny';
+    } else if (isMakeup) {
+        rateType = 'weekday';
+    } else if (HOLIDAYS.includes(dateStr)) {
+        rateType = 'holiday';
+    } else if (dayOfWeek === 5 || dayOfWeek === 6) {
+        rateType = 'weekend';
+    }
 
     if (dayOfWeek === 6 && !isMakeup) hasSaturday = true;
-    if (HOLIDAYS.includes(dateStr)) isHolidayForDiscount = true;
+    if (HOLIDAYS.includes(dateStr) || CNY_DAYS.includes(dateStr)) isHolidayForDiscount = true;
 
     let dailyBase = 0;
-    const rate_room = CAMPING_CONFIG.room.rates[rateType];
-    const rate_star = CAMPING_CONFIG.starcraft.rates[rateType];
-    const rate_dt = CAMPING_CONFIG.dt392.rates[rateType];
+    const rate_room = config.rates && config.rates[rateType] ? config.rates[rateType] : config.rates['holiday'];
+    const rate_star = CAMPING_CONFIG.starcraft.rates[rateType] || CAMPING_CONFIG.starcraft.rates['holiday'];
+    const rate_dt = CAMPING_CONFIG.dt392.rates[rateType] || CAMPING_CONFIG.dt392.rates['holiday'];
 
-    // 🔥🔥🔥 車床天地專屬計算邏輯 (開始) 🔥🔥🔥
     if (type === 'car_bed_vip') {
-        // 1. 取得選擇的人數
         const pQty = parseInt(document.getElementById('carBedPeople').value) || 2;
-        
-        // 2. 查表取得基礎價格
-        // 注意：如果遇到連假(holiday)，圖片說「無特約」，這裡示範用原價(假日價)+100
         let personPrice = 0;
-        if (rateType === 'holiday') {
-            // 連假無特約，暫時邏輯：比照假日價 + 200 (或設為原價)
-            personPrice = (config.people_rates[pQty]['weekend']) + 200; 
-        } else {
+        // 確保有 cny 價格，沒有就 fallback 到 weekend
+        if (config.people_rates[pQty][rateType] !== undefined) {
             personPrice = config.people_rates[pQty][rateType];
+        } else {
+            personPrice = config.people_rates[pQty]['weekend'];
         }
-
-        // 3. 判斷是否搭帳 (車邊帳/車尾帳)
         const hasTent = document.getElementById('carBedTent').checked;
         let tentFee = 0;
         if (hasTent) {
             tentFee = config.tent_add_on[rateType] || 50; 
         }
-
-        dailyBase = (personPrice + tentFee) * qty; // qty 是車數
-    
-    // 🔥🔥🔥 車床天地邏輯 (結束) 🔥🔥🔥
-
+        dailyBase = (personPrice + tentFee) * qty; 
     } else if (type === 'room') {
       if (qty === 1) dailyBase = rate_room;
       else if (qty === 2) dailyBase = rate_room + rate_star;
@@ -685,7 +700,9 @@ function calculateTotal() {
       else if (qty === 3) dailyBase = rate_dt + rate_star;
       else if (qty === 4) dailyBase = rate_dt + rate_room + rate_star;
     } else {
-      dailyBase = (config.rates[rateType] || 0) * qty;
+      // 安全取價，若無設定 cny 則 fallback 到 holiday
+      dailyBase = (config.rates[rateType] !== undefined) ? config.rates[rateType] : config.rates['holiday'];
+      dailyBase *= qty;
     }
 
     basePrice += dailyBase;
@@ -693,19 +710,18 @@ function calculateTotal() {
     if (i === 0 && isNightRush && config.nightRush) {
       const rushType = rateType;
       if (type === 'camper') {
-        rushPrice += (config.nightRush[rushType] || 0) * 0.8 * qty;
+        const rushRate = config.nightRush[rushType] || config.nightRush['holiday'];
+        rushPrice += rushRate * 0.8 * qty;
       } else if (type === 'car_bed_vip') {
-        // 車床VIP夜衝暫時比照一般
-        rushPrice += (config.nightRush[rushType] || 0) * qty;
+        rushPrice += (config.nightRush[rushType] || config.nightRush['holiday']) * qty;
       } else if (type === 'starcraft' || type === 'dt392' || type === 'room') {
         // 不計算
       } else {
-        rushPrice += (config.nightRush[rushType] || 0) * qty;
+        rushPrice += (config.nightRush[rushType] || config.nightRush['holiday']) * qty;
       }
     }
 
     if (useAC) {
-        // 🔥【修改重點】車床天地會員冷氣費只要 50
         if (type === 'car_bed_vip') {
             acPrice += 50 * qty; 
         } else {
@@ -716,16 +732,11 @@ function calculateTotal() {
     currentDate.setDate(currentDate.getDate() + 1);
   }
 
-  // 加人/加車/訪客 計算
-  // ✅ 移除加車計算
   const extraPeople = parseInt(document.getElementById('extraPeople').value) || 0;
   const visitors = parseInt(document.getElementById('visitors').value) || 0;
-
   const extraPeopleCost = extraPeople * 300 * nights;
   const visitorsCost = visitors * 100;
-  // 🔥 寵物費用統一為 100元/晚 (依照HTML顯示)
   const petCost = bringPet ? (100 * qty * nights) : 0;
-
   const totalAddonCost = extraPeopleCost + visitorsCost + petCost;
 
   if (totalAddonCost > 0) {
@@ -738,10 +749,8 @@ function calculateTotal() {
 
   let discount = 0;
   if (discountRow) discountRow.classList.remove('hidden');
-
   const totalPriceForDiscount = basePrice + rushPrice + acPrice;
 
-  // 車床天地通常是特約價，不適用一般的多晚/連假折扣
   if (type === 'car_bed_vip') {
       discount = 0;
   } 
@@ -754,9 +763,7 @@ function calculateTotal() {
     let perUnitDiscount = 0;
     if (nights >= 3) perUnitDiscount += 300;
     if (hasSaturday && nights >= 2) perUnitDiscount += 200;
-
     discount = perUnitDiscount * qty;
-
     const maxDiscount = Math.round(totalPriceForDiscount * 0.2);
     discount = Math.min(discount, maxDiscount);
   }
@@ -828,19 +835,15 @@ function submitOrder() {
     const nights = document.getElementById('nights').value;
     details += ` / ${nights}晚`;
 
-    // 取得加購資料
-    // ✅ 移除加車邏輯
     const extraPeople = parseInt(document.getElementById('extraPeople').value);
     const visitors = parseInt(document.getElementById('visitors').value);
     if (extraPeople > 0) details += ` / 加人:${extraPeople}`;
     if (visitors > 0) details += ` / 訪客:${visitors}`;
 
-    // 🔥 車床天地 VIP 專屬資訊
     if (typeValue === 'car_bed_vip') {
         const carBedId = document.getElementById('carBedId').value.trim();
         const pQty = document.getElementById('carBedPeople').value;
         const hasTent = document.getElementById('carBedTent').checked;
-        
         if (!carBedId) {
             alert("⚠️ 請輸入「車床天地會員編號」才能享優惠價格喔！");
             return;
@@ -850,7 +853,6 @@ function submitOrder() {
     }
 
     if (!document.getElementById('extraOptions').classList.contains('hidden')) {
-      // 判斷夜衝
       const config = CAMPING_CONFIG[typeValue];
       if (visitTime && config && config.nightRush) {
           const hour = parseInt(visitTime.split(':')[0]);
@@ -875,9 +877,7 @@ function submitOrder() {
   btn.innerText = "⏳ 處理中...";
   btn.disabled = true;
 
-  // ✅ 抓取後五碼
   const last5 = document.getElementById('last5').value.trim(); 
-  // ✅ 合併後五碼到備註
   const noteCombined = (last5 ? `[末五碼:${last5}] ` : "") + note;
 
   const orderData = {
@@ -887,8 +887,8 @@ function submitOrder() {
     dateRange: dateRange,
     itemDetails: details,
     totalPrice: total,
-    note: noteCombined, // 傳送合併後的備註給 Google Sheet
-    last5: last5 // 另外傳送後五碼給 LINE 用
+    note: noteCombined, 
+    last5: last5 
   };
 
   fetch(GOOGLE_SCRIPT_URL, {
@@ -904,14 +904,13 @@ function submitOrder() {
         successMsg += "⚠️ 系統將自動開啟 LINE，請務必「貼上」剛剛複製的帳號或截圖回傳給營主確認！";
         
         alert(successMsg);
-
-        openLineApp(orderData); // ✅ 呼叫 LINE 跳轉函式
+        openLineApp(orderData); 
 
         document.getElementById('customerName').value = '';
         document.getElementById('customerPhone').value = '';
         document.getElementById('customerLine').value = '';
         document.getElementById('customerNote').value = '';
-        document.getElementById('last5').value = ''; // 清空後五碼
+        document.getElementById('last5').value = ''; 
         btn.innerText = "✅ 完成";
         setTimeout(() => { btn.innerText = originalText; btn.disabled = false; }, 3000);
     })
@@ -923,22 +922,15 @@ function submitOrder() {
     });
 }
 
-// ✅ 新增：LINE 跳轉函式
 function openLineApp(formData) {
   const LINE_ID = "@lutopia"; 
-
-  // 您的合作金庫帳號
   const BANK_INFO = `
 【匯款資訊】
 銀行代碼：006 (合作金庫)
 銀行帳號：5492-9880-07780
 戶名：錄托邦露營區
   `.trim();
-
-  // 取得後五碼 (如果沒填就顯示「尚未填寫」)
   const last5Text = formData.last5 ? formData.last5 : "尚未匯款";
-
-  // 組合訊息內容 (加入後五碼欄位)
   const message = `
 Hi 錄托邦，我剛剛在官網下單了！
 這是我的訂單資訊，請確認：
@@ -955,7 +947,6 @@ ${BANK_INFO}
 
 請幫我保留營位，我匯款後會再通知您！謝謝！
   `.trim();
-
   const encodedMsg = encodeURIComponent(message);
   const lineUrl = `https://line.me/R/oaMessage/${LINE_ID}/?${encodedMsg}`;
   window.location.href = lineUrl;
@@ -968,34 +959,24 @@ function hideResult() {
 function resetForm() {
   const picker = document.querySelector("#dateRange")._flatpickr;
   picker.clear();
-
   selectedDates = [];
   document.getElementById('campType').value = "";
   toggleInputs();
-
   document.getElementById('nights').value = '0';
-
   const acBox = document.getElementById('useAC');
   const petBox = document.getElementById('bringPet');
   if (acBox) acBox.checked = false;
   if (petBox) petBox.checked = false;
-
   document.getElementById('bikeQty').value = 1;
   document.getElementById('extraPeople').value = 0;
-  // ✅ 移除重置加車
   document.getElementById('visitors').value = 0;
   document.getElementById('visitTime').selectedIndex = 0;
-  
-  // 清空車床資訊
   const carBedId = document.getElementById('carBedId');
   if(carBedId) carBedId.value = '';
   const carBedTent = document.getElementById('carBedTent');
   if(carBedTent) carBedTent.checked = false;
-  
-  // 清空後五碼
   const last5 = document.getElementById('last5');
   if(last5) last5.value = '';
-
   hideResult();
 }
 
