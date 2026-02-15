@@ -139,7 +139,7 @@ const MAKEUP_DAYS = [
     "2026-02-21"
 ];
 
-// ✅ 【新增】定義過年期間 (Chinese New Year)
+// ✅ 定義過年期間 (Chinese New Year)
 const CNY_DAYS = [
     "2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17", 
     "2026-02-18", "2026-02-19", "2026-02-20", "2026-02-21", "2026-02-22"
@@ -223,7 +223,6 @@ function checkCarBedVipAvailability() {
         const endDate = new Date(selectedDates[1]);
         while (currentDate < endDate) {
             const dateStr = formatDate(currentDate);
-            // 只要是 HOLIDAYS 或 CNY_DAYS 都算連假 (除了補班日)
             if ((HOLIDAYS.includes(dateStr) || CNY_DAYS.includes(dateStr)) && !MAKEUP_DAYS.includes(dateStr)) {
                 hasHoliday = true;
                 break;
@@ -258,20 +257,20 @@ const CAMPING_CONFIG = {
       discountType: "fixed_amount" 
   },
   
-  // 2. 機車露營 (未指定過年，暫訂同連假)
+  // 2. 機車露營
   moto: { rates: { weekday: 500, weekend: 600, holiday: 1200, cny: 1200 }, nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 }, discountType: "fixed_amount" },
   
-  // 3. 單人 (未指定過年，暫訂同連假)
+  // 3. 單人
   solo: { rates: { weekday: 500, weekend: 600, holiday: 1200, cny: 1200 }, nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 }, discountType: "fixed_amount" },
   
-  // 4. 車泊 (Car)
+  // 4. 車泊 (Car) - ✅ 修改處：平日600/假日700/連假1000/過年1100
   car: { 
-      rates: { weekday: 600, weekend: 800, holiday: 1000, cny: 1200 }, 
+      rates: { weekday: 600, weekend: 700, holiday: 1000, cny: 1100 }, 
       nightRush: { weekday: 500, weekend: 600, holiday: 800, cny: 800 }, 
       discountType: "fixed_amount" 
   },
   
-  // 5. 車床天地 (連假不可訂，所以 cny 設多少沒差，設為 holiday 以防萬一)
+  // 5. 車床天地
   car_bed_vip: { 
       people_rates: {
           1: { weekday: 250, weekend: 350, holiday: 350, cny: 350 },
