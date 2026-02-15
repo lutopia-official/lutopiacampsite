@@ -263,7 +263,7 @@ const CAMPING_CONFIG = {
   // 3. 單人
   solo: { rates: { weekday: 500, weekend: 600, holiday: 1200, cny: 1200 }, nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 }, discountType: "fixed_amount" },
   
-  // 4. 車泊 (Car) - ✅ 修改處：平日600/假日700/連假1000/過年1100
+  // 4. 車泊 (Car)
   car: { 
       rates: { weekday: 600, weekend: 700, holiday: 1000, cny: 1100 }, 
       nightRush: { weekday: 500, weekend: 600, holiday: 800, cny: 800 }, 
@@ -533,6 +533,7 @@ function generateGuestInputs() {
 
 function updateNights(dates) {
   selectedDates = Array.isArray(dates) ? dates : [];
+
   if (dates.length === 2) {
     const diffTime = Math.abs(dates[1] - dates[0]);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
@@ -624,11 +625,11 @@ function calculateTotal() {
     qty = parseInt(document.getElementById('unitQty').value) || 1;
   }
 
+  // ✅ 【修正重點】 偵測夜衝選項是否被勾選
   let isNightRush = false;
-  const visitTime = document.getElementById('visitTime').value;
-  if (visitTime && config.nightRush) {
-    const hour = parseInt(visitTime.split(':')[0]);
-    if (hour >= 21) isNightRush = true;
+  const rushCheckbox = document.getElementById('isNightRush');
+  if (rushCheckbox && rushCheckbox.checked && !rushCheckbox.parentElement.classList.contains('hidden')) {
+      isNightRush = true;
   }
   
   const useAC = document.getElementById('useAC')?.checked || false;
@@ -649,7 +650,6 @@ function calculateTotal() {
 
     let rateType = 'weekday';
     
-    // ✅ 【新增】判斷優先順序：過年 > 補班 > 連假 > 週末 > 平日
     if (CNY_DAYS.includes(dateStr)) {
         rateType = 'cny';
     } else if (isMakeup) {
@@ -663,63 +663,73 @@ function calculateTotal() {
     if (dayOfWeek === 6 && !isMakeup) hasSaturday = true;
     if (HOLIDAYS.includes(dateStr) || CNY_DAYS.includes(dateStr)) isHolidayForDiscount = true;
 
-    let dailyBase = 0;
-    const rate_room = config.rates && config.rates[rateType] ? config.rates[rateType] : config.rates['holiday'];
-    const rate_star = CAMPING_CONFIG.starcraft.rates[rateType] || CAMPING_CONFIG.starcraft.rates['holiday'];
-    const rate_dt = CAMPING_CONFIG.dt392.rates[rateType] || CAMPING_CONFIG.dt392.rates['holiday'];
-
-    if (type === 'car_bed_vip') {
-        const pQty = parseInt(document.getElementById('carBedPeople').value) || 2;
-        let personPrice = 0;
-        // 確保有 cny 價格，沒有就 fallback 到 weekend
-        if (config.people_rates[pQty][rateType] !== undefined) {
-            personPrice = config.people_rates[pQty][rateType];
-        } else {
-            personPrice = config.people_rates[pQty]['weekend'];
-        }
-        const hasTent = document.getElementById('carBedTent').checked;
-        let tentFee = 0;
-        if (hasTent) {
-            tentFee = config.tent_add_on[rateType] || 50; 
-        }
-        dailyBase = (personPrice + tentFee) * qty; 
-    } else if (type === 'room') {
-      if (qty === 1) dailyBase = rate_room;
-      else if (qty === 2) dailyBase = rate_room + rate_star;
-      else if (qty === 3) dailyBase = rate_room + rate_dt;
-      else if (qty === 4) dailyBase = rate_room + rate_star + rate_dt;
-    } else if (type === 'starcraft') {
-      if (qty === 1) dailyBase = rate_star;
-      else if (qty === 2) dailyBase = rate_star + rate_room;
-      else if (qty === 3) dailyBase = rate_star + rate_dt;
-      else if (qty === 4) dailyBase = rate_star + rate_room + rate_dt;
-    } else if (type === 'dt392') {
-      if (qty === 1) dailyBase = rate_dt;
-      else if (qty === 2) dailyBase = rate_dt + rate_room;
-      else if (qty === 3) dailyBase = rate_dt + rate_star;
-      else if (qty === 4) dailyBase = rate_dt + rate_room + rate_star;
-    } else {
-      // 安全取價，若無設定 cny 則 fallback 到 holiday
-      dailyBase = (config.rates[rateType] !== undefined) ? config.rates[rateType] : config.rates['holiday'];
-      dailyBase *= qty;
-    }
-
-    basePrice += dailyBase;
-
+    // ✅ 【修正重點】如果第一晚且勾選夜衝，直接使用夜衝價格替換當晚房價
     if (i === 0 && isNightRush && config.nightRush) {
-      const rushType = rateType;
-      if (type === 'camper') {
-        const rushRate = config.nightRush[rushType] || config.nightRush['holiday'];
-        rushPrice += rushRate * 0.8 * qty;
-      } else if (type === 'car_bed_vip') {
-        rushPrice += (config.nightRush[rushType] || config.nightRush['holiday']) * qty;
-      } else if (type === 'starcraft' || type === 'dt392' || type === 'room') {
-        // 不計算
-      } else {
-        rushPrice += (config.nightRush[rushType] || config.nightRush['holiday']) * qty;
-      }
+        // 取得該日期的夜衝價格 (如果沒定義 cny 夜衝價，則回退到 holiday 或 weekday)
+        let rushRate = 0;
+        if (config.nightRush[rateType]) {
+            rushRate = config.nightRush[rateType];
+        } else if (config.nightRush['holiday']) { // 如果是特殊假日但沒定義，用假日價
+            rushRate = config.nightRush['holiday'];
+        } else {
+            rushRate = config.nightRush['weekday'];
+        }
+
+        // 自備露營車 (Camper) 特殊打折邏輯 (原代碼邏輯保留：0.8倍)
+        if (type === 'camper') {
+            rushRate = rushRate * 0.8;
+        }
+
+        // 將第一晚的價格直接設為夜衝價 (取代原本房價)
+        basePrice += rushRate * qty;
+        
+        // 標記夜衝費用大於0，讓前端顯示欄位 (雖以融入 basePrice，但為了顯示)
+        rushPrice = rushRate * qty; 
+
+    } else {
+        // --- 正常價格計算 (第二晚以後，或是第一晚沒夜衝) ---
+        let dailyBase = 0;
+        const rate_room = config.rates && config.rates[rateType] ? config.rates[rateType] : config.rates['holiday'];
+        const rate_star = CAMPING_CONFIG.starcraft.rates[rateType] || CAMPING_CONFIG.starcraft.rates['holiday'];
+        const rate_dt = CAMPING_CONFIG.dt392.rates[rateType] || CAMPING_CONFIG.dt392.rates['holiday'];
+
+        if (type === 'car_bed_vip') {
+            const pQty = parseInt(document.getElementById('carBedPeople').value) || 2;
+            let personPrice = 0;
+            if (config.people_rates[pQty][rateType] !== undefined) {
+                personPrice = config.people_rates[pQty][rateType];
+            } else {
+                personPrice = config.people_rates[pQty]['weekend'];
+            }
+            const hasTent = document.getElementById('carBedTent').checked;
+            let tentFee = 0;
+            if (hasTent) {
+                tentFee = config.tent_add_on[rateType] || 50; 
+            }
+            dailyBase = (personPrice + tentFee) * qty; 
+        } else if (type === 'room') {
+            if (qty === 1) dailyBase = rate_room;
+            else if (qty === 2) dailyBase = rate_room + rate_star;
+            else if (qty === 3) dailyBase = rate_room + rate_dt;
+            else if (qty === 4) dailyBase = rate_room + rate_star + rate_dt;
+        } else if (type === 'starcraft') {
+            if (qty === 1) dailyBase = rate_star;
+            else if (qty === 2) dailyBase = rate_star + rate_room;
+            else if (qty === 3) dailyBase = rate_star + rate_dt;
+            else if (qty === 4) dailyBase = rate_star + rate_room + rate_dt;
+        } else if (type === 'dt392') {
+            if (qty === 1) dailyBase = rate_dt;
+            else if (qty === 2) dailyBase = rate_dt + rate_room;
+            else if (qty === 3) dailyBase = rate_dt + rate_star;
+            else if (qty === 4) dailyBase = rate_dt + rate_room + rate_star;
+        } else {
+            dailyBase = (config.rates[rateType] !== undefined) ? config.rates[rateType] : config.rates['holiday'];
+            dailyBase *= qty;
+        }
+        basePrice += dailyBase;
     }
 
+    // 冷氣費計算
     if (useAC) {
         if (type === 'car_bed_vip') {
             acPrice += 50 * qty; 
@@ -748,7 +758,15 @@ function calculateTotal() {
 
   let discount = 0;
   if (discountRow) discountRow.classList.remove('hidden');
-  const totalPriceForDiscount = basePrice + rushPrice + acPrice;
+  
+  // 計算折扣時，要用「替換後」的總價
+  // 若第一晚是夜衝價，basePrice 已經比較低了，是否還適用連住優惠？
+  // 通常夜衝價本身就是優惠，不應再疊加「連住兩晚九折」。
+  // 但您的舊邏輯是 nights >= 2 打折。如果第一晚夜衝，實際上是「夜衝+1晚正常」，通常夜衝那晚不打折，第二晚也不打折（因為只有一晚正常）。
+  // 為了簡單起見，如果含夜衝，通常不適用連住折扣，或者只針對非夜衝的天數打折。
+  // 這裡維持原邏輯：只要總晚數達標就打折，但因為 BasePrice 變低了，折扣金額也會變。
+  
+  const totalPriceForDiscount = basePrice + acPrice; // RushPrice 已經融合進 basePrice 了
 
   if (type === 'car_bed_vip') {
       discount = 0;
@@ -762,15 +780,32 @@ function calculateTotal() {
     let perUnitDiscount = 0;
     if (nights >= 3) perUnitDiscount += 300;
     if (hasSaturday && nights >= 2) perUnitDiscount += 200;
+    
     discount = perUnitDiscount * qty;
     const maxDiscount = Math.round(totalPriceForDiscount * 0.2);
     discount = Math.min(discount, maxDiscount);
   }
 
-  const total = Math.round(basePrice + rushPrice + acPrice + totalAddonCost - discount);
+  // 避免夜衝時還重複扣折扣導致價格過低，如果第一晚是夜衝，通常折扣要減少
+  // 但依照目前代碼，讓它自然計算即可。
 
-  document.getElementById('basePrice').innerText = Math.round(basePrice);
-  document.getElementById('rushPrice').innerText = Math.round(rushPrice);
+  const total = Math.round(basePrice + acPrice + totalAddonCost - discount);
+
+  // 顯示邏輯微調：
+  // 如果是夜衝模式，BasePrice 欄位現在顯示的是「(夜衝價 + 其他晚房價)」
+  // RushPrice 欄位只是為了讓使用者知道有夜衝，不參與加總計算 (因為已經加在 Base 了)
+  // 為了避免混淆，我們把顯示邏輯改一下：
+  
+  if (isNightRush) {
+      // 為了顯示正確，把 BasePrice 拆開顯示有點複雜。
+      // 簡單做法：顯示總 BasePrice，Rush欄位顯示 "已含於基本費用"
+      document.getElementById('basePrice').innerText = Math.round(basePrice);
+      document.getElementById('rushPrice').innerText = " (已含)"; 
+  } else {
+      document.getElementById('basePrice').innerText = Math.round(basePrice);
+      document.getElementById('rushPrice').innerText = 0;
+  }
+
   document.getElementById('acPrice').innerText = Math.round(acPrice);
   document.getElementById('discountPrice').innerText = Math.round(discount);
   document.getElementById('finalTotal').innerText = total;
@@ -779,7 +814,10 @@ function calculateTotal() {
     document.getElementById('rowRush').classList.add('hidden');
     document.getElementById('rowAC').classList.add('hidden');
   } else {
-    if (Math.round(rushPrice) > 0) document.getElementById('rowRush').classList.remove('hidden');
+    // 只要有勾夜衝就顯示
+    if (isNightRush) document.getElementById('rowRush').classList.remove('hidden');
+    else document.getElementById('rowRush').classList.add('hidden');
+    
     if (Math.round(acPrice) > 0) document.getElementById('rowAC').classList.remove('hidden');
   }
 
@@ -853,9 +891,11 @@ function submitOrder() {
 
     if (!document.getElementById('extraOptions').classList.contains('hidden')) {
       const config = CAMPING_CONFIG[typeValue];
-      if (visitTime && config && config.nightRush) {
-          const hour = parseInt(visitTime.split(':')[0]);
-          if (hour >= 21) details += " (含夜衝)";
+      // ✅ 檢查是否勾選夜衝 checkbox
+      const isNightRush = document.getElementById('isNightRush').checked;
+      
+      if (isNightRush) {
+          details += " (含夜衝)";
       }
       if (document.getElementById('useAC').checked) { details += " (含冷氣)"; }
       if (document.getElementById('bringPet').checked) { details += " (含寵物)"; }
@@ -976,6 +1016,8 @@ function resetForm() {
   if(carBedTent) carBedTent.checked = false;
   const last5 = document.getElementById('last5');
   if(last5) last5.value = '';
+  const rushBox = document.getElementById('isNightRush');
+  if(rushBox) rushBox.checked = false;
   hideResult();
 }
 
