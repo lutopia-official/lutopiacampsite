@@ -93,9 +93,8 @@ const TRANSLATIONS = {
     rule_sub_tent: "⛺ 搭帳與冷氣規範", rule_li_big_tent: "大型帳篷：神殿、怪獸、5x8天幕等請訂2個營位。",
     rule_li_ac_fee: "冷氣使用：車上/帳內使用冷氣接電，酌收 $200/晚。",
     rule_li_warning: "未告知搭設大帳者，現場將禁止搭設。",
-    // ✅ 修改這裡的說明文字
     rule_sub_rush: "🌙 夜衝服務 (限自搭帳)", rule_li_rush_time: "時間：20:00 後入場，23:30 前搭完。",
-    rule_li_rush_price: "費用：平日 500元 / 假日 600元 / 連假 800元。", rule_li_rush_rv: "🚐 自備露營車夜衝依金額打 8 折。",
+    rule_li_rush_price: "費用：夜衝價格依各營位有所不同，請以系統試算為準。", rule_li_rush_rv: "🚐 自備露營車夜衝依金額打 8 折。",
     rule_title_policy: "⚠️ 住宿取消政策與付款", rule_sub_refund: "📅 取消退費標準",
     ref_14: "14天前", ref_desc_14: "退 100% (扣手續費) 或改期", ref_10: "10-13天前", ref_desc_10: "退 70% (2日內補差額)",
     ref_7: "7-9天前", ref_desc_7: "退 50%", ref_4: "4-6天前", ref_desc_4: "退 30%", ref_0: "0-3天前", ref_desc_0: "視同取消，不退費",
@@ -239,21 +238,38 @@ function checkCarBedVipAvailability() {
 }
 
 // ==========================================
-// 💰 價格設定 (新增 cny: 過年價格)
+// 💰 價格設定 
 // ==========================================
 const CAMPING_CONFIG = {
+  // 1. 自搭帳篷
   tent: { 
       rates: { weekday: 700, weekend: 800, holiday: 1000, cny: 1200 }, 
-      nightRush: { weekday: 500, weekend: 600, holiday: 800, cny: 800 }, 
+      nightRush: { weekday: 500, weekend: 600, holiday: 600, cny: 800 }, 
       discountType: "fixed_amount" 
   },
-  moto: { rates: { weekday: 500, weekend: 600, holiday: 1200, cny: 1200 }, nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 }, discountType: "fixed_amount" },
-  solo: { rates: { weekday: 500, weekend: 600, holiday: 1200, cny: 1200 }, nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 }, discountType: "fixed_amount" },
+  
+  // 2. 機車露營
+  moto: { 
+      rates: { weekday: 500, weekend: 600, holiday: 700, cny: 800 }, 
+      nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 }, 
+      discountType: "fixed_amount" 
+  },
+  
+  // 3. 單人
+  solo: { 
+      rates: { weekday: 500, weekend: 600, holiday: 700, cny: 800 }, 
+      nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 }, 
+      discountType: "fixed_amount" 
+  },
+  
+  // 4. 車泊 (Car)
   car: { 
       rates: { weekday: 600, weekend: 700, holiday: 1000, cny: 1100 }, 
-      nightRush: { weekday: 500, weekend: 600, holiday: 800, cny: 800 }, 
+      nightRush: { weekday: 500, weekend: 600, holiday: 600, cny: 800 }, 
       discountType: "fixed_amount" 
   },
+  
+  // 5. 車床天地
   car_bed_vip: { 
       people_rates: {
           1: { weekday: 250, weekend: 350, holiday: 350, cny: 350 },
@@ -266,17 +282,38 @@ const CAMPING_CONFIG = {
       nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 }, 
       discountType: "none" 
   },
+
+  // 6. 自備露營車 (Camper)
   camper: { 
       rates: { weekday: 800, weekend: 1000, holiday: 1200, cny: 1500 }, 
       nightRush: { weekday: 600, weekend: 700, holiday: 800, cny: 800 }, 
       discountType: "fixed_amount_premium" 
   },
-  starcraft: { rates: { weekday: 2000, weekend: 2200, holiday: 2400, cny: 2400 }, discountType: "percentage" },
-  dt392: { rates: { weekday: 1800, weekend: 2000, holiday: 2200, cny: 2200 }, discountType: "percentage" },
-  room: { rates: { weekday: 2000, weekend: 2500, holiday: 2800, cny: 2800 }, discountType: "percentage" },
+  
+  // 7. StarCraft
+  starcraft: { 
+      rates: { weekday: 2000, weekend: 2200, holiday: 2600, cny: 2600 }, 
+      discountType: "percentage" 
+  },
+  
+  // 8. DT392
+  dt392: { 
+      rates: { weekday: 1800, weekend: 2000, holiday: 2200, cny: 2200 }, 
+      discountType: "percentage" 
+  },
+  
+  // 9. 民宿
+  room: { 
+      rates: { weekday: 2000, weekend: 2500, holiday: 2800, cny: 2800 }, 
+      discountType: "percentage" 
+  },
+  
+  // 10. 包場
   full_basic: { rates: { weekday: 7000, weekend: 10000, holiday: 15000, cny: 15000 }, discountType: "full_venue_promo" },
   full_vans: { rates: { weekday: 10000, weekend: 16000, holiday: 18000, cny: 18000 }, discountType: "full_venue_promo" },
   full_all: { rates: { weekday: 13000, weekend: 18000, holiday: 20000, cny: 20000 }, discountType: "full_venue_promo" },
+  
+  // 11. 其他
   venue_hourly: { type: "venue_hourly", weekdayRates: { '3hr': 3000, '5hr': 4500, '6hr': 6000, '8hr': 7500, 'day': 12000 }, holidayRates: { '3hr': 4500, '5hr': null, '6hr': 5500, '8hr': 7000, 'day': 15000 } },
   bicycle: { type: "bicycle", rates: { '2hr': 150, '4hr': 250, 'day': 400, '24hr': 600, '15day': 2500, '30day': 3500 } }
 };
@@ -528,12 +565,12 @@ function calculateTotal() {
   const config = CAMPING_CONFIG[type];
   if (!config) { hideResult(); return; }
 
-  // ✅ 【修正重點】 偵測時間 >= 20:00 (8 PM) 自動勾選夜衝
+  // ✅ 偵測時間 >= 20:00 (8 PM) 自動勾選夜衝
   const visitTime = document.getElementById('visitTime').value;
   const rushCheckbox = document.getElementById('isNightRush');
   if (visitTime && rushCheckbox && !rushCheckbox.parentElement.classList.contains('hidden')) {
       const hour = parseInt(visitTime.split(':')[0]);
-      if (hour >= 20) { // 改成 20:00
+      if (hour >= 20) { 
           if (!rushCheckbox.checked) {
               rushCheckbox.checked = true; // 自動打勾
           }
@@ -924,7 +961,6 @@ function submitOrder() {
     });
 }
 
-// ... (以下 openLineApp 等其餘函式維持不變) ...
 function openLineApp(formData) {
   const LINE_ID = "@lutopia"; 
   const BANK_INFO = `
