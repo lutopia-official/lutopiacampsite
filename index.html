@@ -8,6 +8,11 @@
     <meta name="description" content="台東都蘭錄托邦露營區(Lutopia)官方費用試算與預約頁面。提供免裝備露營車、美式復古拖車、自搭帳營位、包場露營及場地租借服務。">
     <meta name="robots" content="index, follow">
     
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = { corePlugins: { preflight: false } }
+    </script>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_green.css">
@@ -32,6 +37,12 @@
         @media (max-width: 768px) { 
             .bar-container { flex-direction: column; }
             .bar-img-box { width: 100%; min-height: 200px; border-radius: 0 0 12px 12px; }
+        }
+        /* 按鈕閃爍特效 */
+        @keyframes pulse-btn {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(211, 84, 0, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(211, 84, 0, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(211, 84, 0, 0); }
         }
     </style>
 </head>
@@ -71,6 +82,12 @@
             <div class="container calculator-container" id="calculatorSection">
                 <h2 data-i18n="calc_title">🌲 露營/場地/周邊服務費用試算</h2>
                 
+                <div style="text-align: center; margin: 20px 0;">
+                    <button onclick="openTribalModal()" style="background: linear-gradient(135deg, #d35400, #e67e22); color: white; padding: 12px 24px; border-radius: 30px; font-size: 1.1rem; font-weight: bold; border: none; cursor: pointer; box-shadow: 0 4px 15px rgba(211, 84, 0, 0.4); animation: pulse-btn 2s infinite;">
+                        <i class="fas fa-leaf"></i> 探索都蘭：部落慢活 3天2夜露營包套
+                    </button>
+                </div>
+
                 <div id="unitNotice" class="notice-box" style="background-color: #e3f2fd; color: #0d47a1; padding: 12px; border-radius: 6px; margin-bottom: 15px; border-left: 5px solid #2196F3; font-size: 0.95rem;">
                     <i class="fas fa-info-circle"></i> <strong data-i18n="basic_unit">基本單位：4人 / 1車 / 1帳 / 1車邊帳or車尾帳</strong>
                 </div>
@@ -214,7 +231,7 @@
                 <div id="extraOptions" class="checkbox-group hidden">
                     <label>
                         <input type="checkbox" id="isNightRush" onchange="calculateTotal()"> 
-                        <span data-i18n="cb_night_rush">我要夜衝 (22:00-23:00入場)</span>
+                        <span data-i18n="cb_night_rush">我要夜衝 (20:00-23:00入場)</span>
                     </label>
                     <label>
                         <input type="checkbox" id="useAC" value="200" onchange="calculateTotal()"> 
@@ -244,7 +261,7 @@
                         <span class="final-price">NT$ <span id="finalTotal">0</span></span>
                     </div>
 
-                    <div class="booking-form-inline" style="margin-top: 20px; padding-top: 20px; border-top: 2px dashed #eee;">
+                    <div class="booking-form-inline" id="customerInfoSection" style="margin-top: 20px; padding-top: 20px; border-top: 2px dashed #eee;">
                         <h4 style="text-align:center; color:#2c5e50; margin-bottom:15px;" data-i18n="customer_info_title">📝 預訂資料填寫</h4>
                         
                         <div class="form-group">
@@ -263,7 +280,7 @@
                         
                         <div class="form-group">
                             <label for="customerNote" style="display:block; margin-bottom:5px; font-weight:bold; color:#555;">備註</label>
-                            <textarea id="customerNote" data-i18n-placeholder="ph_note" placeholder="其他備註需求 (例如：露營相關、租單車者身高...)" rows="3" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;"></textarea>
+                            <textarea id="customerNote" data-i18n-placeholder="ph_note" placeholder="其他備註需求 (例如：露營相關、租單車者身高...)" rows="5" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;"></textarea>
                         </div>
 
                         <div class="bank-highlight-mobile">
@@ -368,8 +385,8 @@
                         <div class="mini-box">
                             <h4 data-i18n="rule_sub_rush">🌙 夜衝服務 (限自搭帳)</h4>
                             <ul>
-                                <li data-i18n="rule_li_rush_time"><strong>時間：</strong>21:00 後入場，23:30 前搭完。</li>
-                                <li data-i18n="rule_li_rush_price"><strong>費用：</strong>平日 500元 / 假日 600元 / 連假 800元。</li>
+                                <li data-i18n="rule_li_rush_time"><strong>時間：</strong>20:00 後入場，23:30 前搭完。</li>
+                                <li data-i18n="rule_li_rush_price"><strong>費用：</strong>夜衝價格依各營位有所不同，請以系統試算為準。</li>
                                 <li class="highlight" data-i18n="rule_li_rush_rv">🚐 自備露營車夜衝依金額打 8 折。</li>
                             </ul>
                         </div>
@@ -428,6 +445,148 @@
         <p>📍 營本部：GOOGLE導航至『都蘭錄托邦露營區』即可到達</p>
         <p>© 2025 LutopiaDulanCampsite. All Rights Reserved.</p>
     </footer>
+
+    <div id="tribalModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 9999; overflow-y: auto; display: none; align-items: flex-start; justify-content: center; padding: 20px 0;">
+        
+        <button onclick="closeTribalModal()" style="position: fixed; top: 20px; right: 20px; background: white; color: black; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 20px; cursor: pointer; z-index: 10000; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">
+            <i class="fas fa-times"></i>
+        </button>
+
+        <div class="max-w-md mx-auto bg-white shadow-2xl rounded-3xl overflow-hidden border-4 border-amber-800" style="margin-top: 20px; margin-bottom: 40px; position: relative; width: 90%; max-width: 450px;">
+            <div class="relative h-64 bg-emerald-900">
+                <img src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&q=80&w=800" alt="Camping" class="w-full h-full object-cover opacity-80">
+                <div class="absolute inset-0 flex flex-col justify-end p-6" style="background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);">
+                    <h1 class="text-white text-3xl font-bold tracking-wider mb-1" style="font-family: 'Noto Sans TC', sans-serif;">錄托邦 LUTOPAN</h1>
+                    <p class="text-amber-200 text-lg">部落慢活・三天兩夜露營包套</p>
+                </div>
+                <div class="absolute top-4 right-4 bg-amber-600 text-white px-3 py-1 rounded-full text-xs font-bold">都蘭深度之旅</div>
+            </div>
+
+            <div class="p-6 space-y-8" style="background-image: url('https://www.transparenttextures.com/patterns/az-subtle.png');">
+                
+                <section>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-campground text-amber-800 text-xl"></i>
+                        <h2 class="text-xl font-bold text-gray-800 border-b-2 border-amber-200 flex-1 pb-1">1. 營位場地費 (每晚)</h2>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left border-collapse">
+                            <thead>
+                                <tr class="bg-amber-100 text-amber-900">
+                                    <th class="p-2 border border-amber-200">類型</th>
+                                    <th class="p-2 border border-amber-200 text-center">平日</th>
+                                    <th class="p-2 border border-amber-200 text-center">假日</th>
+                                    <th class="p-2 border border-amber-200 text-center text-orange-700">連假</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="hover:bg-amber-50">
+                                    <td class="p-2 border border-amber-100 font-medium">⛺ 自搭帳篷</td>
+                                    <td class="p-2 border border-amber-100 text-center">$700</td>
+                                    <td class="p-2 border border-amber-100 text-center font-bold">$800</td>
+                                    <td class="p-2 border border-amber-100 text-center font-bold text-orange-700">$1,000</td>
+                                </tr>
+                                <tr class="hover:bg-amber-50">
+                                    <td class="p-2 border border-amber-100 font-medium">🚗 車泊 / 車露</td>
+                                    <td class="p-2 border border-amber-100 text-center">$600</td>
+                                    <td class="p-2 border border-amber-100 text-center font-bold">$700</td>
+                                    <td class="p-2 border border-amber-100 text-center font-bold text-orange-700">$1,000</td>
+                                </tr>
+                                <tr class="hover:bg-amber-50">
+                                    <td class="p-2 border border-amber-100 font-medium">🚐 自備露營車</td>
+                                    <td class="p-2 border border-amber-100 text-center">$800</td>
+                                    <td class="p-2 border border-amber-100 text-center font-bold">$1,000</td>
+                                    <td class="p-2 border border-amber-100 text-center font-bold text-orange-700">$1,200</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="bg-emerald-800 rounded-2xl p-5 text-white shadow-lg">
+                    <div class="flex items-center space-x-2 mb-3">
+                        <i class="fas fa-gift text-amber-300"></i>
+                        <h2 class="text-lg font-bold">2. 部落文化體驗包</h2>
+                    </div>
+                    <div class="text-2xl font-black text-amber-300 mb-4">優惠價 NT$ 1,999 <span class="text-sm font-normal text-white">/ 人</span></div>
+                    <ul class="space-y-2 text-sm opacity-90">
+                        <li class="flex items-start space-x-2">
+                            <i class="fas fa-check-circle text-amber-400 mt-1"></i>
+                            <span><strong>美式糯米酒釀 (1hr)：</strong>全國首家認證傳統酒釀</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <i class="fas fa-check-circle text-amber-400 mt-1"></i>
+                            <span><strong>原民風好皂頭 (1hr)：</strong>運用傳統植物製作抗菌手工皂</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <i class="fas fa-check-circle text-amber-400 mt-1"></i>
+                            <span><strong>毛球圓滿吊飾 (1hr)：</strong>阿美族服飾配件，象徵圓滿幸福</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <i class="fas fa-check-circle text-amber-400 mt-1"></i>
+                            <span><strong>植感串珠手鍊 (1hr)：</strong>使用部落「薏苡」植物創作</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <i class="fas fa-check-circle text-amber-400 mt-1"></i>
+                            <span><strong>星空營火派對：</strong>營火場位及基礎生火服務</span>
+                        </li>
+                    </ul>
+                </section>
+
+                <section>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-shuttle-van text-orange-600 text-xl"></i>
+                        <h2 class="text-xl font-bold text-gray-800 border-b-2 border-orange-200 flex-1 pb-1">3. 加值選購：貼心服務</h2>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="bg-blue-50 border-2 border-blue-100 rounded-xl p-4 shadow-sm">
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="font-bold text-blue-800"><i class="fas fa-map-marked-alt mr-2"></i>專車接送服務</span>
+                                <span class="text-[10px] bg-blue-200 text-blue-800 px-2 py-0.5 rounded">台東站/機場</span>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 text-sm">
+                                <div class="flex justify-between border-b border-blue-100 pb-1">
+                                    <span class="text-gray-600">4 人內</span><span class="font-bold">$800</span>
+                                </div>
+                                <div class="flex justify-between border-b border-blue-100 pb-1">
+                                    <span class="text-gray-600">8 人內</span><span class="font-bold">$1,200</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">10 人內</span><span class="font-bold">$1,600</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">15 人內</span><span class="font-bold">$2,200</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white border-2 border-orange-100 rounded-xl p-4 shadow-sm">
+                            <div class="flex justify-between items-center mb-2 text-orange-700 font-bold">
+                                <span><i class="fas fa-utensils mr-2"></i>專業代烤肉服務</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600">10 人以內 (勞務)</span>
+                                <span class="font-bold text-gray-800">NT$ 2,000</span>
+                            </div>
+                            <div class="flex justify-between text-sm mt-1">
+                                <span class="text-gray-600">15-20 人 (勞務)</span>
+                                <span class="font-bold text-gray-800">NT$ 3,000</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="bg-gray-100 p-6 text-center space-y-3">
+                <p class="text-xs text-gray-500 leading-relaxed">
+                    成行門檻：體驗包 4 人起 | 需提前 7 天預約<br>
+                    台東縣都蘭營區・錄托邦部落慢活
+                </p>
+                <button onclick="bookTribalPackage()" class="w-full bg-amber-800 text-white font-bold py-3 rounded-xl hover:bg-amber-900 transition shadow-lg" style="cursor:pointer;">
+                    立即預約訂位
+                </button>
+            </div>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://npmcdn.com/flatpickr/dist/l10n/zh.js"></script>

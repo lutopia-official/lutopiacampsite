@@ -1049,3 +1049,53 @@ function copyBankInfo() {
         prompt("請長按複製帳號：", account);
     }
 }
+
+// ==========================================
+// 🏕️ 部落慢活專案 Modal 控制邏輯
+// ==========================================
+
+function openTribalModal() {
+    const modal = document.getElementById('tribalModal');
+    if (modal) {
+        modal.style.display = 'flex'; // 顯示視窗
+        modal.classList.remove('hidden');
+    }
+}
+
+function closeTribalModal() {
+    const modal = document.getElementById('tribalModal');
+    if (modal) {
+        modal.style.display = 'none'; // 隱藏視窗
+        modal.classList.add('hidden');
+    }
+}
+
+function bookTribalPackage() {
+    // 1. 關閉 Modal
+    closeTribalModal();
+    
+    // 2. 自動捲動到填寫資料區塊 (相容定位)
+    const targetSection = document.getElementById('customerInfoSection') || document.getElementById('calculatorSection');
+    if (targetSection) {
+        targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // 3. 自動在「備註欄」帶入專案預設文字，方便客人填寫
+    const noteInput = document.getElementById('customerNote');
+    if (noteInput) {
+        // 如果原本已經有字，就空一行再加
+        const existingText = noteInput.value.trim();
+        const templateText = "【我要預約部落慢活 3天2夜包套】\n1. 預計體驗人數： 人\n2. 是否需加購車站接送：\n3. 是否需加購代烤肉服務：";
+        
+        if (existingText) {
+            noteInput.value = existingText + "\n\n" + templateText;
+        } else {
+            noteInput.value = templateText;
+        }
+    }
+
+    // 4. 跳出貼心提示
+    setTimeout(() => {
+        alert("🎉 已為您切換至預約表單！\n\n👉 請在上方選擇您的「預約日期」與「營位類型」。\n👉 已經為您在最下方的「備註欄」帶入包套格式，請直接填寫體驗人數與加購需求即可！");
+    }, 500);
+}
