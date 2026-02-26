@@ -201,7 +201,7 @@ flatpickr("#dateRange", {
   onOpen: function() {
     // 當客人點開日曆時，跳出提醒視窗
     if (!hasShownDateNotice) {
-        alert("⚠️ 【預約日期選擇提醒】\n\n請務必點選「進場日期」與「退場日期」！\n(請在日曆上點擊兩次，選出完整區間)");
+        alert("⚠️ 【預約日期選擇提醒】\n\n請務必點選「進場日期」與「退場日期」！\n(不然無法算出價格唷，請點選出進、退場時間)");
         hasShownDateNotice = true; // 標記已提醒過
     }
   },
