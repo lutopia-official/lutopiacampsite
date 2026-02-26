@@ -191,18 +191,26 @@ window.onload = function () {
     .catch(error => { console.error('資料讀取失敗:', error); });
 };
 
+let hasShownDateNotice = false;
+
 flatpickr("#dateRange", {
   mode: "range",
   minDate: "today",
   dateFormat: "Y-m-d (D)",
   locale: "zh",
+  onOpen: function() {
+    // 當客人點開日曆時，跳出提醒視窗
+    if (!hasShownDateNotice) {
+        alert("⚠️ 【預約日期選擇提醒】\n\n請務必點選「進場日期」與「退場日期」！\n(請在日曆上點擊兩次，選出完整區間)");
+        hasShownDateNotice = true; // 標記已提醒過
+    }
+  },
   onChange: function (dates) {
     updateNights(dates);
     checkCarBedVipAvailability(); 
     calculateTotal();
   }
 });
-
 // 檢查車床天地連假限制
 function checkCarBedVipAvailability() {
     const carBedOption = document.querySelector('option[value="car_bed_vip"]');
