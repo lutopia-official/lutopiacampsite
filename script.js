@@ -258,26 +258,26 @@ const CAMPING_CONFIG = {
   
   // 2. 機車露營
   moto: { 
-      rates: { weekday: 500, weekend: 600, holiday: 700, cny: 800 }, 
+      rates: { weekday: 400, weekend: 500, holiday: 600, cny: 800 }, 
       nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 }, 
       discountType: "fixed_amount" 
   },
   
   // 3. 單人
   solo: { 
-      rates: { weekday: 500, weekend: 600, holiday: 700, cny: 800 }, 
+      rates: { weekday: 400, weekend: 500, holiday: 600, cny: 800 }, 
       nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 }, 
       discountType: "fixed_amount" 
   },
   
   // 4. 車泊 (Car)
   car: { 
-      rates: { weekday: 600, weekend: 700, holiday: 1000, cny: 1100 }, 
+      rates: { weekday: 600, weekend: 700, holiday: 800, cny: 1100 }, 
       nightRush: { weekday: 500, weekend: 600, holiday: 600, cny: 800 }, 
       discountType: "fixed_amount" 
   },
   
-  // 5. 車床天地
+  // 5. 車床天地 (維持不變)
   car_bed_vip: { 
       people_rates: {
           1: { weekday: 250, weekend: 350, holiday: 350, cny: 350 },
@@ -300,30 +300,30 @@ const CAMPING_CONFIG = {
   
   // 7. StarCraft
   starcraft: { 
-      rates: { weekday: 2000, weekend: 2200, holiday: 2600, cny: 2600 }, 
+      rates: { weekday: 1800, weekend: 2000, holiday: 2400, cny: 2600 }, 
       discountType: "percentage" 
   },
   
   // 8. DT392
   dt392: { 
-      rates: { weekday: 1800, weekend: 2000, holiday: 2200, cny: 2200 }, 
+      rates: { weekday: 1600, weekend: 1800, holiday: 2200, cny: 2200 }, 
       discountType: "percentage" 
   },
   
   // 9. 民宿
   room: { 
-      rates: { weekday: 2000, weekend: 2500, holiday: 2800, cny: 2800 }, 
+      rates: { weekday: 2200, weekend: 2400, holiday: 2600, cny: 2800 }, 
       discountType: "percentage" 
   },
   
-  // 10. 包場
+  // 10. 包場 (維持不變)
   full_basic: { rates: { weekday: 7000, weekend: 10000, holiday: 15000, cny: 15000 }, discountType: "full_venue_promo" },
   full_vans: { rates: { weekday: 10000, weekend: 16000, holiday: 18000, cny: 18000 }, discountType: "full_venue_promo" },
   full_all: { rates: { weekday: 13000, weekend: 18000, holiday: 20000, cny: 20000 }, discountType: "full_venue_promo" },
   
-  // 11. 其他
+  // 11. 其他 (維持不變)
   venue_hourly: { type: "venue_hourly", weekdayRates: { '3hr': 3000, '5hr': 4500, '6hr': 6000, '8hr': 7500, 'day': 12000 }, holidayRates: { '3hr': 4500, '5hr': null, '6hr': 5500, '8hr': 7000, 'day': 15000 } },
-  bicycle: { type: "bicycle", rates: { '2hr': 150, '4hr': 250, 'day': 400, '24hr': 600, '15day': 2500, '30day': 3500 } }
+  bicycle: { type: "bicycle", rates: { '2hr': 150, '4hr': 250, 'day': 400, '24hr': 600, '15day': 2500, '300day': 3500 } }
 };
 
 function toggleInputs() {
