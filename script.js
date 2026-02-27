@@ -136,6 +136,19 @@ const CNY_DAYS = [
     "2026-02-18", "2026-02-19", "2026-02-20", "2026-02-21", "2026-02-22"
 ];
 
+// ==========================================
+// 📅 定義連假完整區間 (用於計算住滿 9.5 折)
+// ==========================================
+const HOLIDAY_BLOCKS = [
+    ["2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17", "2026-02-18", "2026-02-19", "2026-02-20", "2026-02-21", "2026-02-22"], // 春節
+    ["2026-02-27", "2026-02-28", "2026-03-01"], // 228連假
+    ["2026-04-03", "2026-04-04", "2026-04-05", "2026-04-06"], // 清明連假
+    ["2026-05-01", "2026-05-02", "2026-05-03"], // 勞動節
+    ["2026-06-19", "2026-06-20", "2026-06-21"], // 端午節
+    ["2026-09-25", "2026-09-26", "2026-09-27"], // 中秋節
+    ["2026-10-09", "2026-10-10", "2026-10-11"]  // 國慶日
+];
+
 function changeLanguage(lang) {
   currentLang = lang;
   const t = TRANSLATIONS[lang] || TRANSLATIONS['zh'];
@@ -202,7 +215,7 @@ flatpickr("#dateRange", {
     // 當客人點開日曆時，跳出提醒視窗
     if (!hasShownDateNotice) {
         alert("⚠️ 【預約日期選擇提醒】\n\n請務必點選「進場日期」與「退場日期」！\n(不然無法算出價格唷，請點選出進、退場時間)");
-        hasShownDateNotice = true; // 標記已提醒過
+        hasShownDateNotice = true; 
     }
   },
   onChange: function (dates) {
@@ -211,6 +224,7 @@ flatpickr("#dateRange", {
     calculateTotal();
   }
 });
+
 // 檢查車床天地連假限制
 function checkCarBedVipAvailability() {
     const carBedOption = document.querySelector('option[value="car_bed_vip"]');
@@ -246,7 +260,7 @@ function checkCarBedVipAvailability() {
 }
 
 // ==========================================
-// 💰 價格設定 
+// 💰 價格設定 (已更新為最新平日/假日/連假價格)
 // ==========================================
 const CAMPING_CONFIG = {
   // 1. 自搭帳篷
@@ -277,7 +291,7 @@ const CAMPING_CONFIG = {
       discountType: "fixed_amount" 
   },
   
-  // 5. 車床天地 (維持不變)
+  // 5. 車床天地
   car_bed_vip: { 
       people_rates: {
           1: { weekday: 250, weekend: 350, holiday: 350, cny: 350 },
@@ -316,14 +330,14 @@ const CAMPING_CONFIG = {
       discountType: "percentage" 
   },
   
-  // 10. 包場 (維持不變)
+  // 10. 包場
   full_basic: { rates: { weekday: 7000, weekend: 10000, holiday: 15000, cny: 15000 }, discountType: "full_venue_promo" },
   full_vans: { rates: { weekday: 10000, weekend: 16000, holiday: 18000, cny: 18000 }, discountType: "full_venue_promo" },
   full_all: { rates: { weekday: 13000, weekend: 18000, holiday: 20000, cny: 20000 }, discountType: "full_venue_promo" },
   
-  // 11. 其他 (維持不變)
+  // 11. 其他
   venue_hourly: { type: "venue_hourly", weekdayRates: { '3hr': 3000, '5hr': 4500, '6hr': 6000, '8hr': 7500, 'day': 12000 }, holidayRates: { '3hr': 4500, '5hr': null, '6hr': 5500, '8hr': 7000, 'day': 15000 } },
-  bicycle: { type: "bicycle", rates: { '2hr': 150, '4hr': 250, 'day': 400, '24hr': 600, '15day': 2500, '300day': 3500 } }
+  bicycle: { type: "bicycle", rates: { '2hr': 150, '4hr': 250, 'day': 400, '24hr': 600, '15day': 2500, '30day': 3500 } }
 };
 
 function toggleInputs() {
@@ -780,6 +794,24 @@ function calculateTotal() {
   
   const totalPriceForDiscount = basePrice + acPrice;
 
+  // ✅ 1. 判斷是否「住滿連假」
+  let isFullHoliday = false;
+  const stayDatesStr = [];
+  let tempDate = new Date(selectedDates[0]);
+  for (let i = 0; i < nights; i++) {
+      stayDatesStr.push(formatDate(tempDate));
+      tempDate.setDate(tempDate.getDate() + 1);
+  }
+  
+  for (let block of HOLIDAY_BLOCKS) {
+      // 檢查客人的住宿日期是否完整包含整個連假區間
+      if (block.every(d => stayDatesStr.includes(d))) {
+          isFullHoliday = true;
+          break;
+      }
+  }
+
+  // ✅ 2. 基本折扣邏輯
   if (type === 'car_bed_vip') {
       discount = 0;
   } 
@@ -796,6 +828,11 @@ function calculateTotal() {
     discount = perUnitDiscount * qty;
     const maxDiscount = Math.round(totalPriceForDiscount * 0.2);
     discount = Math.min(discount, maxDiscount);
+  }
+
+  // ✅ 3. 若住滿連假，再疊加 5% 折扣 (相當於總價打 9.5 折)
+  if (isFullHoliday && type !== 'car_bed_vip') {
+      discount += (totalPriceForDiscount * 0.05);
   }
 
   const total = Math.round(basePrice + acPrice + totalAddonCost - discount);
@@ -1074,7 +1111,7 @@ function bookTribalPackage() {
     // 1. 關閉 Modal
     closeTribalModal();
     
-    // 2. 自動捲動到填寫資料區塊 (相容定位)
+    // 2. 自動捲動到填寫資料區塊
     const targetSection = document.getElementById('customerInfoSection') || document.getElementById('calculatorSection');
     if (targetSection) {
         targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
