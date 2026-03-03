@@ -322,19 +322,19 @@ const CAMPING_CONFIG = {
   
   // 7. StarCraft
   starcraft: { 
-      rates: { weekday: 1800, weekend: 2000, holiday: 2400, cny: 2600 }, 
+      rates: { weekday: 1800, weekend: 2000, holiday: 2600, cny: 2800 }, 
       discountType: "percentage" 
   },
   
   // 8. DT392
   dt392: { 
-      rates: { weekday: 1600, weekend: 1800, holiday: 2200, cny: 2200 }, 
+      rates: { weekday: 1600, weekend: 1800, holiday: 2400, cny: 2400 }, 
       discountType: "percentage" 
   },
   
   // 9. 民宿
   room: { 
-      rates: { weekday: 2200, weekend: 2400, holiday: 2600, cny: 2800 }, 
+      rates: { weekday: 2200, weekend: 2400, holiday: 2800, cny: 3000 }, 
       discountType: "percentage" 
   },
   
