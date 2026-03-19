@@ -729,12 +729,17 @@ function calculateTotal() {
         basePrice += rushRate * qty;
         rushPrice = rushRate * qty; 
 
-    } else {
-        let dailyBase = 0;
-        const rate_room = config.rates && config.rates[rateType] ? config.rates[rateType] : config.rates['holiday'];
-        const rate_star = CAMPING_CONFIG.starcraft.rates[rateType] || CAMPING_CONFIG.starcraft.rates['holiday'];
-        const rate_dt = CAMPING_CONFIG.dt392.rates[rateType] || CAMPING_CONFIG.dt392.rates['holiday'];
+} else {
+                let dailyBase = 0;
 
+                // ✅ 修正：加上防呆判定，避免車床天地這種無固定基準價的方案報錯當機
+                let rate_room = 0;
+                if (config.rates) {
+                    rate_room = config.rates[rateType] !== undefined ? config.rates[rateType] : config.rates['holiday'];
+                }
+                
+                const rate_star = CAMPING_CONFIG.starcraft.rates[rateType] || CAMPING_CONFIG.starcraft.rates['holiday'];
+                const rate_dt = CAMPING_CONFIG.dt392.rates[rateType] || CAMPING_CONFIG.dt392.rates['holiday'];
         if (type === 'car_bed_vip') {
             const pQty = parseInt(document.getElementById('carBedPeople').value) || 2;
             let personPrice = 0;
