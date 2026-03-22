@@ -130,7 +130,7 @@
                         <li><span style="color:#d35400; font-weight:bold;">🛏️ 溫馨四人房</span> 贈 $200 夜市折價券 (僅 1 間)</li>
                     </ul>
                     <p style="margin: 5px 0 0 0; font-size: 0.85rem; color: #666;">
-                        🔥 名額極度有限，先搶先贏，享受「下樓逛夜市，上樓秒入睡」的最強體驗！
+                        🔥 名額極度有限，先搶先贏，享受「夜市在門口，開門逛夜市」的最強體驗！
                     </p>
                 </div>
 
@@ -627,7 +627,6 @@
           car_bed_vip: { people_rates: { 1: { weekday: 250, weekend: 350, holiday: 350, cny: 350 }, 2: { weekday: 300, weekend: 400, holiday: 400, cny: 400 }, 3: { weekday: 400, weekend: 500, holiday: 500, cny: 500 }, 4: { weekday: 500, weekend: 600, holiday: 600, cny: 600 } }, tent_add_on: { weekday: 50, weekend: 50, holiday: 50, cny: 50 }, ac_fee: 50, nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 }, discountType: "none" },
           camper: { rates: { weekday: 800, weekend: 1000, holiday: 1200, cny: 1500 }, nightRush: { weekday: 600, weekend: 700, holiday: 800, cny: 800 }, discountType: "fixed_amount_premium" },
           
-          // 🚐 露營車與房間全新定價
           dt392: { rates: { weekday: 1800, weekend: 2000, holiday: 2300, cny: 2400 }, discountType: "percentage" },
           starcraft: { rates: { weekday: 2000, weekend: 2200, holiday: 2500, cny: 2600 }, discountType: "percentage" },
           room: { rates: { weekday: 2200, weekend: 2400, holiday: 2800, cny: 3000 }, discountType: "percentage" },
@@ -708,9 +707,9 @@
               if (extraPeopleLabel) extraPeopleLabel.innerHTML = "加人 ($200/人) <br><small style='color:#888;'>*小一以下免費</small>";
               if(extraPeopleInput) { extraPeopleInput.max = 2; extraPeopleInput.placeholder = "最多加 2 人"; if(extraPeopleInput.value > 2) extraPeopleInput.value = 2; }
             } else if (type === 'dt392') {
-              basicUnitDesc.innerText = "基本單位：2人 / 1車";
+              basicUnitDesc.innerText = "基本單位：2人 / 1車 (最多可加1人)";
               if (extraPeopleLabel) extraPeopleLabel.innerHTML = "加人 ($200/人) <br><small style='color:#888;'>*小一以下免費</small>";
-              if(extraPeopleInput) { extraPeopleInput.removeAttribute('max'); extraPeopleInput.placeholder = "0"; }
+              if(extraPeopleInput) { extraPeopleInput.max = 1; extraPeopleInput.placeholder = "最多加 1 人"; if(extraPeopleInput.value > 1) extraPeopleInput.value = 1; }
             } else {
               basicUnitDesc.innerText = t.basic_unit;
               if (extraPeopleLabel) extraPeopleLabel.innerHTML = "加人 ($300/人) <br><small style='color:#888;'>*小一以下免費</small>";
@@ -824,7 +823,7 @@
           const bringPet = document.getElementById('bringPet')?.checked || false;
 
           let basePrice = 0, rushPrice = 0, acPrice = 0, hasSaturday = false, isHolidayForDiscount = false;
-          let totalCoupon = 0; // 記錄折價券總額
+          let totalCoupon = 0; 
 
           let currentDate = new Date(selectedDates[0]);
 
