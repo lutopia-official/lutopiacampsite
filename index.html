@@ -118,9 +118,20 @@
                     </button>
                 </div>
 
-                <div id="nightMarketNotice" class="notice-box" style="background-color: #f3e5f5; color: #4a148c; padding: 12px; border-radius: 6px; margin-bottom: 15px; border-left: 5px solid #9c27b0; font-size: 0.95rem;">
+                <div id="nightMarketNotice" class="notice-box" style="background-color: #f3e5f5; color: #4a148c; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 5px solid #9c27b0; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
                     <i class="fas fa-store"></i> <strong>✨ 錄托邦星空草地夜市 (每週二限定) ⛺</strong>
-                    <p style="margin: 5px 0 0 0; font-size: 0.9rem; line-height: 1.5;">免出門就能逛街、吃美食宵夜！每週二晚間營區內定期舉辦星空草地夜市。準備好一起享受最 Chill 的東海岸之夜吧！</p>
+                    <p style="margin: 8px 0 5px 0; font-size: 0.95rem; line-height: 1.6; font-weight: bold;">
+                        🏕️ 【週二 限定！逛夜市配滿天星斗住宿方案】
+                    </p>
+                    <ul style="margin: 0 0 0 20px; padding: 0; font-size: 0.9rem; line-height: 1.6;">
+                        <li><span style="color:#d35400; font-weight:bold;">⛺️ 營位 $1,000：</span> 贈 $100 夜市折價券 (剩 8 格)</li>
+                        <li><span style="color:#d35400; font-weight:bold;">🚐 大馳露營車 $2,300：</span> 贈 $150 夜市折價券 (僅 1 台)</li>
+                        <li><span style="color:#d35400; font-weight:bold;">🚐 StarCraft $2,500：</span> 贈 $200 夜市折價券 (僅 1 台)</li>
+                        <li><span style="color:#d35400; font-weight:bold;">🛏️ 溫馨四人房 $2,800：</span> 贈 $200 夜市折價券 (僅 1 間)</li>
+                    </ul>
+                    <p style="margin: 5px 0 0 0; font-size: 0.85rem; color: #666;">
+                        🔥 名額極度有限，先搶先贏，享受「下樓逛夜市，上樓秒入睡」的最強體驗！
+                    </p>
                 </div>
 
                 <div id="unitNotice" class="notice-box" style="background-color: #e3f2fd; color: #0d47a1; padding: 12px; border-radius: 6px; margin-bottom: 15px; border-left: 5px solid #2196F3; font-size: 0.95rem;">
@@ -261,6 +272,9 @@
                     <div class="result-row" id="rowAddons"><span data-i18n="res_addon">加購費用：</span> <span><span id="addonPrice">0</span> 元</span></div>
                     <div class="result-row" id="rowAC"><span data-i18n="res_ac">冷氣加價：</span> <span><span id="acPrice">0</span> 元</span></div>
                     <div class="result-row discount"><span data-i18n="res_discount">符合折扣：</span> <span>-<span id="discountPrice">0</span> 元</span></div>
+                    
+                    <div class="result-row discount hidden" id="rowCoupon"><span style="color:#d35400; font-weight:bold;">🎁 贈夜市折價券：</span> <span style="color:#d35400; font-weight:bold;">$<span id="couponPrice">0</span></span></div>
+
                     <hr style="margin: 10px 0; border: none; border-top: 1px dashed #ccc;">
                     <div class="total-row">
                         <span data-i18n="res_total">總計金額：</span>
@@ -478,14 +492,11 @@
     <script src="https://npmcdn.com/flatpickr/dist/l10n/zh.js"></script>
     
     <script>
-        /* ==========================================
-           0. 全域變數與設定
-        ========================================== */
         let currentLang = 'zh';
         let selectedDates = []; 
         let GLOBAL_BLOCKED_DATA = { full: [], starcraft: [], dt392: [], room: [] };
 
-        // ⚠️⚠️⚠️ 提醒：請將下面這串網址，替換成您剛剛「第一步」重新部署後取得的最新 API 網址！
+        // ⚠️⚠️⚠️ 記得確認這是您最新的 Google Apps Script 網址！
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwE4JzNMfmaLDF997ZphXIZklweAqwkKiij-jueG_AhQHGuiV1mAHaUG70zt2RLWpjo7g/exec";
 
         let VISIT_TIME_ORIGINAL_OPTIONS = null;
@@ -757,7 +768,7 @@
               if (parseInt(visitTime.split(':')[0]) >= 20) rushCheckbox.checked = true;
           }
 
-          ['rowAddons', 'rowRush', 'rowAC'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
+          ['rowAddons', 'rowRush', 'rowAC', 'rowCoupon'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
           document.getElementById('discountPrice').parentElement.classList.remove('hidden');
 
           if (type === 'bicycle') {
@@ -795,6 +806,8 @@
           const bringPet = document.getElementById('bringPet')?.checked || false;
 
           let basePrice = 0, rushPrice = 0, acPrice = 0, hasSaturday = false, isHolidayForDiscount = false;
+          let totalCoupon = 0; // 記錄折價券總額
+
           let currentDate = new Date(selectedDates[0]);
 
           for (let i = 0; i < nights; i++) {
@@ -821,12 +834,35 @@
             } else {
                 let dailyBase = 0;
                 let rate_room = config.rates ? (config.rates[rateType] !== undefined ? config.rates[rateType] : config.rates['holiday']) : 0;
-                const rate_star = CAMPING_CONFIG.starcraft.rates[rateType] || CAMPING_CONFIG.starcraft.rates['holiday'];
-                const rate_dt = CAMPING_CONFIG.dt392.rates[rateType] || CAMPING_CONFIG.dt392.rates['holiday'];
+                let rate_star = CAMPING_CONFIG.starcraft.rates[rateType] || CAMPING_CONFIG.starcraft.rates['holiday'];
+                let rate_dt = CAMPING_CONFIG.dt392.rates[rateType] || CAMPING_CONFIG.dt392.rates['holiday'];
+                let rate_grass = config.rates && config.rates[rateType] !== undefined ? config.rates[rateType] : 0;
+
+                // 🌟 週二專屬價格覆蓋與折價券發放 🌟
+                if (isTuesday) {
+                    rate_room = 2800;
+                    rate_star = 2500;
+                    rate_dt = 2300;
+                    rate_grass = 1000;
+                    
+                    let tCoupon = 0;
+                    if (type === 'room') {
+                        if (qty === 1) tCoupon = 200; else if (qty === 2) tCoupon = 400; else if (qty === 3) tCoupon = 350; else if (qty === 4) tCoupon = 550;
+                    } else if (type === 'starcraft') {
+                        if (qty === 1) tCoupon = 200; else if (qty === 2) tCoupon = 400; else if (qty === 3) tCoupon = 350; else if (qty === 4) tCoupon = 550;
+                    } else if (type === 'dt392') {
+                        if (qty === 1) tCoupon = 150; else if (qty === 2) tCoupon = 350; else if (qty === 3) tCoupon = 350; else if (qty === 4) tCoupon = 550;
+                    } else if (['tent', 'car', 'camper', 'moto', 'solo'].includes(type)) {
+                        tCoupon = 100 * qty;
+                    }
+                    totalCoupon += tCoupon;
+                }
 
                 if (type === 'car_bed_vip') {
                     const pQty = parseInt(document.getElementById('carBedPeople').value) || 2;
-                    dailyBase = ((config.people_rates[pQty][rateType] !== undefined ? config.people_rates[pQty][rateType] : config.people_rates[pQty]['weekend']) + (document.getElementById('carBedTent').checked ? (config.tent_add_on[rateType] || 50) : 0)) * qty; 
+                    let vipRate = config.people_rates[pQty][rateType] !== undefined ? config.people_rates[pQty][rateType] : config.people_rates[pQty]['weekend'];
+                    if (isTuesday) vipRate += 200; // 車床天地維持 +200 邏輯
+                    dailyBase = (vipRate + (document.getElementById('carBedTent').checked ? (config.tent_add_on[rateType] || 50) : 0)) * qty; 
                 } else if (type === 'room') {
                     if (qty === 1) dailyBase = rate_room; else if (qty === 2) dailyBase = rate_room + rate_star; else if (qty === 3) dailyBase = rate_room + rate_dt; else if (qty === 4) dailyBase = rate_room + rate_star + rate_dt;
                 } else if (type === 'starcraft') {
@@ -834,10 +870,10 @@
                 } else if (type === 'dt392') {
                     if (qty === 1) dailyBase = rate_dt; else if (qty === 2) dailyBase = rate_dt + rate_room; else if (qty === 3) dailyBase = rate_dt + rate_star; else if (qty === 4) dailyBase = rate_dt + rate_room + rate_star;
                 } else {
-                    dailyBase = (config.rates[rateType] !== undefined ? config.rates[rateType] : config.rates['holiday']) * qty;
+                    dailyBase = rate_grass * qty;
+                    if (type.includes('full') && isTuesday) dailyBase = (config.rates[rateType] || 0) + 200; // 包場維持 +200 邏輯
                 }
                 
-                if (isTuesday) dailyBase += type.includes('full') ? 200 : (200 * qty); // 週二加價
                 basePrice += dailyBase;
             }
 
@@ -872,6 +908,12 @@
           document.getElementById('discountPrice').innerText = Math.round(discount);
           document.getElementById('finalTotal').innerText = Math.round(basePrice + acPrice + totalAddonCost - discount);
 
+          // 🎁 顯示折價券
+          if (totalCoupon > 0) {
+              document.getElementById('rowCoupon').classList.remove('hidden');
+              document.getElementById('couponPrice').innerText = totalCoupon;
+          }
+
           if (!document.getElementById('extraOptions').classList.contains('hidden')) {
             if (isNightRush) document.getElementById('rowRush').classList.remove('hidden');
             if (acPrice > 0) document.getElementById('rowAC').classList.remove('hidden');
@@ -879,9 +921,6 @@
           document.getElementById('resultBox').classList.remove('hidden');
         }
 
-        // ==========================================
-        // ✅ 核心：送出訂單 (完美打包 14 個欄位與 JSON 處理)
-        // ==========================================
         function submitOrder() {
           if (!confirm("⚠️抵達營區入口時，請勿直接入場，請先撥電話告知營主！非常重要❗️感謝配合🙏\n\n確認送出訂單？")) return;
 
@@ -935,6 +974,13 @@
           }
 
           if (visitTime) details += ` / 預計時間:${visitTime}`;
+
+          // 🎁 將折價券資訊寫入給營主的訂單明細中
+          const couponRow = document.getElementById('rowCoupon');
+          if (couponRow && !couponRow.classList.contains('hidden')) {
+              const couponAmt = document.getElementById('couponPrice').innerText;
+              details += ` / 🎁贈夜市折價券$${couponAmt}`;
+          }
 
           const btn = document.getElementById('submitBtn');
           const originalText = btn.innerText; btn.innerText = "⏳ 處理中..."; btn.disabled = true;
