@@ -125,7 +125,7 @@
                     </p>
                     <ul style="margin: 0 0 0 20px; padding: 0; font-size: 0.9rem; line-height: 1.6;">
                         <li><span style="color:#d35400; font-weight:bold;">⛺️ 營位</span> 贈 $100 夜市折價券 (僅釋出 8 格)</li>
-                        <li><span style="color:#d35400; font-weight:bold;">🚐 大馳露營車</span> 贈 $150 夜市折價券 (僅 1 台)</li>
+                        <li><span style="color:#d35400; font-weight:bold;">🚐 大馳露營車</span> 贈 $200 夜市折價券 (僅 1 台)</li>
                         <li><span style="color:#d35400; font-weight:bold;">🚐 StarCraft</span> 贈 $200 夜市折價券 (僅 1 台)</li>
                         <li><span style="color:#d35400; font-weight:bold;">🛏️ 溫馨四人房</span> 贈 $200 夜市折價券 (僅 1 間)</li>
                     </ul>
@@ -281,8 +281,8 @@
                     <div class="result-row discount"><span data-i18n="res_discount">符合折扣：</span> <span>-<span id="discountPrice">0</span> 元</span></div>
                     
                     <div class="result-row discount hidden" id="rowCoupon">
-                        <span style="color:#d35400; font-weight:bold;">🎁 贈品：</span> 
-                        <span style="color:#d35400; font-weight:bold;" id="couponText">贈夜市折價券🎫 一張</span>
+                        <span style="color:#d35400; font-weight:bold;">🎁 贈品加碼：</span> 
+                        <span style="color:#d35400; font-weight:bold;" id="couponText">贈 $200 水煙酒吧微醺券🍹</span>
                     </div>
 
                     <hr style="margin: 10px 0; border: none; border-top: 1px dashed #ccc;">
@@ -628,22 +628,22 @@
             }
         }
 
-        // 🏕️ 全新定價設定 (平日 / 假日 / 連假 / 過年)
+        // 🏕️ 全新定價設定與折扣規則 (大馳/StarCraft/房間 最新版價格)
         const CAMPING_CONFIG = {
-          tent: { rates: { weekday: 700, weekend: 800, holiday: 1000, cny: 1200 }, nightRush: { weekday: 500, weekend: 600, holiday: 600, cny: 800 }, discountType: "fixed_amount" },
-          moto: { rates: { weekday: 400, weekend: 500, holiday: 600, cny: 800 }, nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 }, discountType: "fixed_amount" },
-          solo: { rates: { weekday: 400, weekend: 500, holiday: 600, cny: 800 }, nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 }, discountType: "fixed_amount" },
-          car: { rates: { weekday: 600, weekend: 700, holiday: 800, cny: 1100 }, nightRush: { weekday: 500, weekend: 600, holiday: 600, cny: 800 }, discountType: "fixed_amount" },
-          car_bed_vip: { people_rates: { 1: { weekday: 250, weekend: 350, holiday: 350, cny: 350 }, 2: { weekday: 300, weekend: 400, holiday: 400, cny: 400 }, 3: { weekday: 400, weekend: 500, holiday: 500, cny: 500 }, 4: { weekday: 500, weekend: 600, holiday: 600, cny: 600 } }, tent_add_on: { weekday: 50, weekend: 50, holiday: 50, cny: 50 }, ac_fee: 50, nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 }, discountType: "none" },
-          camper: { rates: { weekday: 800, weekend: 1000, holiday: 1200, cny: 1500 }, nightRush: { weekday: 600, weekend: 700, holiday: 800, cny: 800 }, discountType: "fixed_amount_premium" },
+          tent: { rates: { weekday: 700, weekend: 800, holiday: 1000, cny: 1200 }, nightRush: { weekday: 500, weekend: 600, holiday: 600, cny: 800 } },
+          moto: { rates: { weekday: 400, weekend: 500, holiday: 600, cny: 800 }, nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 } },
+          solo: { rates: { weekday: 400, weekend: 500, holiday: 600, cny: 800 }, nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 } },
+          car: { rates: { weekday: 600, weekend: 700, holiday: 800, cny: 1100 }, nightRush: { weekday: 500, weekend: 600, holiday: 600, cny: 800 } },
+          car_bed_vip: { people_rates: { 1: { weekday: 250, weekend: 350, holiday: 350, cny: 350 }, 2: { weekday: 300, weekend: 400, holiday: 400, cny: 400 }, 3: { weekday: 400, weekend: 500, holiday: 500, cny: 500 }, 4: { weekday: 500, weekend: 600, holiday: 600, cny: 600 } }, tent_add_on: { weekday: 50, weekend: 50, holiday: 50, cny: 50 }, ac_fee: 50, nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 } },
+          camper: { rates: { weekday: 800, weekend: 1000, holiday: 1200, cny: 1500 }, nightRush: { weekday: 600, weekend: 700, holiday: 800, cny: 800 } },
           
-          dt392: { rates: { weekday: 1800, weekend: 2000, holiday: 2300, cny: 2400 }, discountType: "percentage" },
-          starcraft: { rates: { weekday: 2000, weekend: 2200, holiday: 2500, cny: 2600 }, discountType: "percentage" },
-          room: { rates: { weekday: 2200, weekend: 2400, holiday: 2800, cny: 3000 }, discountType: "percentage" },
+          dt392: { rates: { weekday: 1800, weekend: 2100, holiday: 2300, cny: 2400 } },
+          starcraft: { rates: { weekday: 2000, weekend: 2300, holiday: 2400, cny: 2600 } },
+          room: { rates: { weekday: 2200, weekend: 2400, holiday: 2600, cny: 3000 } },
           
-          full_basic: { rates: { weekday: 7000, weekend: 10000, holiday: 15000, cny: 15000 }, discountType: "full_venue_promo" },
-          full_vans: { rates: { weekday: 10000, weekend: 16000, holiday: 18000, cny: 18000 }, discountType: "full_venue_promo" },
-          full_all: { rates: { weekday: 13000, weekend: 18000, holiday: 20000, cny: 20000 }, discountType: "full_venue_promo" },
+          full_basic: { rates: { weekday: 7000, weekend: 10000, holiday: 15000, cny: 15000 } },
+          full_vans: { rates: { weekday: 10000, weekend: 16000, holiday: 18000, cny: 18000 } },
+          full_all: { rates: { weekday: 13000, weekend: 18000, holiday: 20000, cny: 20000 } },
           venue_hourly: { type: "venue_hourly", weekdayRates: { '3hr': 3000, '5hr': 4500, '6hr': 6000, '8hr': 7500, 'day': 12000 }, holidayRates: { '3hr': 4500, '5hr': null, '6hr': 5500, '8hr': 7000, 'day': 15000 } },
           bicycle: { type: "bicycle", rates: { '2hr': 150, '4hr': 250, 'day': 400, '24hr': 600, '15day': 2500, '30day': 3500 } }
         };
@@ -832,8 +832,8 @@
           const useAC = document.getElementById('useAC')?.checked || false;
           const bringPet = document.getElementById('bringPet')?.checked || false;
 
-          let basePrice = 0, rushPrice = 0, acPrice = 0, hasSaturday = false, isHolidayForDiscount = false;
-          let hasCoupon = false; 
+          let basePrice = 0, rushPrice = 0, acPrice = 0, hasSaturday = false, isFullHoliday = false;
+          let hasTuesday = false; 
 
           let currentDate = new Date(selectedDates[0]);
 
@@ -849,9 +849,9 @@
             else if (dayOfWeek === 5 || dayOfWeek === 6) rateType = 'weekend';
 
             if (dayOfWeek === 6 && !isMakeup) hasSaturday = true;
-            if (HOLIDAYS.includes(dateStr) || CNY_DAYS.includes(dateStr)) isHolidayForDiscount = true;
             
             let isTuesday = (dayOfWeek === 2 && !isMakeup); 
+            if (isTuesday) hasTuesday = true;
 
             if (i === 0 && isNightRush && config.nightRush) {
                 let rushRate = config.nightRush[rateType] || config.nightRush['holiday'] || config.nightRush['weekday'];
@@ -865,16 +865,12 @@
                 let rate_dt = CAMPING_CONFIG.dt392.rates[rateType] || CAMPING_CONFIG.dt392.rates['holiday'];
                 let rate_grass = config.rates && config.rates[rateType] !== undefined ? config.rates[rateType] : 0;
 
-                // 🌟 週二專屬夜市方案設定
+                // 🌟 週二專屬夜市方案設定 (更新大馳等價格)
                 if (isTuesday) {
-                    rate_room = 2800;
-                    rate_star = 2500;
-                    rate_dt = 2300;
+                    rate_room = 2400;
+                    rate_star = 2200;
+                    rate_dt = 2000;
                     rate_grass = 1000;
-                    
-                    if (['room', 'starcraft', 'dt392', 'tent', 'car', 'camper', 'moto', 'solo'].includes(type)) {
-                        hasCoupon = true;
-                    }
                 }
 
                 if (type === 'car_bed_vip') {
@@ -910,19 +906,43 @@
 
           let discount = 0;
           const totalPriceForDiscount = basePrice + acPrice;
-          let isFullHoliday = false;
+          
           const stayDatesStr = []; let tempDate = new Date(selectedDates[0]);
           for (let i = 0; i < nights; i++) { stayDatesStr.push(formatDate(tempDate)); tempDate.setDate(tempDate.getDate() + 1); }
           for (let block of HOLIDAY_BLOCKS) { if (block.every(d => stayDatesStr.includes(d))) { isFullHoliday = true; break; } }
 
-          if (type !== 'car_bed_vip') {
-            if (config.discountType === 'full_venue_promo' && nights >= 2) discount = totalPriceForDiscount * 0.15;
-            else if (config.discountType === 'percentage') { if (isHolidayForDiscount && nights >= 3) discount = totalPriceForDiscount * 0.15; else if (nights >= 2) discount = totalPriceForDiscount * 0.10; }
-            else if (config.discountType === 'fixed_amount' || config.discountType === 'fixed_amount_premium') {
-              let p = 0; if (nights >= 3) p += 300; if (hasSaturday && nights >= 2) p += 200;
-              discount = Math.min(p * qty, Math.round(totalPriceForDiscount * 0.2));
-            }
-            if (isFullHoliday) discount += (totalPriceForDiscount * 0.05);
+          let isRental = ['room', 'starcraft', 'dt392'].includes(type);
+          let isTent = ['tent', 'car', 'camper', 'moto', 'solo'].includes(type);
+          let hasCoupon = false;
+          let couponText = "";
+
+          if (type !== 'car_bed_vip' && !type.includes('full')) {
+              // 終極無敵連住扣款邏輯
+              if (nights >= 2) {
+                  // 折扣：免裝備一律折 800，自搭帳一律折 400
+                  if (isRental) discount = 800 * qty;
+                  else if (isTent) discount = 400 * qty;
+
+                  // 贈品防呆機制
+                  hasCoupon = true;
+                  if (hasTuesday) {
+                      couponText = `贈 $200 週二夜市折價券🎫 x ${qty}張 (不疊加酒吧券)`;
+                  } else {
+                      couponText = `贈 $200 水煙酒吧微醺券🍹 x ${qty}張`;
+                  }
+              } else if (nights === 1 && hasTuesday) {
+                  // 單訂週二一天，給夜市券
+                  hasCoupon = true;
+                  if (isRental) {
+                      couponText = `贈 $200 夜市折價券🎫 x ${qty}張`;
+                  } else if (isTent) {
+                      couponText = `贈 $100 夜市折價券🎫 x ${qty}張`;
+                  }
+              }
+          } else if (type.includes('full')) {
+              // 包場折扣維持原樣
+              if (nights >= 2) discount = totalPriceForDiscount * 0.15;
+              if (isFullHoliday) discount += (totalPriceForDiscount * 0.05);
           }
 
           document.getElementById('basePrice').innerText = Math.round(basePrice);
@@ -931,9 +951,10 @@
           document.getElementById('discountPrice').innerText = Math.round(discount);
           document.getElementById('finalTotal').innerText = Math.round(basePrice + acPrice + totalAddonCost - discount);
 
+          // 顯示贈品 (無金額折抵，僅顯示)
           if (hasCoupon) {
               document.getElementById('rowCoupon').classList.remove('hidden');
-              document.getElementById('couponText').innerText = `贈夜市折價券🎫 ${qty} 張`;
+              document.getElementById('couponText').innerText = couponText;
           }
 
           if (!document.getElementById('extraOptions').classList.contains('hidden')) {
@@ -997,9 +1018,10 @@
 
           if (visitTime) details += ` / 預計時間:${visitTime}`;
 
+          // 將贈品字眼直接寫入傳送給 LINE 跟 Google Sheet 的訂單中
           const couponRow = document.getElementById('rowCoupon');
           if (couponRow && !couponRow.classList.contains('hidden')) {
-              details += ` / 🎁贈夜市折價券🎫 ${qty}張`;
+              details += ` / 🎁${document.getElementById('couponText').innerText}`;
           }
 
           const btn = document.getElementById('submitBtn');
