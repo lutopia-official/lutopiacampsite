@@ -132,6 +132,13 @@
                     <p style="margin: 5px 0 0 0; font-size: 0.85rem; color: #666;">
                         🔥 名額極度有限，先搶先贏，享受「夜市在門口，開門逛夜市」的最強體驗！
                     </p>
+                    
+                    <div style="margin-top: 15px; padding-top: 12px; border-top: 1px dashed #ce93d8; text-align: center;">
+                        <p style="margin: 0 0 10px 0; font-size: 0.9rem; color: #6a1b9a; font-weight: bold;">🤝 攤商熱烈招募中！營區自帶保底消費客源，一起賺星空財 ✨</p>
+                        <a href="https://forms.gle/VDD6b8o2aBLtppuf9" target="_blank" style="display: inline-block; background: linear-gradient(135deg, #8e24aa, #6a1b9a); color: white; padding: 10px 20px; border-radius: 25px; text-decoration: none; font-size: 0.95rem; font-weight: bold; box-shadow: 0 3px 6px rgba(106, 27, 154, 0.4); transition: opacity 0.2s;">
+                            <i class="fas fa-bullhorn"></i> 點我填寫攤商報名表
+                        </a>
+                    </div>
                 </div>
 
                 <div id="unitNotice" class="notice-box" style="background-color: #e3f2fd; color: #0d47a1; padding: 12px; border-radius: 6px; margin-bottom: 15px; border-left: 5px solid #2196F3; font-size: 0.95rem;">
@@ -826,7 +833,7 @@
           const bringPet = document.getElementById('bringPet')?.checked || false;
 
           let basePrice = 0, rushPrice = 0, acPrice = 0, hasSaturday = false, isHolidayForDiscount = false;
-          let hasCoupon = false; // 🌟 取代總金額，改為標記是否有折價券
+          let hasCoupon = false; 
 
           let currentDate = new Date(selectedDates[0]);
 
@@ -860,12 +867,11 @@
 
                 // 🌟 週二專屬夜市方案設定
                 if (isTuesday) {
-                    rate_room = 2500;
-                    rate_star = 2200;
-                    rate_dt = 2100;
+                    rate_room = 2800;
+                    rate_star = 2500;
+                    rate_dt = 2300;
                     rate_grass = 1000;
                     
-                    // 只要是指定類型就發送無金額版本的折價券提示
                     if (['room', 'starcraft', 'dt392', 'tent', 'car', 'camper', 'moto', 'solo'].includes(type)) {
                         hasCoupon = true;
                     }
@@ -925,7 +931,6 @@
           document.getElementById('discountPrice').innerText = Math.round(discount);
           document.getElementById('finalTotal').innerText = Math.round(basePrice + acPrice + totalAddonCost - discount);
 
-          // 🎁 如果符合贈送條件，顯示無金額版的折價券提示
           if (hasCoupon) {
               document.getElementById('rowCoupon').classList.remove('hidden');
               document.getElementById('couponText').innerText = `贈夜市折價券🎫 ${qty} 張`;
@@ -992,7 +997,6 @@
 
           if (visitTime) details += ` / 預計時間:${visitTime}`;
 
-          // 🎁 將無金額版折價券寫入訂單明細
           const couponRow = document.getElementById('rowCoupon');
           if (couponRow && !couponRow.classList.contains('hidden')) {
               details += ` / 🎁贈夜市折價券🎫 ${qty}張`;
