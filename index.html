@@ -483,16 +483,15 @@
                 </section>
                 <section class="bg-emerald-800 rounded-2xl p-5 text-white shadow-lg">
                     <div class="flex items-center space-x-2 mb-3"><i class="fas fa-gift text-amber-300"></i><h2 class="text-lg font-bold" style="border:none; color:white;">2. 部落文化體驗包</h2></div>
-                    <div class="text-2xl font-black text-amber-300 mb-4">優惠價 NT$ 1,999 <span class="text-sm font-normal text-white">/ 人</span></div>
+                    <div class="text-2xl font-black text-amber-300 mb-4">優惠價 NT$ 1,200 <span class="text-sm font-normal text-white">/ 人</span></div>
                     <ul class="space-y-2 text-sm opacity-90">
                         <li class="flex items-start space-x-2"><i class="fas fa-check-circle text-amber-400 mt-1"></i><span><strong>美式糯米酒釀 (1hr)：</strong>全國首家認證傳統酒釀</span></li>
                         <li class="flex items-start space-x-2"><i class="fas fa-check-circle text-amber-400 mt-1"></i><span><strong>原民風好皂頭 (1hr)：</strong>運用傳統植物製作抗菌手工皂</span></li>
-                        <li class="flex items-start space-x-2"><i class="fas fa-check-circle text-amber-400 mt-1"></i><span><strong>星空營火派堆：</strong>營火場位及基礎生火服務</span></li>
                     </ul>
                 </section>
             </div>
             <div class="bg-gray-100 p-6 text-center space-y-3">
-                <p class="text-xs text-gray-500 leading-relaxed">成行門檻：體驗包 4 人起 | 需提前 7 天預約<br>台東縣都蘭營區・錄托邦部落慢活</p>
+                <p class="text-xs text-gray-500 leading-relaxed">⚠️ 4人以上才開團 | 需提前 7 天預約<br>台東縣都蘭營區・錄托邦部落慢活</p>
                 <button onclick="bookTribalPackage()" class="w-full bg-amber-800 text-white font-bold py-3 rounded-xl hover:bg-amber-900 transition shadow-lg" style="cursor:pointer;">立即預約訂位</button>
             </div>
         </div>
@@ -1091,10 +1090,10 @@
             document.getElementById('customerInfoSection')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
             const noteInput = document.getElementById('customerNote');
             if (noteInput) {
-                const tpl = "【我要預約部落慢活 3天2夜包套】\n1. 預計體驗人數： 人\n2. 是否需加購車站接送：\n3. 是否需加購代烤肉服務：";
+                const tpl = "【我要預約部落慢活 3天2夜包套】\n1. 預計體驗人數： 人 (⚠️ 4人以上才開團)";
                 noteInput.value = noteInput.value.trim() ? noteInput.value.trim() + "\n\n" + tpl : tpl;
             }
-            setTimeout(() => alert("🎉 已為您切換至預約表單！\n\n👉 請在上方選擇您的「預約日期」與「營位類型」。\n👉 已經為您在最下方的「備註欄」帶入包套格式，請直接填寫體驗人數與加購需求即可！"), 500);
+            setTimeout(() => alert("🎉 已為您切換至預約表單！\n\n👉 請在上方選擇您的「預約日期」與「營位類型」。\n👉 已經為您在最下方的「備註欄」帶入包套格式，請直接填寫體驗人數即可！(溫馨提醒：本行程需 4 人以上才開團喔！)"), 500);
         }
     </script>
 </body>
