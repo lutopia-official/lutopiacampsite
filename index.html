@@ -172,15 +172,20 @@
                         <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;">
                             <div>
                                 <strong style="color: #6a1b9a; font-size: 1rem;"><i class="fas fa-handshake"></i> 攤商招募中！【頭家睏霸專屬套票】</strong>
-                                <p style="margin: 3px 0 0 0; font-size: 0.85rem; color: #555;">收攤免開夜車！大馳只要$1,800/免收攤位費！</p>
+                                <p style="margin: 3px 0 0 0; font-size: 0.85rem; color: #555;">填完報名表解鎖密碼，大馳只要$1,800！</p>
                             </div>
                             <label style="display: flex; align-items: center; cursor: pointer; font-weight: bold; color: #8e24aa; margin-top: 8px; background: #fff; padding: 5px 10px; border-radius: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
                                 <span class="vendor-toggle">
-                                    <input type="checkbox" id="isVendor" onchange="calculateTotal()">
+                                    <input type="checkbox" id="isVendor" onclick="return verifyVendor(this)">
                                     <span class="slider"></span>
                                 </span>
                                 我是市集攤商
                             </label>
+                        </div>
+                        <div style="text-align: right; margin-top: 8px;">
+                            <a href="https://forms.gle/VDD6b8o2aBLtppuf9" target="_blank" style="display: inline-block; background: linear-gradient(135deg, #8e24aa, #6a1b9a); color: white; padding: 6px 12px; border-radius: 15px; text-decoration: none; font-size: 0.85rem; font-weight: bold; box-shadow: 0 3px 6px rgba(106, 27, 154, 0.4); transition: opacity 0.2s;">
+                                <i class="fas fa-pencil-alt"></i> 去填寫報名表獲取密碼
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -829,6 +834,25 @@
             }
         }
 
+        // 🔐 攤商解鎖密碼驗證邏輯
+        function verifyVendor(checkbox) {
+            if (checkbox.checked) {
+                const code = prompt("請輸入『攤商專屬解鎖碼』🔒\n(📝 提示：填寫完攤商報名表單後，解鎖碼會顯示在最後的成功頁面上喔！)");
+                if (code === "BOSS666") { // 您可以隨時在這裡更改通關密語
+                    alert("✅ 解鎖成功！已為您切換為「頭家睏霸專屬套票」報價模式！");
+                    calculateTotal();
+                    return true;
+                } else {
+                    alert("❌ 解鎖碼錯誤！請先完成上方攤商報名表單填寫獲取密碼。");
+                    checkbox.checked = false;
+                    return false;
+                }
+            } else {
+                calculateTotal();
+                return true;
+            }
+        }
+
         function calculateTotal() {
           const type = document.getElementById('campType').value;
           if (!type) { hideResult(); return; }
@@ -997,7 +1021,7 @@
               } else if (nights === 1 && hasTuesday) {
                   hasCoupon = true;
                   if (isVendorMode) {
-                      couponText = `🤝 攤商專屬優惠已套用 (免收攤位費/營位專案價)，恕不疊加折價券`;
+                      couponText = `🤝 攤商優惠已套用 (含攤租/營位折扣)，恕不疊加折價券`;
                   } else if (isRental) {
                       couponText = `贈 $200 夜市折價券🎫 x ${qty}張`;
                   } else if (isTent) {
@@ -1139,7 +1163,10 @@
           document.querySelector("#dateRange")._flatpickr.clear(); selectedDates = [];
           document.getElementById('campType').value = ""; toggleInputs();
           document.getElementById('nights').value = '0';
-          ['useAC', 'bringPet', 'carBedTent', 'isNightRush', 'enableTribal', 'isVendor'].forEach(id => { if(document.getElementById(id)) document.getElementById(id).checked = false; });
+          // 確保重置時把攤商按鈕關掉，不觸發密碼詢問
+          const vendorBtn = document.getElementById('isVendor');
+          if (vendorBtn) vendorBtn.checked = false;
+          ['useAC', 'bringPet', 'carBedTent', 'isNightRush', 'enableTribal'].forEach(id => { if(document.getElementById(id)) document.getElementById(id).checked = false; });
           document.getElementById('bikeQty').value = 1; document.getElementById('extraPeople').value = 0; document.getElementById('visitors').value = 0; document.getElementById('visitTime').selectedIndex = 0;
           if (document.getElementById('tribalInputBlock')) document.getElementById('tribalInputBlock').classList.add('hidden');
           if (document.getElementById('tribalPeople')) document.getElementById('tribalPeople').value = 4;
