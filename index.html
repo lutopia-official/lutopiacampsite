@@ -122,11 +122,16 @@
                 
                 <div id="tribalContainerBox" class="notice-box" style="background-color: #e8f5e9; border: 2px solid #4caf50; padding: 15px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(76, 175, 80, 0.15); transition: background-color 0.5s;">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px;">
-                        <div>
-                            <strong style="color: #2e7d32; font-size: 1.05rem;"><i class="fas fa-leaf"></i> 加值行程：部落慢活 3天2夜體驗包</strong>
-                            <p style="margin: 5px 0 0 0; font-size: 0.85rem; color: #555;">包含：美式糯米酒釀 (1hr) ＋ 原民風好皂頭 (1hr)</p>
+                        
+                        <div style="display: flex; gap: 15px; align-items: center; flex: 1;">
+                            <video src="糯米釀小米酒.MOV" style="width: 75px; height: 75px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.15);" autoplay loop muted playsinline></video>
+                            <div>
+                                <strong style="color: #2e7d32; font-size: 1.05rem;"><i class="fas fa-leaf"></i> 加值行程：部落慢活 3天2夜體驗包</strong>
+                                <p style="margin: 5px 0 0 0; font-size: 0.85rem; color: #555;">包含：美式糯米酒釀 (1hr) ＋ 原民風好皂頭 (1hr)</p>
+                            </div>
                         </div>
-                        <button onclick="openTribalModal()" style="background: #2e7d32; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; white-space: nowrap;"><i class="fas fa-search"></i> 查看詳情</button>
+
+                        <button onclick="openTribalModal()" style="background: #2e7d32; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; white-space: nowrap; height: fit-content; margin-top: 5px;"><i class="fas fa-search"></i> 查看影片與詳情</button>
                     </div>
                     <div style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed #a5d6a7; display: flex; align-items: center; flex-wrap: wrap; gap: 15px;">
                         <label style="display:flex; align-items:center; cursor:pointer; font-weight:bold; color:#d35400; font-size: 1.05rem;">
@@ -509,21 +514,37 @@
     <div id="tribalModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 9999; overflow-y: auto; display: none; align-items: flex-start; justify-content: center; padding: 20px 0;">
         <button onclick="closeTribalModal()" style="position: fixed; top: 20px; right: 20px; background: white; color: black; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 20px; cursor: pointer; z-index: 10000; box-shadow: 0 2px 10px rgba(0,0,0,0.3);"><i class="fas fa-times"></i></button>
         <div class="max-w-md mx-auto bg-white shadow-2xl rounded-3xl overflow-hidden border-4 border-amber-800" style="margin-top: 20px; margin-bottom: 40px; position: relative; width: 90%; max-width: 450px;">
+            
             <div class="relative h-64 bg-emerald-900">
-                <img src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&q=80&w=800" alt="Camping" class="w-full h-full object-cover opacity-80">
+                <video src="糯米釀小米酒2.MOV" class="w-full h-full object-cover opacity-80" autoplay loop muted playsinline></video>
                 <div class="absolute inset-0 flex flex-col justify-end p-6" style="background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);">
                     <h1 class="text-white text-3xl font-bold tracking-wider mb-1" style="font-family: 'Noto Sans TC', sans-serif;">錄托邦 LUTOPAN</h1>
                     <p class="text-amber-200 text-lg">部落慢活・三天兩夜露營體驗包</p>
                 </div>
                 <div class="absolute top-4 right-4 bg-amber-600 text-white px-3 py-1 rounded-full text-xs font-bold">都蘭深度之旅</div>
             </div>
+            
             <div class="p-6 space-y-8" style="background-image: url('https://www.transparenttextures.com/patterns/az-subtle.png');">
                 <section class="bg-emerald-800 rounded-2xl p-5 text-white shadow-lg">
                     <div class="flex items-center space-x-2 mb-3"><i class="fas fa-gift text-amber-300"></i><h2 class="text-lg font-bold" style="border:none; color:white;">部落文化體驗包內容</h2></div>
                     <div class="text-2xl font-black text-amber-300 mb-4">專案價 NT$ 1,200 <span class="text-sm font-normal text-white">/ 人</span></div>
-                    <ul class="space-y-2 text-sm opacity-90">
-                        <li class="flex items-start space-x-2"><i class="fas fa-check-circle text-amber-400 mt-1"></i><span><strong>美式糯米酒釀 (1hr)：</strong>全國首家認證傳統酒釀</span></li>
-                        <li class="flex items-start space-x-2"><i class="fas fa-check-circle text-amber-400 mt-1"></i><span><strong>原民風好皂頭 (1hr)：</strong>運用傳統植物製作抗菌手工皂</span></li>
+                    
+                    <ul class="space-y-4 text-sm opacity-95 mt-4">
+                        <li class="flex items-start space-x-3 border-b border-emerald-700 pb-4">
+                            <i class="fas fa-check-circle text-amber-400 mt-1 text-lg"></i>
+                            <div>
+                                <span class="text-base font-bold text-amber-100">美式糯米酒釀 (1hr)</span>
+                                <p class="text-gray-200 mt-1">全國首家認證傳統酒釀，親手體驗部落微醺文化，品嚐最純粹的糯米香甜。</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start space-x-3">
+                            <i class="fas fa-check-circle text-amber-400 mt-1 text-lg"></i>
+                            <div class="w-full">
+                                <span class="text-base font-bold text-amber-100">原民風好皂頭 (1hr)</span>
+                                <p class="text-gray-200 mt-1 mb-3">運用傳統植物元素製作抗菌手工皂，帶走屬於都蘭的天然香氣。</p>
+                                <img src="足渡蘭DIY.jpg" alt="足渡蘭DIY手工皂" class="w-full h-32 object-cover rounded-lg border-2 border-emerald-600 shadow-md">
+                            </div>
+                        </li>
                     </ul>
                 </section>
             </div>
@@ -838,7 +859,7 @@
         function verifyVendor(checkbox) {
             if (checkbox.checked) {
                 const code = prompt("請輸入『攤商專屬解鎖碼』🔒\n(📝 提示：填寫完攤商報名表單後，解鎖碼會顯示在最後的成功頁面上喔！)");
-                if (code === "BOSS666") { // 您可以隨時在這裡更改通關密語
+                if (code === "BOSS888") { // 您可以隨時在這裡更改通關密語
                     alert("✅ 解鎖成功！已為您切換為「頭家睏霸專屬套票」報價模式！");
                     calculateTotal();
                     return true;
@@ -1163,7 +1184,6 @@
           document.querySelector("#dateRange")._flatpickr.clear(); selectedDates = [];
           document.getElementById('campType').value = ""; toggleInputs();
           document.getElementById('nights').value = '0';
-          // 確保重置時把攤商按鈕關掉，不觸發密碼詢問
           const vendorBtn = document.getElementById('isVendor');
           if (vendorBtn) vendorBtn.checked = false;
           ['useAC', 'bringPet', 'carBedTent', 'isNightRush', 'enableTribal'].forEach(id => { if(document.getElementById(id)) document.getElementById(id).checked = false; });
