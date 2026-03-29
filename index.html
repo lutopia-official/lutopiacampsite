@@ -112,10 +112,40 @@
             <div class="container calculator-container" id="calculatorSection">
                 <h2 data-i18n="calc_title">🌲 露營/場地/周邊服務費用試算</h2>
                 
-                <div style="text-align: center; margin: 20px 0;">
-                    <button onclick="openTribalModal()" style="background: linear-gradient(135deg, #d35400, #e67e22); color: white; padding: 12px 24px; border-radius: 30px; font-size: 1.1rem; font-weight: bold; border: none; cursor: pointer; box-shadow: 0 4px 15px rgba(211, 84, 0, 0.4); animation: pulse-btn 2s infinite;">
-                        <i class="fas fa-leaf"></i> 加值行程 探索都蘭：部落慢活 3天2夜露營包套
-                    </button>
+                <div id="tribalContainerBox" class="notice-box" style="background-color: #e8f5e9; border: 2px solid #4caf50; padding: 15px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(76, 175, 80, 0.15); transition: background-color 0.5s;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px;">
+                        <div>
+                            <strong style="color: #2e7d32; font-size: 1.05rem;"><i class="fas fa-leaf"></i> 加值行程：部落慢活 3天2夜體驗包</strong>
+                            <p style="margin: 5px 0 0 0; font-size: 0.85rem; color: #555;">包含：美式糯米酒釀 (1hr) ＋ 原民風好皂頭 (1hr)</p>
+                        </div>
+                        <button onclick="openTribalModal()" style="background: #2e7d32; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; white-space: nowrap;"><i class="fas fa-search"></i> 查看詳情</button>
+                    </div>
+                    <div style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed #a5d6a7; display: flex; align-items: center; flex-wrap: wrap; gap: 15px;">
+                        <label style="display:flex; align-items:center; cursor:pointer; font-weight:bold; color:#d35400; font-size: 1.05rem;">
+                            <input type="checkbox" id="enableTribal" onchange="toggleTribal(); calculateTotal()" style="width:20px; height:20px; margin-right:8px;"> 
+                            我要加購 ($1,200/人)
+                        </label>
+                        <div id="tribalInputBlock" class="hidden" style="display: flex; align-items: center; gap: 8px; background: #fff; padding: 5px 10px; border-radius: 5px; border: 1px solid #ccc;">
+                            <label for="tribalPeople" style="margin:0; font-size:0.9rem; color:#333;">人數：</label>
+                            <input type="number" id="tribalPeople" value="4" min="4" onchange="validateTribalPeople(); calculateTotal()" style="width:60px; padding:5px; border:1px solid #aaa; border-radius:4px; text-align:center;"> 
+                            <span style="font-size: 0.8rem; color: #d32f2f; font-weight:bold;">(⚠️最低4人)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="consecutiveDiscountNotice" class="notice-box" style="background-color: #e8f5e9; color: #2e7d32; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 5px solid #4caf50; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                    <i class="fas fa-bed"></i> <strong style="font-size: 1.05rem;">🛌 慢活都蘭！連住雙重加碼優惠 🎁</strong>
+                    <p style="margin: 8px 0 5px 0; font-size: 0.9rem; line-height: 1.6; font-weight: bold;">
+                        📅 適用時間：系統自動計算！選取「2晚」以上自動折價！
+                    </p>
+                    <ul style="margin: 0 0 0 20px; padding: 0; font-size: 0.9rem; line-height: 1.6;">
+                        <li><span style="color:#d35400; font-weight:bold;">🎒 免裝備住宿：</span> 連住兩晚 <strong style="color:red; font-size: 1.1rem;">現折 $800</strong>！</li>
+                        <li><span style="color:#d35400; font-weight:bold;">⛺️ 自搭帳/車泊：</span> 連住兩晚 <strong style="color:red; font-size: 1.1rem;">現折 $400</strong>！</li>
+                    </ul>
+                    <div style="margin-top: 10px; background: #fff; padding: 8px; border-radius: 6px; border: 1px dashed #4caf50;">
+                        🍹 <strong style="color:#d35400;">加碼再送：</strong>連住專案皆贈送 <strong>$200 水煙酒吧微醺券</strong>！<br>
+                        <small style="color:#666; display: block; margin-top: 4px;">(⚠️若連住日期包含『週二』，該券將自動轉換為等值『週二夜市折價券』，下樓直接開吃宵夜！不疊加發放喔！)</small>
+                    </div>
                 </div>
 
                 <div id="nightMarketNotice" class="notice-box" style="background-color: #f3e5f5; color: #4a148c; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 5px solid #9c27b0; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
@@ -275,6 +305,7 @@
                 <div id="resultBox" class="result-box hidden">
                     <h3 data-i18n="result_title">試算結果</h3>
                     <div class="result-row"><span data-i18n="res_base">基本費用：</span> <span><span id="basePrice">0</span> 元</span></div>
+                    <div class="result-row hidden" id="rowTribal"><span style="color:#2e7d32; font-weight:bold;">🌿 部落體驗包：</span> <span><span id="tribalTotal">0</span> 元</span></div>
                     <div class="result-row" id="rowRush"><span data-i18n="res_rush">夜衝費用：</span> <span><span id="rushPrice">0</span> 元</span></div>
                     <div class="result-row" id="rowAddons"><span data-i18n="res_addon">加購費用：</span> <span><span id="addonPrice">0</span> 元</span></div>
                     <div class="result-row" id="rowAC"><span data-i18n="res_ac">冷氣加價：</span> <span><span id="acPrice">0</span> 元</span></div>
@@ -411,7 +442,7 @@
                             <h4 data-i18n="rule_sub_rush" style="margin-top:0; color:#444;">🌙 夜衝服務 (限自搭帳)</h4>
                             <ul style="padding-left: 20px; font-size:0.9rem; line-height:1.6;">
                                 <li data-i18n="rule_li_rush_time"><strong>時間：</strong>20:00 後入場，23:30 前搭完。</li>
-                                <li data-i18n="rule_li_rush_price"><strong>費用：</strong>夜衝價格依各營位有所不同，請以系統試算為準。</li>
+                                <li data-i18n="rule_li_rush_price"><strong>費用：</strong>夜衝價格依各營位有所不同，請以系统試算為準。</li>
                                 <li class="highlight" data-i18n="rule_li_rush_rv" style="color:#d35400; font-weight:bold;">🚐 自備露營車夜衝依金額打 8 折。</li>
                             </ul>
                         </div>
@@ -463,27 +494,14 @@
                 <img src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&q=80&w=800" alt="Camping" class="w-full h-full object-cover opacity-80">
                 <div class="absolute inset-0 flex flex-col justify-end p-6" style="background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);">
                     <h1 class="text-white text-3xl font-bold tracking-wider mb-1" style="font-family: 'Noto Sans TC', sans-serif;">錄托邦 LUTOPAN</h1>
-                    <p class="text-amber-200 text-lg">部落慢活・三天兩夜露營包套</p>
+                    <p class="text-amber-200 text-lg">部落慢活・三天兩夜露營體驗包</p>
                 </div>
                 <div class="absolute top-4 right-4 bg-amber-600 text-white px-3 py-1 rounded-full text-xs font-bold">都蘭深度之旅</div>
             </div>
             <div class="p-6 space-y-8" style="background-image: url('https://www.transparenttextures.com/patterns/az-subtle.png');">
-                <section>
-                    <div class="flex items-center space-x-2 mb-4"><i class="fas fa-campground text-amber-800 text-xl"></i><h2 class="text-xl font-bold text-gray-800 border-b-2 border-amber-200 flex-1 pb-1" style="border-bottom-width: 2px; padding-bottom: 0.25rem;">1. 營位場地費 (每晚)</h2></div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-sm text-left border-collapse">
-                            <thead><tr class="bg-amber-100 text-amber-900"><th class="p-2 border border-amber-200">類型</th><th class="p-2 border border-amber-200 text-center">平日</th><th class="p-2 border border-amber-200 text-center">假日</th><th class="p-2 border border-amber-200 text-center text-orange-700">連假</th></tr></thead>
-                            <tbody>
-                                <tr class="hover:bg-amber-50"><td class="p-2 border border-amber-100 font-medium">⛺ 自搭帳篷</td><td class="p-2 border border-amber-100 text-center">$700</td><td class="p-2 border border-amber-100 text-center font-bold">$800</td><td class="p-2 border border-amber-100 text-center font-bold text-orange-700">$1,000</td></tr>
-                                <tr class="hover:bg-amber-50"><td class="p-2 border border-amber-100 font-medium">🚗 車泊 / 車露</td><td class="p-2 border border-amber-100 text-center">$600</td><td class="p-2 border border-amber-100 text-center font-bold">$700</td><td class="p-2 border border-amber-100 text-center font-bold text-orange-700">$800</td></tr>
-                                <tr class="hover:bg-amber-50"><td class="p-2 border border-amber-100 font-medium">🚐 自備露營車</td><td class="p-2 border border-amber-100 text-center">$800</td><td class="p-2 border border-amber-100 text-center font-bold">$1,000</td><td class="p-2 border border-amber-100 text-center font-bold text-orange-700">$1,200</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
                 <section class="bg-emerald-800 rounded-2xl p-5 text-white shadow-lg">
-                    <div class="flex items-center space-x-2 mb-3"><i class="fas fa-gift text-amber-300"></i><h2 class="text-lg font-bold" style="border:none; color:white;">2. 部落文化體驗包</h2></div>
-                    <div class="text-2xl font-black text-amber-300 mb-4">優惠價 NT$ 1,200 <span class="text-sm font-normal text-white">/ 人</span></div>
+                    <div class="flex items-center space-x-2 mb-3"><i class="fas fa-gift text-amber-300"></i><h2 class="text-lg font-bold" style="border:none; color:white;">部落文化體驗包內容</h2></div>
+                    <div class="text-2xl font-black text-amber-300 mb-4">專案價 NT$ 1,200 <span class="text-sm font-normal text-white">/ 人</span></div>
                     <ul class="space-y-2 text-sm opacity-90">
                         <li class="flex items-start space-x-2"><i class="fas fa-check-circle text-amber-400 mt-1"></i><span><strong>美式糯米酒釀 (1hr)：</strong>全國首家認證傳統酒釀</span></li>
                         <li class="flex items-start space-x-2"><i class="fas fa-check-circle text-amber-400 mt-1"></i><span><strong>原民風好皂頭 (1hr)：</strong>運用傳統植物製作抗菌手工皂</span></li>
@@ -492,7 +510,7 @@
             </div>
             <div class="bg-gray-100 p-6 text-center space-y-3">
                 <p class="text-xs text-gray-500 leading-relaxed">⚠️ 4人以上才開團 | 需提前 7 天預約<br>台東縣都蘭營區・錄托邦部落慢活</p>
-                <button onclick="bookTribalPackage()" class="w-full bg-amber-800 text-white font-bold py-3 rounded-xl hover:bg-amber-900 transition shadow-lg" style="cursor:pointer;">立即預約訂位</button>
+                <button onclick="bookTribalPackage()" class="w-full bg-amber-800 text-white font-bold py-3 rounded-xl hover:bg-amber-900 transition shadow-lg" style="cursor:pointer;">我了解了，前往加購</button>
             </div>
         </div>
     </div>
@@ -782,6 +800,27 @@
 
         function formatDate(date) { return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`; }
 
+        // 🌿 切換部落慢活加值行程
+        function toggleTribal() {
+            const isChecked = document.getElementById('enableTribal').checked;
+            const block = document.getElementById('tribalInputBlock');
+            if (isChecked) {
+                block.classList.remove('hidden');
+                validateTribalPeople();
+            } else {
+                block.classList.add('hidden');
+            }
+        }
+
+        // 🌿 防呆驗證部落慢活人數
+        function validateTribalPeople() {
+            const input = document.getElementById('tribalPeople');
+            if (!input.value || parseInt(input.value) < 4) {
+                alert("⚠️ 部落慢活體驗包最低需 4 人成行喔！");
+                input.value = 4;
+            }
+        }
+
         function calculateTotal() {
           const type = document.getElementById('campType').value;
           if (!type) { hideResult(); return; }
@@ -794,7 +833,7 @@
               if (parseInt(visitTime.split(':')[0]) >= 20) rushCheckbox.checked = true;
           }
 
-          ['rowAddons', 'rowRush', 'rowAC', 'rowCoupon'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
+          ['rowAddons', 'rowRush', 'rowAC', 'rowCoupon', 'rowTribal'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
           document.getElementById('discountPrice').parentElement.classList.remove('hidden');
 
           if (type === 'bicycle') {
@@ -802,7 +841,7 @@
             const qty = parseInt(document.getElementById('bikeQty').value) || 1;
             const finalPrice = (config.rates[document.getElementById('bikeScheme').value] || 0) * qty;
             document.getElementById('basePrice').innerText = finalPrice;
-            ['addonPrice','rushPrice','acPrice','discountPrice'].forEach(id => document.getElementById(id).innerText = 0);
+            ['addonPrice','rushPrice','acPrice','discountPrice','tribalTotal'].forEach(id => document.getElementById(id).innerText = 0);
             document.getElementById('finalTotal').innerText = finalPrice;
             document.getElementById('discountPrice').parentElement.classList.add('hidden');
             document.getElementById('resultBox').classList.remove('hidden'); return;
@@ -815,7 +854,7 @@
             const scheme = document.getElementById('rentalScheme').value;
             let finalPrice = isVenueHoliday ? (scheme === '5hr' ? (alert("假日無 5hr，切換為 3hr"), document.getElementById('rentalScheme').value = '3hr', config.holidayRates['3hr']) : config.holidayRates[scheme]) : config.weekdayRates[scheme];
             document.getElementById('basePrice').innerText = finalPrice;
-            ['addonPrice','rushPrice','acPrice','discountPrice'].forEach(id => document.getElementById(id).innerText = 0);
+            ['addonPrice','rushPrice','acPrice','discountPrice','tribalTotal'].forEach(id => document.getElementById(id).innerText = 0);
             document.getElementById('finalTotal').innerText = finalPrice;
             document.getElementById('discountPrice').parentElement.classList.add('hidden');
             document.getElementById('resultBox').classList.remove('hidden'); return;
@@ -831,7 +870,7 @@
           const useAC = document.getElementById('useAC')?.checked || false;
           const bringPet = document.getElementById('bringPet')?.checked || false;
 
-          let basePrice = 0, rushPrice = 0, acPrice = 0, hasSaturday = false, isFullHoliday = false;
+          let basePrice = 0, rushPrice = 0, acPrice = 0, tribalPrice = 0, hasSaturday = false, isFullHoliday = false;
           let hasTuesday = false; 
 
           let currentDate = new Date(selectedDates[0]);
@@ -864,7 +903,6 @@
                 let rate_dt = CAMPING_CONFIG.dt392.rates[rateType] || CAMPING_CONFIG.dt392.rates['holiday'];
                 let rate_grass = config.rates && config.rates[rateType] !== undefined ? config.rates[rateType] : 0;
 
-                // 🌟 週二專屬夜市方案設定 (更新大馳等價格)
                 if (isTuesday) {
                     rate_room = 2400;
                     rate_star = 2200;
@@ -895,13 +933,20 @@
             currentDate.setDate(currentDate.getDate() + 1);
           }
 
-          // 🌟 智慧化加人費用判定 (大馳/StarCraft 200元，其他300元)
           let extraPersonPrice = 300;
           if (type === 'starcraft' || type === 'dt392') { extraPersonPrice = 200; }
 
           const totalAddonCost = ((parseInt(document.getElementById('extraPeople').value) || 0) * extraPersonPrice * nights) + ((parseInt(document.getElementById('visitors').value) || 0) * 100) + (bringPet ? 100 * qty * nights : 0);
           document.getElementById('addonPrice').innerText = totalAddonCost;
           if (totalAddonCost > 0) document.getElementById('rowAddons').classList.remove('hidden');
+
+          // 🌿 加值行程計算
+          if (document.getElementById('enableTribal') && document.getElementById('enableTribal').checked) {
+              const tp = parseInt(document.getElementById('tribalPeople').value) || 4;
+              tribalPrice = tp * 1200;
+              document.getElementById('tribalTotal').innerText = tribalPrice;
+              document.getElementById('rowTribal').classList.remove('hidden');
+          }
 
           let discount = 0;
           const totalPriceForDiscount = basePrice + acPrice;
@@ -916,13 +961,10 @@
           let couponText = "";
 
           if (type !== 'car_bed_vip' && !type.includes('full')) {
-              // 終極無敵連住扣款邏輯
               if (nights >= 2) {
-                  // 折扣：免裝備一律折 800，自搭帳一律折 400
                   if (isRental) discount = 800 * qty;
                   else if (isTent) discount = 400 * qty;
 
-                  // 贈品防呆機制
                   hasCoupon = true;
                   if (hasTuesday) {
                       couponText = `贈 $200 週二夜市折價券🎫 x ${qty}張 (不疊加酒吧券)`;
@@ -930,7 +972,6 @@
                       couponText = `贈 $200 水煙酒吧微醺券🍹 x ${qty}張`;
                   }
               } else if (nights === 1 && hasTuesday) {
-                  // 單訂週二一天，給夜市券
                   hasCoupon = true;
                   if (isRental) {
                       couponText = `贈 $200 夜市折價券🎫 x ${qty}張`;
@@ -939,7 +980,6 @@
                   }
               }
           } else if (type.includes('full')) {
-              // 包場折扣維持原樣
               if (nights >= 2) discount = totalPriceForDiscount * 0.15;
               if (isFullHoliday) discount += (totalPriceForDiscount * 0.05);
           }
@@ -948,9 +988,8 @@
           document.getElementById('rushPrice').innerText = isNightRush ? " (已含)" : 0;
           document.getElementById('acPrice').innerText = Math.round(acPrice);
           document.getElementById('discountPrice').innerText = Math.round(discount);
-          document.getElementById('finalTotal').innerText = Math.round(basePrice + acPrice + totalAddonCost - discount);
+          document.getElementById('finalTotal').innerText = Math.round(basePrice + acPrice + totalAddonCost + tribalPrice - discount);
 
-          // 顯示贈品 (無金額折抵，僅顯示)
           if (hasCoupon) {
               document.getElementById('rowCoupon').classList.remove('hidden');
               document.getElementById('couponText').innerText = couponText;
@@ -1011,13 +1050,18 @@
               if (document.getElementById('bringPet').checked) details += " (含寵物)";
             }
 
+            // 🌿 加入部落慢活訂單明細
+            if (document.getElementById('enableTribal') && document.getElementById('enableTribal').checked) {
+                const tp = document.getElementById('tribalPeople').value;
+                details += ` / 🌿部落體驗包:${tp}人`;
+            }
+
             const guestNames = Array.from(document.querySelectorAll('.guest-name-input')).map((el, idx) => el.value.trim() ? `(第${idx + 2}位: ${el.value.trim()})` : "").filter(Boolean);
             if (guestNames.length > 0) details += `\n同行：${guestNames.join('、')}`;
           }
 
           if (visitTime) details += ` / 預計時間:${visitTime}`;
 
-          // 將贈品字眼直接寫入傳送給 LINE 跟 Google Sheet 的訂單中
           const couponRow = document.getElementById('rowCoupon');
           if (couponRow && !couponRow.classList.contains('hidden')) {
               details += ` / 🎁${document.getElementById('couponText').innerText}`;
@@ -1066,8 +1110,10 @@
           document.querySelector("#dateRange")._flatpickr.clear(); selectedDates = [];
           document.getElementById('campType').value = ""; toggleInputs();
           document.getElementById('nights').value = '0';
-          ['useAC', 'bringPet', 'carBedTent', 'isNightRush'].forEach(id => { if(document.getElementById(id)) document.getElementById(id).checked = false; });
+          ['useAC', 'bringPet', 'carBedTent', 'isNightRush', 'enableTribal'].forEach(id => { if(document.getElementById(id)) document.getElementById(id).checked = false; });
           document.getElementById('bikeQty').value = 1; document.getElementById('extraPeople').value = 0; document.getElementById('visitors').value = 0; document.getElementById('visitTime').selectedIndex = 0;
+          if (document.getElementById('tribalInputBlock')) document.getElementById('tribalInputBlock').classList.add('hidden');
+          if (document.getElementById('tribalPeople')) document.getElementById('tribalPeople').value = 4;
           ['carBedId', 'last5'].forEach(id => { if(document.getElementById(id)) document.getElementById(id).value = ''; });
           hideResult();
         }
@@ -1085,15 +1131,26 @@
 
         function openTribalModal() { document.getElementById('tribalModal').style.display = 'flex'; document.getElementById('tribalModal').classList.remove('hidden'); }
         function closeTribalModal() { document.getElementById('tribalModal').style.display = 'none'; document.getElementById('tribalModal').classList.add('hidden'); }
+        
         function bookTribalPackage() {
             closeTribalModal();
-            document.getElementById('customerInfoSection')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            const noteInput = document.getElementById('customerNote');
-            if (noteInput) {
-                const tpl = "【我要預約部落慢活 3天2夜包套】\n1. 預計體驗人數： 人 (⚠️ 4人以上才開團)";
-                noteInput.value = noteInput.value.trim() ? noteInput.value.trim() + "\n\n" + tpl : tpl;
+            // 自動勾選並展開人數輸入
+            const checkbox = document.getElementById('enableTribal');
+            if(checkbox) {
+                checkbox.checked = true;
+                toggleTribal();
+                calculateTotal();
+                checkbox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+                // 加個閃爍特效吸引客人目光
+                setTimeout(() => {
+                    const box = document.getElementById('tribalContainerBox');
+                    if(box) {
+                        box.style.backgroundColor = "#c8e6c9";
+                        setTimeout(() => box.style.backgroundColor = "#e8f5e9", 500);
+                    }
+                }, 500);
             }
-            setTimeout(() => alert("🎉 已為您切換至預約表單！\n\n👉 請在上方選擇您的「預約日期」與「營位類型」。\n👉 已經為您在最下方的「備註欄」帶入包套格式，請直接填寫體驗人數即可！(溫馨提醒：本行程需 4 人以上才開團喔！)"), 500);
         }
     </script>
 </body>
