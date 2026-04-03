@@ -177,8 +177,7 @@
                         <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;">
                             <div>
                                 <strong style="color: #6a1b9a; font-size: 1rem;"><i class="fas fa-handshake"></i> 攤商招募中！【頭家睏霸專屬套票】</strong>
-                                <p style="margin: 3px 0 0 0; font-size: 0.85rem; color: #555;">填完報名表解鎖密碼，大馳只要$1,800！</p>
-                            </div>
+        <p style="margin: 3px 0 0 0; font-size: 0.85rem; color: #555;">填完報名表解鎖密碼，大馳只要 $1,400！不只大馳，還有 StarCraft 也可享 $1,500 優惠！</p>                            </div>
                             <label style="display: flex; align-items: center; cursor: pointer; font-weight: bold; color: #8e24aa; margin-top: 8px; background: #fff; padding: 5px 10px; border-radius: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
                                 <span class="vendor-toggle">
                                     <input type="checkbox" id="isVendor" onclick="return verifyVendor(this)">
@@ -936,8 +935,9 @@
 
                     // 週二專屬定價邏輯
                     if (isTuesday) {
-                        rate_room = 2400; rate_star = 2200; rate_dt = 2000; rate_grass = 1000;
-                        if (isVendorMode) { rate_dt = 1800; rate_star = 2000; rate_grass = 1000; }
+                        rate_room = 2400; rate_star = 2200; rate_dt = 2000; rate_grass = 500;
+                        // 🤝 攤商頭家優惠更新：大馳降至 $1400，StarCraft 降至 $1500，營位 降至 $500
+                        if (isVendorMode) { rate_dt = 1400; rate_star = 1500; rate_grass = 500; }
                     }
 
                     if (type === 'car_bed_vip') {
