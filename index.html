@@ -41,7 +41,8 @@
         .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .checkbox-group label { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; cursor: pointer; background: #f8f9fa; padding: 10px; border-radius: 5px; border: 1px solid #eee; }
         .btn-group { display: flex; gap: 10px; margin-top: 20px; }
-        .calc-btn { flex: 2; background: #2c5e50; color: white; border: none; padding: 12px; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 1.1rem; }        .calc-btn:hover { background: #1e4036; }
+        .calc-btn { flex: 2; background: #2c5e50; color: white; border: none; padding: 12px; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 1.1rem; }
+        .calc-btn:hover { background: #1e4036; }
         .reset-btn { flex: 1; background: #95a5a6; color: white; border: none; padding: 12px; border-radius: 5px; cursor: pointer; font-weight: bold; }
         .reset-btn:hover { background: #7f8c8d; }
         .result-box { background: #fdfefe; border: 2px solid #2c5e50; padding: 20px; border-radius: 8px; margin-top: 20px; }
@@ -151,7 +152,7 @@
                         📅 適用時間：系統自動計算！選取天數自動折抵！
                     </p>
                     <ul style="margin: 0 0 0 20px; padding: 0; font-size: 0.9rem; line-height: 1.6;">
-                        <li><span style="color:#d35400; font-weight:bold;">🎒 免裝備住宿 (買多送多)：</span> 🎉 <strong style="color:red; font-size: 1.1rem;">買 2 晚送 1 晚！</strong> <small>(連住3晚，第3晚免費)</small></li>
+                        <li><span style="color:#d35400; font-weight:bold;">🎒 免裝備住宿 (買多送多)：</span> 🎉 <strong style="color:red; font-size: 1.1rem;">買 2 晚送 1 晚！</strong> <small>(連住3晚，第3晚免費，系統自動折抵最低房價)</small></li>
                         <li><span style="color:#d35400; font-weight:bold;">⛺️ 自搭帳/車泊：</span> 連住兩晚 <strong style="color:red; font-size: 1.1rem;">現折 $400</strong> <small>(連假期間折 $200)</small>！</li>
                     </ul>
                     <div style="margin-top: 10px; background: #fff; padding: 8px; border-radius: 6px; border: 1px dashed #4caf50;">
@@ -533,7 +534,7 @@
                             <i class="fas fa-check-circle text-amber-400 mt-1 text-lg"></i>
                             <div>
                                 <span class="text-base font-bold text-amber-100">美式糯米酒釀 (1hr)</span>
-                                <p class="text-gray-200 mt-1">全國首家認證傳統酒釀，親手體驗部落微醺文化，品嚐最純粹的糯米香甜。</p>
+                                <p class="text-gray-200 mt-1">全國首家認證傳統酒釀，親手體驗部落微醺文化，品嚐最純粹の糯米香甜。</p>
                             </div>
                         </li>
                         <li class="flex items-start space-x-3">
@@ -558,37 +559,43 @@
     <script src="https://npmcdn.com/flatpickr/dist/l10n/zh.js"></script>
     
     <script>
-        let currentLang = 'zh';
-        let selectedDates = []; 
-        let GLOBAL_BLOCKED_DATA = { full: [], starcraft: [], dt392: [], room: [] };
-
-        // ⚠️⚠️⚠️ 記得確認這是您最新的 Google Apps Script 網址！
+        // ======= 營運設定區 (Configuration) ======= //
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwE4JzNMfmaLDF997ZphXIZklweAqwkKiij-jueG_AhQHGuiV1mAHaUG70zt2RLWpjo7g/exec";
+        
+        // 假日設定
+        const HOLIDAYS = [
+            "2026-01-01", "2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17", "2026-02-18", "2026-02-19", "2026-02-20", "2026-02-21", "2026-02-22", 
+            "2026-02-27", "2026-02-28", "2026-03-01", "2026-04-03", "2026-04-04", "2026-04-05", "2026-04-06", "2026-05-01", "2026-05-02", "2026-05-03",
+            "2026-06-19", "2026-06-20", "2026-06-21", "2026-09-25", "2026-09-26", "2026-09-27", "2026-10-09", "2026-10-10", "2026-10-11", "2026-12-31"
+        ];
+        const MAKEUP_DAYS = [ "2026-02-07", "2026-02-21" ];
+        const CNY_DAYS = [ "2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17", "2026-02-18", "2026-02-19", "2026-02-20", "2026-02-21", "2026-02-22" ];
+        const HOLIDAY_BLOCKS = [
+            ["2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17", "2026-02-18", "2026-02-19", "2026-02-20", "2026-02-21"], 
+            ["2026-02-27", "2026-02-28"], ["2026-04-03", "2026-04-04", "2026-04-05"], ["2026-05-01", "2026-05-02"], ["2026-06-19", "2026-06-20"], ["2026-09-25", "2026-09-26"], ["2026-10-09", "2026-10-10"]  
+        ];
 
-        let VISIT_TIME_ORIGINAL_OPTIONS = null;
-        function cacheVisitTimeOptions() {
-          const sel = document.getElementById('visitTime');
-          if (!sel || VISIT_TIME_ORIGINAL_OPTIONS) return;
-          VISIT_TIME_ORIGINAL_OPTIONS = Array.from(sel.options).map(o => ({ value: o.value, text: o.text }));
-        }
+        // 價目表設定
+        const CAMPING_CONFIG = {
+          tent: { rates: { weekday: 700, weekend: 800, holiday: 1000, cny: 1200 }, nightRush: { weekday: 500, weekend: 600, holiday: 600, cny: 800 } },
+          moto: { rates: { weekday: 400, weekend: 500, holiday: 600, cny: 800 }, nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 } },
+          solo: { rates: { weekday: 400, weekend: 500, holiday: 600, cny: 800 }, nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 } },
+          car: { rates: { weekday: 600, weekend: 700, holiday: 800, cny: 1100 }, nightRush: { weekday: 500, weekend: 600, holiday: 600, cny: 800 } },
+          car_bed_vip: { people_rates: { 1: { weekday: 250, weekend: 350, holiday: 350, cny: 350 }, 2: { weekday: 300, weekend: 400, holiday: 400, cny: 400 }, 3: { weekday: 400, weekend: 500, holiday: 500, cny: 500 }, 4: { weekday: 500, weekend: 600, holiday: 600, cny: 600 } }, tent_add_on: { weekday: 50, weekend: 50, holiday: 50, cny: 50 }, ac_fee: 50, nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 } },
+          camper: { rates: { weekday: 800, weekend: 1000, holiday: 1200, cny: 1500 }, nightRush: { weekday: 600, weekend: 700, holiday: 800, cny: 800 } },
+          
+          dt392: { rates: { weekday: 1800, weekend: 2000, holiday: 2200, cny: 2300 } },
+          starcraft: { rates: { weekday: 2000, weekend: 2100, holiday: 2300, cny: 2400 } },
+          room: { rates: { weekday: 2200, weekend: 2400, holiday: 2500, cny: 2600 } },
+          
+          full_basic: { rates: { weekday: 7000, weekend: 10000, holiday: 15000, cny: 15000 } },
+          full_vans: { rates: { weekday: 10000, weekend: 16000, holiday: 18000, cny: 18000 } },
+          full_all: { rates: { weekday: 13000, weekend: 18000, holiday: 20000, cny: 20000 } },
+          venue_hourly: { type: "venue_hourly", weekdayRates: { '3hr': 3000, '5hr': 4500, '6hr': 6000, '8hr': 7500, 'day': 12000 }, holidayRates: { '3hr': 4500, '5hr': null, '6hr': 5500, '8hr': 7000, 'day': 15000 } },
+          bicycle: { type: "bicycle", rates: { '2hr': 150, '4hr': 250, 'day': 400, '24hr': 600, '15day': 2500, '30day': 3500 } }
+        };
 
-        function restoreVisitTimeOptions() {
-          const sel = document.getElementById('visitTime');
-          if (!sel || !VISIT_TIME_ORIGINAL_OPTIONS) return;
-          Array.from(sel.options).forEach(opt => {
-            const found = VISIT_TIME_ORIGINAL_OPTIONS.find(x => x.value === opt.value);
-            if (found) opt.text = found.text;
-            opt.disabled = false; opt.hidden = false;
-          });
-        }
-
-        function stripNightRushLabels() {
-          const sel = document.getElementById('visitTime');
-          if (!sel) return;
-          const re = /\s*[\(\（]\s*(夜衝開始|夜衝結束|最晚入場|Night Rush Start|Night Rush End|Latest Entry|前泊開始|前泊終了)\s*[\)\）]\s*/g;
-          Array.from(sel.options).forEach(opt => { opt.text = String(opt.text || '').replace(re, ''); });
-        }
-
+        // 多國語系字典
         const TRANSLATIONS = {
           zh: {
             loading: "資料載入中...", calc_title: "🌲 露營/場地/周邊服務費用試算", basic_unit: "基本單位：4人 / 1車 / 1帳 / 1車邊帳or車尾帳",
@@ -635,18 +642,35 @@
             customer_info_title: "📝 予約情報", btn_submit: "予約を確定する"
           }
         };
+        // ============================================ //
 
-        const HOLIDAYS = [
-            "2026-01-01", "2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17", "2026-02-18", "2026-02-19", "2026-02-20", "2026-02-21", "2026-02-22", 
-            "2026-02-27", "2026-02-28", "2026-03-01", "2026-04-03", "2026-04-04", "2026-04-05", "2026-04-06", "2026-05-01", "2026-05-02", "2026-05-03",
-            "2026-06-19", "2026-06-20", "2026-06-21", "2026-09-25", "2026-09-26", "2026-09-27", "2026-10-09", "2026-10-10", "2026-10-11", "2026-12-31"
-        ];
-        const MAKEUP_DAYS = [ "2026-02-07", "2026-02-21" ];
-        const CNY_DAYS = [ "2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17", "2026-02-18", "2026-02-19", "2026-02-20", "2026-02-21", "2026-02-22" ];
-        const HOLIDAY_BLOCKS = [
-            ["2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17", "2026-02-18", "2026-02-19", "2026-02-20", "2026-02-21"], 
-            ["2026-02-27", "2026-02-28"], ["2026-04-03", "2026-04-04", "2026-04-05"], ["2026-05-01", "2026-05-02"], ["2026-06-19", "2026-06-20"], ["2026-09-25", "2026-09-26"], ["2026-10-09", "2026-10-10"]  
-        ];
+        let currentLang = 'zh';
+        let selectedDates = []; 
+        let GLOBAL_BLOCKED_DATA = { full: [], starcraft: [], dt392: [], room: [] };
+        let VISIT_TIME_ORIGINAL_OPTIONS = null;
+
+        function cacheVisitTimeOptions() {
+          const sel = document.getElementById('visitTime');
+          if (!sel || VISIT_TIME_ORIGINAL_OPTIONS) return;
+          VISIT_TIME_ORIGINAL_OPTIONS = Array.from(sel.options).map(o => ({ value: o.value, text: o.text }));
+        }
+
+        function restoreVisitTimeOptions() {
+          const sel = document.getElementById('visitTime');
+          if (!sel || !VISIT_TIME_ORIGINAL_OPTIONS) return;
+          Array.from(sel.options).forEach(opt => {
+            const found = VISIT_TIME_ORIGINAL_OPTIONS.find(x => x.value === opt.value);
+            if (found) opt.text = found.text;
+            opt.disabled = false; opt.hidden = false;
+          });
+        }
+
+        function stripNightRushLabels() {
+          const sel = document.getElementById('visitTime');
+          if (!sel) return;
+          const re = /\s*[\(\（]\s*(夜衝開始|夜衝結束|最晚入場|Night Rush Start|Night Rush End|Latest Entry|前泊開始|前泊終了)\s*[\)\）]\s*/g;
+          Array.from(sel.options).forEach(opt => { opt.text = String(opt.text || '').replace(re, ''); });
+        }
 
         function changeLanguage(lang) {
           currentLang = lang;
@@ -707,26 +731,6 @@
             }
         }
 
-        // 🏕️ 全新定價設定與折扣規則 (已更新最新價格)
-        const CAMPING_CONFIG = {
-          tent: { rates: { weekday: 700, weekend: 800, holiday: 1000, cny: 1200 }, nightRush: { weekday: 500, weekend: 600, holiday: 600, cny: 800 } },
-          moto: { rates: { weekday: 400, weekend: 500, holiday: 600, cny: 800 }, nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 } },
-          solo: { rates: { weekday: 400, weekend: 500, holiday: 600, cny: 800 }, nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 } },
-          car: { rates: { weekday: 600, weekend: 700, holiday: 800, cny: 1100 }, nightRush: { weekday: 500, weekend: 600, holiday: 600, cny: 800 } },
-          car_bed_vip: { people_rates: { 1: { weekday: 250, weekend: 350, holiday: 350, cny: 350 }, 2: { weekday: 300, weekend: 400, holiday: 400, cny: 400 }, 3: { weekday: 400, weekend: 500, holiday: 500, cny: 500 }, 4: { weekday: 500, weekend: 600, holiday: 600, cny: 600 } }, tent_add_on: { weekday: 50, weekend: 50, holiday: 50, cny: 50 }, ac_fee: 50, nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 } },
-          camper: { rates: { weekday: 800, weekend: 1000, holiday: 1200, cny: 1500 }, nightRush: { weekday: 600, weekend: 700, holiday: 800, cny: 800 } },
-          
-          dt392: { rates: { weekday: 1800, weekend: 2000, holiday: 2200, cny: 2300 } },
-          starcraft: { rates: { weekday: 2000, weekend: 2100, holiday: 2300, cny: 2400 } },
-          room: { rates: { weekday: 2200, weekend: 2400, holiday: 2500, cny: 2600 } },
-          
-          full_basic: { rates: { weekday: 7000, weekend: 10000, holiday: 15000, cny: 15000 } },
-          full_vans: { rates: { weekday: 10000, weekend: 16000, holiday: 18000, cny: 18000 } },
-          full_all: { rates: { weekday: 13000, weekend: 18000, holiday: 20000, cny: 20000 } },
-          venue_hourly: { type: "venue_hourly", weekdayRates: { '3hr': 3000, '5hr': 4500, '6hr': 6000, '8hr': 7500, 'day': 12000 }, holidayRates: { '3hr': 4500, '5hr': null, '6hr': 5500, '8hr': 7000, 'day': 15000 } },
-          bicycle: { type: "bicycle", rates: { '2hr': 150, '4hr': 250, 'day': 400, '24hr': 600, '15day': 2500, '30day': 3500 } }
-        };
-
         function toggleInputs() {
           const type = document.getElementById('campType').value;
           const t = TRANSLATIONS[currentLang] || TRANSLATIONS['zh'];
@@ -782,7 +786,6 @@
               document.getElementById('checkInTimeText').style.color = "";
             }
 
-            // 🌟 智慧化加人防呆與說明設定
             const extraPeopleInput = document.getElementById('extraPeople');
             const extraPeopleLabel = document.getElementById('extraPeopleLabel');
             const basicUnitDesc = document.getElementById('basicUnitDesc');
@@ -877,11 +880,10 @@
             }
         }
 
-        // 🔐 攤商解鎖密碼驗證邏輯
         function verifyVendor(checkbox) {
             if (checkbox.checked) {
                 const code = prompt("請輸入『攤商專屬解鎖碼』🔒\n(📝 提示：填寫完攤商報名表單後，解鎖碼會顯示在最後的成功頁面上喔！)");
-                if (code === "BOSS888") { // 您可以隨時在這裡更改通關密語
+                if (code === "BOSS888") { 
                     alert("✅ 解鎖成功！已為您切換為「頭家睏霸專屬套票」報價模式！");
                     calculateTotal();
                     return true;
@@ -896,233 +898,243 @@
             }
         }
 
-        function calculateTotal() {
-          const type = document.getElementById('campType').value;
-          if (!type) { hideResult(); return; }
-          const config = CAMPING_CONFIG[type];
-          if (!config) { hideResult(); return; }
+        // ===================== 核心重構區：計算邏輯模組化 ===================== //
 
-          const visitTime = document.getElementById('visitTime').value;
-          const rushCheckbox = document.getElementById('isNightRush');
-          if (visitTime && rushCheckbox && !rushCheckbox.parentElement.classList.contains('hidden')) {
-              if (parseInt(visitTime.split(':')[0]) >= 20) rushCheckbox.checked = true;
-          }
+        function calculateBasePrice(type, config, nights, qty, isNightRush, isVendorMode, useAC) {
+            let basePrice = 0, rushPrice = 0, acPrice = 0;
+            let hasSaturday = false, isFullHoliday = false, hasTuesday = false;
+            let dailyPricesList = []; 
+            let currentDate = new Date(selectedDates[0]);
 
-          ['rowAddons', 'rowRush', 'rowAC', 'rowCoupon', 'rowTribal'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
-          document.getElementById('discountPrice').parentElement.classList.remove('hidden');
-
-          if (type === 'bicycle') {
-            if (selectedDates.length < 1) { hideResult(); return; }
-            const qty = parseInt(document.getElementById('bikeQty').value) || 1;
-            const finalPrice = (config.rates[document.getElementById('bikeScheme').value] || 0) * qty;
-            document.getElementById('basePrice').innerText = finalPrice;
-            ['addonPrice','rushPrice','acPrice','discountPrice','tribalTotal'].forEach(id => document.getElementById(id).innerText = 0);
-            document.getElementById('finalTotal').innerText = finalPrice;
-            document.getElementById('discountPrice').parentElement.classList.add('hidden');
-            document.getElementById('resultBox').classList.remove('hidden'); return;
-          }
-
-          if (type === 'venue_hourly') {
-            if (selectedDates.length < 1) { hideResult(); return; }
-            const checkInDate = new Date(selectedDates[0]);
-            let isVenueHoliday = ([0,5,6].includes(checkInDate.getDay()) || HOLIDAYS.includes(formatDate(checkInDate))) && !MAKEUP_DAYS.includes(formatDate(checkInDate));
-            const scheme = document.getElementById('rentalScheme').value;
-            let finalPrice = isVenueHoliday ? (scheme === '5hr' ? (alert("假日無 5hr，切換為 3hr"), document.getElementById('rentalScheme').value = '3hr', config.holidayRates['3hr']) : config.holidayRates[scheme]) : config.weekdayRates[scheme];
-            document.getElementById('basePrice').innerText = finalPrice;
-            ['addonPrice','rushPrice','acPrice','discountPrice','tribalTotal'].forEach(id => document.getElementById(id).innerText = 0);
-            document.getElementById('finalTotal').innerText = finalPrice;
-            document.getElementById('discountPrice').parentElement.classList.add('hidden');
-            document.getElementById('resultBox').classList.remove('hidden'); return;
-          }
-
-          const nights = parseInt(document.getElementById('nights').value);
-          if (nights < 1 || selectedDates.length < 2) { hideResult(); return; }
-
-          let qty = 1;
-          if (!document.getElementById('qtyBlock').classList.contains('hidden')) qty = parseInt(document.getElementById('unitQty').value) || 1;
-          
-          let isNightRush = rushCheckbox && rushCheckbox.checked && !rushCheckbox.parentElement.classList.contains('hidden');
-          const useAC = document.getElementById('useAC')?.checked || false;
-          const bringPet = document.getElementById('bringPet')?.checked || false;
-          
-          // 判斷是否啟用「頭家攤商專屬模式」
-          const isVendorMode = document.getElementById('isVendor') && document.getElementById('isVendor').checked;
-
-          let basePrice = 0, rushPrice = 0, acPrice = 0, tribalPrice = 0, hasSaturday = false, isFullHoliday = false;
-          let hasTuesday = false; 
-
-          let currentDate = new Date(selectedDates[0]);
-          let dailyPricesList = []; // 🌟 用來記錄每天的價格，方便後續執行「買多送多」扣最低價的邏輯
-
-          for (let i = 0; i < nights; i++) {
-            const dateStr = formatDate(currentDate);
-            const dayOfWeek = currentDate.getDay();
-            const isMakeup = MAKEUP_DAYS.includes(dateStr);
-            let rateType = 'weekday';
-            
-            if (CNY_DAYS.includes(dateStr)) rateType = 'cny';
-            else if (isMakeup) rateType = 'weekday';
-            else if (HOLIDAYS.includes(dateStr)) rateType = 'holiday';
-            else if (dayOfWeek === 5 || dayOfWeek === 6) rateType = 'weekend';
-
-            if (dayOfWeek === 6 && !isMakeup) hasSaturday = true;
-            
-            let isTuesday = (dayOfWeek === 2 && !isMakeup); 
-            if (isTuesday) hasTuesday = true;
-
-            if (i === 0 && isNightRush && config.nightRush) {
-                let rushRate = config.nightRush[rateType] || config.nightRush['holiday'] || config.nightRush['weekday'];
-                if (type === 'camper') rushRate = rushRate * 0.8;
-                if (isTuesday && !isVendorMode) rushRate += 200; 
-                basePrice += rushRate * qty; rushPrice = rushRate * qty; 
-            } else {
-                let dailyBase = 0;
-                let rate_room = config.rates ? (config.rates[rateType] !== undefined ? config.rates[rateType] : config.rates['holiday']) : 0;
-                let rate_star = CAMPING_CONFIG.starcraft.rates[rateType] || CAMPING_CONFIG.starcraft.rates['holiday'];
-                let rate_dt = CAMPING_CONFIG.dt392.rates[rateType] || CAMPING_CONFIG.dt392.rates['holiday'];
-                let rate_grass = config.rates && config.rates[rateType] !== undefined ? config.rates[rateType] : 0;
-
-                // 🌟 週二專屬定價邏輯 (包含攤商套票)
-                if (isTuesday) {
-                    rate_room = 2400;
-                    rate_star = 2200;
-                    rate_dt = 2000;
-                    rate_grass = 1000;
-                    
-                    // 🤝 若打勾我是攤商，直接套用「頭家睏霸」優惠報價
-                    if (isVendorMode) {
-                        rate_dt = 1800;
-                        rate_star = 2000;
-                        rate_grass = 1000; // 營位維持 1000 (內含400攤租 + 600睡覺)
-                    }
-                }
-
-                if (type === 'car_bed_vip') {
-                    const pQty = parseInt(document.getElementById('carBedPeople').value) || 2;
-                    let vipRate = config.people_rates[pQty][rateType] !== undefined ? config.people_rates[pQty][rateType] : config.people_rates[pQty]['weekend'];
-                    if (isTuesday && !isVendorMode) vipRate += 200; 
-                    if (isTuesday && isVendorMode) vipRate = 1000; // 車床攤商也是一口價
-                    
-                    dailyBase = (vipRate + (document.getElementById('carBedTent').checked ? (config.tent_add_on[rateType] || 50) : 0)) * qty; 
-                } else if (type === 'room') {
-                    if (qty === 1) dailyBase = rate_room; else if (qty === 2) dailyBase = rate_room + rate_star; else if (qty === 3) dailyBase = rate_room + rate_dt; else if (qty === 4) dailyBase = rate_room + rate_star + rate_dt;
-                } else if (type === 'starcraft') {
-                    if (qty === 1) dailyBase = rate_star; else if (qty === 2) dailyBase = rate_star + rate_room; else if (qty === 3) dailyBase = rate_star + rate_dt; else if (qty === 4) dailyBase = rate_star + rate_room + rate_dt;
-                } else if (type === 'dt392') {
-                    if (qty === 1) dailyBase = rate_dt; else if (qty === 2) dailyBase = rate_dt + rate_room; else if (qty === 3) dailyBase = rate_dt + rate_star; else if (qty === 4) dailyBase = rate_dt + rate_room + rate_star;
-                } else {
-                    dailyBase = rate_grass * qty;
-                    if (type.includes('full') && isTuesday) dailyBase = (config.rates[rateType] || 0) + 200;
-                }
+            for (let i = 0; i < nights; i++) {
+                const dateStr = formatDate(currentDate);
+                const dayOfWeek = currentDate.getDay();
+                const isMakeup = MAKEUP_DAYS.includes(dateStr);
+                let rateType = 'weekday';
                 
-                basePrice += dailyBase;
-                dailyPricesList.push(dailyBase); // 🌟 將每天的房價存入陣列
+                if (CNY_DAYS.includes(dateStr)) rateType = 'cny';
+                else if (isMakeup) rateType = 'weekday';
+                else if (HOLIDAYS.includes(dateStr)) rateType = 'holiday';
+                else if (dayOfWeek === 5 || dayOfWeek === 6) rateType = 'weekend';
+
+                if (dayOfWeek === 6 && !isMakeup) hasSaturday = true;
+                let isTuesday = (dayOfWeek === 2 && !isMakeup); 
+                if (isTuesday) hasTuesday = true;
+
+                if (i === 0 && isNightRush && config.nightRush) {
+                    let rushRate = config.nightRush[rateType] || config.nightRush['holiday'] || config.nightRush['weekday'];
+                    if (type === 'camper') rushRate = rushRate * 0.8;
+                    if (isTuesday && !isVendorMode) rushRate += 200; 
+                    basePrice += rushRate * qty; 
+                    rushPrice = rushRate * qty; 
+                } else {
+                    let dailyBase = 0;
+                    let rate_room = config.rates ? (config.rates[rateType] !== undefined ? config.rates[rateType] : config.rates['holiday']) : 0;
+                    let rate_star = CAMPING_CONFIG.starcraft.rates[rateType] || CAMPING_CONFIG.starcraft.rates['holiday'];
+                    let rate_dt = CAMPING_CONFIG.dt392.rates[rateType] || CAMPING_CONFIG.dt392.rates['holiday'];
+                    let rate_grass = config.rates && config.rates[rateType] !== undefined ? config.rates[rateType] : 0;
+
+                    // 週二專屬定價邏輯
+                    if (isTuesday) {
+                        rate_room = 2400; rate_star = 2200; rate_dt = 2000; rate_grass = 1000;
+                        if (isVendorMode) { rate_dt = 1800; rate_star = 2000; rate_grass = 1000; }
+                    }
+
+                    if (type === 'car_bed_vip') {
+                        const pQty = parseInt(document.getElementById('carBedPeople').value) || 2;
+                        let vipRate = config.people_rates[pQty][rateType] !== undefined ? config.people_rates[pQty][rateType] : config.people_rates[pQty]['weekend'];
+                        if (isTuesday && !isVendorMode) vipRate += 200; 
+                        if (isTuesday && isVendorMode) vipRate = 1000; 
+                        dailyBase = (vipRate + (document.getElementById('carBedTent').checked ? (config.tent_add_on[rateType] || 50) : 0)) * qty; 
+                    } else if (type === 'room') {
+                        if (qty === 1) dailyBase = rate_room; else if (qty === 2) dailyBase = rate_room + rate_star; else if (qty === 3) dailyBase = rate_room + rate_dt; else if (qty === 4) dailyBase = rate_room + rate_star + rate_dt;
+                    } else if (type === 'starcraft') {
+                        if (qty === 1) dailyBase = rate_star; else if (qty === 2) dailyBase = rate_star + rate_room; else if (qty === 3) dailyBase = rate_star + rate_dt; else if (qty === 4) dailyBase = rate_star + rate_room + rate_dt;
+                    } else if (type === 'dt392') {
+                        if (qty === 1) dailyBase = rate_dt; else if (qty === 2) dailyBase = rate_dt + rate_room; else if (qty === 3) dailyBase = rate_dt + rate_star; else if (qty === 4) dailyBase = rate_dt + rate_room + rate_star;
+                    } else {
+                        dailyBase = rate_grass * qty;
+                        if (type.includes('full') && isTuesday) dailyBase = (config.rates[rateType] || 0) + 200;
+                    }
+                    
+                    basePrice += dailyBase;
+                    dailyPricesList.push(dailyBase);
+                }
+
+                if (useAC) acPrice += (type === 'car_bed_vip' ? 50 : 200) * qty; 
+                currentDate.setDate(currentDate.getDate() + 1);
             }
 
-            if (useAC) acPrice += (type === 'car_bed_vip' ? 50 : 200) * qty; 
-            currentDate.setDate(currentDate.getDate() + 1);
-          }
+            // 判斷假期區塊
+            const stayDatesStr = []; let tempDate = new Date(selectedDates[0]);
+            for (let i = 0; i < nights; i++) { stayDatesStr.push(formatDate(tempDate)); tempDate.setDate(tempDate.getDate() + 1); }
+            for (let block of HOLIDAY_BLOCKS) { if (stayDatesStr.some(d => block.includes(d))) { isFullHoliday = true; break; } }
 
-          let extraPersonPrice = 300;
-          if (type === 'starcraft' || type === 'dt392') { extraPersonPrice = 200; }
-
-          const totalAddonCost = ((parseInt(document.getElementById('extraPeople').value) || 0) * extraPersonPrice * nights) + ((parseInt(document.getElementById('visitors').value) || 0) * 100) + (bringPet ? 100 * qty * nights : 0);
-          document.getElementById('addonPrice').innerText = totalAddonCost;
-          if (totalAddonCost > 0) document.getElementById('rowAddons').classList.remove('hidden');
-
-          if (document.getElementById('enableTribal') && document.getElementById('enableTribal').checked) {
-              const tp = parseInt(document.getElementById('tribalPeople').value) || 4;
-              tribalPrice = tp * 1200;
-              document.getElementById('tribalTotal').innerText = tribalPrice;
-              document.getElementById('rowTribal').classList.remove('hidden');
-          }
-
-          let discount = 0;
-          const totalPriceForDiscount = basePrice + acPrice;
-          
-          const stayDatesStr = []; let tempDate = new Date(selectedDates[0]);
-          for (let i = 0; i < nights; i++) { stayDatesStr.push(formatDate(tempDate)); tempDate.setDate(tempDate.getDate() + 1); }
-          for (let block of HOLIDAY_BLOCKS) { if (stayDatesStr.some(d => block.includes(d))) { isFullHoliday = true; break; } }
-
-          let isRental = ['room', 'starcraft', 'dt392'].includes(type);
-          let isTent = ['tent', 'car', 'camper', 'moto', 'solo'].includes(type);
-          let hasCoupon = false;
-          let couponText = "";
-
-          if (type !== 'car_bed_vip' && !type.includes('full')) {
-              
-              if (isRental) {
-                  // 🌟 免裝備住宿「買多送多 (買 2 送 1)」專屬邏輯
-                  const BUY_X = 2; // 買 2 晚
-                  const GET_Y = 1; // 送 1 晚
-                  const CYCLE = BUY_X + GET_Y; // 每 3 晚為一組循環
-                  
-                  let freeNightsCount = Math.floor(nights / CYCLE) * GET_Y;
-                  
-                  if (freeNightsCount > 0) {
-                      // 把所有晚上的價格由小到大排序，這樣會扣除「最便宜」的那幾晚
-                      let sortedPrices = [...dailyPricesList].sort((a, b) => a - b);
-                      let freeDiscountAmount = 0;
-                      for (let k = 0; k < freeNightsCount; k++) {
-                          freeDiscountAmount += sortedPrices[k] * qty; // 扣除數量
-                      }
-                      
-                      discount = freeDiscountAmount;
-                      hasCoupon = true;
-                      couponText = `🎉 買多送多！已折抵 ${freeNightsCount * qty} 晚免費住宿`;
-                  } else if (nights >= 2) {
-                      // 若未滿 3 晚，維持送飲料券/夜市券的福利
-                      hasCoupon = true;
-                      couponText = ``; // 下方會再補上券的字樣
-                  } else if (nights === 1 && hasTuesday) {
-                      hasCoupon = true;
-                  }
-
-              } else if (isTent) {
-                  // 🌟 自搭帳維持原本的「固定金額折扣」邏輯
-                  if (nights >= 2) {
-                      if (isFullHoliday) discount = 200 * qty;
-                      else discount = 400 * qty;
-                      hasCoupon = true;
-                  } else if (nights === 1 && hasTuesday) {
-                      hasCoupon = true;
-                  }
-              }
-
-              // 處理加碼贈送的票券文字
-              if (hasCoupon) {
-                  if (isVendorMode && hasTuesday) {
-                      couponText += (couponText ? " ＋ " : "") + `🤝 攤商專屬優惠已套用 (已享週二專案價)，恕不疊加其他折價券`;
-                  } else if (hasTuesday) {
-                      couponText += (couponText ? " ＋ " : "") + `贈 $200 週二夜市折價券🎫 x ${qty}張 (不疊加酒吧券)`;
-                  } else if (nights >= 2) {
-                      couponText += (couponText ? " ＋ " : "") + `贈 $200 水煙酒吧微醺券🍹 x ${qty}張`;
-                  }
-              }
-
-          } else if (type.includes('full')) {
-              if (nights >= 2) discount = totalPriceForDiscount * 0.15;
-              if (isFullHoliday) discount += (totalPriceForDiscount * 0.05);
-          }
-
-          document.getElementById('basePrice').innerText = Math.round(basePrice);
-          document.getElementById('rushPrice').innerText = isNightRush ? " (已含)" : 0;
-          document.getElementById('acPrice').innerText = Math.round(acPrice);
-          document.getElementById('discountPrice').innerText = Math.round(discount);
-          document.getElementById('finalTotal').innerText = Math.round(basePrice + acPrice + totalAddonCost + tribalPrice - discount);
-
-          if (hasCoupon && couponText !== "") {
-              document.getElementById('rowCoupon').classList.remove('hidden');
-              document.getElementById('couponText').innerText = couponText;
-          }
-
-          if (!document.getElementById('extraOptions').classList.contains('hidden')) {
-            if (isNightRush) document.getElementById('rowRush').classList.remove('hidden');
-            if (acPrice > 0) document.getElementById('rowAC').classList.remove('hidden');
-          }
-          document.getElementById('resultBox').classList.remove('hidden');
+            return { basePrice, rushPrice, acPrice, dailyPricesList, hasTuesday, isFullHoliday, isNightRush };
         }
 
+        function calculateAddons(type, nights, qty, bringPet) {
+            let extraPersonPrice = 300;
+            if (type === 'starcraft' || type === 'dt392') { extraPersonPrice = 200; }
+
+            const extraPeople = parseInt(document.getElementById('extraPeople').value) || 0;
+            const visitors = parseInt(document.getElementById('visitors').value) || 0;
+            const totalAddonCost = (extraPeople * extraPersonPrice * nights) + (visitors * 100) + (bringPet ? 100 * qty * nights : 0);
+            
+            let tribalPrice = 0;
+            const enableTribal = document.getElementById('enableTribal');
+            if (enableTribal && enableTribal.checked) {
+                const tp = parseInt(document.getElementById('tribalPeople').value) || 4;
+                tribalPrice = tp * 1200;
+            }
+            return { totalAddonCost, tribalPrice };
+        }
+
+        function calculateDiscounts(type, nights, qty, isVendorMode, hasTuesday, isFullHoliday, dailyPricesList, basePrice, acPrice) {
+            let discount = 0;
+            let hasCoupon = false;
+            let couponText = "";
+            const totalPriceForDiscount = basePrice + acPrice;
+
+            let isRental = ['room', 'starcraft', 'dt392'].includes(type);
+            let isTent = ['tent', 'car', 'camper', 'moto', 'solo'].includes(type);
+
+            if (type !== 'car_bed_vip' && !type.includes('full')) {
+                if (isRental) {
+                    // 【買多送多】邏輯：買 2 送 1，以此類推
+                    const BUY_X = 2, GET_Y = 1, CYCLE = BUY_X + GET_Y; 
+                    let freeNightsCount = Math.floor(nights / CYCLE) * GET_Y;
+                    
+                    if (freeNightsCount > 0) {
+                        let sortedPrices = [...dailyPricesList].sort((a, b) => a - b);
+                        let freeDiscountAmount = 0;
+                        for (let k = 0; k < freeNightsCount; k++) { freeDiscountAmount += sortedPrices[k]; }
+                        discount = freeDiscountAmount;
+                        hasCoupon = true;
+                        couponText = `🎉 買多送多！已折抵 ${freeNightsCount * qty} 晚免費住宿`;
+                    } else if (nights >= 2) { hasCoupon = true; } 
+                    else if (nights === 1 && hasTuesday) { hasCoupon = true; }
+                } else if (isTent) {
+                    if (nights >= 2) {
+                        discount = isFullHoliday ? (200 * qty) : (400 * qty);
+                        hasCoupon = true;
+                    } else if (nights === 1 && hasTuesday) { hasCoupon = true; }
+                }
+
+                if (hasCoupon) {
+                    if (isVendorMode && hasTuesday) {
+                        couponText += (couponText ? " ＋ " : "") + `🤝 攤商專屬優惠已套用 (已享週二專案價)，恕不疊加其他折價券`;
+                    } else if (hasTuesday) {
+                        couponText += (couponText ? " ＋ " : "") + `贈 $200 週二夜市折價券🎫 x ${qty}張 (不疊加酒吧券)`;
+                    } else if (nights >= 2) {
+                        couponText += (couponText ? " ＋ " : "") + `贈 $200 水煙酒吧微醺券🍹 x ${qty}張`;
+                    }
+                }
+            } else if (type.includes('full')) {
+                if (nights >= 2) discount = totalPriceForDiscount * 0.15;
+                if (isFullHoliday) discount += (totalPriceForDiscount * 0.05);
+            }
+            return { discount, hasCoupon, couponText };
+        }
+
+        function updateResultUI(data) {
+            document.getElementById('basePrice').innerText = Math.round(data.basePrice);
+            document.getElementById('rushPrice').innerText = data.isNightRush ? " (已含)" : 0;
+            document.getElementById('acPrice').innerText = Math.round(data.acPrice);
+            document.getElementById('discountPrice').innerText = Math.round(data.discount);
+            document.getElementById('finalTotal').innerText = Math.round(data.basePrice + data.acPrice + data.totalAddonCost + data.tribalPrice - data.discount);
+
+            if (data.totalAddonCost > 0) {
+                document.getElementById('addonPrice').innerText = data.totalAddonCost;
+                document.getElementById('rowAddons').classList.remove('hidden');
+            }
+            if (data.tribalPrice > 0) {
+                document.getElementById('tribalTotal').innerText = data.tribalPrice;
+                document.getElementById('rowTribal').classList.remove('hidden');
+            }
+            if (data.hasCoupon && data.couponText !== "") {
+                document.getElementById('rowCoupon').classList.remove('hidden');
+                document.getElementById('couponText').innerText = data.couponText;
+            }
+
+            const extraOptions = document.getElementById('extraOptions');
+            if (extraOptions && !extraOptions.classList.contains('hidden')) {
+                if (data.isNightRush) document.getElementById('rowRush').classList.remove('hidden');
+                if (data.acPrice > 0) document.getElementById('rowAC').classList.remove('hidden');
+            }
+            document.getElementById('resultBox').classList.remove('hidden');
+        }
+
+        function handleSpecialTypes(type, config, qty) {
+            if (selectedDates.length < 1) { hideResult(); return; }
+            let finalPrice = 0;
+
+            if (type === 'bicycle') {
+                const scheme = document.getElementById('bikeScheme').value;
+                finalPrice = (config.rates[scheme] || 0) * qty;
+            } else if (type === 'venue_hourly') {
+                const checkInDate = new Date(selectedDates[0]);
+                let isVenueHoliday = ([0,5,6].includes(checkInDate.getDay()) || HOLIDAYS.includes(formatDate(checkInDate))) && !MAKEUP_DAYS.includes(formatDate(checkInDate));
+                const scheme = document.getElementById('rentalScheme').value;
+                finalPrice = isVenueHoliday ? (scheme === '5hr' ? (alert("假日無 5hr，切換為 3hr"), document.getElementById('rentalScheme').value = '3hr', config.holidayRates['3hr']) : config.holidayRates[scheme]) : config.weekdayRates[scheme];
+            }
+
+            document.getElementById('basePrice').innerText = finalPrice;
+            ['addonPrice','rushPrice','acPrice','discountPrice','tribalTotal'].forEach(id => document.getElementById(id).innerText = 0);
+            document.getElementById('finalTotal').innerText = finalPrice;
+            document.getElementById('discountPrice').parentElement.classList.add('hidden');
+            document.getElementById('resultBox').classList.remove('hidden');
+        }
+
+        // ===================== 總計算中樞 ===================== //
+        function calculateTotal() {
+            const type = document.getElementById('campType').value;
+            if (!type) { hideResult(); return; }
+            const config = CAMPING_CONFIG[type];
+            if (!config) { hideResult(); return; }
+
+            // 狀態收集與 DOM 取值
+            const visitTimeVal = document.getElementById('visitTime').value;
+            const rushCheckbox = document.getElementById('isNightRush');
+            const isVendorMode = document.getElementById('isVendor') && document.getElementById('isVendor').checked;
+            const nights = parseInt(document.getElementById('nights').value) || 0;
+            
+            let qty = 1;
+            if (!document.getElementById('qtyBlock').classList.contains('hidden')) {
+                qty = parseInt(document.getElementById('unitQty').value) || 1;
+            }
+
+            if (visitTimeVal && rushCheckbox && !rushCheckbox.parentElement.classList.contains('hidden')) {
+                if (parseInt(visitTimeVal.split(':')[0]) >= 20) rushCheckbox.checked = true;
+            }
+            const isNightRush = rushCheckbox && rushCheckbox.checked && !rushCheckbox.parentElement.classList.contains('hidden');
+            const useAC = document.getElementById('useAC')?.checked || false;
+            const bringPet = document.getElementById('bringPet')?.checked || false;
+
+            // 初始化 UI 隱藏
+            ['rowAddons', 'rowRush', 'rowAC', 'rowCoupon', 'rowTribal'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
+            document.getElementById('discountPrice').parentElement.classList.remove('hidden');
+
+            // 特殊類別分支
+            if (type === 'bicycle' || type === 'venue_hourly') {
+                handleSpecialTypes(type, config, qty);
+                return;
+            }
+
+            if (nights < 1 || selectedDates.length < 2) { hideResult(); return; }
+
+            // 1. 算底價
+            const baseData = calculateBasePrice(type, config, nights, qty, isNightRush, isVendorMode, useAC);
+            // 2. 算加購
+            const addonData = calculateAddons(type, nights, qty, bringPet);
+            // 3. 算折扣
+            const discountData = calculateDiscounts(type, nights, qty, isVendorMode, baseData.hasTuesday, baseData.isFullHoliday, baseData.dailyPricesList, baseData.basePrice, baseData.acPrice);
+
+            // 4. 更新畫面
+            updateResultUI({ ...baseData, ...addonData, ...discountData });
+        }
+
+        // ===================== 表單與其他操作 ===================== //
         function submitOrder() {
           if (!confirm("⚠️抵達營區入口時，請勿直接入場，請先撥電話告知營主！非常重要❗️感謝配合🙏\n\n確認送出訂單？")) return;
 
@@ -1145,10 +1157,7 @@
             details += ` / 數量:${uq.options[uq.selectedIndex].text}`;
           }
           
-          // 標記攤商身分
-          if (document.getElementById('isVendor') && document.getElementById('isVendor').checked) {
-              details += ` 🤝[攤商頭家專案]`;
-          }
+          if (document.getElementById('isVendor') && document.getElementById('isVendor').checked) { details += ` 🤝[攤商頭家專案]`; }
 
           let startDateForSheet = selectedDates.length > 0 ? formatDate(new Date(selectedDates[0])) : "";
           let nightsForSheet = document.getElementById('nights').value || 0;
