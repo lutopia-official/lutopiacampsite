@@ -110,7 +110,6 @@ const TRANSLATIONS = {
     opt_inc_dt392: "(DT392 含む)", opt_inc_starcraft: "(StarCraft 含む)", opt_inc_room: "(客室 含む)", opt_inc_both_rv: "(StarCraft + DT392 含む)", opt_inc_room_starcraft: "(StarCraft + 客室 含む)", opt_inc_room_dt392: "(DT392 + 客室 含む)", opt_group_contact: "(団体は公式へ)"
   }
 };
-
 // ==========================================
 // 📅 設定假日 (包含連假)
 // ==========================================
