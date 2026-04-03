@@ -990,53 +990,100 @@
             return { totalAddonCost, tribalPrice };
         }
 
-        function calculateDiscounts(type, nights, qty, isVendorMode, hasTuesday, isFullHoliday, dailyPricesList, basePrice, acPrice) {
-            let discount = 0;
-            let hasCoupon = false;
-            let couponText = "";
-            const totalPriceForDiscount = basePrice + acPrice;
+function calculateDiscounts(type, nights, qty, isVendorMode, hasTuesday, isFullHoliday, dailyPricesList, basePrice, acPrice) {
+    let discount = 0;
+    let hasCoupon = false;
+    let couponText = "";
+    const totalPriceForDiscount = basePrice + acPrice;
 
-            let isRental = ['room', 'starcraft', 'dt392'].includes(type);
-            let isTent = ['tent', 'car', 'camper', 'moto', 'solo'].includes(type);
+    // 判斷目前的營位類型是「免裝備住宿」還是「自搭帳」
+    let isRental = ['room', 'starcraft', 'dt392'].includes(type);
+    let isTent = ['tent', 'car', 'camper', 'moto', 'solo'].includes(type);
 
-            if (type !== 'car_bed_vip' && !type.includes('full')) {
-                if (isRental) {
-                    // 【買多送多】邏輯：買 2 送 1，以此類推
-                    const BUY_X = 2, GET_Y = 1, CYCLE = BUY_X + GET_Y; 
-                    let freeNightsCount = Math.floor(nights / CYCLE) * GET_Y;
-                    
-                    if (freeNightsCount > 0) {
-                        let sortedPrices = [...dailyPricesList].sort((a, b) => a - b);
-                        let freeDiscountAmount = 0;
-                        for (let k = 0; k < freeNightsCount; k++) { freeDiscountAmount += sortedPrices[k]; }
-                        discount = freeDiscountAmount;
-                        hasCoupon = true;
-                        couponText = `🎉 買多送多！已折抵 ${freeNightsCount * qty} 晚免費住宿`;
-                    } else if (nights >= 2) { hasCoupon = true; } 
-                    else if (nights === 1 && hasTuesday) { hasCoupon = true; }
-                } else if (isTent) {
-                    if (nights >= 2) {
-                        discount = isFullHoliday ? (200 * qty) : (400 * qty);
-                        hasCoupon = true;
-                    } else if (nights === 1 && hasTuesday) { hasCoupon = true; }
+    // 💡 防呆：車床天地特約與包場專案有獨立邏輯，不適用這裡的一般連住優惠
+    if (type !== 'car_bed_vip' && !type.includes('full')) {
+        
+        if (isRental) {
+            // ==========================================
+            // 🌟 免裝備住宿專屬：【買 2 送 1】動態計算邏輯
+            // ==========================================
+            const BUY_X = 2;   // 客人需要付費的晚數
+            const GET_Y = 1;   // 系統免費贈送的晚數
+            const CYCLE = BUY_X + GET_Y; // 每 3 晚視為一個完整的「折扣循環」
+            
+            // 計算總共符合幾次「免費贈送」的條件
+            // 例如：住 3 晚 -> Math.floor(3/3) * 1 = 送 1 晚
+            // 例如：住 7 晚 -> Math.floor(7/3) * 1 = 送 2 晚
+            let freeNightsCount = Math.floor(nights / CYCLE) * GET_Y;
+            
+            if (freeNightsCount > 0) {
+                // 💡 核心邏輯：跨平假日連住時，優先扣除「單價最低」的那幾晚！
+                // 1. 複製每天的價格陣列，並使用 .sort() 將價格由小到大排序 (a - b)
+                let sortedPrices = [...dailyPricesList].sort((a, b) => a - b);
+                let freeDiscountAmount = 0;
+                
+                // 2. 跑迴圈，把陣列最前面（最便宜）的金額加總起來作為折扣
+                for (let k = 0; k < freeNightsCount; k++) { 
+                    freeDiscountAmount += sortedPrices[k]; 
                 }
-
-                if (hasCoupon) {
-                    if (isVendorMode && hasTuesday) {
-                        couponText += (couponText ? " ＋ " : "") + `🤝 攤商專屬優惠已套用 (已享週二專案價)，恕不疊加其他折價券`;
-                    } else if (hasTuesday) {
-                        couponText += (couponText ? " ＋ " : "") + `贈 $200 週二夜市折價券🎫 x ${qty}張 (不疊加酒吧券)`;
-                    } else if (nights >= 2) {
-                        couponText += (couponText ? " ＋ " : "") + `贈 $200 水煙酒吧微醺券🍹 x ${qty}張`;
-                    }
-                }
-            } else if (type.includes('full')) {
-                if (nights >= 2) discount = totalPriceForDiscount * 0.15;
-                if (isFullHoliday) discount += (totalPriceForDiscount * 0.05);
+                
+                discount = freeDiscountAmount;
+                hasCoupon = true;
+                couponText = `🎉 買多送多！系統已自動為您折抵 ${freeNightsCount} 晚免費住宿`;
+            } 
+            // 若天數不滿 3 晚 (只有 2 晚)，不觸發買2送1，但仍標記給予微醺券福利
+            else if (nights >= 2) { 
+                hasCoupon = true; 
+            } 
+            // 若只住 1 晚，但剛好碰到週二，標記給予夜市券福利
+            else if (nights === 1 && hasTuesday) { 
+                hasCoupon = true; 
             }
-            return { discount, hasCoupon, couponText };
+
+        } else if (isTent) {
+            // ==========================================
+            // ⛺ 自搭帳專屬：【固定金額】連住折扣邏輯
+            // ==========================================
+            if (nights >= 2) {
+                // 依據是否為連假，給予不同額度的現折優惠
+                discount = isFullHoliday ? (200 * qty) : (400 * qty);
+                hasCoupon = true;
+            } else if (nights === 1 && hasTuesday) {
+                hasCoupon = true; // 單留一晚週二，同樣給夜市券
+            }
         }
 
+        // ==========================================
+        // 🎁 票券與加碼文字處理 (字串組合)
+        // ==========================================
+        if (hasCoupon) {
+            // 若是攤商專案且碰到週二，不疊加贈送票券
+            if (isVendorMode && hasTuesday) {
+                couponText += (couponText ? " ＋ " : "") + `🤝 攤商專屬優惠已套用 (已享週二專案價)，恕不疊加其他折價券`;
+            } 
+            // 若住宿期間包含週二，優先贈送「夜市折價券」
+            else if (hasTuesday) {
+                couponText += (couponText ? " ＋ " : "") + `贈 $200 週二夜市折價券🎫 x ${qty}張 (不疊加酒吧券)`;
+            } 
+            // 一般連住兩晚以上，贈送「水煙酒吧微醺券」
+            else if (nights >= 2) {
+                couponText += (couponText ? " ＋ " : "") + `贈 $200 水煙酒吧微醺券🍹 x ${qty}張`;
+            }
+        }
+    } 
+    // ==========================================
+    // 🎉 包場專屬：【總價百分比】折扣邏輯
+    // ==========================================
+    else if (type.includes('full')) {
+        // 包場連住 2 晚以上打 85 折 (扣除 15%)
+        if (nights >= 2) discount = totalPriceForDiscount * 0.15;
+        // 碰上連假期間再額外加碼 5% 折扣
+        if (isFullHoliday) discount += (totalPriceForDiscount * 0.05);
+    }
+
+    // 回傳計算完畢的折扣資料給主函式
+    return { discount, hasCoupon, couponText };
+}
         function updateResultUI(data) {
             document.getElementById('basePrice').innerText = Math.round(data.basePrice);
             document.getElementById('rushPrice').innerText = data.isNightRush ? " (已含)" : 0;
