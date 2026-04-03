@@ -1,746 +1,4 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LutopiaDulanCampsite 都蘭錄托邦露營區 - 費用試算與預約</title>
-    <meta name="description" content="台東都蘭錄托邦露營區(Lutopia)官方費用試算與預約頁面。提供免裝備露營車、美式復古拖車、自搭帳營位、包場露營及場地租借服務。">
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>tailwind.config = { corePlugins: { preflight: false } }</script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_green.css">
-    
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&display=swap');
-        body { font-family: 'Noto Sans TC', sans-serif; background-color: #f9f9f9; margin: 0; color: #333; }
-        .site-header { background: #2c5e50; color: white; padding: 20px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .logo-container { display: flex; align-items: center; gap: 15px; }
-        .logo-img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid #fff; }
-        .brand-name h1 { margin: 0; font-size: 1.5rem; }
-        .brand-name p { margin: 5px 0 0 0; font-size: 0.85rem; color: #a3e4d7; }
-        .social-links { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 10px; }
-        .social-btn { padding: 8px 12px; border-radius: 20px; text-decoration: none; color: white; font-size: 0.85rem; font-weight: bold; transition: opacity 0.2s; }
-        .fb-btn { background: #3b5998; } .ig-btn { background: #E1306C; } .line-btn { background: #00B900; }
-        .social-btn:hover { opacity: 0.8; }
-        .lang-switch { display: flex; gap: 5px; margin-left: 10px; }
-        .lang-btn { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4); color: white; padding: 5px 10px; border-radius: 15px; cursor: pointer; font-size: 0.8rem; }
-        .lang-btn:hover { background: rgba(255,255,255,0.4); }
-        .marquee-wrapper { background: #fff3cd; color: #856404; padding: 10px; overflow: hidden; white-space: nowrap; border-bottom: 1px solid #ffeeba; }
-        .marquee-content { display: inline-block; animation: marquee 15s linear infinite; }
-        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-        .main-wrapper { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        .top-section { display: flex; gap: 20px; flex-wrap: wrap; }
-        .calculator-container { flex: 2; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); min-width: 300px; }
-        .info-panel { flex: 1; min-width: 300px; display: flex; flex-direction: column; gap: 20px; }
-        h2 { border-bottom: 2px solid #2c5e50; padding-bottom: 10px; margin-top: 0; color: #2c5e50; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
-        .form-group select, .form-group input[type="text"], .form-group input[type="number"], .form-group input[type="tel"] { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
-        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .checkbox-group label { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; cursor: pointer; background: #f8f9fa; padding: 10px; border-radius: 5px; border: 1px solid #eee; }
-        .btn-group { display: flex; gap: 10px; margin-top: 20px; }
-        .calc-btn { flex: 2; background: #2c5e50; color: white; border: none; padding: 12px; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 1.1rem; }
-        .calc-btn:hover { background: #1e4036; }
-        .reset-btn { flex: 1; background: #95a5a6; color: white; border: none; padding: 12px; border-radius: 5px; cursor: pointer; font-weight: bold; }
-        .reset-btn:hover { background: #7f8c8d; }
-        .result-box { background: #fdfefe; border: 2px solid #2c5e50; padding: 20px; border-radius: 8px; margin-top: 20px; }
-        .result-box h3 { margin-top: 0; color: #2c5e50; }
-        .result-row { display: flex; justify-content: space-between; margin-bottom: 8px; color: #555; }
-        .total-row { display: flex; justify-content: space-between; font-size: 1.3rem; font-weight: bold; color: #d35400; margin-top: 10px; }
-        .grid-2x2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        @media (max-width: 768px) { .grid-2x2, .two-col, .top-section { grid-template-columns: 1fr; flex-direction: column; } }
-        .mini-box { background: #fff; padding: 15px; border-radius: 8px; border: 1px solid #eee; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
-        .hidden { display: none !important; }
-        .price-table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 0.9rem; }
-        .price-table th, .price-table td { border: 1px solid #eee; padding: 8px; text-align: center; }
-        .price-table th { background: #f8f9fa; }
-        .price-highlight { color: #d35400; font-weight: bold; }
-        .level-tag { font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; background: #e9ecef; margin-left: 4px; }
-        .gallery-section { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-        .gallery-item { position: relative; border-radius: 8px; overflow: hidden; display: block; aspect-ratio: 1; }
-        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
-        .gallery-item:hover img { transform: scale(1.05); }
-        .overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.3); display: flex; justify-content: center; align-items: center; color: white; font-size: 2rem; opacity: 0; transition: opacity 0.3s; }
-        .gallery-item:hover .overlay { opacity: 1; }
-        .wide-layout { margin-top: 30px; }
-        .camp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .card-header { padding: 10px; background: #f8f9fa; border-bottom: 2px solid #ddd; margin: -15px -15px 15px -15px; border-radius: 8px 8px 0 0; }
-        .btn-book { width: 100%; padding: 10px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; background: #eee; }
-        .btn-book:hover { background: #ddd; }
-        .bar-container { display: flex; align-items: center; background: #1a1a1a; color: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.3); margin-top: 30px; }
-        .bar-text { padding: 30px; flex: 1; }
-        .bar-text h2 { color: #f39c12; border-bottom: none; }
-        .bar-img-box { flex: 1; min-height: 300px; background-size: cover; background-position: center; border-radius: 0 12px 12px 0; }
-        @media (max-width: 768px) { .bar-container { flex-direction: column; } .bar-img-box { width: 100%; min-height: 200px; border-radius: 0 0 12px 12px; } }
-        .site-footer { text-align: center; padding: 20px; color: #7f8c8d; font-size: 0.9rem; margin-top: 40px; }
-        @keyframes pulse-btn { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(211, 84, 0, 0.7); } 70% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(211, 84, 0, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(211, 84, 0, 0); } }
-        
-        /* 攤商按鈕特效 */
-        .vendor-toggle { position: relative; display: inline-block; width: 44px; height: 24px; vertical-align: middle; margin-right: 8px; }
-        .vendor-toggle input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 24px; }
-        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background-color: #9c27b0; }
-        input:checked + .slider:before { transform: translateX(20px); }
-    </style>
-</head>
-<body>
-    
-    <header class="site-header">
-        <div class="logo-container">
-            <img src="logo.jpg" alt="Lutopia Dulan Logo" class="logo-img" onerror="this.style.display='none'">
-            <div class="brand-name">
-                <h1>LutopiaDulanCampsite 都蘭錄托邦露營區</h1>
-                <p>親子露營・動物友善・動物園區・星空露營・台東都蘭</p>
-            </div>
-        </div>
-        <div class="social-links">
-            <a href="https://www.facebook.com/LutopiaDulan?locale=zh_TW" target="_blank" class="social-btn fb-btn"><i class="fab fa-facebook-square"></i> 追蹤 FB</a>
-            <a href="https://www.instagram.com/lutopia_dulan_camp/" target="_blank" class="social-btn ig-btn"><i class="fab fa-instagram"></i> 追蹤 IG</a>
-            <a href="https://line.me/R/ti/p/@lutopia" target="_blank" class="social-btn line-btn"><i class="fab fa-line"></i> 加 LINE 好友</a>
-            <div class="lang-switch">
-                <button onclick="changeLanguage('zh')" id="btn-zh" class="lang-btn">🇹🇼 中文</button>
-                <button onclick="changeLanguage('en')" id="btn-en" class="lang-btn">🇺🇸 English</button>
-                <button onclick="changeLanguage('jp')" id="btn-jp" class="lang-btn">🇯🇵 日本語</button>
-            </div>  
-        </div>
-    </header>
-
-    <div class="marquee-wrapper">
-        <div class="marquee-content">
-            <i class="fas fa-bullhorn"></i> <span id="marquee-text"><span data-i18n="loading">資料載入中...</span></span>
-        </div>
-    </div>
-
-    <div class="main-wrapper">
-        <div class="top-section">
-            <div class="container calculator-container" id="calculatorSection">
-                <h2 data-i18n="calc_title">🌲 露營/場地/周邊服務費用試算</h2>
-                
-                <div id="tribalContainerBox" class="notice-box" style="background-color: #e8f5e9; border: 2px solid #4caf50; padding: 15px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(76, 175, 80, 0.15); transition: background-color 0.5s;">
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px;">
-                        
-                        <div style="display: flex; gap: 15px; align-items: center; flex: 1;">
-                            <video src="糯米釀小米酒.MOV" style="width: 75px; height: 75px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.15);" autoplay loop muted playsinline></video>
-                            <div>
-                                <strong style="color: #2e7d32; font-size: 1.05rem;"><i class="fas fa-leaf"></i> 加值行程：部落慢活 3天2夜體驗包</strong>
-                                <p style="margin: 5px 0 0 0; font-size: 0.85rem; color: #555;">包含：美式糯米酒釀 (1hr) ＋ 原民風好皂頭 (1hr)</p>
-                            </div>
-                        </div>
-
-                        <button onclick="openTribalModal()" style="background: #2e7d32; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; white-space: nowrap; height: fit-content; margin-top: 5px;"><i class="fas fa-search"></i> 查看影片與詳情</button>
-                    </div>
-                    <div style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed #a5d6a7; display: flex; align-items: center; flex-wrap: wrap; gap: 15px;">
-                        <label style="display:flex; align-items:center; cursor:pointer; font-weight:bold; color:#d35400; font-size: 1.05rem;">
-                            <input type="checkbox" id="enableTribal" onchange="toggleTribal(); calculateTotal()" style="width:20px; height:20px; margin-right:8px;"> 
-                            我要加購 ($1,200/人)
-                        </label>
-                        <div id="tribalInputBlock" class="hidden" style="display: flex; align-items: center; gap: 8px; background: #fff; padding: 5px 10px; border-radius: 5px; border: 1px solid #ccc;">
-                            <label for="tribalPeople" style="margin:0; font-size:0.9rem; color:#333;">人數：</label>
-                            <input type="number" id="tribalPeople" value="4" min="4" onchange="validateTribalPeople(); calculateTotal()" style="width:60px; padding:5px; border:1px solid #aaa; border-radius:4px; text-align:center;"> 
-                            <span style="font-size: 0.8rem; color: #d32f2f; font-weight:bold;">(⚠️最低4人)</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="consecutiveDiscountNotice" class="notice-box" style="background-color: #e8f5e9; color: #2e7d32; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 5px solid #4caf50; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-                    <i class="fas fa-bed"></i> <strong style="font-size: 1.05rem;">🛌 慢活都蘭！連住雙重加碼優惠 🎁</strong>
-                    <p style="margin: 8px 0 5px 0; font-size: 0.9rem; line-height: 1.6; font-weight: bold;">
-                        📅 適用時間：系統自動計算！選取「2晚」以上自動折價！
-                    </p>
-                    <ul style="margin: 0 0 0 20px; padding: 0; font-size: 0.9rem; line-height: 1.6;">
-                        <li><span style="color:#d35400; font-weight:bold;">🎒 免裝備住宿：</span> 連住兩晚 <strong style="color:red; font-size: 1.1rem;">現折 $800</strong> <small>(連假期間折 $400)</small>！</li>
-                        <li><span style="color:#d35400; font-weight:bold;">⛺️ 自搭帳/車泊：</span> 連住兩晚 <strong style="color:red; font-size: 1.1rem;">現折 $400</strong> <small>(連假期間折 $200)</small>！</li>
-                    </ul>
-                    <div style="margin-top: 10px; background: #fff; padding: 8px; border-radius: 6px; border: 1px dashed #4caf50;">
-                        🍹 <strong style="color:#d35400;">加碼再送：</strong>連住專案皆贈送 <strong>$200 水煙酒吧微醺券</strong>！<br>
-                        <small style="color:#666; display: block; margin-top: 4px;">(⚠️若連住日期包含『週二』，該券將自動轉換為等值『週二夜市折價券』，出帳篷、房門直接開吃宵夜！不疊加發放喔！)</small>
-                    </div>
-                </div>
-
-                <div id="nightMarketNotice" class="notice-box" style="background-color: #f3e5f5; color: #4a148c; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 5px solid #9c27b0; box-shadow: 0 2px 8px rgba(0,0,0,0.05); position: relative;">
-                    <i class="fas fa-store"></i> <strong>✨ 錄托邦星空草地夜市 (每週二限定) ⛺</strong>
-                    <p style="margin: 8px 0 5px 0; font-size: 0.95rem; line-height: 1.6; font-weight: bold;">
-                        🏕️ 【週二 限定！逛夜市配滿天星斗住宿方案】
-                    </p>
-                    <ul style="margin: 0 0 0 20px; padding: 0; font-size: 0.9rem; line-height: 1.6;">
-                        <li><span style="color:#d35400; font-weight:bold;">⛺️ 營位</span> 贈 $100 夜市折價券 (僅釋出 8 格)</li>
-                        <li><span style="color:#d35400; font-weight:bold;">🚐 大馳露營車</span> 贈 $200 夜市折價券 (僅 1 台)</li>
-                        <li><span style="color:#d35400; font-weight:bold;">🚐 StarCraft</span> 贈 $200 夜市折價券 (僅 1 台)</li>
-                        <li><span style="color:#d35400; font-weight:bold;">🛏️ 溫馨四人房</span> 贈 $200 夜市折價券 (僅 1 間)</li>
-                    </ul>
-                    
-                    <div style="margin-top: 15px; padding: 15px; background: rgba(255,255,255,0.7); border-radius: 8px; border: 2px dashed #ab47bc;">
-                        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;">
-                            <div>
-                                <strong style="color: #6a1b9a; font-size: 1rem;"><i class="fas fa-handshake"></i> 攤商招募中！【頭家睏霸專屬套票】</strong>
-                                <p style="margin: 3px 0 0 0; font-size: 0.85rem; color: #555;">填完報名表解鎖密碼，大馳只要$1,800！</p>
-                            </div>
-                            <label style="display: flex; align-items: center; cursor: pointer; font-weight: bold; color: #8e24aa; margin-top: 8px; background: #fff; padding: 5px 10px; border-radius: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-                                <span class="vendor-toggle">
-                                    <input type="checkbox" id="isVendor" onclick="return verifyVendor(this)">
-                                    <span class="slider"></span>
-                                </span>
-                                我是市集攤商
-                            </label>
-                        </div>
-                        <div style="text-align: right; margin-top: 8px;">
-                            <a href="https://forms.gle/VDD6b8o2aBLtppuf9" target="_blank" style="display: inline-block; background: linear-gradient(135deg, #8e24aa, #6a1b9a); color: white; padding: 6px 12px; border-radius: 15px; text-decoration: none; font-size: 0.85rem; font-weight: bold; box-shadow: 0 3px 6px rgba(106, 27, 154, 0.4); transition: opacity 0.2s;">
-                                <i class="fas fa-pencil-alt"></i> 去填寫報名表獲取密碼
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="unitNotice" class="notice-box" style="background-color: #e3f2fd; color: #0d47a1; padding: 12px; border-radius: 6px; margin-bottom: 15px; border-left: 5px solid #2196F3; font-size: 0.95rem;">
-                    <i class="fas fa-info-circle"></i> <strong id="basicUnitDesc" data-i18n="basic_unit">基本單位：4人 / 1車 / 1帳 / 1車邊帳or車尾帳</strong>
-                </div>
-
-                <div id="policyNotice" class="notice-box hidden" style="background-color: #fff8e1; color: #f57f17; padding: 12px; border-radius: 6px; margin-bottom: 15px; border-left: 5px solid #ffca28; font-size: 0.95rem;">
-                    <i class="fas fa-exclamation-circle"></i> <strong data-i18n="important_notice">重要提醒：</strong>
-                    <ul style="margin: 5px 0 0 20px; padding: 0;">
-                        <li>⏰ <strong data-i18n="checkin_time_label">入住時間：</strong><span id="checkInTimeText" data-i18n="checkin_time_val">下午 14:00 以後</span> <span data-i18n="dont_early">(請勿提早)</span></li>
-                        <li>♻️ <strong data-i18n="eco_policy_label">環保旅宿：</strong><span data-i18n="eco_policy_desc">不提供一次性備品 (請自備毛巾、牙刷)</span></li>
-                    </ul>
-                </div>
-
-                <div class="form-group">
-                    <label for="campType" data-i18n="label_type">類型選擇：</label>
-                    <select id="campType" onchange="toggleInputs()">
-                        <option value="" disabled selected data-i18n="select_placeholder">請選擇類型...</option>
-                        <optgroup label="⛺ 露營模式 (Camping Mode)" data-i18n-label="group_camping">
-                            <option value="tent" data-i18n="opt_tent">自搭帳篷 (Tent)</option>
-                            <option value="moto" data-i18n="opt_moto">機車、單車露營 (Moto or bike Camping)</option>
-                            <option value="solo" data-i18n="opt_solo">單人小帳篷 (Solo Camping)</option>
-                            <option value="car" data-i18n="opt_car">車泊、車露、加掛式車 (Car Camping)</option>
-                            <option value="camper" data-i18n="opt_camper">自備拖車/自走式露營車 (Self-driving RV)</option>
-                            <option value="car_bed_vip">🚙 車床天地特約會員 (需驗證編號)</option>
-                        </optgroup>
-                        <optgroup label="🚐 錄托邦免裝備租賃/民宿 (Rental)" data-i18n-label="group_rental">
-                            <option value="starcraft" data-i18n="opt_starcraft">錄托邦 StarCraft 美式復古拖車</option>
-                            <option value="dt392" data-i18n="opt_dt392">錄托邦 大馳 DT392 露營車</option>
-                            <option value="room" data-i18n="opt_room">錄托邦民宿房間</option>
-                        </optgroup>
-                        <optgroup label="🎉 包場住宿 (Full Booking - Overnight)" data-i18n-label="group_full">
-                            <option value="full_basic" data-i18n="opt_full_basic">純場地包場</option>
-                            <option value="full_vans" data-i18n="opt_full_vans">包場+2台露營車</option>
-                            <option value="full_all" data-i18n="opt_full_all">包場+2台露營車+房間</option>
-                        </optgroup>
-                        <optgroup label="🎪 場地活動租借 (Hourly Rental)" data-i18n-label="group_venue">
-                            <option value="venue_hourly" data-i18n="opt_venue_hourly">場地租借 (按時數計費)</option>
-                        </optgroup>
-                        <optgroup label="🚲 周邊服務 (Services)" data-i18n-label="group_bike">
-                            <option value="bicycle" data-i18n="opt_bicycle">單車租借 (Bicycle Rental)</option>
-                        </optgroup>
-                    </select>
-                </div>
-
-                <div class="form-group hidden" id="qtyBlock">
-                    <label for="unitQty" data-i18n="label_unit_qty">預訂數量 (帳/車/間)：</label>
-                    <select id="unitQty" onchange="onQtyChange()" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px; background-color:#fff;">
-                        <option value="1">1</option>
-                    </select>
-                </div>
-
-                <div id="carBedBlock" class="hidden" style="background: #e3f2fd; padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px dashed #2196f3;">
-                    <h4 style="margin: 0 0 10px 0; color: #0d47a1; font-size: 0.95rem;">🆔 車床天地會員專屬設定</h4>
-                    <div class="form-group">
-                        <label for="carBedId">會員編號 (必填)：</label>
-                        <input type="text" id="carBedId" placeholder="請輸入會員卡編號" style="width:100%; padding:10px; border:1px solid #2196f3; border-radius:5px;">
-                    </div>
-                    <div class="form-group two-col">
-                        <div>
-                            <label>車宿人數 (依人頭計費)：</label>
-                            <select id="carBedPeople" onchange="calculateTotal()" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;">
-                                <option value="1">1 人</option><option value="2" selected>2 人</option><option value="3">3 人</option><option value="4">4 人</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label>裝備選項：</label>
-                            <div style="margin-top: 10px;">
-                                <label style="display:flex; align-items:center; cursor:pointer;">
-                                    <input type="checkbox" id="carBedTent" onchange="calculateTotal()" style="width:18px; height:18px; margin-right:8px;"> 搭車邊帳/車尾帳 (+$50)
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="guestListBlock" class="hidden" style="background: #f1f8e9; padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px dashed #8bc34a;">
-                    <h4 style="margin: 0 0 10px 0; color: #558b2f; font-size: 0.95rem;">👥 同行朋友姓名 (保險/入園用)</h4>
-                    <div id="guestInputsContainer"></div>
-                </div>
-
-                <div class="form-group two-col">
-                    <div>
-                        <label for="dateRange" data-i18n="label_date">預約日期：</label>
-                        <input type="text" id="dateRange" data-i18n-placeholder="date_placeholder" placeholder="請點擊選擇日期..." readonly style="background-color: #fff;">
-                    </div>
-                    <div>
-                        <label for="visitTime" data-i18n="label_time">預計抵達/取車時間：</label>
-                        <select id="visitTime" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px; background-color:#fff;">
-                            <option value="" disabled selected data-i18n="time_placeholder">請選擇時間...</option>
-                            <option value="14:00">14:00 (最早入場)</option><option value="14:30">14:30</option><option value="15:00">15:00</option>
-                            <option value="15:30">15:30</option><option value="16:00">16:00</option><option value="16:30">16:30</option>
-                            <option value="17:00">17:00</option><option value="17:30">17:30</option><option value="18:00">18:00</option>
-                            <option value="18:30">18:30</option><option value="19:00">19:00</option><option value="19:30">19:30</option>
-                            <option value="20:00">20:00 (夜衝開始)</option><option value="20:30">20:30</option><option value="21:00">21:00</option>
-                            <option value="21:30">21:30</option><option value="22:00">22:00</option><option value="22:30">22:30</option>
-                            <option value="23:00">23:00 (最晚入場)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div id="nightsBlock" class="form-group">
-                    <label for="nights" data-i18n="label_nights">住宿晚數 (自動)：</label>
-                    <input type="number" id="nights" value="0" readonly style="background-color: #e9ecef; width: 100%;">
-                </div>
-
-                <div id="rentalDurationBlock" class="hidden"><div class="form-group"><label for="rentalScheme" data-i18n="label_rental_scheme">租借時數方案：</label><select id="rentalScheme" onchange="calculateTotal()"><option value="3hr">3hr</option><option value="5hr">5hr</option><option value="6hr">6hr</option><option value="8hr">8hr</option><option value="day">Full Day</option></select></div></div>
-                <div id="bikeBlock" class="hidden"><div class="form-group two-col"><div><label for="bikeQty" data-i18n="label_bike_qty">租借數量 (台)：</label><input type="number" id="bikeQty" value="1" min="1" max="20" onchange="calculateTotal()"></div><div><label for="bikeScheme" data-i18n="label_bike_scheme">租借方案：</label><select id="bikeScheme" onchange="calculateTotal()"><option value="2hr">2hr ($150)</option><option value="4hr">4hr ($250)</option><option value="day">Day ($400)</option><option value="24hr">24H ($600)</option><option value="15day">15 Days ($2,500)</option><option value="30day">30 Days ($3,500)</option></select></div></div></div>
-
-                <div id="addonBlock" class="hidden" style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px dashed #ced4da;">
-                    <h4 style="margin: 0 0 10px 0; color: #495057; font-size: 0.95rem;" data-i18n="addon_title">➕ 加購選項 (人/訪客)</h4>
-                    <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                        <div>
-                            <label id="extraPeopleLabel" style="font-size:0.85rem;">加人 ($300/人) <br><small style="color:#888;">*小一以下免費</small></label>
-                            <input type="number" id="extraPeople" value="0" min="0" onchange="calculateTotal()" style="width:100%; padding:8px;">
-                        </div>
-                        <div>
-                            <label style="font-size:0.85rem;" data-i18n="label_visitor">訪客 ($100/人，23:00離場)：</label>
-                            <input type="number" id="visitors" value="0" min="0" onchange="calculateTotal()" style="width:100%; padding:8px;">
-                        </div>
-                    </div>
-                </div>
-
-                <div id="extraOptions" class="checkbox-group hidden">
-                    <label><input type="checkbox" id="isNightRush" onchange="calculateTotal()"> <span data-i18n="cb_night_rush">我要夜衝 (20:00-23:00入場)</span></label>
-                    <label><input type="checkbox" id="useAC" value="200" onchange="calculateTotal()"> <span data-i18n="cb_ac">使用冷氣 (+200元/晚)</span></label>
-                    <label><input type="checkbox" id="bringPet" value="100" onchange="calculateTotal()"> <span data-i18n="cb_pet">攜帶寵物 (+100元/晚)</span></label>
-                </div>
-
-                <div class="btn-group">
-                    <button onclick="calculateTotal()" class="calc-btn" data-i18n="btn_calc">更新費用</button>
-                    <button onclick="resetForm()" class="reset-btn" data-i18n="btn_reset">重新填寫</button>
-                </div>
-
-                <div id="resultBox" class="result-box hidden">
-                    <h3 data-i18n="result_title">試算結果</h3>
-                    <div class="result-row"><span data-i18n="res_base">基本費用：</span> <span><span id="basePrice">0</span> 元</span></div>
-                    <div class="result-row hidden" id="rowTribal"><span style="color:#2e7d32; font-weight:bold;">🌿 部落體驗包：</span> <span><span id="tribalTotal">0</span> 元</span></div>
-                    <div class="result-row" id="rowRush"><span data-i18n="res_rush">夜衝費用：</span> <span><span id="rushPrice">0</span> 元</span></div>
-                    <div class="result-row" id="rowAddons"><span data-i18n="res_addon">加購費用：</span> <span><span id="addonPrice">0</span> 元</span></div>
-                    <div class="result-row" id="rowAC"><span data-i18n="res_ac">冷氣加價：</span> <span><span id="acPrice">0</span> 元</span></div>
-                    <div class="result-row discount"><span data-i18n="res_discount">符合折扣：</span> <span>-<span id="discountPrice">0</span> 元</span></div>
-                    
-                    <div class="result-row discount hidden" id="rowCoupon" style="background:#fff3e0; padding:8px; border-radius:5px; margin-top:5px;">
-                        <span style="color:#d35400; font-weight:bold;">🎁 贈品/專案：</span> 
-                        <span style="color:#d35400; font-weight:bold; text-align:right;" id="couponText"></span>
-                    </div>
-
-                    <hr style="margin: 10px 0; border: none; border-top: 1px dashed #ccc;">
-                    <div class="total-row">
-                        <span data-i18n="res_total">總計金額：</span>
-                        <span class="final-price">NT$ <span id="finalTotal">0</span></span>
-                    </div>
-
-                    <div class="booking-form-inline" id="customerInfoSection" style="margin-top: 20px; padding-top: 20px; border-top: 2px dashed #eee;">
-                        <h4 style="text-align:center; color:#2c5e50; margin-bottom:15px;" data-i18n="customer_info_title">📝 預訂資料填寫</h4>
-                        <div class="form-group"><input type="text" id="customerName" data-i18n-placeholder="ph_name" placeholder="您的姓名 (必填)" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ddd; border-radius:5px;"></div>
-                        <div class="form-group two-col">
-                            <input type="tel" id="customerPhone" data-i18n-placeholder="ph_phone" placeholder="聯絡電話 (必填)" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ddd; border-radius:5px;">
-                            <input type="text" id="customerLine" placeholder="FB 或 IG" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ddd; border-radius:5px;">
-                        </div>
-                        <div class="form-group">
-                            <label for="last5" style="display:block; margin-bottom:5px; font-weight:bold; color:#555;">匯款帳號後五碼 (若尚未匯款可留白)</label>
-                            <input type="text" id="last5" placeholder="請輸入末 5 碼" maxlength="5" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ddd; border-radius:5px;">
-                        </div>
-                        <div class="form-group">
-                            <label for="customerNote" style="display:block; margin-bottom:5px; font-weight:bold; color:#555;">備註</label>
-                            <textarea id="customerNote" data-i18n-placeholder="ph_note" placeholder="其他備註需求 (例如：露營相關、租單車者身高...)" rows="5" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;"></textarea>
-                        </div>
-                        <div class="bank-highlight-mobile" style="background:#f1f8e9; padding:15px; border-radius:8px; margin-bottom:15px;">
-                            <h4 style="margin-top:0;">💰 匯款資訊 (訂位後請全額匯款)</h4>
-                            <p>銀行：<strong>合作金庫 (006)</strong></p>
-                            <div class="account-box" style="display:flex; justify-content:space-between; align-items:center; background:white; padding:10px; border-radius:5px; margin:10px 0;">
-                                <span id="bankAccount" style="font-size:1.1rem; font-weight:bold; letter-spacing:1px;">5492988007780</span>
-                                <button type="button" onclick="copyBankInfo()" class="copy-btn" style="background:#2c5e50; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;"><i class="fas fa-copy"></i> 複製帳號</button>
-                            </div>
-                            <small style="color:#d35400;">⚠️ 請保留轉帳證明，並於跳轉 LINE 後傳送給營主。</small>
-                        </div>
-                        <button onclick="submitOrder()" id="submitBtn" style="width:100%; background-color:#d35400; color:white; padding:15px; border:none; border-radius:8px; font-size:1.1rem; cursor:pointer; font-weight:bold;" data-i18n="btn_submit">🚀 確認預訂並送出</button>
-                    </div> 
-                </div> 
-            </div> 
-            
-            <div class="info-panel">
-                <section class="gallery-section">
-                    <h3 style="border-bottom: 2px solid #2c5e50; padding-bottom: 10px; margin-top: 0; color: #2c5e50;">探索 Lutopia 錄托邦</h3>
-                    <div class="gallery-grid">
-                        <a href="https://www.instagram.com/reel/CxP3YtGrSLs/" target="_blank" class="gallery-item video-item"><img src="video1.jpg" alt="錄托邦大馳DT392露營車" onerror="this.src='https://via.placeholder.com/150'"><div class="overlay"><i class="fas fa-play"></i></div></a>
-                        <a href="https://www.instagram.com/reel/Cxh6hi1rLti/" target="_blank" class="gallery-item video-item"><img src="video2.jpg" alt="美式復古露營拖車" onerror="this.src='https://via.placeholder.com/150'"><div class="overlay"><i class="fas fa-play"></i></div></a>
-                        <a href="https://www.instagram.com/reel/CxfY-oISiv0/" target="_blank" class="gallery-item video-item"><img src="video3.jpg" alt="錄托邦民宿房間內装" onerror="this.src='https://via.placeholder.com/150'"><div class="overlay"><i class="fas fa-play"></i></div></a>
-                        <a href="https://www.instagram.com/reel/Cxz19HdS0OX/" target="_blank" class="gallery-item video-item"><img src="video4.jpg" alt="都蘭營區導覽" onerror="this.src='https://via.placeholder.com/150'"><div class="overlay"><i class="fas fa-map-marked-alt"></i></div><div class="video-label">📍 路線導覽</div></a>
-                    </div>
-                </section>
-                <section class="map-section" style="background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
-                    <h3 style="border-bottom: 2px solid #2c5e50; padding-bottom: 10px; margin-top: 0; color: #2c5e50;">📍 交通指引</h3>
-                    <div class="map-container" style="margin-bottom: 15px;">
-                        <iframe width="100%" height="250" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?q=都蘭錄托邦露營區&t=&z=13&ie=UTF8&iwloc=&output=embed" style="border-radius: 8px;"></iframe>
-                    </div>
-                    <a href="https://www.google.com/maps/search/?api=1&query=都蘭錄托邦露營區" target="_blank" class="nav-btn" style="display: block; text-align: center; background: #3498db; color: white; padding: 10px; border-radius: 5px; text-decoration: none;"><i class="fas fa-location-arrow"></i> 開啟 Google 導航</a>
-                </section>
-            </div>
-        </div> 
-
-        <div class="pricing-wrapper wide-layout">
-            <div class="pricing-title-area" style="text-align: center; margin-bottom: 20px;">
-                <h2 data-i18n="pricing_title" style="border:none; margin-bottom:5px;">全區獨享包場方案</h2>
-                <p data-i18n="pricing_desc" style="color:#777;">選擇適合您的規模，平日/假日/連假皆有不同優惠</p>
-            </div>
-            <div class="camp-grid">
-                <div class="camp-card mini-box">
-                    <div class="card-header"><h3 style="margin:0;" data-i18n="plan_a_title">方案 A：純場地自由配</h3></div>
-                    <table class="price-table">
-                        <thead><tr><th>時段</th><th>微包場<span class="level-tag">10帳內</span></th><th>全包場<span class="level-tag">20帳</span></th></tr></thead>
-                        <tbody>
-                            <tr><td>平日</td><td>$5,000</td><td class="price-highlight">$7,000</td></tr>
-                            <tr><td>假日</td><td>$6,500</td><td class="price-highlight">$10,000</td></tr>
-                            <tr><td>連假</td><td>$10,000</td><td class="price-highlight">$15,000</td></tr>
-                        </tbody>
-                    </table>
-                    <div class="card-body"><button class="btn-book" onclick="selectPlan('full_basic')" data-i18n="btn_book_a">預約方案 A</button></div>
-                </div>
-                <div class="camp-card mini-box">
-                    <div class="card-header header-green" style="color:#2c5e50;"><h3 style="margin:0;" data-i18n="plan_b_title">方案 B：場地 + 露營車</h3></div>
-                    <table class="price-table">
-                        <thead><tr><th>時段</th><th>微包場<span class="level-tag">10帳內</span></th><th>全包場<span class="level-tag">20帳</span></th></tr></thead>
-                        <tbody>
-                            <tr><td>平日</td><td>$7,500</td><td class="price-highlight">$10,000</td></tr>
-                            <tr><td>假日</td><td>$8,500</td><td class="price-highlight">$16,000</td></tr>
-                            <tr><td>連假</td><td>$12,000</td><td class="price-highlight">$18,000</td></tr>
-                        </tbody>
-                    </table>
-                    <div class="card-body"><button class="btn-book" onclick="selectPlan('full_vans')" data-i18n="btn_book_b">預約方案 B</button></div>
-                </div>
-                <div class="camp-card mini-box">
-                    <div class="card-header header-dark" style="color:#333;"><h3 style="margin:0;" data-i18n="plan_c_title">方案 C：豪華全配版</h3></div>
-                    <table class="price-table">
-                        <thead><tr><th>時段</th><th>微包場<span class="level-tag">10帳內</span></th><th>全包場<span class="level-tag">20帳</span></th></tr></thead>
-                        <tbody>
-                            <tr><td>平日</td><td>$10,500</td><td class="price-highlight">$13,000</td></tr>
-                            <tr><td>假日</td><td>$13,500</td><td class="price-highlight">$18,000</td></tr>
-                            <tr><td>連假</td><td>$16,500</td><td class="price-highlight">$20,000</td></tr>
-                        </tbody>
-                    </table>
-                    <div class="card-body"><button class="btn-book" onclick="selectPlan('full_all')" data-i18n="btn_book_c">預約方案 C</button></div>
-                </div>
-            </div>
-        </div>
-
-        <div id="campingRules" class="rules-section wide-layout">
-            <div class="rules-container">
-                <div class="rule-card basic-rules">
-                    <h3 data-i18n="rule_title_basic" style="border-bottom: 2px solid #2c5e50; padding-bottom: 10px; margin-top: 0; color: #2c5e50;">🔷 收費標準與營區規定</h3>
-                    <div class="grid-2x2">
-                        <div class="mini-box">
-                            <h4 data-i18n="rule_sub_price" style="margin-top:0; color:#444;">💰 營位計費標準</h4>
-                            <ul style="padding-left: 20px; font-size:0.9rem; line-height:1.6;">
-                                <li data-i18n="rule_li_unit"><strong>基本單位：</strong>4人 / 1車 / 1帳 / 1炊事帳。</li>
-                                <li data-i18n="rule_li_add_person"><strong>加人：</strong>多1人加 $300 (國小一年級以下免費)。</li>
-                                <li data-i18n="rule_li_add_car"><strong>加車：</strong>多停一台車加收 $300 (拖車不在此限)。</li>
-                                <li data-i18n="rule_li_visitor"><strong>訪客：</strong>每人 $100，需於 23:00 前離場。</li>
-                            </ul>
-                        </div>
-                        <div class="mini-box">
-                            <h4 data-i18n="rule_sub_tent" style="margin-top:0; color:#444;">⛺ 搭帳與冷氣規範</h4>
-                            <ul style="padding-left: 20px; font-size:0.9rem; line-height:1.6;">
-                                <li data-i18n="rule_li_big_tent"><strong>大型帳篷：</strong>神殿、怪獸、5x8天幕等請<strong>訂2個營位</strong>。</li>
-                                <li data-i18n="rule_li_ac_fee"><strong>冷氣使用：</strong>車上/帳內使用冷氣接電，酌收 $200/晚。</li>
-                                <li class="alert-text" data-i18n="rule_li_warning" style="color:red; font-weight:bold;">未告知搭設大帳者，現場將禁止搭設。</li>
-                            </ul>
-                        </div>
-                        <div class="mini-box">
-                            <h4 data-i18n="rule_sub_rush" style="margin-top:0; color:#444;">🌙 夜衝服務 (限自搭帳)</h4>
-                            <ul style="padding-left: 20px; font-size:0.9rem; line-height:1.6;">
-                                <li data-i18n="rule_li_rush_time"><strong>時間：</strong>20:00 後入場，23:30 前搭完。</li>
-                                <li data-i18n="rule_li_rush_price"><strong>費用：</strong>夜衝價格依各營位有所不同，請以系統試算為準。</li>
-                                <li class="highlight" data-i18n="rule_li_rush_rv" style="color:#d35400; font-weight:bold;">🚐 自備露營車夜衝依金額打 8 折。</li>
-                            </ul>
-                        </div>
-                        <div class="mini-box" style="border: 2px solid #d32f2f; background-color: #ffebee;">
-                            <h4 style="color: #d32f2f; margin-top:0;" data-i18n="rule_noise_title">🚫 噪音管制 (嚴格執行)</h4>
-                            <div style="padding: 10px; font-weight: bold; line-height: 1.6; color: #b71c1c; font-size:0.9rem;">
-                                <span data-i18n="rule_noise_head">⚠️ 晚間 10:30 過後<br>非常嚴厲禁止使用：</span>
-                                <span style="display:block; margin-top:5px; border-top:1px dashed #ef9a9a; padding-top:5px;" data-i18n="rule_noise_list">❌ 卡啦OK唱歌<br>❌ 放音樂<br>❌ 大聲喧嘩</span>
-                                <div style="margin-top:5px; font-size:0.9em; color:black;" data-i18n="rule_noise_punish">‼️ 違者將強制要求離場 ‼️<br>🚫 並且不會退費</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="rule-card policy-rules" style="margin-top: 30px;">
-                    <h3 data-i18n="rule_title_policy" style="border-bottom: 2px solid #2c5e50; padding-bottom: 10px; margin-top: 0; color: #2c5e50;">⚠️ 住宿取消政策與付款</h3>
-                    <div class="policy-content" style="background:#fff; padding:20px; border-radius:8px; border:1px solid #eee;">
-                        <h4 data-i18n="rule_sub_refund" style="margin-top:0;">📅 取消退費標準</h4>
-                        <ul class="refund-timeline" style="list-style:none; padding:0; margin:0 0 20px 0;">
-                            <li style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding:8px 0;"><span class="days" data-i18n="ref_14" style="font-weight:bold;">14天前</span> <span class="desc" data-i18n="ref_desc_14">退 100% (扣手續費) 或改期</span></li>
-                            <li style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding:8px 0;"><span class="days" data-i18n="ref_10" style="font-weight:bold;">10-13天前</span> <span class="desc" data-i18n="ref_desc_10">退 70% (2日內補差額)</span></li>
-                            <li style="display:flex; justify-content:space-between; padding:8px 0;"><span class="days" data-i18n="ref_7" style="font-weight:bold;">7-9天前</span> <span class="desc" data-i18n="ref_desc_7">退 50%</span></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="bar-section wide-layout">
-            <div class="bar-container">
-                <div class="bar-text">
-                    <h2 style="color: #f39c12; margin-top:0;"> 附屬酒吧 🍹 吐煙怪獸水煙酒吧 (Toen Kaijyu Bar)</h2>
-                    <p style="font-size:1.1rem; line-height:1.6;">當夜幕低垂，營區化身為都蘭最Chill的角落。<br>無論是微醺調酒還是滿天星空，我們都在這等你。</p>
-                </div>
-                <div class="bar-img-box" style="background-image: url('logo-toen-kaijyu.png');"></div>
-            </div>
-        </div>
-    </div>
-
-    <footer class="site-footer">
-        <p>📍 營本部：GOOGLE導航至『都蘭錄托邦露營區』即可到達</p>
-        <p>© 2026 LutopiaDulanCampsite. All Rights Reserved.</p>
-    </footer>
-
-    <div id="tribalModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 9999; overflow-y: auto; display: none; align-items: flex-start; justify-content: center; padding: 20px 0;">
-        <button onclick="closeTribalModal()" style="position: fixed; top: 20px; right: 20px; background: white; color: black; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 20px; cursor: pointer; z-index: 10000; box-shadow: 0 2px 10px rgba(0,0,0,0.3);"><i class="fas fa-times"></i></button>
-        <div class="max-w-md mx-auto bg-white shadow-2xl rounded-3xl overflow-hidden border-4 border-amber-800" style="margin-top: 20px; margin-bottom: 40px; position: relative; width: 90%; max-width: 450px;">
-            
-            <div class="relative h-64 bg-emerald-900">
-                <video src="糯米釀小米酒2.MOV" class="w-full h-full object-cover opacity-80" autoplay loop muted playsinline></video>
-                <div class="absolute inset-0 flex flex-col justify-end p-6" style="background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);">
-                    <h1 class="text-white text-3xl font-bold tracking-wider mb-1" style="font-family: 'Noto Sans TC', sans-serif;">錄托邦 LUTOPAN</h1>
-                    <p class="text-amber-200 text-lg">部落慢活・三天兩夜露營體驗包</p>
-                </div>
-                <div class="absolute top-4 right-4 bg-amber-600 text-white px-3 py-1 rounded-full text-xs font-bold">都蘭深度之旅</div>
-            </div>
-            
-            <div class="p-6 space-y-8" style="background-image: url('https://www.transparenttextures.com/patterns/az-subtle.png');">
-                <section class="bg-emerald-800 rounded-2xl p-5 text-white shadow-lg">
-                    <div class="flex items-center space-x-2 mb-3"><i class="fas fa-gift text-amber-300"></i><h2 class="text-lg font-bold" style="border:none; color:white;">部落文化體驗包內容</h2></div>
-                    <div class="text-2xl font-black text-amber-300 mb-4">專案價 NT$ 1,200 <span class="text-sm font-normal text-white">/ 人</span></div>
-                    
-                    <ul class="space-y-4 text-sm opacity-95 mt-4">
-                        <li class="flex items-start space-x-3 border-b border-emerald-700 pb-4">
-                            <i class="fas fa-check-circle text-amber-400 mt-1 text-lg"></i>
-                            <div>
-                                <span class="text-base font-bold text-amber-100">美式糯米酒釀 (1hr)</span>
-                                <p class="text-gray-200 mt-1">全國首家認證傳統酒釀，親手體驗部落微醺文化，品嚐最純粹的糯米香甜。</p>
-                            </div>
-                        </li>
-                        <li class="flex items-start space-x-3">
-                            <i class="fas fa-check-circle text-amber-400 mt-1 text-lg"></i>
-                            <div class="w-full">
-                                <span class="text-base font-bold text-amber-100">原民風好皂頭 (1hr)</span>
-                                <p class="text-gray-200 mt-1 mb-3">運用傳統植物元素製作抗菌手工皂，帶走屬於都蘭的天然香氣。</p>
-                                <img src="足渡蘭DIY.jpg" alt="足渡蘭DIY手工皂" class="w-full h-32 object-cover rounded-lg border-2 border-emerald-600 shadow-md">
-                            </div>
-                        </li>
-                    </ul>
-                </section>
-            </div>
-            <div class="bg-gray-100 p-6 text-center space-y-3">
-                <p class="text-xs text-gray-500 leading-relaxed">⚠️ 4人以上才開團 | 需提前 7 天預約<br>台東縣都蘭營區・錄托邦部落慢活</p>
-                <button onclick="bookTribalPackage()" class="w-full bg-amber-800 text-white font-bold py-3 rounded-xl hover:bg-amber-900 transition shadow-lg" style="cursor:pointer;">我了解了，前往加購</button>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="https://npmcdn.com/flatpickr/dist/l10n/zh.js"></script>
-    
-    <script>
-        let currentLang = 'zh';
-        let selectedDates = []; 
-        let GLOBAL_BLOCKED_DATA = { full: [], starcraft: [], dt392: [], room: [] };
-
-        // ⚠️⚠️⚠️ 記得確認這是您最新的 Google Apps Script 網址！
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwE4JzNMfmaLDF997ZphXIZklweAqwkKiij-jueG_AhQHGuiV1mAHaUG70zt2RLWpjo7g/exec";
-
-        let VISIT_TIME_ORIGINAL_OPTIONS = null;
-        function cacheVisitTimeOptions() {
-          const sel = document.getElementById('visitTime');
-          if (!sel || VISIT_TIME_ORIGINAL_OPTIONS) return;
-          VISIT_TIME_ORIGINAL_OPTIONS = Array.from(sel.options).map(o => ({ value: o.value, text: o.text }));
-        }
-
-        function restoreVisitTimeOptions() {
-          const sel = document.getElementById('visitTime');
-          if (!sel || !VISIT_TIME_ORIGINAL_OPTIONS) return;
-          Array.from(sel.options).forEach(opt => {
-            const found = VISIT_TIME_ORIGINAL_OPTIONS.find(x => x.value === opt.value);
-            if (found) opt.text = found.text;
-            opt.disabled = false; opt.hidden = false;
-          });
-        }
-
-        function stripNightRushLabels() {
-          const sel = document.getElementById('visitTime');
-          if (!sel) return;
-          const re = /\s*[\(\（]\s*(夜衝開始|夜衝結束|最晚入場|Night Rush Start|Night Rush End|Latest Entry|前泊開始|前泊終了)\s*[\)\）]\s*/g;
-          Array.from(sel.options).forEach(opt => { opt.text = String(opt.text || '').replace(re, ''); });
-        }
-
-        const TRANSLATIONS = {
-          zh: {
-            loading: "資料載入中...", calc_title: "🌲 露營/場地/周邊服務費用試算", basic_unit: "基本單位：4人 / 1車 / 1帳 / 1車邊帳or車尾帳",
-            important_notice: "重要提醒：", checkin_time_val: "⏰ 紮營時間：下午 14:00 以後 (請勿提早)", checkin_time_val_room: "🏡 錄托邦住宿入住時間：下午 15:00 以後 (請勿提早，可以提早放置行李，請先告知)",
-            dont_early: "(請勿提早)", eco_policy_label: "環保旅宿：", eco_policy_desc: "♻️ 環保旅宿：不提供一次性備品 (請自備毛巾、牙刷)",
-            label_type: "類型選擇：", select_placeholder: "請選擇類型...", label_unit_qty: "預訂數量 (帳/車/間)：",
-            group_camping: "⛺ 露營模式", group_rental: "🚐 免裝備租賃/民宿", group_full: "🎉 包場住宿", group_venue: "🎪 場地活動租借", group_bike: "🚲 周邊服務",
-            opt_tent: "自搭帳篷", opt_moto: "機車、單車露營", opt_solo: "單人小帳棚", opt_car: "車泊、車露", opt_camper: "自備露營車/拖車",
-            opt_starcraft: "StarCraft 美式復古拖車", opt_dt392: "大馳 DT392 露營車", opt_room: "錄托邦民宿房間",
-            opt_full_basic: "純場地包場", opt_full_vans: "包場+2台露營車", opt_full_all: "包場+2台露營車+房間", opt_venue_hourly: "場地租借 (按時數計費)", opt_bicycle: "單車租借",
-            label_date: "預約日期：", date_placeholder: "請點擊選擇日期...", label_time: "預計抵達/取車時間：", time_placeholder: "請選擇時間...",
-            label_nights: "住宿晚數 (自動)：", label_rental_scheme: "租借時數方案：", label_bike_qty: "租借數量 (台)：", label_bike_scheme: "租借方案：",
-            addon_title: "➕ 加購選項 (人/車/訪客)", label_extra_people: "加人 ($300/人/晚)", label_kid_free: "*小一以下免費", label_visitor: "訪客 ($100/人，23:00離場)",
-            cb_night_rush: "我要夜衝 (20:00-23:00入場)", cb_ac: "使用冷氣 (+200元/晚)", cb_pet: "攜帶寵物 (+100元/晚)",
-            btn_calc: "更新費用", btn_reset: "重新填寫", result_title: "試算結果", res_base: "基本費用：", res_addon: "加購費用：", res_rush: "夜衝費用：", res_ac: "冷氣加價：", res_discount: "符合折扣：", res_total: "總計金額：",
-            customer_info_title: "📝 預訂資料填寫", ph_name: "您的姓名 (必填)", ph_phone: "聯絡電話 (必填)", ph_note: "其他備註需求 (例如：露營相關、租單車者身高...)", btn_submit: "🚀 確認預訂並送出", alert_fill: "請務必填寫「姓名」與「電話」才能送出訂單喔！",
-            confirm_room_policy: "🛑【訂位前請確認】\n\n1. 🏡 錄托邦住宿入住時間：下午 15:00 以後。\n   (請勿提早，可以提早放置行李，請先告知)\n\n2. ♻️ 環保旅宿：不提供一次性備品。\n   (請自備毛巾、牙刷)\n\n請問您是否接受並繼續訂位？",
-            rule_title_basic: "🔷 收費標準與營區規定", rule_sub_price: "💰 營位計費標準", rule_li_unit: "基本單位：4人 / 1車 / 1帳 / 1炊事帳。", rule_li_add_person: "加人：多1人加 $300 (國小一年級以下免費)。", rule_li_add_car: "加車：多停一台車加收 $300 (拖車不在此限)。", rule_li_visitor: "訪客：每人 $100，需於 23:00 前離場。", rule_sub_tent: "⛺ 搭帳與冷氣規範", rule_li_big_tent: "大型帳篷：神殿、怪獸、5x8天幕等請訂2個營位。", rule_li_ac_fee: "冷氣使用：車上/帳內使用冷氣接電，酌收 $200/晚。", rule_li_warning: "未告知搭設大帳者，現場將禁止搭設。", rule_sub_rush: "🌙 夜衝服務 (限自搭帳)", rule_li_rush_time: "時間：20:00 後入場，23:30 前搭完。", rule_li_rush_price: "費用：夜衝價格依各營位有所不同，請以系統試算為準。", rule_li_rush_rv: "🚐 自備露營車夜衝依金額打 8 折。",
-            rule_title_policy: "⚠️ 住宿取消政策與付款", rule_sub_refund: "📅 取消退費標準", ref_14: "14天前", ref_desc_14: "退 100% (扣手續費) 或改期", ref_10: "10-13天前", ref_desc_10: "退 70% (2日內補差額)", ref_7: "7-9天前", ref_desc_7: "退 50%",
-            opt_inc_dt392: "(含 大馳 DT392)", opt_inc_starcraft: "(含 StarCraft 美式復古拖車)", opt_inc_room: "(含 錄托邦民宿房間)", opt_inc_both_rv: "(含 StarCraft + DT392)", opt_inc_room_starcraft: "(含 StarCraft + 民宿房間)", opt_inc_room_dt392: "(含 DT392 + 民宿房間)", opt_group_contact: "(團體請洽官方)"
-          },
-          en: {
-            loading: "Loading...", calc_title: "🌲 Camping Calculator", basic_unit: "Unit: 4 pax / 1 car / 1 tent",
-            important_notice: "Important Notice:", checkin_time_val: "⏰ Check-in: After 14:00", checkin_time_val_room: "🏡 Check-in: After 15:00",
-            dont_early: "(No early check-in)", eco_policy_label: "Eco-friendly:", eco_policy_desc: "No disposable amenities.",
-            label_type: "Type:", select_placeholder: "Select...", label_unit_qty: "Quantity:",
-            group_camping: "⛺ Camping", group_rental: "🚐 Rental", group_full: "🎉 Full Booking", group_venue: "🎪 Venue", group_bike: "🚲 Services",
-            label_date: "Date:", date_placeholder: "Select dates...", label_time: "Time:", time_placeholder: "Select time...",
-            label_nights: "Nights:", addon_title: "➕ Add-ons",
-            btn_calc: "Calculate", btn_reset: "Reset", result_title: "Result",
-            res_base: "Base Price:", res_addon: "Add-ons:", res_rush: "Night Rush:", res_ac: "AC Fee:", res_discount: "Discount:", res_total: "Total:",
-            customer_info_title: "📝 Customer Info", btn_submit: "Submit Order"
-          },
-          jp: {
-            loading: "読み込み中...", calc_title: "🌲 キャンプ料金計算", basic_unit: "単位：4人 / 1車 / 1テント",
-            important_notice: "重要なお知らせ：", checkin_time_val: "⏰ チェックイン：14:00以降", checkin_time_val_room: "🏡 チェックイン：15:00以降",
-            dont_early: "(アーリーチェックイン不可)", eco_policy_label: "エコポリシー：", eco_policy_desc: "使い捨てアメニティなし",
-            label_type: "タイプ：", select_placeholder: "選択...", label_unit_qty: "数量：",
-            group_camping: "⛺ キャンプ", group_rental: "🚐 レンタル", group_full: "🎉 貸切", group_venue: "🎪 会場", group_bike: "🚲 サービス",
-            label_date: "日付：", date_placeholder: "日付を選択...", label_time: "時間：", time_placeholder: "時間を選択...",
-            label_nights: "宿泊数：", addon_title: "➕ 追加オプション",
-            btn_calc: "計算する", btn_reset: "リセット", result_title: "計算結果",
-            res_base: "基本料金：", res_addon: "追加料金：", res_rush: "前泊料金：", res_ac: "エアコン：", res_discount: "割引：", res_total: "合計金額：",
-            customer_info_title: "📝 予約情報", btn_submit: "予約を確定する"
-          }
-        };
-
-        const HOLIDAYS = [
-            "2026-01-01", "2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17", "2026-02-18", "2026-02-19", "2026-02-20", "2026-02-21", "2026-02-22", 
-            "2026-02-27", "2026-02-28", "2026-03-01", "2026-04-03", "2026-04-04", "2026-04-05", "2026-04-06", "2026-05-01", "2026-05-02", "2026-05-03",
-            "2026-06-19", "2026-06-20", "2026-06-21", "2026-09-25", "2026-09-26", "2026-09-27", "2026-10-09", "2026-10-10", "2026-10-11", "2026-12-31"
-        ];
-        const MAKEUP_DAYS = [ "2026-02-07", "2026-02-21" ];
-        const CNY_DAYS = [ "2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17", "2026-02-18", "2026-02-19", "2026-02-20", "2026-02-21", "2026-02-22" ];
-        const HOLIDAY_BLOCKS = [
-            ["2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17", "2026-02-18", "2026-02-19", "2026-02-20", "2026-02-21"], 
-            ["2026-02-27", "2026-02-28"], ["2026-04-03", "2026-04-04", "2026-04-05"], ["2026-05-01", "2026-05-02"], ["2026-06-19", "2026-06-20"], ["2026-09-25", "2026-09-26"], ["2026-10-09", "2026-10-10"]  
-        ];
-
-        function changeLanguage(lang) {
-          currentLang = lang;
-          const t = TRANSLATIONS[lang] || TRANSLATIONS['zh'];
-          document.querySelectorAll('[data-i18n]').forEach(element => {
-            const key = element.getAttribute('data-i18n');
-            if (t && t[key]) {
-              if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') element.placeholder = t[key];
-              else element.innerHTML = t[key];
-            }
-          });
-          toggleInputs(); calculateTotal();
-        }
-        window.changeLanguage = changeLanguage;
-
-        window.onload = function () {
-          const visitTimeSelect = document.getElementById('visitTime');
-          if (visitTimeSelect) { cacheVisitTimeOptions(); visitTimeSelect.addEventListener('change', calculateTotal); }
-
-          document.getElementById('btn-zh')?.addEventListener('click', () => changeLanguage('zh'));
-          document.getElementById('btn-en')?.addEventListener('click', () => changeLanguage('en'));
-          document.getElementById('btn-jp')?.addEventListener('click', () => changeLanguage('jp'));
-
-          fetch(GOOGLE_SCRIPT_URL).then(r => r.json()).then(data => {
-              if (data.msg) { document.getElementById('marquee-text').innerText = data.msg; }
-              if (data.blockedDates) { GLOBAL_BLOCKED_DATA = data.blockedDates; updateCalendarBlocking(); }
-          }).catch(e => console.error('資料讀取失敗:', e));
-        };
-
-        let hasShownDateNotice = false;
-        flatpickr("#dateRange", {
-          mode: "range", minDate: "today", dateFormat: "Y-m-d (D)", locale: "zh",
-          onOpen: function() { if (!hasShownDateNotice) { alert("⚠️ 【預約日期選擇提醒】\n\n請務必點選「進場日期」與「退場日期」！"); hasShownDateNotice = true; } },
-          onChange: function (dates) { updateNights(dates); checkCarBedVipAvailability(); calculateTotal(); }
-        });
-
-        function checkCarBedVipAvailability() {
-            const carBedOption = document.querySelector('option[value="car_bed_vip"]');
-            if (!carBedOption) return;
-            let hasHoliday = false;
-            if (selectedDates.length >= 2) {
-                let currentDate = new Date(selectedDates[0]);
-                const endDate = new Date(selectedDates[1]);
-                while (currentDate < endDate) {
-                    const dateStr = formatDate(currentDate);
-                    if ((HOLIDAYS.includes(dateStr) || CNY_DAYS.includes(dateStr)) && !MAKEUP_DAYS.includes(dateStr)) { hasHoliday = true; break; }
-                    currentDate.setDate(currentDate.getDate() + 1);
-                }
-            }
-            if (hasHoliday) {
-                carBedOption.disabled = true; carBedOption.text = "🚙 車床天地特約 (連假不適用)";
-                if (document.getElementById('campType').value === 'car_bed_vip') {
-                    alert("⚠️ 抱歉，車床天地特約方案「連假期間」不適用，請改選一般車泊或其他方案。");
-                    document.getElementById('campType').value = ""; toggleInputs();
-                }
-            } else {
-                carBedOption.disabled = false; carBedOption.text = "🚙 車床天地特約會員 (需驗證編號)";
-            }
-        }
-
-        // 🏕️ 全新定價設定與折扣規則
-        const CAMPING_CONFIG = {
-          tent: { rates: { weekday: 700, weekend: 800, holiday: 1000, cny: 1200 }, nightRush: { weekday: 500, weekend: 600, holiday: 600, cny: 800 } },
-          moto: { rates: { weekday: 400, weekend: 500, holiday: 600, cny: 800 }, nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 } },
-          solo: { rates: { weekday: 400, weekend: 500, holiday: 600, cny: 800 }, nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 } },
-          car: { rates: { weekday: 600, weekend: 700, holiday: 800, cny: 1100 }, nightRush: { weekday: 500, weekend: 600, holiday: 600, cny: 800 } },
-          car_bed_vip: { people_rates: { 1: { weekday: 250, weekend: 350, holiday: 350, cny: 350 }, 2: { weekday: 300, weekend: 400, holiday: 400, cny: 400 }, 3: { weekday: 400, weekend: 500, holiday: 500, cny: 500 }, 4: { weekday: 500, weekend: 600, holiday: 600, cny: 600 } }, tent_add_on: { weekday: 50, weekend: 50, holiday: 50, cny: 50 }, ac_fee: 50, nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 } },
-          camper: { rates: { weekday: 800, weekend: 1000, holiday: 1200, cny: 1500 }, nightRush: { weekday: 600, weekend: 700, holiday: 800, cny: 800 } },
-          
-          dt392: { rates: { weekday: 1800, weekend: 2100, holiday: 2300, cny: 2400 } },
-          starcraft: { rates: { weekday: 2000, weekend: 2300, holiday: 2400, cny: 2600 } },
-          room: { rates: { weekday: 2200, weekend: 2400, holiday: 2600, cny: 3000 } },
-          
-          full_basic: { rates: { weekday: 7000, weekend: 10000, holiday: 15000, cny: 15000 } },
-          full_vans: { rates: { weekday: 10000, weekend: 16000, holiday: 18000, cny: 18000 } },
-          full_all: { rates: { weekday: 13000, weekend: 18000, holiday: 20000, cny: 20000 } },
-          venue_hourly: { type: "venue_hourly", weekdayRates: { '3hr': 3000, '5hr': 4500, '6hr': 6000, '8hr': 7500, 'day': 12000 }, holidayRates: { '3hr': 4500, '5hr': null, '6hr': 5500, '8hr': 7000, 'day': 15000 } },
-          bicycle: { type: "bicycle", rates: { '2hr': 150, '4hr': 250, 'day': 400, '24hr': 600, '15day': 2500, '30day': 3500 } }
-        };
-
-        function toggleInputs() {
-          const type = document.getElementById('campType').value;
-          const t = TRANSLATIONS[currentLang] || TRANSLATIONS['zh'];
-          const unitQtySelect = document.getElementById('unitQty');
-
-          let newOptions = "";
-          if (type === 'room') newOptions = `<option value="1">1</option><option value="2">2 ${t.opt_inc_starcraft}</option><option value="3">3 ${t.opt_inc_dt392}</option><option value="4">4 ${t.opt_inc_both_rv}</option>`;
-          else if (type === 'starcraft') newOptions = `<option value="1">1</option><option value="2">2 ${t.opt_inc_room}</option><option value="3">3 ${t.opt_inc_dt392}</option><option value="4">4 ${t.opt_inc_room_dt392}</option>`;
-          else if (type === 'dt392') newOptions = `<option value="1">1</option><option value="2">2 ${t.opt_inc_room}</option><option value="3">3 ${t.opt_inc_starcraft}</option><option value="4">4 ${t.opt_inc_room_starcraft}</option>`;
-          else newOptions = `<option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10 ${t.opt_group_contact}</option>`;
-          unitQtySelect.innerHTML = newOptions;
-
-          if ((type === 'starcraft' || type === 'dt392' || type === 'room') && parseInt(unitQtySelect.value) > 4) unitQtySelect.value = 1;
+unitQtySelect.value) > 4) unitQtySelect.value = 1;
           else if (!unitQtySelect.value) unitQtySelect.value = 1;
 
           ['nightsBlock','rentalDurationBlock','bikeBlock','extraOptions','addonBlock','unitNotice','policyNotice','campingRules','carBedBlock','rowRush','rowAC','rowAddons','rowCoupon'].forEach(id => {
@@ -953,6 +211,7 @@
           let hasTuesday = false; 
 
           let currentDate = new Date(selectedDates[0]);
+          let dailyPricesList = []; // 🌟 用來記錄每天的價格，方便後續執行「買多送多」扣最低價的邏輯
 
           for (let i = 0; i < nights; i++) {
             const dateStr = formatDate(currentDate);
@@ -1016,6 +275,7 @@
                 }
                 
                 basePrice += dailyBase;
+                dailyPricesList.push(dailyBase); // 🌟 將每天的房價存入陣列
             }
 
             if (useAC) acPrice += (type === 'car_bed_vip' ? 50 : 200) * qty; 
@@ -1040,8 +300,7 @@
           const totalPriceForDiscount = basePrice + acPrice;
           
           const stayDatesStr = []; let tempDate = new Date(selectedDates[0]);
-          for (let i = 0; i < nights; i++) { stayDatesStr.push(formatDate(tempDate)); tempDate.setDate(tempDate.getDate() + 1); }
-          // ⚠️ 已修正為只要住宿日期有涵蓋到連假，即視為連假期間
+          for (let i = 0; i <nights; i++) { stayDatesStr.push(formatDate(tempDate)); tempDate.setDate(tempDate.getDate() + 1); }
           for (let block of HOLIDAY_BLOCKS) { if (stayDatesStr.some(d => block.includes(d))) { isFullHoliday = true; break; } }
 
           let isRental = ['room', 'starcraft', 'dt392'].includes(type);
@@ -1050,35 +309,56 @@
           let couponText = "";
 
           if (type !== 'car_bed_vip' && !type.includes('full')) {
-              // 連住優惠計算
-              if (nights >= 2) {
-                  // ⚠️ 已新增：若為連假期間，折扣減半（免裝備折 400，自搭帳折 200）
-                  if (isFullHoliday) {
-                      if (isRental) discount = 400 * qty;
-                      else if (isTent) discount = 200 * qty;
-                  } else {
-                      if (isRental) discount = 800 * qty;
-                      else if (isTent) discount = 400 * qty;
+              
+              if (isRental) {
+                  // 🌟 免裝備住宿「買多送多 (買 2 送 1)」專屬邏輯
+                  const BUY_X = 2; // 買 2 晚
+                  const GET_Y = 1; // 送 1 晚
+                  const CYCLE = BUY_X + GET_Y; // 每 3 晚為一組循環
+                  
+                  let freeNightsCount = Math.floor(nights / CYCLE) * GET_Y;
+                  
+                  if (freeNightsCount > 0) {
+                      // 把所有晚上的價格由小到大排序，這樣會扣除「最便宜」的那幾晚
+                      let sortedPrices = [...dailyPricesList].sort((a, b) => a - b);
+                      let freeDiscountAmount = 0;
+                      for (let k = 0; k < freeNightsCount; k++) {
+                          freeDiscountAmount += sortedPrices[k];
+                      }
+                      
+                      discount = freeDiscountAmount;
+                      hasCoupon = true;
+                      couponText = `🎉 買多送多！已折抵 ${freeNightsCount} 晚免費住宿`;
+                  } else if (nights >= 2) {
+                      // 若未滿 3 晚，維持送飲料券/夜市券的福利
+                      hasCoupon = true;
+                      couponText = ``; // 下方會再補上券的字樣
+                  } else if (nights === 1 && hasTuesday) {
+                      hasCoupon = true;
                   }
 
-                  hasCoupon = true;
-                  if (isVendorMode && hasTuesday) {
-                      couponText = `🤝 攤商專屬優惠已套用 (已享週二專案價)，恕不疊加其他折價券`;
-                  } else if (hasTuesday) {
-                      couponText = `贈 $200 週二夜市折價券🎫 x ${qty}張 (不疊加酒吧券)`;
-                  } else {
-                      couponText = `贈 $200 水煙酒吧微醺券🍹 x ${qty}張`;
-                  }
-              } else if (nights === 1 && hasTuesday) {
-                  hasCoupon = true;
-                  if (isVendorMode) {
-                      couponText = `🤝 攤商優惠已套用 (含攤租/營位折扣)，恕不疊加折價券`;
-                  } else if (isRental) {
-                      couponText = `贈 $200 夜市折價券🎫 x ${qty}張`;
-                  } else if (isTent) {
-                      couponText = `贈 $100 夜市折價券🎫 x ${qty}張`;
+              } else if (isTent) {
+                  // 🌟 自搭帳維持原本的「固定金額折扣」邏輯
+                  if (nights >= 2) {
+                      if (isFullHoliday) discount = 200 * qty;
+                      else discount = 400 * qty;
+                      hasCoupon = true;
+                  } else if (nights === 1 && hasTuesday) {
+                      hasCoupon = true;
                   }
               }
+
+              // 處理加碼贈送的票券文字
+              if (hasCoupon) {
+                  if (isVendorMode && hasTuesday) {
+                      couponText += (couponText ? " ＋ " : "") + `🤝 攤商專屬優惠已套用 (已享週二專案價)，恕不疊加其他折價券`;
+                  } else if (hasTuesday) {
+                      couponText += (couponText ? " ＋ " : "") + `贈 $200 週二夜市折價券🎫 x ${qty}張 (不疊加酒吧券)`;
+                  } else if (nights >= 2) {
+                      couponText += (couponText ? " ＋ " : "") + `贈 $200 水煙酒吧微醺券🍹 x ${qty}張`;
+                  }
+              }
+
           } else if (type.includes('full')) {
               if (nights >= 2) discount = totalPriceForDiscount * 0.15;
               if (isFullHoliday) discount += (totalPriceForDiscount * 0.05);
@@ -1090,7 +370,7 @@
           document.getElementById('discountPrice').innerText = Math.round(discount);
           document.getElementById('finalTotal').innerText = Math.round(basePrice + acPrice + totalAddonCost + tribalPrice - discount);
 
-          if (hasCoupon) {
+          if (hasCoupon && couponText !== "") {
               document.getElementById('rowCoupon').classList.remove('hidden');
               document.getElementById('couponText').innerText = couponText;
           }

@@ -328,13 +328,13 @@ const CAMPING_CONFIG = {
   
   // 8. DT392
   dt392: { 
-      rates: { weekday: 1600, weekend: 1800, holiday: 2400, cny: 2400 }, 
+      rates: { weekday: 1600, weekend: 1800, holiday: 2000, cny: 2400 }, 
       discountType: "percentage" 
   },
   
   // 9. 民宿
   room: { 
-      rates: { weekday: 2200, weekend: 2400, holiday: 2800, cny: 3000 }, 
+      rates: { weekday: 2200, weekend: 2400, holiday: 2500, cny: 2600 }, 
       discountType: "percentage" 
   },
   
