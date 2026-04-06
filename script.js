@@ -6,6 +6,22 @@ let selectedDates = [];
 
 let GLOBAL_BLOCKED_DATA = { full: [], starcraft: [], dt392: [], room: [] };
 
+// ==========================================
+// 🛠️ DOM 工具函數 (DRY 原則)
+// ==========================================
+function hideElements(ids) {
+  ids.forEach(function(item) {
+    var el = (typeof item === 'string') ? document.getElementById(item) : item;
+    if (el) el.classList.add('hidden');
+  });
+}
+function showElements(ids) {
+  ids.forEach(function(item) {
+    var el = (typeof item === 'string') ? document.getElementById(item) : item;
+    if (el) el.classList.remove('hidden');
+  });
+}
+
 // ⚠️ 請確認這是您最新的網址
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwE4JzNMfmaLDF997ZphXIZklweAqwkKiij-jueG_AhQHGuiV1mAHaUG70zt2RLWpjo7g/exec";
 
@@ -350,6 +366,26 @@ const CAMPING_CONFIG = {
   bicycle: { type: "bicycle", rates: { '2hr': 150, '4hr': 250, 'day': 400, '24hr': 600, '15day': 2500, '30day': 3500 } }
 };
 
+// ==========================================
+// 📋 類型規則設定檔 (消除 if/else 判斷)
+// ==========================================
+const TYPE_RULES = {
+  room: {
+    basicUnit:           () => "基本單位：2人 / 1間 (第三人起需加購)",
+    extraPeopleLabel:    () => "➕ 加購選項 (第三/人) 加人 ($300/人)",
+    extraPeopleMax:      2,
+    extraPeoplePlaceholder: "最多加 2 人",
+    qtyOptions: t => `<option value="1">1</option><option value="2">2 ${t.opt_inc_starcraft}</option><option value="3">3 ${t.opt_inc_dt392}</option><option value="4">4 ${t.opt_inc_both_rv}</option>`
+  },
+  starcraft: {
+    qtyOptions: t => `<option value="1">1</option><option value="2">2 ${t.opt_inc_room}</option><option value="3">3 ${t.opt_inc_dt392}</option><option value="4">4 ${t.opt_inc_room_dt392}</option>`
+  },
+  dt392: {
+    qtyOptions: t => `<option value="1">1</option><option value="2">2 ${t.opt_inc_room}</option><option value="3">3 ${t.opt_inc_starcraft}</option><option value="4">4 ${t.opt_inc_room_starcraft}</option>`
+  }
+};
+const DEFAULT_QTY_OPTIONS = t => `<option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10 ${t.opt_group_contact}</option>`;
+
 function toggleInputs() {
   const type = document.getElementById('campType').value;
   const nightsBlock = document.getElementById('nightsBlock');
@@ -367,16 +403,8 @@ function toggleInputs() {
   const carBedBlock = document.getElementById('carBedBlock');
   const t = TRANSLATIONS[currentLang] || TRANSLATIONS['zh'];
 
-  let newOptions = "";
-  if (type === 'room') {
-    newOptions = `<option value="1">1</option><option value="2">2 ${t.opt_inc_starcraft}</option><option value="3">3 ${t.opt_inc_dt392}</option><option value="4">4 ${t.opt_inc_both_rv}</option>`;
-  } else if (type === 'starcraft') {
-    newOptions = `<option value="1">1</option><option value="2">2 ${t.opt_inc_room}</option><option value="3">3 ${t.opt_inc_dt392}</option><option value="4">4 ${t.opt_inc_room_dt392}</option>`;
-  } else if (type === 'dt392') {
-    newOptions = `<option value="1">1</option><option value="2">2 ${t.opt_inc_room}</option><option value="3">3 ${t.opt_inc_starcraft}</option><option value="4">4 ${t.opt_inc_room_starcraft}</option>`;
-  } else {
-    newOptions = `<option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10 ${t.opt_group_contact}</option>`;
-  }
+  const typeRule = TYPE_RULES[type] || {};
+  const newOptions = typeRule.qtyOptions ? typeRule.qtyOptions(t) : DEFAULT_QTY_OPTIONS(t);
   unitQtySelect.innerHTML = newOptions;
 
   if ((type === 'starcraft' || type === 'dt392' || type === 'room') && parseInt(unitQtySelect.value) > 4) {
@@ -385,20 +413,11 @@ function toggleInputs() {
     unitQtySelect.value = 1;
   }
 
-  nightsBlock.classList.add('hidden');
-  rentalBlock.classList.add('hidden');
-  bikeBlock.classList.add('hidden');
-  extraOptions.classList.add('hidden');
-  if (addonBlock) addonBlock.classList.add('hidden');
-  if (unitNotice) unitNotice.classList.add('hidden');
-  if (policyNotice) policyNotice.classList.add('hidden');
-  if (campingRules) campingRules.classList.add('hidden');
-  if (carBedBlock) carBedBlock.classList.add('hidden');
-
-  document.getElementById('rowRush').classList.add('hidden');
-  document.getElementById('rowAC').classList.add('hidden');
-  const rowAddons = document.getElementById('rowAddons');
-  if (rowAddons) rowAddons.classList.add('hidden');
+  hideElements([
+    nightsBlock, rentalBlock, bikeBlock, extraOptions,
+    addonBlock, unitNotice, policyNotice, campingRules, carBedBlock,
+    'rowRush', 'rowAC', 'rowAddons'
+  ]);
 
   if (!type || type === "") {
     hideResult();
@@ -470,13 +489,13 @@ function toggleInputs() {
     const extraPeopleInput = document.getElementById('extraPeople');
     const basicUnitDesc = document.querySelector('[data-i18n="basic_unit"]');
 
-    if (type === 'room') {
-      if (basicUnitDesc) basicUnitDesc.innerText = "基本單位：2人 / 1間 (第三人起需加購)";
-      if (extraPeopleLabel) extraPeopleLabel.innerText = "➕ 加購選項 (第三/人) 加人 ($300/人)";
+    if (typeRule.basicUnit) {
+      if (basicUnitDesc) basicUnitDesc.innerText = typeRule.basicUnit(t);
+      if (extraPeopleLabel) extraPeopleLabel.innerText = typeRule.extraPeopleLabel(t);
       if (extraPeopleInput) {
-        extraPeopleInput.max = 2;
-        extraPeopleInput.placeholder = "最多加 2 人";
-        if (parseInt(extraPeopleInput.value) > 2) extraPeopleInput.value = 2;
+        extraPeopleInput.max = typeRule.extraPeopleMax;
+        extraPeopleInput.placeholder = typeRule.extraPeoplePlaceholder;
+        if (parseInt(extraPeopleInput.value) > typeRule.extraPeopleMax) extraPeopleInput.value = typeRule.extraPeopleMax;
       }
     } else {
       if (basicUnitDesc) basicUnitDesc.innerText = t.basic_unit;
@@ -1052,7 +1071,7 @@ ${BANK_INFO}
 }
 
 function hideResult() {
-  document.getElementById('resultBox').classList.add('hidden');
+  hideElements(['resultBox']);
 }
 
 function resetForm() {
