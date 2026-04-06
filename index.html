@@ -16,101 +16,51 @@
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&display=swap');
         body { font-family: 'Noto Sans TC', sans-serif; background-color: #f9f9f9; margin: 0; color: #333; }
         .site-header { background: #2c5e50; color: white; padding: 20px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .logo-container { display: flex; align-items: center; gap: 15px; }
-        .logo-img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid #fff; }
-        .brand-name h1 { margin: 0; font-size: 1.5rem; }
-        .brand-name p { margin: 5px 0 0 0; font-size: 0.85rem; color: #a3e4d7; }
+        .logo-container { display: flex; align-items: center; gap: 15px; } .logo-img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid #fff; }
+        .brand-name h1 { margin: 0; font-size: 1.5rem; } .brand-name p { margin: 5px 0 0 0; font-size: 0.85rem; color: #a3e4d7; }
         .social-links { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 10px; }
         .social-btn { padding: 8px 12px; border-radius: 20px; text-decoration: none; color: white; font-size: 0.85rem; font-weight: bold; transition: opacity 0.2s; }
-        .fb-btn { background: #3b5998; } .ig-btn { background: #E1306C; } .line-btn { background: #00B900; }
-        .social-btn:hover { opacity: 0.8; }
-        .lang-switch { display: flex; gap: 5px; margin-left: 10px; }
-        .lang-btn { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4); color: white; padding: 5px 10px; border-radius: 15px; cursor: pointer; font-size: 0.8rem; }
-        .lang-btn:hover { background: rgba(255,255,255,0.4); }
+        .fb-btn { background: #3b5998; } .ig-btn { background: #E1306C; } .line-btn { background: #00B900; } .social-btn:hover { opacity: 0.8; }
+        .lang-switch { display: flex; gap: 5px; margin-left: 10px; } .lang-btn { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4); color: white; padding: 5px 10px; border-radius: 15px; cursor: pointer; font-size: 0.8rem; } .lang-btn:hover { background: rgba(255,255,255,0.4); }
         .marquee-wrapper { background: #fff3cd; color: #856404; padding: 10px; overflow: hidden; white-space: nowrap; border-bottom: 1px solid #ffeeba; }
-        .marquee-content { display: inline-block; animation: marquee 15s linear infinite; }
-        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-        .main-wrapper { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        .top-section { display: flex; gap: 20px; flex-wrap: wrap; }
+        .marquee-content { display: inline-block; animation: marquee 15s linear infinite; } @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+        .main-wrapper { max-width: 1200px; margin: 0 auto; padding: 20px; } .top-section { display: flex; gap: 20px; flex-wrap: wrap; }
         .calculator-container { flex: 2; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); min-width: 300px; }
         .info-panel { flex: 1; min-width: 300px; display: flex; flex-direction: column; gap: 20px; }
         h2 { border-bottom: 2px solid #2c5e50; padding-bottom: 10px; margin-top: 0; color: #2c5e50; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
+        .form-group { margin-bottom: 15px; } .form-group label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
         .form-group select, .form-group input[type="text"], .form-group input[type="number"], .form-group input[type="tel"] { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
         .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .checkbox-group label { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; cursor: pointer; background: #f8f9fa; padding: 10px; border-radius: 5px; border: 1px solid #eee; }
         .btn-group { display: flex; gap: 10px; margin-top: 20px; }
-        .calc-btn { flex: 2; background: #2c5e50; color: white; border: none; padding: 12px; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 1.1rem; }
-        .calc-btn:hover { background: #1e4036; }
-        .reset-btn { flex: 1; background: #95a5a6; color: white; border: none; padding: 12px; border-radius: 5px; cursor: pointer; font-weight: bold; }
-        .reset-btn:hover { background: #7f8c8d; }
-        .result-box { background: #fdfefe; border: 2px solid #2c5e50; padding: 20px; border-radius: 8px; margin-top: 20px; }
-        .result-box h3 { margin-top: 0; color: #2c5e50; }
+        .calc-btn { flex: 2; background: #2c5e50; color: white; border: none; padding: 12px; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 1.1rem; } .calc-btn:hover { background: #1e4036; }
+        .reset-btn { flex: 1; background: #95a5a6; color: white; border: none; padding: 12px; border-radius: 5px; cursor: pointer; font-weight: bold; } .reset-btn:hover { background: #7f8c8d; }
+        .result-box { background: #fdfefe; border: 2px solid #2c5e50; padding: 20px; border-radius: 8px; margin-top: 20px; } .result-box h3 { margin-top: 0; color: #2c5e50; }
         .result-row { display: flex; justify-content: space-between; margin-bottom: 8px; color: #555; }
         .total-row { display: flex; justify-content: space-between; font-size: 1.3rem; font-weight: bold; color: #d35400; margin-top: 10px; }
-        .grid-2x2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        @media (max-width: 768px) { .grid-2x2, .two-col, .top-section { grid-template-columns: 1fr; flex-direction: column; } }
+        .grid-2x2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; } @media (max-width: 768px) { .grid-2x2, .two-col, .top-section { grid-template-columns: 1fr; flex-direction: column; } }
         .mini-box { background: #fff; padding: 15px; border-radius: 8px; border: 1px solid #eee; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
         .hidden { display: none !important; }
-        .price-table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 0.9rem; }
-        .price-table th, .price-table td { border: 1px solid #eee; padding: 8px; text-align: center; }
-        .price-table th { background: #f8f9fa; }
-        .price-highlight { color: #d35400; font-weight: bold; }
-        .level-tag { font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; background: #e9ecef; margin-left: 4px; }
-        .gallery-section { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-        .gallery-item { position: relative; border-radius: 8px; overflow: hidden; display: block; aspect-ratio: 1; }
-        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
-        .gallery-item:hover img { transform: scale(1.05); }
-        .overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.3); display: flex; justify-content: center; align-items: center; color: white; font-size: 2rem; opacity: 0; transition: opacity 0.3s; }
-        .gallery-item:hover .overlay { opacity: 1; }
-        .wide-layout { margin-top: 30px; }
-        .camp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .price-table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 0.9rem; } .price-table th, .price-table td { border: 1px solid #eee; padding: 8px; text-align: center; } .price-table th { background: #f8f9fa; }
+        .price-highlight { color: #d35400; font-weight: bold; } .level-tag { font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; background: #e9ecef; margin-left: 4px; }
+        .gallery-section { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); } .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+        .gallery-item { position: relative; border-radius: 8px; overflow: hidden; display: block; aspect-ratio: 1; } .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; } .gallery-item:hover img { transform: scale(1.05); }
+        .overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.3); display: flex; justify-content: center; align-items: center; color: white; font-size: 2rem; opacity: 0; transition: opacity 0.3s; } .gallery-item:hover .overlay { opacity: 1; }
+        .wide-layout { margin-top: 30px; } .camp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
         .card-header { padding: 10px; background: #f8f9fa; border-bottom: 2px solid #ddd; margin: -15px -15px 15px -15px; border-radius: 8px 8px 0 0; }
-        .btn-book { width: 100%; padding: 10px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; background: #eee; }
-        .btn-book:hover { background: #ddd; }
+        .btn-book { width: 100%; padding: 10px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; background: #eee; } .btn-book:hover { background: #ddd; }
         .bar-container { display: flex; align-items: center; background: #1a1a1a; color: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.3); margin-top: 30px; }
-        .bar-text { padding: 30px; flex: 1; }
-        .bar-text h2 { color: #f39c12; border-bottom: none; }
+        .bar-text { padding: 30px; flex: 1; } .bar-text h2 { color: #f39c12; border-bottom: none; }
         .bar-img-box { flex: 1; min-height: 300px; background-size: cover; background-position: center; border-radius: 0 12px 12px 0; }
         @media (max-width: 768px) { .bar-container { flex-direction: column; } .bar-img-box { width: 100%; min-height: 200px; border-radius: 0 0 12px 12px; } }
         .site-footer { text-align: center; padding: 20px; color: #7f8c8d; font-size: 0.9rem; margin-top: 40px; }
-        @keyframes pulse-btn { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(211, 84, 0, 0.7); } 70% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(211, 84, 0, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(211, 84, 0, 0); } }
-        
-        /* 攤商按鈕特效 */
-        .vendor-toggle { position: relative; display: inline-block; width: 44px; height: 24px; vertical-align: middle; margin-right: 8px; }
-        .vendor-toggle input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 24px; }
-        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background-color: #9c27b0; }
-        input:checked + .slider:before { transform: translateX(20px); }
-
-        /* 折價券專區滑動設定 */
-        .coupon-scroll-container {
-            display: flex;
-            gap: 16px;
-            overflow-x: auto;
-            padding-bottom: 20px;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: thin;
-            scrollbar-color: #8e44ad #f3e5f5;
-        }
-        .coupon-scroll-container::-webkit-scrollbar { height: 8px; }
-        .coupon-scroll-container::-webkit-scrollbar-track { background: #f3e5f5; border-radius: 10px; }
-        .coupon-scroll-container::-webkit-scrollbar-thumb { background: #8e44ad; border-radius: 10px; }
-        .coupon-card-img {
-            flex: 0 0 auto;
-            width: 320px;
-            height: auto;
-            scroll-snap-align: start;
-            border-radius: 12px;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-            transition: transform 0.3s ease;
-        }
-        .coupon-card-img:hover { transform: translateY(-5px); }
-        @media (max-width: 768px) { .coupon-card-img { width: 280px; } }
+        .vendor-toggle { position: relative; display: inline-block; width: 44px; height: 24px; vertical-align: middle; margin-right: 8px; } .vendor-toggle input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 24px; } .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: #9c27b0; } input:checked + .slider:before { transform: translateX(20px); }
+        .coupon-scroll-container { display: flex; gap: 16px; overflow-x: auto; padding-bottom: 20px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: thin; scrollbar-color: #8e44ad #f3e5f5; }
+        .coupon-scroll-container::-webkit-scrollbar { height: 8px; } .coupon-scroll-container::-webkit-scrollbar-track { background: #f3e5f5; border-radius: 10px; } .coupon-scroll-container::-webkit-scrollbar-thumb { background: #8e44ad; border-radius: 10px; }
+        .coupon-card-img { flex: 0 0 auto; width: 320px; height: auto; scroll-snap-align: start; border-radius: 12px; box-shadow: 0 6px 12px rgba(0,0,0,0.15); transition: transform 0.3s ease; }
+        .coupon-card-img:hover { transform: translateY(-5px); } @media (max-width: 768px) { .coupon-card-img { width: 280px; } }
     </style>
 </head>
 <body>
@@ -146,32 +96,6 @@
             <div class="container calculator-container" id="calculatorSection">
                 <h2 data-i18n="calc_title">🌲 露營/場地/周邊服務費用試算</h2>
                 
-                <div id="tribalContainerBox" class="notice-box" style="background-color: #e8f5e9; border: 2px solid #4caf50; padding: 15px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(76, 175, 80, 0.15); transition: background-color 0.5s;">
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px;">
-                        
-                        <div style="display: flex; gap: 15px; align-items: center; flex: 1;">
-                            <video src="糯米釀小米酒.MOV" style="width: 75px; height: 75px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.15);" autoplay loop muted playsinline></video>
-                            <div>
-                                <strong style="color: #2e7d32; font-size: 1.05rem;"><i class="fas fa-leaf"></i> 加值行程：部落慢活 3天2夜體驗包</strong>
-                                <p style="margin: 5px 0 0 0; font-size: 0.85rem; color: #555;">包含：美式糯米酒釀 (1hr) ＋ 原民風好皂頭 (1hr)</p>
-                            </div>
-                        </div>
-
-                        <button onclick="openTribalModal()" style="background: #2e7d32; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; white-space: nowrap; height: fit-content; margin-top: 5px;"><i class="fas fa-search"></i> 查看影片與詳情</button>
-                    </div>
-                    <div style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed #a5d6a7; display: flex; align-items: center; flex-wrap: wrap; gap: 15px;">
-                        <label style="display:flex; align-items:center; cursor:pointer; font-weight:bold; color:#d35400; font-size: 1.05rem;">
-                            <input type="checkbox" id="enableTribal" onchange="toggleTribal(); calculateTotal()" style="width:20px; height:20px; margin-right:8px;"> 
-                            我要加購 ($1,200/人)
-                        </label>
-                        <div id="tribalInputBlock" class="hidden" style="display: flex; align-items: center; gap: 8px; background: #fff; padding: 5px 10px; border-radius: 5px; border: 1px solid #ccc;">
-                            <label for="tribalPeople" style="margin:0; font-size:0.9rem; color:#333;">人數：</label>
-                            <input type="number" id="tribalPeople" value="4" min="4" onchange="validateTribalPeople(); calculateTotal()" style="width:60px; padding:5px; border:1px solid #aaa; border-radius:4px; text-align:center;"> 
-                            <span style="font-size: 0.8rem; color: #d32f2f; font-weight:bold;">(⚠️最低4人)</span>
-                        </div>
-                    </div>
-                </div>
-
                 <div id="consecutiveDiscountNotice" class="notice-box" style="background-color: #e8f5e9; color: #2e7d32; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 5px solid #4caf50; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
                     <i class="fas fa-bed"></i> <strong style="font-size: 1.05rem;">🛌 慢活都蘭！最新連住加碼優惠 🎁</strong>
                     <p style="margin: 8px 0 5px 0; font-size: 0.9rem; line-height: 1.6; font-weight: bold;">
@@ -179,51 +103,8 @@
                     </p>
                     <ul style="margin: 0 0 0 20px; padding: 0; font-size: 0.95rem; line-height: 1.6;">
                         <li><span style="color:#d35400; font-weight:bold;">✨ 短期連住：</span> <strong style="color:red;">「 住幾晚，折幾百！(最高折 $500) 」</strong></li>
-                        <li style="list-style-type: none; margin-bottom: 8px;"><small style="color:#555; font-weight:bold;">👉 (連住 2 晚折 $200、3 晚折 $300... 最高折 $500！)</small></li>
-                        <li><span style="color:#16a085; font-weight:bold;">🌊 滿 7 天自動升級長住專案：</span> <strong style="color:red;">「 系統自動套用包週/半月一口價 」</strong></li>
-                        <li style="list-style-type: none;"><small style="color:#555; font-weight:bold;">👉 (住滿 7 天以上，系統自動幫您換算下方最便宜的組合包！)</small></li>
+                        <li><span style="color:#16a085; font-weight:bold;">🌊 滿 7 天自動升級長住專案：</span> <strong style="color:red;">「 系統自動套用一口價 」</strong></li>
                     </ul>
-                    <div style="margin-top: 10px; background: #fff; padding: 8px; border-radius: 6px; border: 1px dashed #4caf50;">
-                        🍹 <strong style="color:#d35400;">加碼再送：</strong>短期連住皆贈送 <strong>$200 水煙酒吧微醺券</strong>！<br>
-                        <small style="color:#666; display: block; margin-top: 4px;">(⚠️若日期包含『週二』，將自動轉換為『週二夜市券』！長住一口價方案因已享極大折扣，恕不疊加贈券)</small>
-                    </div>
-                </div>
-
-                <div id="nightMarketNotice" class="notice-box" style="background-color: #f3e5f5; color: #4a148c; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 5px solid #9c27b0; box-shadow: 0 2px 8px rgba(0,0,0,0.05); position: relative;">
-                    <i class="fas fa-store"></i> <strong>✨ 錄托邦星空草地夜市 (每週二限定) ⛺</strong>
-                    <p style="margin: 8px 0 5px 0; font-size: 0.95rem; line-height: 1.6; font-weight: bold;">
-                        🏕️ 【週二 限定！逛夜市配滿天星斗住宿方案】
-                    </p>
-                    <ul style="margin: 0 0 0 20px; padding: 0; font-size: 0.9rem; line-height: 1.6;">
-                        <li><span style="color:#d35400; font-weight:bold;">⛺️ 營位</span> 贈 $100 夜市折價券 (僅釋出 8 格)</li>
-                        <li><span style="color:#d35400; font-weight:bold;">🚐 大馳露營車</span> 贈 $200 夜市折價券 (僅 1 台)</li>
-                        <li><span style="color:#d35400; font-weight:bold;">🚐 StarCraft</span> 贈 $200 夜市折價券 (僅 1 台)</li>
-                        <li><span style="color:#d35400; font-weight:bold;">🛏️ 溫馨四人房</span> 贈 $200 夜市折價券 (僅 1 間)</li>
-                    </ul>
-                    
-                    <div style="margin-top: 15px; padding: 15px; background: rgba(255,255,255,0.7); border-radius: 8px; border: 2px dashed #ab47bc;">
-                        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;">
-                            <div>
-                                <strong style="color: #6a1b9a; font-size: 1rem;"><i class="fas fa-handshake"></i> 攤商招募中！【頭家睏霸專屬套票】</strong>
-        <p style="margin: 3px 0 0 0; font-size: 0.85rem; color: #555;">填完報名表解鎖密碼，營位只收500元！大馳只要 $1,400！不只大馳，還有 StarCraft 也可享 $1,500 優惠！</p>                            </div>
-                            <label style="display: flex; align-items: center; cursor: pointer; font-weight: bold; color: #8e24aa; margin-top: 8px; background: #fff; padding: 5px 10px; border-radius: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-                                <span class="vendor-toggle">
-                                    <input type="checkbox" id="isVendor" onclick="return verifyVendor(this)">
-                                    <span class="slider"></span>
-                                </span>
-                                我是市集攤商
-                            </label>
-                        </div>
-                        <div style="text-align: right; margin-top: 8px;">
-                            <a href="https://forms.gle/VDD6b8o2aBLtppuf9" target="_blank" style="display: inline-block; background: linear-gradient(135deg, #8e24aa, #6a1b9a); color: white; padding: 6px 12px; border-radius: 15px; text-decoration: none; font-size: 0.85rem; font-weight: bold; box-shadow: 0 3px 6px rgba(106, 27, 154, 0.4); transition: opacity 0.2s;">
-                                <i class="fas fa-pencil-alt"></i> 去填寫報名表獲取密碼
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="unitNotice" class="notice-box" style="background-color: #e3f2fd; color: #0d47a1; padding: 12px; border-radius: 6px; margin-bottom: 15px; border-left: 5px solid #2196F3; font-size: 0.95rem;">
-                    <i class="fas fa-info-circle"></i> <strong id="basicUnitDesc" data-i18n="basic_unit">基本單位：4人 / 1車 / 1帳 / 1車邊帳or車尾帳</strong>
                 </div>
 
                 <div class="form-group">
