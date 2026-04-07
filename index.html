@@ -5,112 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LutopiaDulanCampsite 都蘭錄托邦露營區 - 費用試算與預約</title>
     <meta name="description" content="台東都蘭錄托邦露營區(Lutopia)官方費用試算與預約頁面。提供免裝備露營車、美式復古拖車、自搭帳營位、包場露營及場地租借服務。">
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <script>tailwind.config = { corePlugins: { preflight: false } }</script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_green.css">
-    
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&display=swap');
-        body { font-family: 'Noto Sans TC', sans-serif; background-color: #f9f9f9; margin: 0; color: #333; }
-        .site-header { background: #2c5e50; color: white; padding: 20px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .logo-container { display: flex; align-items: center; gap: 15px; }
-        .logo-img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid #fff; }
-        .brand-name h1 { margin: 0; font-size: 1.5rem; }
-        .brand-name p { margin: 5px 0 0 0; font-size: 0.85rem; color: #a3e4d7; }
-        .social-links { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 10px; }
-        .social-btn { padding: 8px 12px; border-radius: 20px; text-decoration: none; color: white; font-size: 0.85rem; font-weight: bold; transition: opacity 0.2s; }
-        .fb-btn { background: #3b5998; } .ig-btn { background: #E1306C; } .line-btn { background: #00B900; }
-        .social-btn:hover { opacity: 0.8; }
-        .lang-switch { display: flex; gap: 5px; margin-left: 10px; }
-        .lang-btn { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4); color: white; padding: 5px 10px; border-radius: 15px; cursor: pointer; font-size: 0.8rem; }
-        .lang-btn:hover { background: rgba(255,255,255,0.4); }
-        .marquee-wrapper { background: #fff3cd; color: #856404; padding: 10px; overflow: hidden; white-space: nowrap; border-bottom: 1px solid #ffeeba; }
-        .marquee-content { display: inline-block; animation: marquee 15s linear infinite; }
-        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-        .main-wrapper { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        .top-section { display: flex; gap: 20px; flex-wrap: wrap; }
-        .calculator-container { flex: 2; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); min-width: 300px; }
-        .info-panel { flex: 1; min-width: 300px; display: flex; flex-direction: column; gap: 20px; }
-        h2 { border-bottom: 2px solid #2c5e50; padding-bottom: 10px; margin-top: 0; color: #2c5e50; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
-        .form-group select, .form-group input[type="text"], .form-group input[type="number"], .form-group input[type="tel"] { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
-        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .checkbox-group label { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; cursor: pointer; background: #f8f9fa; padding: 10px; border-radius: 5px; border: 1px solid #eee; }
-        .btn-group { display: flex; gap: 10px; margin-top: 20px; }
-        .calc-btn { flex: 2; background: #2c5e50; color: white; border: none; padding: 12px; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 1.1rem; }
-        .calc-btn:hover { background: #1e4036; }
-        .reset-btn { flex: 1; background: #95a5a6; color: white; border: none; padding: 12px; border-radius: 5px; cursor: pointer; font-weight: bold; }
-        .reset-btn:hover { background: #7f8c8d; }
-        .result-box { background: #fdfefe; border: 2px solid #2c5e50; padding: 20px; border-radius: 8px; margin-top: 20px; }
-        .result-box h3 { margin-top: 0; color: #2c5e50; }
-        .result-row { display: flex; justify-content: space-between; margin-bottom: 8px; color: #555; }
-        .total-row { display: flex; justify-content: space-between; font-size: 1.3rem; font-weight: bold; color: #d35400; margin-top: 10px; }
-        .grid-2x2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        @media (max-width: 768px) { .grid-2x2, .two-col, .top-section { grid-template-columns: 1fr; flex-direction: column; } }
-        .mini-box { background: #fff; padding: 15px; border-radius: 8px; border: 1px solid #eee; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
-        .hidden { display: none !important; }
-        .price-table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 0.9rem; }
-        .price-table th, .price-table td { border: 1px solid #eee; padding: 8px; text-align: center; }
-        .price-table th { background: #f8f9fa; }
-        .price-highlight { color: #d35400; font-weight: bold; }
-        .level-tag { font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; background: #e9ecef; margin-left: 4px; }
-        .gallery-section { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-        .gallery-item { position: relative; border-radius: 8px; overflow: hidden; display: block; aspect-ratio: 1; }
-        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
-        .gallery-item:hover img { transform: scale(1.05); }
-        .overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.3); display: flex; justify-content: center; align-items: center; color: white; font-size: 2rem; opacity: 0; transition: opacity 0.3s; }
-        .gallery-item:hover .overlay { opacity: 1; }
-        .wide-layout { margin-top: 30px; }
-        .camp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .card-header { padding: 10px; background: #f8f9fa; border-bottom: 2px solid #ddd; margin: -15px -15px 15px -15px; border-radius: 8px 8px 0 0; }
-        .btn-book { width: 100%; padding: 10px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; background: #eee; }
-        .btn-book:hover { background: #ddd; }
-        .bar-container { display: flex; align-items: center; background: #1a1a1a; color: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.3); margin-top: 30px; }
-        .bar-text { padding: 30px; flex: 1; }
-        .bar-text h2 { color: #f39c12; border-bottom: none; }
-        .bar-img-box { flex: 1; min-height: 300px; background-size: cover; background-position: center; border-radius: 0 12px 12px 0; }
-        @media (max-width: 768px) { .bar-container { flex-direction: column; } .bar-img-box { width: 100%; min-height: 200px; border-radius: 0 0 12px 12px; } }
-        .site-footer { text-align: center; padding: 20px; color: #7f8c8d; font-size: 0.9rem; margin-top: 40px; }
-        @keyframes pulse-btn { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(211, 84, 0, 0.7); } 70% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(211, 84, 0, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(211, 84, 0, 0); } }
-        
-        /* 攤商按鈕特效 */
-        .vendor-toggle { position: relative; display: inline-block; width: 44px; height: 24px; vertical-align: middle; margin-right: 8px; }
-        .vendor-toggle input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 24px; }
-        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background-color: #9c27b0; }
-        input:checked + .slider:before { transform: translateX(20px); }
-
-        /* 折價券專區滑動設定 */
-        .coupon-scroll-container {
-            display: flex;
-            gap: 16px;
-            overflow-x: auto;
-            padding-bottom: 20px;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: thin;
-            scrollbar-color: #8e44ad #f3e5f5;
-        }
-        .coupon-scroll-container::-webkit-scrollbar { height: 8px; }
-        .coupon-scroll-container::-webkit-scrollbar-track { background: #f3e5f5; border-radius: 10px; }
-        .coupon-scroll-container::-webkit-scrollbar-thumb { background: #8e44ad; border-radius: 10px; }
-        .coupon-card-img {
-            flex: 0 0 auto;
-            width: 320px;
-            height: auto;
-            scroll-snap-align: start;
-            border-radius: 12px;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-            transition: transform 0.3s ease;
-        }
-        .coupon-card-img:hover { transform: translateY(-5px); }
-        @media (max-width: 768px) { .coupon-card-img { width: 280px; } }
+        body{font-family:'Noto Sans TC',sans-serif;background-color:#f9f9f9;margin:0;color:#333} .site-header{background:#2c5e50;color:#fff;padding:20px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;box-shadow:0 4px 6px rgba(0,0,0,.1)} .logo-container{display:flex;align-items:center;gap:15px} .logo-img{width:60px;height:60px;border-radius:50%;object-fit:cover;border:2px solid #fff} .brand-name h1{margin:0;font-size:1.5rem} .brand-name p{margin:5px 0 0;font-size:.85rem;color:#a3e4d7} .social-links{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px} .social-btn{padding:8px 12px;border-radius:20px;text-decoration:none;color:#fff;font-size:.85rem;font-weight:700;transition:opacity .2s} .fb-btn{background:#3b5998} .ig-btn{background:#E1306C} .line-btn{background:#00B900} .social-btn:hover{opacity:.8} .lang-switch{display:flex;gap:5px;margin-left:10px} .lang-btn{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);color:#fff;padding:5px 10px;border-radius:15px;cursor:pointer;font-size:.8rem} .lang-btn:hover{background:rgba(255,255,255,.4)} .marquee-wrapper{background:#fff3cd;color:#856404;padding:10px;overflow:hidden;white-space:nowrap;border-bottom:1px solid #ffeeba} .marquee-content{display:inline-block;animation:marquee 15s linear infinite} @keyframes marquee{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}} .main-wrapper{max-width:1200px;margin:0 auto;padding:20px} .top-section{display:flex;gap:20px;flex-wrap:wrap} .calculator-container{flex:2;background:#fff;padding:25px;border-radius:12px;box-shadow:0 4px 10px rgba(0,0,0,.05);min-width:300px} .info-panel{flex:1;min-width:300px;display:flex;flex-direction:column;gap:20px} h2{border-bottom:2px solid #2c5e50;padding-bottom:10px;margin-top:0;color:#2c5e50} .form-group{margin-bottom:15px} .form-group label{display:block;margin-bottom:5px;font-weight:700;color:#555} .form-group input[type=number],.form-group input[type=tel],.form-group input[type=text],.form-group select{width:100%;padding:10px;border:1px solid #ddd;border-radius:5px;box-sizing:border-box} .two-col{display:grid;grid-template-columns:1fr 1fr;gap:15px} .checkbox-group label{display:flex;align-items:center;gap:8px;margin-bottom:10px;cursor:pointer;background:#f8f9fa;padding:10px;border-radius:5px;border:1px solid #eee} .btn-group{display:flex;gap:10px;margin-top:20px} .calc-btn{flex:2;background:#2c5e50;color:#fff;border:none;padding:12px;border-radius:5px;cursor:pointer;font-weight:700;font-size:1.1rem} .calc-btn:hover{background:#1e4036} .reset-btn{flex:1;background:#95a5a6;color:#fff;border:none;padding:12px;border-radius:5px;cursor:pointer;font-weight:700} .reset-btn:hover{background:#7f8c8d} .result-box{background:#fdfefe;border:2px solid #2c5e50;padding:20px;border-radius:8px;margin-top:20px} .result-box h3{margin-top:0;color:#2c5e50} .result-row{display:flex;justify-content:space-between;margin-bottom:8px;color:#555} .total-row{display:flex;justify-content:space-between;font-size:1.3rem;font-weight:700;color:#d35400;margin-top:10px} .grid-2x2{display:grid;grid-template-columns:1fr 1fr;gap:15px} @media (max-width:768px){.grid-2x2,.top-section,.two-col{grid-template-columns:1fr;flex-direction:column}} .mini-box{background:#fff;padding:15px;border-radius:8px;border:1px solid #eee;box-shadow:0 2px 5px rgba(0,0,0,.02)} .hidden{display:none!important} .price-table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.9rem} .price-table td,.price-table th{border:1px solid #eee;padding:8px;text-align:center} .price-table th{background:#f8f9fa} .price-highlight{color:#d35400;font-weight:700} .level-tag{font-size:.75rem;padding:2px 6px;border-radius:4px;background:#e9ecef;margin-left:4px} .gallery-section{background:#fff;padding:20px;border-radius:12px;box-shadow:0 4px 10px rgba(0,0,0,.05)} .gallery-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:15px} .gallery-item{position:relative;border-radius:8px;overflow:hidden;display:block;aspect-ratio:1} .gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .3s} .gallery-item:hover img{transform:scale(1.05)} .overlay{position:absolute;inset:0;background:rgba(0,0,0,.3);display:flex;justify-content:center;align-items:center;color:#fff;font-size:2rem;opacity:0;transition:opacity .3s} .gallery-item:hover .overlay{opacity:1} .wide-layout{margin-top:30px} .camp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px} .card-header{padding:10px;background:#f8f9fa;border-bottom:2px solid #ddd;margin:-15px -15px 15px;border-radius:8px 8px 0 0} .btn-book{width:100%;padding:10px;border:none;border-radius:5px;cursor:pointer;font-weight:700;background:#eee} .btn-book:hover{background:#ddd} .bar-container{display:flex;align-items:center;background:#1a1a1a;color:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,.3);margin-top:30px} .bar-text{padding:30px;flex:1} .bar-text h2{color:#f39c12;border-bottom:none} .bar-img-box{flex:1;min-height:300px;background-size:cover;background-position:center;border-radius:0 12px 12px 0} @media (max-width:768px){.bar-container{flex-direction:column} .bar-img-box{width:100%;min-height:200px;border-radius:0 0 12px 12px}} .site-footer{text-align:center;padding:20px;color:#7f8c8d;font-size:.9rem;margin-top:40px} @keyframes pulse-btn{0%{transform:scale(1);box-shadow:0 0 0 0 rgba(211,84,0,.7)}70%{transform:scale(1.02);box-shadow:0 0 0 10px rgba(211,84,0,0)}100%{transform:scale(1);box-shadow:0 0 0 0 rgba(211,84,0,0)}} .vendor-toggle{position:relative;display:inline-block;width:44px;height:24px;vertical-align:middle;margin-right:8px} .vendor-toggle input{opacity:0;width:0;height:0} .slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background-color:#ccc;transition:.4s;border-radius:24px} .slider:before{position:absolute;content:"";height:18px;width:18px;left:3px;bottom:3px;background-color:#fff;transition:.4s;border-radius:50%} input:checked+.slider{background-color:#9c27b0} input:checked+.slider:before{transform:translateX(20px)} .coupon-scroll-container{display:flex;gap:16px;overflow-x:auto;padding-bottom:20px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:#8e44ad #f3e5f5} .coupon-scroll-container::-webkit-scrollbar{height:8px} .coupon-scroll-container::-webkit-scrollbar-track{background:#f3e5f5;border-radius:10px} .coupon-scroll-container::-webkit-scrollbar-thumb{background:#8e44ad;border-radius:10px} .coupon-card-img{flex:0 0 auto;width:320px;height:auto;scroll-snap-align:start;border-radius:12px;box-shadow:0 6px 12px rgba(0,0,0,.15);transition:transform .3s ease} .coupon-card-img:hover{transform:translateY(-5px)} @media (max-width:768px){.coupon-card-img{width:280px}}
     </style>
 </head>
 <body>
@@ -148,7 +50,6 @@
                 
                 <div id="tribalContainerBox" class="notice-box" style="background-color: #e8f5e9; border: 2px solid #4caf50; padding: 15px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(76, 175, 80, 0.15); transition: background-color 0.5s;">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px;">
-                        
                         <div style="display: flex; gap: 15px; align-items: center; flex: 1;">
                             <video src="糯米釀小米酒.MOV" style="width: 75px; height: 75px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.15);" autoplay loop muted playsinline></video>
                             <div>
@@ -156,7 +57,6 @@
                                 <p style="margin: 5px 0 0 0; font-size: 0.85rem; color: #555;">包含：美式糯米酒釀 (1hr) ＋ 原民風好皂頭 (1hr)</p>
                             </div>
                         </div>
-
                         <button onclick="openTribalModal()" style="background: #2e7d32; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; white-space: nowrap; height: fit-content; margin-top: 5px;"><i class="fas fa-search"></i> 查看影片與詳情</button>
                     </div>
                     <div style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed #a5d6a7; display: flex; align-items: center; flex-wrap: wrap; gap: 15px;">
@@ -205,7 +105,8 @@
                         <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;">
                             <div>
                                 <strong style="color: #6a1b9a; font-size: 1rem;"><i class="fas fa-handshake"></i> 攤商招募中！【頭家睏霸專屬套票】</strong>
-        <p style="margin: 3px 0 0 0; font-size: 0.85rem; color: #555;">填完報名表解鎖密碼，營位只收500元！大馳只要 $1,400！不只大馳，還有 StarCraft 也可享 $1,500 優惠！</p>                            </div>
+                                <p style="margin: 3px 0 0 0; font-size: 0.85rem; color: #555;">填完報名表解鎖密碼，營位只收500元！大馳只要 $1,400！不只大馳，還有 StarCraft 也可享 $1,500 優惠！</p>
+                            </div>
                             <label style="display: flex; align-items: center; cursor: pointer; font-weight: bold; color: #8e24aa; margin-top: 8px; background: #fff; padding: 5px 10px; border-radius: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
                                 <span class="vendor-toggle">
                                     <input type="checkbox" id="isVendor" onclick="return verifyVendor(this)">
@@ -224,6 +125,14 @@
 
                 <div id="unitNotice" class="notice-box" style="background-color: #e3f2fd; color: #0d47a1; padding: 12px; border-radius: 6px; margin-bottom: 15px; border-left: 5px solid #2196F3; font-size: 0.95rem;">
                     <i class="fas fa-info-circle"></i> <strong id="basicUnitDesc" data-i18n="basic_unit">基本單位：4人 / 1車 / 1帳 / 1車邊帳or車尾帳</strong>
+                </div>
+
+                <div id="policyNotice" class="notice-box hidden" style="background-color: #fff8e1; color: #f57f17; padding: 12px; border-radius: 6px; margin-bottom: 15px; border-left: 5px solid #ffca28; font-size: 0.95rem;">
+                    <i class="fas fa-exclamation-circle"></i> <strong data-i18n="important_notice">重要提醒：</strong>
+                    <ul style="margin: 5px 0 0 20px; padding: 0;">
+                        <li>⏰ <strong data-i18n="checkin_time_label">入住時間：</strong><span id="checkInTimeText" data-i18n="checkin_time_val">下午 14:00 以後</span> <span data-i18n="dont_early">(請勿提早)</span></li>
+                        <li>♻️ <strong data-i18n="eco_policy_label">環保旅宿：</strong><span data-i18n="eco_policy_desc">不提供一次性備品 (請自備毛巾、牙刷)</span></li>
+                    </ul>
                 </div>
 
                 <div class="form-group">
@@ -321,14 +230,6 @@
                 <div id="rentalDurationBlock" class="hidden"><div class="form-group"><label for="rentalScheme" data-i18n="label_rental_scheme">租借時數方案：</label><select id="rentalScheme" onchange="calculateTotal()"><option value="3hr">3hr</option><option value="5hr">5hr</option><option value="6hr">6hr</option><option value="8hr">8hr</option><option value="day">Full Day</option></select></div></div>
                 <div id="bikeBlock" class="hidden"><div class="form-group two-col"><div><label for="bikeQty" data-i18n="label_bike_qty">租借數量 (台)：</label><input type="number" id="bikeQty" value="1" min="1" max="20" onchange="calculateTotal()"></div><div><label for="bikeScheme" data-i18n="label_bike_scheme">租借方案：</label><select id="bikeScheme" onchange="calculateTotal()"><option value="2hr">2hr ($150)</option><option value="4hr">4hr ($250)</option><option value="day">Day ($400)</option><option value="24hr">24H ($600)</option><option value="15day">15 Days ($2,500)</option><option value="30day">30 Days ($3,500)</option></select></div></div></div>
 
-                <div id="policyNotice" class="notice-box hidden" style="background-color: #fff8e1; color: #f57f17; padding: 12px; border-radius: 6px; margin-bottom: 15px; border-left: 5px solid #ffca28; font-size: 0.95rem;">
-                    <i class="fas fa-exclamation-circle"></i> <strong data-i18n="important_notice">重要提醒：</strong>
-                    <ul style="margin: 5px 0 0 20px; padding: 0;">
-                        <li>⏰ <strong data-i18n="checkin_time_label">入住時間：</strong><span id="checkInTimeText" data-i18n="checkin_time_val">下午 14:00 以後</span> <span data-i18n="dont_early">(請勿提早)</span></li>
-                        <li>♻️ <strong data-i18n="eco_policy_label">環保旅宿：</strong><span data-i18n="eco_policy_desc">不提供一次性備品 (請自備毛巾、牙刷)</span></li>
-                    </ul>
-                </div>
-
                 <div id="premiumAddonBlock" class="hidden" style="background: linear-gradient(to right, #fdfbfb, #ebedee); padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 2px solid #ab47bc; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
                     <h4 style="margin: 0 0 10px 0; color: #6a1b9a; font-size: 1.05rem;"><i class="fas fa-crown text-purple-600"></i> ✨ VVIP 專屬升級體驗 (加購)</h4>
                     
@@ -336,7 +237,7 @@
                         <div style="display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 10px; border-radius: 6px; border: 1px solid #ffd54f;">
                             <div>
                                 <strong style="color: #f57f17; font-size: 0.95rem;">🎟️ 都蘭秘境通行證 ($199/本)</strong>
-                                <p style="margin: 3px 0 0 0; font-size: 0.8rem; color: #7f8c8d;">內含 12 大名店 VIP 9 折券 ＋ 贈送夜市免費遊戲 1 次！(極推👍)</p>
+                                <p style="margin: 3px 0 0 0; font-size: 0.8rem; color: #7f8c8d;">內含 12 大名店 VIP 9 折券 ＋ 夜市免費遊戲 1 次！</p>
                             </div>
                             <input type="number" id="dulanPassQty" value="0" min="0" onchange="calculateTotal()" style="width:60px; padding:8px; text-align:center; border:1px solid #ccc; border-radius:4px; background:#fafafa;">
                         </div>
@@ -344,7 +245,7 @@
                         <div style="display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 10px; border-radius: 6px; border: 1px solid #ce93d8;">
                             <div>
                                 <strong style="color: #8e44ad; font-size: 0.95rem;">🍹 暗夜雙人微醺套餐 ($699/組)</strong>
-                                <p style="margin: 3px 0 0 0; font-size: 0.8rem; color: #7f8c8d;">含特製水煙 1 支 ＋ 經典調酒 2 杯 (原價 $850，現省 $151)</p>
+                                <p style="margin: 3px 0 0 0; font-size: 0.8rem; color: #7f8c8d;">含特製水煙 1 支 ＋ 經典調酒 2 杯 (原價 $850)</p>
                             </div>
                             <input type="number" id="barPackageQty" value="0" min="0" onchange="calculateTotal()" style="width:60px; padding:8px; text-align:center; border:1px solid #ccc; border-radius:4px; background:#fafafa;">
                         </div>
@@ -379,6 +280,7 @@
                 <div id="resultBox" class="result-box hidden">
                     <h3 data-i18n="result_title">試算結果</h3>
                     <div class="result-row"><span data-i18n="res_base">基本費用：</span> <span><span id="basePrice">0</span> 元</span></div>
+                    <div class="result-row hidden" id="rowTribal"><span style="color:#2e7d32; font-weight:bold;">🌿 部落體驗包：</span> <span><span id="tribalTotal">0</span> 元</span></div>
                     <div class="result-row" id="rowRush"><span data-i18n="res_rush">夜衝費用：</span> <span><span id="rushPrice">0</span> 元</span></div>
                     <div class="result-row" id="rowAddons"><span data-i18n="res_addon">加購費用：</span> <span><span id="addonPrice">0</span> 元</span></div>
                     <div class="result-row" id="rowPremium"><span style="color:#8e44ad; font-weight:bold;">✨ VVIP升級體驗：</span> <span><span id="premiumPrice">0</span> 元</span></div>
@@ -445,6 +347,158 @@
             </div>
         </div> 
 
+        <div class="pricing-wrapper wide-layout">
+            <div class="pricing-title-area" style="text-align: center; margin-bottom: 20px;">
+                <h2 style="border:none; margin-bottom:5px; color:#16a085;">🌊 數位遊牧 / 渡假長住專案 (Long Stay Plan)</h2>
+                <p style="color:#777;">把辦公室搬到海邊！適合遠距工作、換宿體驗與深度旅遊</p>
+            </div>
+            <div class="camp-grid" style="grid-template-columns: 1fr;">
+                <div class="camp-card mini-box" style="border-color: #16a085;">
+                    <div class="card-header" style="background: #e8f8f5; border-bottom: 2px solid #16a085;">
+                        <h3 style="margin:0; color:#16a085;"><i class="fas fa-laptop-house"></i> 專案報價表</h3>
+                    </div>
+                    <div style="overflow-x: auto; padding: 10px;">
+                        <table class="price-table" style="min-width: 600px;">
+                            <thead>
+                                <tr>
+                                    <th>住宿類型</th>
+                                    <th>一週方案 <span class="level-tag">7 晚</span></th>
+                                    <th>兩週方案 <span class="level-tag">14 晚</span></th>
+                                    <th>一個月方案 <span class="level-tag">30 晚</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>⛺ 自搭帳 / 車泊</strong></td><td>$3,000</td><td>$5,000</td><td class="price-highlight" style="font-size: 1.1rem;">$6,000</td></tr>
+                                <tr><td><strong>🚐 自備露營車</strong></td><td>$4,000</td><td>$6,500</td><td class="price-highlight" style="font-size: 1.1rem;">$9,000</td></tr>
+                                <tr><td><strong>🚐 大馳 DT392</strong></td><td>$6,000</td><td>$9,000</td><td style="color: #999; font-weight: bold;">不提供包月</td></tr>
+                                <tr><td><strong>🚐 StarCraft</strong></td><td>$6,500</td><td>$10,000</td><td style="color: #999; font-weight: bold;">不提供包月</td></tr>
+                                <tr><td><strong>🏡 民宿房間</strong></td><td>$7,500</td><td>$11,200</td><td style="color: #999; font-weight: bold;">不提供包月</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-body" style="background: #fdfefe; border-top: 1px dashed #ccc; padding-top: 15px; margin-top: 10px;">
+                        <h4 style="color: #d35400; margin-top: 0;"><i class="fas fa-exclamation-triangle"></i> 長住專屬營運規範 (下單即同意)</h4>
+                        <ul style="padding-left: 20px; font-size:0.95rem; line-height:1.6; color: #555;">
+                            <li><strong style="color: #d32f2f;">⚠️ 方案限制：</strong> <strong>免裝備住宿（大馳/StarCraft/房間）最多僅開放「兩週方案」，不提供包月。</strong></li>
+                            <li><strong>👥 人數嚴格管制：</strong> 僅限 <strong>基本人數 (2人)</strong> 入住。住宿期間若有中途加入的過夜訪客或加人，另行收取 <strong>$500/晚</strong>。</li>
+                            <li><strong>🔌 營位用電限制：</strong> 自搭帳/車泊含基本水電，<strong>嚴禁使用高耗電設備</strong> (如冷氣、暖爐)，違者加收 $200/晚。</li>
+                            <li><strong>🧹 房務清潔：</strong> 不提供每日打掃。每滿 7 天提供一次免費換床單與簡易清潔。如需額外打掃每次加收 <strong>$500 元</strong>。</li>
+                            <li><strong>📅 系統預訂限制：</strong> 春節連假期間恕不適用此方案。若訂單包含春節，將以原價計算。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pricing-wrapper wide-layout">
+            <div class="pricing-title-area" style="text-align: center; margin-bottom: 20px;">
+                <h2 data-i18n="pricing_title" style="border:none; margin-bottom:5px;">全區獨享包場方案</h2>
+                <p data-i18n="pricing_desc" style="color:#777;">選擇適合您的規模，平日/假日/連假皆有不同優惠</p>
+            </div>
+            <div class="camp-grid">
+                <div class="camp-card mini-box">
+                    <div class="card-header"><h3 style="margin:0;" data-i18n="plan_a_title">方案 A：純場地自由配</h3></div>
+                    <table class="price-table">
+                        <thead><tr><th>時段</th><th>微包場<span class="level-tag">10帳內</span></th><th>全包場<span class="level-tag">20帳</span></th></tr></thead>
+                        <tbody>
+                            <tr><td>平日</td><td>$5,000</td><td class="price-highlight">$7,000</td></tr>
+                            <tr><td>假日</td><td>$6,500</td><td class="price-highlight">$10,000</td></tr>
+                            <tr><td>連假</td><td>$10,000</td><td class="price-highlight">$15,000</td></tr>
+                        </tbody>
+                    </table>
+                    <div class="card-body"><button class="btn-book" onclick="selectPlan('full_basic')" data-i18n="btn_book_a">預約方案 A</button></div>
+                </div>
+                <div class="camp-card mini-box">
+                    <div class="card-header" style="background:#e8f8f5; border-bottom-color:#16a085; color:#2c5e50;"><h3 style="margin:0;" data-i18n="plan_b_title">方案 B：場地 + 露營車</h3></div>
+                    <table class="price-table">
+                        <thead><tr><th>時段</th><th>微包場<span class="level-tag">10帳內</span></th><th>全包場<span class="level-tag">20帳</span></th></tr></thead>
+                        <tbody>
+                            <tr><td>平日</td><td>$7,500</td><td class="price-highlight">$10,000</td></tr>
+                            <tr><td>假日</td><td>$8,500</td><td class="price-highlight">$16,000</td></tr>
+                            <tr><td>連假</td><td>$12,000</td><td class="price-highlight">$18,000</td></tr>
+                        </tbody>
+                    </table>
+                    <div class="card-body"><button class="btn-book" onclick="selectPlan('full_vans')" data-i18n="btn_book_b">預約方案 B</button></div>
+                </div>
+                <div class="camp-card mini-box">
+                    <div class="card-header" style="background:#333; color:white; border-bottom-color:#000;"><h3 style="margin:0;" data-i18n="plan_c_title">方案 C：豪華全配版</h3></div>
+                    <table class="price-table">
+                        <thead><tr><th>時段</th><th>微包場<span class="level-tag">10帳內</span></th><th>全包場<span class="level-tag">20帳</span></th></tr></thead>
+                        <tbody>
+                            <tr><td>平日</td><td>$10,500</td><td class="price-highlight">$13,000</td></tr>
+                            <tr><td>假日</td><td>$13,500</td><td class="price-highlight">$18,000</td></tr>
+                            <tr><td>連假</td><td>$16,500</td><td class="price-highlight">$20,000</td></tr>
+                        </tbody>
+                    </table>
+                    <div class="card-body"><button class="btn-book" onclick="selectPlan('full_all')" data-i18n="btn_book_c">預約方案 C</button></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="campingRules" class="rules-section wide-layout">
+            <div class="rules-container">
+                <div class="rule-card basic-rules">
+                    <h3 data-i18n="rule_title_basic" style="border-bottom: 2px solid #2c5e50; padding-bottom: 10px; margin-top: 0; color: #2c5e50;">🔷 收費標準與營區規定</h3>
+                    <div class="grid-2x2">
+                        <div class="mini-box">
+                            <h4 data-i18n="rule_sub_price" style="margin-top:0; color:#444;">💰 營位計費標準</h4>
+                            <ul style="padding-left: 20px; font-size:0.9rem; line-height:1.6;">
+                                <li data-i18n="rule_li_unit"><strong>基本單位：</strong>4人 / 1車 / 1帳 / 1炊事帳。</li>
+                                <li data-i18n="rule_li_add_person"><strong>加人：</strong>多1人加 $300 (國小一年級以下免費)。</li>
+                                <li data-i18n="rule_li_add_car"><strong>加車：</strong>多停一台車加收 $300 (拖車不在此限)。</li>
+                                <li data-i18n="rule_li_visitor"><strong>訪客：</strong>每人 $100，需於 23:00 前離場。</li>
+                            </ul>
+                        </div>
+                        <div class="mini-box">
+                            <h4 data-i18n="rule_sub_tent" style="margin-top:0; color:#444;">⛺ 搭帳與冷氣規範</h4>
+                            <ul style="padding-left: 20px; font-size:0.9rem; line-height:1.6;">
+                                <li data-i18n="rule_li_big_tent"><strong>大型帳篷：</strong>神殿、怪獸、5x8天幕等請<strong>訂2個營位</strong>。</li>
+                                <li data-i18n="rule_li_ac_fee"><strong>冷氣使用：</strong>車上/帳內使用冷氣接電，酌收 $200/晚。</li>
+                                <li class="alert-text" data-i18n="rule_li_warning" style="color:red; font-weight:bold;">未告知搭設大帳者，現場將禁止搭設。</li>
+                            </ul>
+                        </div>
+                        <div class="mini-box">
+                            <h4 data-i18n="rule_sub_rush" style="margin-top:0; color:#444;">🌙 夜衝服務 (限自搭帳)</h4>
+                            <ul style="padding-left: 20px; font-size:0.9rem; line-height:1.6;">
+                                <li data-i18n="rule_li_rush_time"><strong>時間：</strong>20:00 後入場，23:30 前搭完。</li>
+                                <li data-i18n="rule_li_rush_price"><strong>費用：</strong>夜衝價格依各營位有所不同，請以系統試算為準。</li>
+                                <li class="highlight" data-i18n="rule_li_rush_rv" style="color:#d35400; font-weight:bold;">🚐 自備露營車夜衝依金額打 8 折。</li>
+                            </ul>
+                        </div>
+                        <div class="mini-box" style="border: 2px solid #d32f2f; background-color: #ffebee;">
+                            <h4 style="color: #d32f2f; margin-top:0;" data-i18n="rule_noise_title">🚫 噪音管制 (嚴格執行)</h4>
+                            <div style="padding: 10px; font-weight: bold; line-height: 1.6; color: #b71c1c; font-size:0.9rem;">
+                                <span data-i18n="rule_noise_head">⚠️ 晚間 10:30 過後<br>非常嚴厲禁止使用：</span>
+                                <span style="display:block; margin-top:5px; border-top:1px dashed #ef9a9a; padding-top:5px;" data-i18n="rule_noise_list">❌ 卡啦OK唱歌<br>❌ 放音樂<br>❌ 大聲喧嘩</span>
+                                <div style="margin-top:5px; font-size:0.9em; color:black;" data-i18n="rule_noise_punish">‼️ 違者將強制要求離場 ‼️<br>🚫 並且不會退費</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="rule-card policy-rules" style="margin-top: 30px;">
+                    <h3 data-i18n="rule_title_policy" style="border-bottom: 2px solid #2c5e50; padding-bottom: 10px; margin-top: 0; color: #2c5e50;">⚠️ 住宿取消政策與付款</h3>
+                    <div class="policy-content" style="background:#fff; padding:20px; border-radius:8px; border:1px solid #eee;">
+                        <h4 data-i18n="rule_sub_refund" style="margin-top:0;">📅 取消退費標準</h4>
+                        <ul class="refund-timeline" style="list-style:none; padding:0; margin:0 0 20px 0;">
+                            <li style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding:8px 0;"><span class="days" data-i18n="ref_14" style="font-weight:bold;">14天前</span> <span class="desc" data-i18n="ref_desc_14">退 100% (扣手續費) 或改期</span></li>
+                            <li style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding:8px 0;"><span class="days" data-i18n="ref_10" style="font-weight:bold;">10-13天前</span> <span class="desc" data-i18n="ref_desc_10">退 70% (2日內補差額)</span></li>
+                            <li style="display:flex; justify-content:space-between; padding:8px 0;"><span class="days" data-i18n="ref_7" style="font-weight:bold;">7-9天前</span> <span class="desc" data-i18n="ref_desc_7">退 50%</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bar-section wide-layout">
+            <div class="bar-container">
+                <div class="bar-text">
+                    <h2 style="color: #f39c12; margin-top:0;"> 附屬酒吧 🍹 吐煙怪獸水煙酒吧 (Toen Kaijyu Bar)</h2>
+                    <p style="font-size:1.1rem; line-height:1.6;">當夜幕低垂，營區化身為都蘭最Chill的角落。<br>無論是微醺調酒還是滿天星空，我們都在這等你。</p>
+                </div>
+                <div class="bar-img-box" style="background-image: url('logo-toen-kaijyu.png');"></div>
+            </div>
+        </div>
+
         <div class="coupon-zone-wrapper wide-layout" style="margin-top: 40px; background: white; padding: 30px 20px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.05);">
             <div style="text-align: center; margin-bottom: 25px;">
                 <h2 style="color: #8e44ad; border: none; margin-bottom: 8px; font-size: 1.8rem;"><i class="fas fa-gift text-fuchsia-500"></i> 錄托邦 VIP 專屬折價券 & 大獎專區</h2>
@@ -475,7 +529,48 @@
         <p>📍 營本部：GOOGLE導航至『都蘭錄托邦露營區』即可到達</p>
         <p>© 2026 LutopiaDulanCampsite. All Rights Reserved.</p>
     </footer>
-    
+
+    <div id="tribalModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 9999; overflow-y: auto; display: none; align-items: flex-start; justify-content: center; padding: 20px 0;">
+        <button onclick="closeTribalModal()" style="position: fixed; top: 20px; right: 20px; background: white; color: black; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 20px; cursor: pointer; z-index: 10000; box-shadow: 0 2px 10px rgba(0,0,0,0.3);"><i class="fas fa-times"></i></button>
+        <div class="max-w-md mx-auto bg-white shadow-2xl rounded-3xl overflow-hidden border-4 border-amber-800" style="margin-top: 20px; margin-bottom: 40px; position: relative; width: 90%; max-width: 450px;">
+            <div class="relative h-64 bg-emerald-900">
+                <video src="糯米釀小米酒2.MOV" class="w-full h-full object-cover opacity-80" autoplay loop muted playsinline></video>
+                <div class="absolute inset-0 flex flex-col justify-end p-6" style="background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);">
+                    <h1 class="text-white text-3xl font-bold tracking-wider mb-1" style="font-family: 'Noto Sans TC', sans-serif;">錄托邦 LUTOPAN</h1>
+                    <p class="text-amber-200 text-lg">部落慢活・三天兩夜露營體驗包</p>
+                </div>
+                <div class="absolute top-4 right-4 bg-amber-600 text-white px-3 py-1 rounded-full text-xs font-bold">都蘭深度之旅</div>
+            </div>
+            <div class="p-6 space-y-8" style="background-image: url('https://www.transparenttextures.com/patterns/az-subtle.png');">
+                <section class="bg-emerald-800 rounded-2xl p-5 text-white shadow-lg">
+                    <div class="flex items-center space-x-2 mb-3"><i class="fas fa-gift text-amber-300"></i><h2 class="text-lg font-bold" style="border:none; color:white; margin:0;">部落文化體驗包內容</h2></div>
+                    <div class="text-2xl font-black text-amber-300 mb-4">專案價 NT$ 1,200 <span class="text-sm font-normal text-white">/ 人</span></div>
+                    <ul class="space-y-4 text-sm opacity-95 mt-4" style="list-style:none; padding:0;">
+                        <li class="flex items-start space-x-3 border-b border-emerald-700 pb-4">
+                            <i class="fas fa-check-circle text-amber-400 mt-1 text-lg"></i>
+                            <div>
+                                <span class="text-base font-bold text-amber-100">美式糯米酒釀 (1hr)</span>
+                                <p class="text-gray-200 mt-1">全國首家認證傳統酒釀，親手體驗部落微醺文化，品嚐最純粹の糯米香甜。</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start space-x-3">
+                            <i class="fas fa-check-circle text-amber-400 mt-1 text-lg"></i>
+                            <div class="w-full">
+                                <span class="text-base font-bold text-amber-100">原民風好皂頭 (1hr)</span>
+                                <p class="text-gray-200 mt-1 mb-3">運用傳統植物元素製作抗菌手工皂，帶走屬於都蘭的天然香氣。</p>
+                                <img src="足渡蘭DIY.jpg" alt="足渡蘭DIY手工皂" class="w-full h-32 object-cover rounded-lg border-2 border-emerald-600 shadow-md" onerror="this.style.display='none'">
+                            </div>
+                        </li>
+                    </ul>
+                </section>
+            </div>
+            <div class="bg-gray-100 p-6 text-center space-y-3">
+                <p class="text-xs text-gray-500 leading-relaxed">⚠️ 4人以上才開團 | 需提前 7 天預約<br>台東縣都蘭營區・錄托邦部落慢活</p>
+                <button onclick="bookTribalPackage()" class="w-full bg-amber-800 text-white font-bold py-3 rounded-xl hover:bg-amber-900 transition shadow-lg" style="cursor:pointer; width:100%; border:none;">我了解了，前往加購</button>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
