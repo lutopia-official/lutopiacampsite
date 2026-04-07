@@ -73,6 +73,30 @@ const TRANSLATIONS = {
     rule_title_policy: "⚠️ 住宿取消政策與付款", rule_sub_refund: "📅 取消退費標準", ref_14: "14天前", ref_desc_14: "退 100% (扣手續費) 或改期", ref_10: "10-13天前", ref_desc_10: "退 70% (2日內補差額)", ref_7: "7-9天前", ref_desc_7: "退 50%",
     pricing_title: "全區獨享包場方案", pricing_desc: "選擇適合您的規模，平日/假日/連假皆有不同優惠", plan_a_title: "方案 A：純場地自由配", plan_b_title: "方案 B：場地 + 露營車", plan_c_title: "方案 C：豪華全配版", btn_book_a: "預約方案 A", btn_book_b: "預約方案 B", btn_book_c: "預約方案 C",
     opt_inc_dt392: "(含 大馳 DT392)", opt_inc_starcraft: "(含 StarCraft 美式復古拖車)", opt_inc_room: "(含 錄托邦民宿房間)", opt_inc_both_rv: "(含 StarCraft + DT392)", opt_inc_room_starcraft: "(含 StarCraft + 民宿房間)", opt_inc_room_dt392: "(含 DT392 + 民宿房間)", opt_group_contact: "(團體請洽官方)"
+  },
+  en: {
+    loading: "Loading...", calc_title: "🌲 Camping Calculator", basic_unit: "Unit: 4 pax / 1 car / 1 tent",
+    important_notice: "Important Notice:", checkin_time_val: "⏰ Check-in: After 14:00", checkin_time_val_room: "🏡 Check-in: After 15:00",
+    dont_early: "(No early check-in)", eco_policy_label: "Eco-friendly:", eco_policy_desc: "No disposable amenities.",
+    label_type: "Type:", select_placeholder: "Select...", label_unit_qty: "Quantity:",
+    group_camping: "⛺ Camping", group_rental: "🚐 Rental", group_full: "🎉 Full Booking", group_venue: "🎪 Venue", group_bike: "🚲 Services",
+    label_date: "Date:", date_placeholder: "Select dates...", label_time: "Time:", time_placeholder: "Select time...",
+    label_nights: "Nights:", addon_title: "➕ Add-ons",
+    btn_calc: "Calculate", btn_reset: "Reset", result_title: "Result",
+    res_base: "Base Price:", res_addon: "Add-ons:", res_rush: "Night Rush:", res_ac: "AC Fee:", res_discount: "Discount:", res_total: "Total:",
+    customer_info_title: "📝 Customer Info", btn_submit: "Submit Order"
+  },
+  jp: {
+    loading: "読み込み中...", calc_title: "🌲 キャンプ料金計算", basic_unit: "単位：4人 / 1車 / 1テント",
+    important_notice: "重要なお知らせ：", checkin_time_val: "⏰ チェックイン：14:00以降", checkin_time_val_room: "🏡 チェックイン：15:00以降",
+    dont_early: "(アーリーチェックイン不可)", eco_policy_label: "エコポリシー：", eco_policy_desc: "使い捨てアメニティなし",
+    label_type: "タイプ：", select_placeholder: "選択...", label_unit_qty: "数量：",
+    group_camping: "⛺ キャンプ", group_rental: "🚐 レンタル", group_full: "🎉 貸切", group_venue: "🎪 会場", group_bike: "🚲 サービス",
+    label_date: "日付：", date_placeholder: "日付を選択...", label_time: "時間：", time_placeholder: "時間を選択...",
+    label_nights: "宿泊数：", addon_title: "➕ 追加オプション",
+    btn_calc: "計算する", btn_reset: "リセット", result_title: "計算結果",
+    res_base: "基本料金：", res_addon: "追加料金：", res_rush: "前泊料金：", res_ac: "エアコン：", res_discount: "割引：", res_total: "合計金額：",
+    customer_info_title: "📝 予約情報", btn_submit: "予約を確定する"
   }
 };
 
