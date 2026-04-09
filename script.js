@@ -477,15 +477,37 @@ function calculateTotal() {
             let rate_grass = config.rates && config.rates[rateType] !== undefined ? config.rates[rateType] : 0;
 
             if (dayOfWeek === 2 && !isMakeup) {
-                rate_room = 2400; rate_star = 2200; rate_dt = 2000; rate_grass = 500;
-                if (isVendorMode) { rate_dt = 1400; rate_star = 1500; rate_grass = 500; }
-            }
+                // 免裝備住宿週二價
+                rate_room = 2400; 
+                rate_star = 2200; 
+                rate_dt = 2000; 
+                
+                // ⛺ 露營模式週二精準報價
+                if (type === 'tent') rate_grass = 800;
+                else if (type === 'moto' || type === 'solo') rate_grass = 500;
+                else if (type === 'car') rate_grass = 800;
+                else if (type === 'camper') rate_grass = 1000;
+                else rate_grass = 800; // 預設防呆
 
+                // 攤商模式覆蓋 (攤商的大馳、StarCraft、以及攤商營位500元優惠)
+                if (isVendorMode) { 
+                    rate_dt = 1400; 
+                    rate_star = 1500; 
+                    rate_grass = 500; 
+                }
+            }
+            
             if (type === 'car_bed_vip') {
                 const pQty = parseInt(document.getElementById('carBedPeople').value) || 2;
                 let personPrice = config.people_rates[pQty][rateType] !== undefined ? config.people_rates[pQty][rateType] : config.people_rates[pQty]['weekend'];
+                
+                // ✨ 車床週二價：不管幾人，一律 600 元
+                if (dayOfWeek === 2 && !isMakeup) {
+                    personPrice = 600;
+                }
+
                 let tentFee = document.getElementById('carBedTent').checked ? (config.tent_add_on[rateType] || 50) : 0;
-                dailyBase = (personPrice + tentFee) * qty; 
+                dailyBase = (personPrice + tentFee) * qty;
             } else if (type === 'room') {
                 if (qty === 1) dailyBase = rate_room; else if (qty === 2) dailyBase = rate_room + rate_star; else if (qty === 3) dailyBase = rate_room + rate_dt; else if (qty === 4) dailyBase = rate_room + rate_star + rate_dt;
             } else if (type === 'starcraft') {
