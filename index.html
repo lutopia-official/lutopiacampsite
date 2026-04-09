@@ -18,22 +18,15 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700;900&display=swap');
         body{font-family:'Noto Sans TC',sans-serif;background-color:#f9f9f9;margin:0;color:#333} .site-header{background:#2c5e50;color:#fff;padding:20px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;box-shadow:0 4px 6px rgba(0,0,0,.1)} .logo-container{display:flex;align-items:center;gap:15px} .logo-img{width:60px;height:60px;border-radius:50%;object-fit:cover;border:2px solid #fff} .brand-name h1{margin:0;font-size:1.5rem} .brand-name p{margin:5px 0 0;font-size:.85rem;color:#a3e4d7} .social-links{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px} .social-btn{padding:8px 12px;border-radius:20px;text-decoration:none;color:#fff;font-size:.85rem;font-weight:700;transition:opacity .2s} .fb-btn{background:#3b5998} .ig-btn{background:#E1306C} .line-btn{background:#00B900} .social-btn:hover{opacity:.8} .lang-switch{display:flex;gap:5px;margin-left:10px} .lang-btn{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);color:#fff;padding:5px 10px;border-radius:15px;cursor:pointer;font-size:.8rem} .lang-btn:hover{background:rgba(255,255,255,.4)} .marquee-wrapper{background:#fff3cd;color:#856404;padding:10px;overflow:hidden;white-space:nowrap;border-bottom:1px solid #ffeeba} .marquee-content{display:inline-block;animation:marquee 15s linear infinite} @keyframes marquee{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}} .main-wrapper{max-width:1200px;margin:0 auto;padding:20px} .top-section{display:flex;gap:20px;flex-wrap:wrap} .calculator-container{flex:2;background:#fff;padding:25px;border-radius:12px;box-shadow:0 4px 10px rgba(0,0,0,.05);min-width:300px} .info-panel{flex:1;min-width:300px;display:flex;flex-direction:column;gap:20px} h2{border-bottom:2px solid #2c5e50;padding-bottom:10px;margin-top:0;color:#2c5e50} .form-group{margin-bottom:15px} .form-group label{display:block;margin-bottom:5px;font-weight:700;color:#555} .form-group input[type=number],.form-group input[type=tel],.form-group input[type=text],.form-group select{width:100%;padding:10px;border:1px solid #ddd;border-radius:5px;box-sizing:border-box} .two-col{display:grid;grid-template-columns:1fr 1fr;gap:15px} .checkbox-group label{display:flex;align-items:center;gap:8px;margin-bottom:10px;cursor:pointer;background:#f8f9fa;padding:10px;border-radius:5px;border:1px solid #eee} .btn-group{display:flex;gap:10px;margin-top:20px} .calc-btn{flex:2;background:#2c5e50;color:#fff;border:none;padding:12px;border-radius:5px;cursor:pointer;font-weight:700;font-size:1.1rem} .calc-btn:hover{background:#1e4036} .reset-btn{flex:1;background:#95a5a6;color:#fff;border:none;padding:12px;border-radius:5px;cursor:pointer;font-weight:700} .reset-btn:hover{background:#7f8c8d} .result-box{background:#fdfefe;border:2px solid #2c5e50;padding:20px;border-radius:8px;margin-top:20px} .result-box h3{margin-top:0;color:#2c5e50} .result-row{display:flex;justify-content:space-between;margin-bottom:8px;color:#555} .total-row{display:flex;justify-content:space-between;font-size:1.3rem;font-weight:700;color:#d35400;margin-top:10px} .grid-2x2{display:grid;grid-template-columns:1fr 1fr;gap:15px} @media (max-width:768px){.grid-2x2,.top-section,.two-col{grid-template-columns:1fr;flex-direction:column}} .mini-box{background:#fff;padding:15px;border-radius:8px;border:1px solid #eee;box-shadow:0 2px 5px rgba(0,0,0,.02)} .hidden{display:none!important} .price-table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.9rem} .price-table td,.price-table th{border:1px solid #eee;padding:8px;text-align:center} .price-table th{background:#f8f9fa} .price-highlight{color:#d35400;font-weight:700} .level-tag{font-size:.75rem;padding:2px 6px;border-radius:4px;background:#e9ecef;margin-left:4px} .gallery-section{background:#fff;padding:20px;border-radius:12px;box-shadow:0 4px 10px rgba(0,0,0,.05)} .gallery-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:15px} .gallery-item{position:relative;border-radius:8px;overflow:hidden;display:block;aspect-ratio:1} .gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .3s} .gallery-item:hover img{transform:scale(1.05)} .overlay{position:absolute;inset:0;background:rgba(0,0,0,.3);display:flex;justify-content:center;align-items:center;color:#fff;font-size:2rem;opacity:0;transition:opacity .3s} .gallery-item:hover .overlay{opacity:1} .wide-layout{margin-top:30px} .camp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px} .card-header{padding:10px;background:#f8f9fa;border-bottom:2px solid #ddd;margin:-15px -15px 15px;border-radius:8px 8px 0 0} .btn-book{width:100%;padding:10px;border:none;border-radius:5px;cursor:pointer;font-weight:700;background:#eee} .btn-book:hover{background:#ddd} .bar-container{display:flex;align-items:center;background:#1a1a1a;color:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,.3);margin-top:30px} .bar-text{padding:30px;flex:1} .bar-text h2{color:#f39c12;border-bottom:none} .bar-img-box{flex:1;min-height:300px;background-size:cover;background-position:center;border-radius:0 12px 12px 0} @media (max-width:768px){.bar-container{flex-direction:column} .bar-img-box{width:100%;min-height:200px;border-radius:0 0 12px 12px}} .site-footer{text-align:center;padding:20px;color:#7f8c8d;font-size:.9rem;margin-top:40px} @keyframes pulse-btn{0%{transform:scale(1);box-shadow:0 0 0 0 rgba(211,84,0,.7)}70%{transform:scale(1.02);box-shadow:0 0 0 10px rgba(211,84,0,0)}100%{transform:scale(1);box-shadow:0 0 0 0 rgba(211,84,0,0)}} .vendor-toggle{position:relative;display:inline-block;width:44px;height:24px;vertical-align:middle;margin-right:8px} .vendor-toggle input{opacity:0;width:0;height:0} .slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background-color:#ccc;transition:.4s;border-radius:24px} .slider:before{position:absolute;content:"";height:18px;width:18px;left:3px;bottom:3px;background-color:#fff;transition:.4s;border-radius:50%} input:checked+.slider{background-color:#9c27b0} input:checked+.slider:before{transform:translateX(20px)} .coupon-scroll-container{display:flex;gap:16px;overflow-x:auto;padding-bottom:20px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:#8e44ad #fff} .coupon-scroll-container::-webkit-scrollbar{height:8px} .coupon-scroll-container::-webkit-scrollbar-track{background:#f3f4f6;border-radius:10px} .coupon-scroll-container::-webkit-scrollbar-thumb{background:#8e44ad;border-radius:10px}
-        
-        /* 實體票券網頁版樣式 */
-        .coupon-card{flex:0 0 auto;width:340px;display:flex;border-radius:12px;overflow:hidden;box-shadow:0 6px 12px rgba(0,0,0,.15);background:#fff;transition:transform .3s ease;scroll-snap-align:start;min-height:180px;cursor:pointer;text-align:left} .coupon-card:hover{transform:translateY(-5px)} .coupon-left{width:32%;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:1rem .5rem;color:#fff;text-align:center;position:relative} .coupon-right{width:68%;padding:1.2rem;display:flex;flex-direction:column;justify-content:space-between;background-color:#fff;position:relative} .coupon-divider{position:absolute;left:32%;top:0;bottom:0;width:2px;border-left:3px dashed rgba(255,255,255,.6);z-index:10} .coupon-divider::after,.coupon-divider::before{content:'';position:absolute;left:-10px;width:20px;height:20px;background-color:#fff;border-radius:50%;z-index:11} .coupon-divider::before{top:-10px;box-shadow:inset 0 -3px 4px rgba(0,0,0,.05)} .coupon-divider::after{bottom:-10px;box-shadow:inset 0 3px 4px rgba(0,0,0,.05)} .watermark{position:absolute;right:15px;bottom:15px;font-size:3.5rem;font-weight:900;color:rgba(0,0,0,.03);z-index:0;pointer-events:none;transform:rotate(-5deg)} .content-z{z-index:1;position:relative} .write-line{display:inline-block;width:28px;border-bottom:1px solid #71717a;margin:0 4px} @media (max-width:768px){.coupon-card{width:300px}}
 
-        /* 修復 3 & 4: 補齊缺少的 CSS Class 定義 */
+        /* 實體票券網頁版樣式 */
+        .coupon-card { position: relative !important; flex:0 0 auto;width:340px;display:flex;border-radius:12px;overflow:hidden;box-shadow:0 6px 12px rgba(0,0,0,.15);background:#fff;transition:transform .3s ease;scroll-snap-align:start;min-height:180px;cursor:pointer;text-align:left} .coupon-card:hover{transform:translateY(-5px)} .coupon-left{width:32%;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:1rem .5rem;color:#fff;text-align:center;position:relative} .coupon-right{width:68%;padding:1.2rem;display:flex;flex-direction:column;justify-content:space-between;background-color:#fff;position:relative} .coupon-divider{position:absolute;left:32%;top:0;bottom:0;width:2px;border-left:3px dashed rgba(255,255,255,.6);z-index:10} .coupon-divider::after,.coupon-divider::before{content:'';position:absolute;left:-10px;width:20px;height:20px;background-color:#fff;border-radius:50%;z-index:11} .coupon-divider::before{top:-10px;box-shadow:inset 0 -3px 4px rgba(0,0,0,.05)} .coupon-divider::after{bottom:-10px;box-shadow:inset 0 3px 4px rgba(0,0,0,.05)} .watermark{position:absolute;right:15px;bottom:15px;font-size:3.5rem;font-weight:900;color:rgba(0,0,0,.03);z-index:0;pointer-events:none;transform:rotate(-5deg)} .content-z{z-index:1;position:relative} .write-line{display:inline-block;width:28px;border-bottom:1px solid #71717a;margin:0 4px} @media (max-width:768px){.coupon-card{width:300px}}
         .video-label { position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,0.7); color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; z-index: 2; pointer-events: none; }
         .rules-section { background: white; padding: 30px 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         .rules-container { display: flex; flex-direction: column; gap: 30px; }
         .rule-card { background: #fdfefe; border: 1px solid #eee; border-radius: 8px; padding: 20px; }
         .camp-card { display: flex; flex-direction: column; background: white; border: 1px solid #eee; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
         .card-body { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; justify-content: flex-end; }
-        .content-z{z-index:1;position:relative} .write-line{display:inline-block;width:28px;border-bottom:1px solid #71717a;margin:0 4px} @media (max-width:768px){.coupon-card{width:300px}}
-        /* 將折價券裁切線鎖定在卡片內 */
-        .coupon-card { position: relative !important; }
-    </style>
-</head>
     </style>
 </head>
 <body>
@@ -258,7 +251,7 @@
                         <div style="display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 10px; border-radius: 6px; border: 1px solid #ffd54f;">
                             <div>
                                 <strong style="color: #f57f17; font-size: 0.95rem;">🎟️ 都蘭秘境通行證 ($199/本)</strong>
-                                <p style="margin: 3px 0 0 0; font-size: 0.8rem; color: #7f8c8d;">內含 10 大都蘭名店 VIP 優惠券 ＋ 夜市免費遊戲 1 次！</p>
+                                <p style="margin: 3px 0 0 0; font-size: 0.8rem; color: #7f8c8d;">內含 11 大都蘭名店 VIP 優惠券 ＋ 夜市免費遊戲 1 次！</p>
                             </div>
                             <input type="number" id="dulanPassQty" value="0" min="0" onchange="calculateTotal()" style="width:60px; padding:8px; text-align:center; border:1px solid #ccc; border-radius:4px; background:#fafafa;">
                         </div>
@@ -527,18 +520,16 @@
             </div>
             
             <div class="coupon-scroll-container">
-                <div class="coupon-card"><div class="coupon-left bg-gradient-to-br from-indigo-800 to-purple-900"><i class="fas fa-cocktail text-4xl mb-2 opacity-90"></i><div class="text-3xl font-black leading-none tracking-tighter"><span class="text-lg mr-1">$</span>200</div><div class="text-xs mt-1 font-bold tracking-widest opacity-80">微醺折抵券</div></div><div class="coupon-divider"></div><div class="coupon-right"><div class="watermark">BAR</div><div class="content-z"><div class="flex justify-between items-start mb-2"><span class="bg-indigo-100 text-indigo-800 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">連住福利</span><span class="text-gray-400 text-xs font-mono">No.<span class="inline-block w-8 border-b border-gray-300"></span></span></div><h3 class="font-black text-gray-800 text-lg mb-1 leading-tight">吐煙怪獸 水煙酒吧</h3><p class="text-sm text-gray-600 font-bold mb-2">憑券折抵飲品/水煙200元</p></div><div class="content-z mt-auto pt-2 border-t border-dashed border-gray-200 flex justify-between items-end"><div><div class="text-xs text-gray-600 font-bold mb-1">期限:<span class="write-line"></span>月<span class="write-line"></span>日</div><div class="text-[10px] text-gray-500"><i class="fas fa-map-marker-alt text-red-500"></i> 搜尋: <span class="font-bold text-gray-700">吐煙怪獸水煙酒吧</span></div></div><div class="text-[10px] text-gray-400 border border-gray-200 bg-gray-50 rounded px-1.5 flex flex-col justify-center items-center tracking-widest min-w-[36px] min-h-[44px]"><span>店章</span><span>核銷</span></div></div></div></div>
-                <div class="coupon-card"><div class="coupon-left bg-gradient-to-br from-violet-700 to-purple-800"><i class="fas fa-glass-cheers text-4xl mb-2 opacity-90 text-violet-100"></i><div class="text-3xl font-black leading-none tracking-tighter text-white"><span class="text-lg mr-1">$</span>100</div><div class="text-xs mt-1 font-bold tracking-widest opacity-90 text-violet-100">VIP專屬</div></div><div class="coupon-divider"></div><div class="coupon-right"><div class="watermark">BAR</div><div class="content-z"><div class="flex justify-between items-start mb-2"><span class="bg-violet-100 text-violet-800 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">住客專屬</span><span class="text-gray-400 text-xs font-mono">No.<span class="inline-block w-8 border-b border-gray-300"></span></span></div><h3 class="font-black text-gray-800 text-lg mb-1 leading-tight">吐煙怪獸 水煙酒吧</h3><p class="text-sm text-gray-600 font-bold mb-2">憑券折抵飲品/水煙100元</p></div><div class="content-z mt-auto pt-2 border-t border-dashed border-gray-200 flex justify-between items-end"><div><div class="text-xs text-gray-600 font-bold mb-1">期限:<span class="write-line"></span>月<span class="write-line"></span>日</div><div class="text-[10px] text-gray-500"><i class="fas fa-map-marker-alt text-red-500"></i> 搜尋: <span class="font-bold text-gray-700">吐煙怪獸水煙酒吧</span></div></div><div class="text-[10px] text-gray-400 border border-gray-200 bg-gray-50 rounded px-1.5 flex flex-col justify-center items-center tracking-widest min-w-[36px] min-h-[44px]"><span>店章</span><span>核銷</span></div></div></div></div>
-                <div class="coupon-card"><div class="coupon-left bg-gradient-to-br from-amber-400 to-orange-500"><i class="fas fa-trophy text-4xl mb-2 opacity-90 text-yellow-100"></i><div class="text-xl font-black leading-tight tracking-wider text-white">CHAMPION</div><div class="text-xs mt-1 font-bold tracking-widest opacity-90">冠軍專屬</div></div><div class="coupon-divider"></div><div class="coupon-right"><div class="watermark">🍕</div><div class="content-z"><div class="flex justify-between items-start mb-2"><span class="bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">草地大賽</span><span class="text-gray-400 text-xs font-mono">No.<span class="inline-block w-8 border-b border-gray-300"></span></span></div><h3 class="font-black text-gray-800 text-lg mb-1 leading-tight">吐煙怪獸 獨門Pizza</h3><p class="text-sm text-gray-600 font-bold mb-2">憑券享專屬Pizza 9折</p></div><div class="content-z mt-auto pt-2 border-t border-dashed border-gray-200 flex justify-between items-end"><div><div class="text-xs text-gray-600 font-bold mb-1">期限:<span class="write-line"></span>月<span class="write-line"></span>日</div><div class="text-[10px] text-gray-500"><i class="fas fa-map-marker-alt text-red-500"></i> 搜尋: <span class="font-bold text-gray-700">吐煙怪獸水煙酒吧</span></div></div><div class="text-[10px] text-gray-400 border border-gray-200 bg-gray-50 rounded px-1.5 flex flex-col justify-center items-center tracking-widest min-w-[36px] min-h-[44px]"><span>店章</span><span>核銷</span></div></div></div></div>
-                <div class="coupon-card"><div class="coupon-left bg-gradient-to-br from-sky-400 to-blue-500"><i class="fas fa-snowflake text-4xl mb-2 opacity-90 text-sky-100"></i><div class="text-3xl font-black leading-tight tracking-wider text-white">9 折</div><div class="text-xs mt-1 font-bold tracking-widest opacity-90">VIP 專屬</div></div><div class="coupon-divider"></div><div class="coupon-right"><div class="watermark">🍧</div><div class="content-z"><div class="flex justify-between items-start mb-2"><span class="bg-sky-100 text-sky-800 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">住客專屬</span><span class="text-gray-400 text-xs font-mono">No.<span class="inline-block w-8 border-b border-gray-300"></span></span></div><h3 class="font-black text-gray-800 text-lg mb-1 leading-tight">台澢號 海浪冰</h3><p class="text-sm text-gray-600 font-bold mb-2">憑券享全品項 9折優惠</p></div><div class="content-z mt-auto pt-2 border-t border-dashed border-gray-200 flex justify-between items-end"><div><div class="text-xs text-gray-600 font-bold mb-1">期限:<span class="write-line"></span>月<span class="write-line"></span>日</div><div class="text-[10px] text-gray-500"><i class="fas fa-map-marker-alt text-red-500"></i> 搜尋: <span class="font-bold text-gray-700">台澢號</span></div></div><div class="text-[10px] text-gray-400 border border-gray-200 bg-gray-50 rounded px-1.5 flex flex-col justify-center items-center tracking-widest min-w-[36px] min-h-[44px]"><span>店章</span><span>核銷</span></div></div></div></div>
-                <div class="coupon-card"><div class="coupon-left bg-gradient-to-br from-rose-600 to-fuchsia-700"><i class="fas fa-fire-alt text-4xl mb-2 opacity-90 text-rose-100"></i><div class="text-xl font-black leading-tight tracking-wider text-white">RUNNER UP</div><div class="text-xs mt-1 font-bold tracking-widest opacity-90">亞軍專屬</div></div><div class="coupon-divider"></div><div class="coupon-right"><div class="watermark">🔥</div><div class="content-z"><div class="flex justify-between items-start mb-2"><span class="bg-rose-100 text-rose-800 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">草地大賽</span><span class="text-gray-400 text-xs font-mono">No.<span class="inline-block w-8 border-b border-gray-300"></span></span></div><h3 class="font-black text-gray-800 text-lg mb-1 leading-tight">部落聚滷 神級下酒菜</h3><p class="text-sm text-gray-600 font-bold mb-2">憑券兌換「特製拼盤」乙份</p></div><div class="content-z mt-auto pt-2 border-t border-dashed border-gray-200 flex justify-between items-end"><div><div class="text-xs text-gray-600 font-bold mb-1">期限:<span class="write-line"></span>月<span class="write-line"></span>日</div><div class="text-[10px] text-gray-500"><i class="fas fa-map-marker-alt text-red-500"></i> 搜尋: <span class="font-bold text-gray-700">都蘭 部落聚滷</span></div></div><div class="text-[10px] text-gray-400 border border-gray-200 bg-gray-50 rounded px-1.5 flex flex-col justify-center items-center tracking-widest min-w-[36px] min-h-[44px]"><span>店章</span><span>核銷</span></div></div></div></div>
-                <div class="coupon-card"><div class="coupon-left bg-gradient-to-br from-teal-600 to-emerald-800"><i class="fas fa-mug-hot text-4xl mb-2 opacity-90 text-teal-100"></i><div class="text-3xl font-black leading-tight tracking-wider text-white">9 折</div><div class="text-xs mt-1 font-bold tracking-widest opacity-90">VIP 專屬</div></div><div class="coupon-divider"></div><div class="coupon-right"><div class="watermark">☕</div><div class="content-z"><div class="flex justify-between items-start mb-2"><span class="bg-teal-100 text-teal-800 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">住客專屬</span><span class="text-gray-400 text-xs font-mono">No.<span class="inline-block w-8 border-b border-gray-300"></span></span></div><h3 class="font-black text-gray-800 text-lg mb-1 leading-tight">都蘭有意思 咖啡廳</h3><p class="text-sm text-gray-600 font-bold mb-2">憑券享全品項 9折優惠</p></div><div class="content-z mt-auto pt-2 border-t border-dashed border-gray-200 flex justify-between items-end"><div><div class="text-xs text-gray-600 font-bold mb-1">期限:<span class="write-line"></span>月<span class="write-line"></span>日</div><div class="text-[10px] text-gray-500"><i class="fas fa-map-marker-alt text-red-500"></i> 搜尋: <span class="font-bold text-gray-700">都蘭有意思咖啡</span></div></div><div class="text-[10px] text-gray-400 border border-gray-200 bg-gray-50 rounded px-1.5 flex flex-col justify-center items-center tracking-widest min-w-[36px] min-h-[44px]"><span>店章</span><span>核銷</span></div></div></div></div>
-                <div class="coupon-card"><div class="coupon-left bg-gradient-to-br from-red-700 to-rose-900"><i class="fas fa-gift text-4xl mb-2 opacity-90 text-red-100"></i><div class="text-3xl font-black leading-tight tracking-wider text-white">贈禮</div><div class="text-xs mt-1 font-bold tracking-widest opacity-90">VIP 專屬</div></div><div class="coupon-divider"></div><div class="coupon-right"><div class="watermark">🍽️</div><div class="content-z"><div class="flex justify-between items-start mb-2"><span class="bg-red-100 text-red-800 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">住客專屬</span><span class="text-gray-400 text-xs font-mono">No.<span class="inline-block w-8 border-b border-gray-300"></span></span></div><h3 class="font-black text-gray-800 text-lg mb-1 leading-tight">江波 Jumpo Cuisine</h3><p class="text-sm text-gray-600 font-bold mb-2">憑此券免費贈送價值80元商品</p></div><div class="content-z mt-auto pt-2 border-t border-dashed border-gray-200 flex justify-between items-end"><div><div class="text-xs text-gray-600 font-bold mb-1">期限:<span class="write-line"></span>月<span class="write-line"></span>日</div><div class="text-[10px] text-gray-500"><i class="fas fa-map-marker-alt text-red-500"></i> 搜尋: <span class="font-bold text-gray-700">Jumpo Cuisine 江波</span></div></div><div class="text-[10px] text-gray-400 border border-gray-200 bg-gray-50 rounded px-1.5 flex flex-col justify-center items-center tracking-widest min-w-[36px] min-h-[44px]"><span>店章</span><span>核銷</span></div></div></div></div>
-                <div class="coupon-card"><div class="coupon-left bg-gradient-to-br from-fuchsia-700 to-pink-600"><i class="fas fa-drumstick-bite text-4xl mb-2 opacity-90 text-fuchsia-100"></i><div class="text-3xl font-black leading-tight tracking-wider text-white">9 折</div><div class="text-xs mt-1 font-bold tracking-widest opacity-90">VIP 專屬</div></div><div class="coupon-divider"></div><div class="coupon-right"><div class="watermark">🍖</div><div class="content-z"><div class="flex justify-between items-start mb-2"><span class="bg-fuchsia-100 text-fuchsia-800 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">住客專屬</span><span class="text-gray-400 text-xs font-mono">No.<span class="inline-block w-8 border-b border-gray-300"></span></span></div><h3 class="font-black text-gray-800 text-lg mb-1 leading-tight">部落聚滷 神級下酒菜</h3><p class="text-sm text-gray-600 font-bold mb-2">憑券享全品項 9折優惠</p></div><div class="content-z mt-auto pt-2 border-t border-dashed border-gray-200 flex justify-between items-end"><div><div class="text-xs text-gray-600 font-bold mb-1">期限:<span class="write-line"></span>月<span class="write-line"></span>日</div><div class="text-[10px] text-gray-500"><i class="fas fa-map-marker-alt text-red-500"></i> 搜尋: <span class="font-bold text-gray-700">都蘭 部落聚滷</span></div></div><div class="text-[10px] text-gray-400 border border-gray-200 bg-gray-50 rounded px-1.5 flex flex-col justify-center items-center tracking-widest min-w-[36px] min-h-[44px]"><span>店章</span><span>核銷</span></div></div></div></div>
-                <div class="coupon-card"><div class="coupon-left bg-gradient-to-br from-green-600 to-emerald-700"><i class="fas fa-seedling text-4xl mb-2 opacity-90 text-green-100"></i><div class="text-3xl font-black leading-tight tracking-wider text-white">9 折</div><div class="text-xs mt-1 font-bold tracking-widest opacity-90">VIP 專屬</div></div><div class="coupon-divider"></div><div class="coupon-right"><div class="watermark">🌿</div><div class="content-z"><div class="flex justify-between items-start mb-2"><span class="bg-green-100 text-green-800 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">住客專屬</span><span class="text-gray-400 text-xs font-mono">No.<span class="inline-block w-8 border-b border-gray-300"></span></span></div><h3 class="font-black text-gray-800 text-lg mb-1 leading-tight">山珊蔬食</h3><p class="text-sm text-gray-600 font-bold mb-2">憑券享全品項 9折優惠</p></div><div class="content-z mt-auto pt-2 border-t border-dashed border-gray-200 flex justify-between items-end"><div><div class="text-xs text-gray-600 font-bold mb-1">期限:<span class="write-line"></span>月<span class="write-line"></span>日</div><div class="text-[10px] text-gray-500"><i class="fas fa-map-marker-alt text-red-500"></i> 搜尋: <span class="font-bold text-gray-700">都蘭 山珊蔬食</span></div></div><div class="text-[10px] text-gray-400 border border-gray-200 bg-gray-50 rounded px-1.5 flex flex-col justify-center items-center tracking-widest min-w-[36px] min-h-[44px]"><span>店章</span><span>核銷</span></div></div></div></div>
-                <div class="coupon-card"><div class="coupon-left bg-gradient-to-br from-cyan-600 to-blue-700"><i class="fas fa-ice-cream text-4xl mb-2 opacity-90 text-cyan-100"></i><div class="text-3xl font-black leading-tight tracking-wider text-white">9 折</div><div class="text-xs mt-1 font-bold tracking-widest opacity-90">VIP 專屬</div></div><div class="coupon-divider"></div><div class="coupon-right"><div class="watermark">☕</div><div class="content-z"><div class="flex justify-between items-start mb-2"><span class="bg-cyan-100 text-cyan-800 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">住客專屬</span><span class="text-gray-400 text-xs font-mono">No.<span class="inline-block w-8 border-b border-gray-300"></span></span></div><h3 class="font-black text-gray-800 text-lg mb-1 leading-tight">ELO Cafe 怡樂優格</h3><p class="text-sm text-gray-600 font-bold mb-2">憑券享全品項 9折優惠</p></div><div class="content-z mt-auto pt-2 border-t border-dashed border-gray-200 flex justify-between items-end"><div><div class="text-xs text-gray-600 font-bold mb-1">期限:<span class="write-line"></span>月<span class="write-line"></span>日</div><div class="text-[10px] text-gray-500"><i class="fas fa-map-marker-alt text-red-500"></i> 搜尋: <span class="font-bold text-gray-700">ELO Cafe 怡樂優格</span></div></div><div class="text-[10px] text-gray-400 border border-gray-200 bg-gray-50 rounded px-1.5 flex flex-col justify-center items-center tracking-widest min-w-[36px] min-h-[44px]"><span>店章</span><span>核銷</span></div></div></div></div>
-                <div class="coupon-card"><div class="coupon-left bg-gradient-to-br from-pink-600 to-rose-700"><i class="fas fa-utensils text-4xl mb-2 opacity-90 text-pink-100"></i><div class="text-3xl font-black leading-tight tracking-wider text-white">9 折</div><div class="text-xs mt-1 font-bold tracking-widest opacity-90">VIP 專屬</div></div><div class="coupon-divider"></div><div class="coupon-right"><div class="watermark">🌸</div><div class="content-z"><div class="flex justify-between items-start mb-2"><span class="bg-pink-100 text-pink-800 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">住客專屬</span><span class="text-gray-400 text-xs font-mono">No.<span class="inline-block w-8 border-b border-gray-300"></span></span></div><h3 class="font-black text-gray-800 text-lg mb-1 leading-tight">江克白在花園</h3><p class="text-sm text-gray-600 font-bold mb-2">憑券享全品項 9折優惠</p></div><div class="content-z mt-auto pt-2 border-t border-dashed border-gray-200 flex justify-between items-end"><div><div class="text-xs text-gray-600 font-bold mb-1">期限:<span class="write-line"></span>月<span class="write-line"></span>日</div><div class="text-[10px] text-gray-500"><i class="fas fa-map-marker-alt text-red-500"></i> 搜尋: <span class="font-bold text-gray-700">江克白在花園</span></div></div><div class="text-[10px] text-gray-400 border border-gray-200 bg-gray-50 rounded px-1.5 flex flex-col justify-center items-center tracking-widest min-w-[36px] min-h-[44px]"><span>店章</span><span>核銷</span></div></div></div></div>
-                <div class="coupon-card"><div class="coupon-left bg-gradient-to-br from-orange-600 to-red-700"><i class="fas fa-fire text-4xl mb-2 opacity-90 text-orange-100"></i><div class="text-3xl font-black leading-tight tracking-wider text-white">9 折</div><div class="text-xs mt-1 font-bold tracking-widest opacity-90">VIP 專屬</div></div><div class="coupon-divider"></div><div class="coupon-right"><div class="watermark">🥩</div><div class="content-z"><div class="flex justify-between items-start mb-2"><span class="bg-orange-100 text-orange-800 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">住客專屬</span><span class="text-gray-400 text-xs font-mono">No.<span class="inline-block w-8 border-b border-gray-300"></span></span></div><h3 class="font-black text-gray-800 text-lg mb-1 leading-tight">院子大BBQ</h3><p class="text-sm text-gray-600 font-bold mb-2">憑券享全品項 9折優惠</p></div><div class="content-z mt-auto pt-2 border-t border-dashed border-gray-200 flex justify-between items-end"><div><div class="text-xs text-gray-600 font-bold mb-1">期限:<span class="write-line"></span>月<span class="write-line"></span>日</div><div class="text-[10px] text-gray-500"><i class="fas fa-map-marker-alt text-red-500"></i> 搜尋: <span class="font-bold text-gray-700">都蘭 院子大BBQ</span></div></div><div class="text-[10px] text-gray-400 border border-gray-200 bg-gray-50 rounded px-1.5 flex flex-col justify-center items-center tracking-widest min-w-[36px] min-h-[44px]"><span>店章</span><span>核銷</span></div></div></div></div>
+                <div class="coupon-card"><div class="coupon-left bg-gradient-to-br from-indigo-800 to-purple-900"><i class="fas fa-cocktail text-4xl mb-2 opacity-90 text-indigo-100"></i><div class="text-3xl font-black leading-tight tracking-wider text-white"><span class="text-lg mr-1">$</span>200</div><div class="text-xs mt-1 font-bold tracking-widest opacity-90 text-indigo-100">微醺折抵券</div></div><div class="coupon-divider"></div><div class="coupon-right"><div class="watermark">BAR</div><div class="content-z flex flex-col h-full"><div><div class="flex justify-between items-start mb-2"><span class="bg-indigo-100 text-indigo-800 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">連住福利</span><i class="fas fa-cocktail text-indigo-500 text-lg"></i></div><h3 class="font-black text-gray-800 text-lg mb-1 leading-tight">吐煙怪獸 水煙酒吧</h3><p class="text-sm text-gray-600 font-bold mb-2">憑券折抵飲品/水煙200元</p><ul class="text-[10px] text-gray-400 list-disc pl-3 mb-2 space-y-0.5"><li>限入住錄托邦期間使用，不可兌現</li><li>每人每次消費限用乙張，恕不併用優惠</li></ul></div><div class="mt-auto pt-2 border-t border-dashed border-gray-200 flex justify-between items-end"><div class="pb-0.5"><div class="text-[10px] text-gray-500 flex items-center gap-1 mb-1.5"><i class="fas fa-map-marker-alt text-red-500"></i> 搜尋：<span class="font-bold text-gray-700">吐煙怪獸水煙酒吧</span></div><a href="https://www.google.com/maps/search/?api=1&query=吐煙怪獸水煙酒吧" target="_blank" class="inline-flex items-center justify-center bg-gray-100 hover:bg-gray-200 text-gray-600 text-[10px] font-bold px-2 py-1.5 rounded transition-colors shadow-sm"><i class="fas fa-location-arrow mr-1 text-blue-500"></i> 點擊導航</a></div><div class="flex flex-col items-center justify-center border border-gray-200 bg-white p-0.5 rounded shadow-sm"><img src="https://api.qrserver.com/v1/create-qr-code/?size=60x60&data=https://www.google.com/maps/search/?api=1%26query=吐煙怪獸水煙酒吧" alt="QR" class="w-8 h-8 opacity-90"><span class="text-[7px] text-gray-500 mt-0.5 tracking-tighter">掃碼導航</span></div></div></div></div></div>
+                <div class="coupon-card"><div class="coupon-left bg-gradient-to-br from-violet-700 to-purple-800"><i class="fas fa-glass-cheers text-4xl mb-2 opacity-90 text-violet-100"></i><div class="text-3xl font-black leading-tight tracking-wider text-white"><span class="text-lg mr-1">$</span>100</div><div class="text-xs mt-1 font-bold tracking-widest opacity-90 text-violet-100">VIP 專屬券</div></div><div class="coupon-divider"></div><div class="coupon-right"><div class="watermark">BAR</div><div class="content-z flex flex-col h-full"><div><div class="flex justify-between items-start mb-2"><span class="bg-violet-100 text-violet-800 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">錄托邦住客專屬</span><i class="fas fa-moon text-purple-400 text-lg"></i></div><h3 class="font-black text-gray-800 text-lg mb-1 leading-tight">吐煙怪獸 水煙酒吧</h3><p class="text-sm text-gray-600 font-bold mb-2">憑此券可折抵飲品/水煙消費 100 元</p><ul class="text-[10px] text-gray-400 list-disc pl-3 mb-2 space-y-0.5"><li>限入住錄托邦期間使用，不可兌現</li><li>每人每次消費限用乙張，恕不併用優惠</li></ul></div><div class="mt-auto pt-2 border-t border-dashed border-gray-200 flex justify-between items-end"><div class="pb-0.5"><div class="text-[10px] text-gray-500 flex items-center gap-1 mb-1.5"><i class="fas fa-map-marker-alt text-red-500"></i> 搜尋：<span class="font-bold text-gray-700">吐煙怪獸水煙酒吧</span></div><a href="https://www.google.com/maps/search/?api=1&query=吐煙怪獸水煙酒吧" target="_blank" class="inline-flex items-center justify-center bg-gray-100 hover:bg-gray-200 text-gray-600 text-[10px] font-bold px-2 py-1.5 rounded transition-colors shadow-sm"><i class="fas fa-location-arrow mr-1 text-blue-500"></i> 點擊導航</a></div><div class="flex flex-col items-center justify-center border border-gray-200 bg-white p-0.5 rounded shadow-sm"><img src="https://api.qrserver.com/v1/create-qr-code/?size=60x60&data=https://www.google.com/maps/search/?api=1%26query=吐煙怪獸水煙酒吧" alt="QR" class="w-8 h-8 opacity-90"><span class="text-[7px] text-gray-500 mt-0.5 tracking-tighter">掃碼導航</span></div></div></div></div></div>
+                <div class="coupon-card"><div class="coupon-left bg-gradient-to-br from-amber-400 to-orange-500"><i class="fas fa-pizza-slice text-4xl mb-2 opacity-90 text-yellow-100"></i><div class="text-3xl font-black leading-tight tracking-wider text-white">9 折</div><div class="text-xs mt-1 font-bold tracking-widest opacity-90 text-yellow-100">VIP 專屬</div></div><div class="coupon-divider"></div><div class="coupon-right"><div class="watermark">🍕</div><div class="content-z flex flex-col h-full"><div><div class="flex justify-between items-start mb-2"><span class="bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">錄托邦住客專屬</span><i class="fas fa-crown text-amber-500 text-lg"></i></div><h3 class="font-black text-gray-800 text-lg mb-1 leading-tight">吐煙怪獸 獨門 Pizza</h3><p class="text-sm text-gray-600 font-bold mb-2">憑此券享「獨家專屬Pizza 9折」(限一份)</p><ul class="text-[10px] text-gray-400 list-disc pl-3 mb-2 space-y-0.5"><li>限單點一份 Pizza 享有折扣優惠</li><li>請於結帳前出示此畫面或實體券</li></ul></div><div class="mt-auto pt-2 border-t border-dashed border-gray-200 flex justify-between items-end"><div class="pb-0.5"><div class="text-[10px] text-gray-500 flex items-center gap-1 mb-1.5"><i class="fas fa-map-marker-alt text-red-500"></i> 搜尋：<span class="font-bold text-gray-700">吐煙怪獸水煙酒吧</span></div><a href="https://www.google.com/maps/search/?api=1&query=吐煙怪獸水煙酒吧" target="_blank" class="inline-flex items-center justify-center bg-gray-100 hover:bg-gray-200 text-gray-600 text-[10px] font-bold px-2 py-1.5 rounded transition-colors shadow-sm"><i class="fas fa-location-arrow mr-1 text-blue-500"></i> 點擊導航</a></div><div class="flex flex-col items-center justify-center border border-gray-200 bg-white p-0.5 rounded shadow-sm"><img src="https://api.qrserver.com/v1/create-qr-code/?size=60x60&data=https://www.google.com/maps/search/?api=1%26query=吐煙怪獸水煙酒吧" alt="QR" class="w-8 h-8 opacity-90"><span class="text-[7px] text-gray-500 mt-0.5 tracking-tighter">掃碼導航</span></div></div></div></div></div>
+                <div class="coupon-card"><div class="coupon-left bg-gradient-to-br from-sky-400 to-blue-500"><i class="fas fa-snowflake text-4xl mb-2 opacity-90 text-sky-100"></i><div class="text-3xl font-black leading-tight tracking-wider text-white">9 折</div><div class="text-xs mt-1 font-bold tracking-widest opacity-90 text-sky-100">VIP 專屬</div></div><div class="coupon-divider"></div><div class="coupon-right"><div class="watermark">🍧</div><div class="content-z flex flex-col h-full"><div><div class="flex justify-between items-start mb-2"><span class="bg-sky-100 text-sky-800 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">錄托邦住客專屬</span><i class="fas fa-ice-cream text-sky-500 text-lg"></i></div><h3 class="font-black text-gray-800 text-lg mb-1 leading-tight">台澢號 海浪冰</h3><p class="text-sm text-gray-600 font-bold mb-2">憑此券享「總價打 9 折」優惠</p><ul class="text-[10px] text-gray-400 list-disc pl-3 mb-2 space-y-0.5"><li>透心涼首選！來都蘭必吃的特色冰品</li><li>點餐或結帳時請交予店員，恕不併用優惠</li></ul></div><div class="mt-auto pt-2 border-t border-dashed border-gray-200 flex justify-between items-end"><div class="pb-0.5"><div class="text-[10px] text-gray-500 flex items-center gap-1 mb-1.5"><i class="fas fa-map-marker-alt text-red-500"></i> 搜尋：<span class="font-bold text-gray-700">台澢號</span></div><a href="https://www.google.com/maps/search/?api=1&query=台澢號" target="_blank" class="inline-flex items-center justify-center bg-gray-100 hover:bg-gray-200 text-gray-600 text-[10px] font-bold px-2 py-1.5 rounded transition-colors shadow-sm"><i class="fas fa-location-arrow mr-1 text-blue-500"></i> 點擊導航</a></div><div class="flex flex-col items-center justify-center border border-gray-200 bg-white p-0.5 rounded shadow-sm"><img src="https://api.qrserver.com/v1/create-qr-code/?size=60x60&data=https://www.google.com/maps/search/?api=1%26query=台澢號" alt="QR" class="w-8 h-8 opacity-90"><span class="text-[7px] text-gray-500 mt-0.5 tracking-tighter">掃碼導航</span></div></div></div></div></div>
+                <div class="coupon-card"><div class="coupon-left bg-gradient-to-br from-fuchsia-600 to-pink-600"><i class="fas fa-drumstick-bite text-4xl mb-2 opacity-90 text-fuchsia-100"></i><div class="text-3xl font-black leading-tight tracking-wider text-white">9 折</div><div class="text-xs mt-1 font-bold tracking-widest opacity-90 text-fuchsia-100">VIP 專屬</div></div><div class="coupon-divider"></div><div class="coupon-right"><div class="watermark">🍖</div><div class="content-z flex flex-col h-full"><div><div class="flex justify-between items-start mb-2"><span class="bg-fuchsia-100 text-fuchsia-800 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">錄托邦住客專屬</span><i class="fas fa-beer text-fuchsia-500 text-lg"></i></div><h3 class="font-black text-gray-800 text-lg mb-1 leading-tight">部落聚滷 神級下酒菜</h3><p class="text-sm text-gray-600 font-bold mb-2">憑此券享「總價打 9 折」優惠</p><ul class="text-[10px] text-gray-400 list-disc pl-3 mb-2 space-y-0.5"><li>最下酒的露營宵夜！招牌鴨翅、米血必點</li><li>請截圖私訊點餐，可請滷娘外送至營區</li></ul></div><div class="mt-auto pt-2 border-t border-dashed border-gray-200 flex justify-between items-end"><div class="pb-0.5"><div class="text-[10px] text-gray-500 flex items-center gap-1 mb-1.5"><i class="fab fa-instagram text-fuchsia-600"></i> IG：<span class="font-bold text-gray-700">gather02111130</span></div><a href="https://www.instagram.com/gather02111130" target="_blank" class="inline-flex items-center justify-center bg-fuchsia-50 hover:bg-fuchsia-100 text-fuchsia-700 text-[10px] font-bold px-2 py-1.5 rounded transition-colors shadow-sm border border-fuchsia-100"><i class="fas fa-motorcycle mr-1 text-fuchsia-600"></i> 點擊私訊 (可外送)</a></div><div class="flex flex-col items-center justify-center border border-gray-200 bg-white p-0.5 rounded shadow-sm"><img src="https://api.qrserver.com/v1/create-qr-code/?size=60x60&data=https://www.instagram.com/gather02111130" alt="QR" class="w-8 h-8 opacity-90"><span class="text-[7px] text-gray-500 mt-0.5 tracking-tighter">掃碼看菜單</span></div></div></div></div></div>
+                <div class="coupon-card"><div class="coupon-left bg-gradient-to-br from-teal-600 to-emerald-800"><i class="fas fa-mug-hot text-4xl mb-2 opacity-90 text-teal-100"></i><div class="text-3xl font-black leading-tight tracking-wider text-white">9 折</div><div class="text-xs mt-1 font-bold tracking-widest opacity-90 text-teal-100">VIP 專屬</div></div><div class="coupon-divider"></div><div class="coupon-right"><div class="watermark">☕</div><div class="content-z flex flex-col h-full"><div><div class="flex justify-between items-start mb-2"><span class="bg-teal-100 text-teal-800 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">錄托邦住客專屬</span><i class="fas fa-leaf text-teal-500 text-lg"></i></div><h3 class="font-black text-gray-800 text-lg mb-1 leading-tight">都蘭有意思 咖啡廳</h3><p class="text-sm text-gray-600 font-bold mb-2">憑此券享「總價打 9 折」優惠</p><ul class="text-[10px] text-gray-400 list-disc pl-3 mb-2 space-y-0.5"><li>帶本書，來享受老屋的慢活午後時光</li><li>點餐或結帳時請出示此票券畫面</li></ul></div><div class="mt-auto pt-2 border-t border-dashed border-gray-200 flex justify-between items-end"><div class="pb-0.5"><div class="text-[10px] text-gray-500 flex items-center gap-1 mb-1.5"><i class="fas fa-map-marker-alt text-red-500"></i> 搜尋：<span class="font-bold text-gray-700">都蘭有意思咖啡</span></div><a href="https://www.google.com/maps/search/?api=1&query=都蘭有意思咖啡" target="_blank" class="inline-flex items-center justify-center bg-gray-100 hover:bg-gray-200 text-gray-600 text-[10px] font-bold px-2 py-1.5 rounded transition-colors shadow-sm"><i class="fas fa-location-arrow mr-1 text-blue-500"></i> 點擊導航</a></div><div class="flex flex-col items-center justify-center border border-gray-200 bg-white p-0.5 rounded shadow-sm"><img src="https://api.qrserver.com/v1/create-qr-code/?size=60x60&data=https://www.google.com/maps/search/?api=1%26query=都蘭有意思咖啡" alt="QR" class="w-8 h-8 opacity-90"><span class="text-[7px] text-gray-500 mt-0.5 tracking-tighter">掃碼導航</span></div></div></div></div></div>
+                <div class="coupon-card"><div class="coupon-left bg-gradient-to-br from-pink-600 to-rose-700"><i class="fas fa-gift text-4xl mb-2 opacity-90 text-pink-100"></i><div class="text-3xl font-black leading-tight tracking-wider text-white">贈禮</div><div class="text-xs mt-1 font-bold tracking-widest opacity-90 text-pink-100">VIP 專屬</div></div><div class="coupon-divider"></div><div class="coupon-right"><div class="watermark">🌸</div><div class="content-z flex flex-col h-full"><div><div class="flex justify-between items-start mb-2"><span class="bg-pink-100 text-pink-800 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">錄托邦住客專屬</span><i class="fas fa-seedling text-pink-500 text-lg"></i></div><h3 class="font-black text-gray-800 text-lg mb-1 leading-tight">江克白在花園</h3><p class="text-sm text-gray-600 font-bold mb-2">憑此券點餐「免費贈送小點心一份」</p><ul class="text-[10px] text-gray-400 list-disc pl-3 mb-2 space-y-0.5"><li>隱身花園的美味秘境，享受都蘭慢活步調</li><li>點餐或結帳時請交予店員，恕不併用優惠</li></ul></div><div class="mt-auto pt-2 border-t border-dashed border-gray-200 flex justify-between items-end"><div class="pb-0.5"><div class="text-[10px] text-gray-500 flex items-center gap-1 mb-1.5"><i class="fas fa-map-marker-alt text-red-500"></i> 搜尋：<span class="font-bold text-gray-700">江克白在花園</span></div><a href="https://www.google.com/maps/search/?api=1&query=江克白在花園" target="_blank" class="inline-flex items-center justify-center bg-gray-100 hover:bg-gray-200 text-gray-600 text-[10px] font-bold px-2 py-1.5 rounded transition-colors shadow-sm"><i class="fas fa-location-arrow mr-1 text-blue-500"></i> 點擊導航</a></div><div class="flex flex-col items-center justify-center border border-gray-200 bg-white p-0.5 rounded shadow-sm"><img src="https://api.qrserver.com/v1/create-qr-code/?size=60x60&data=https://www.google.com/maps/search/?api=1%26query=江克白在花園" alt="QR" class="w-8 h-8 opacity-90"><span class="text-[7px] text-gray-500 mt-0.5 tracking-tighter">掃碼導航</span></div></div></div></div></div>
+                <div class="coupon-card"><div class="coupon-left bg-gradient-to-br from-green-500 to-emerald-700"><i class="fas fa-seedling text-4xl mb-2 opacity-90 text-green-100"></i><div class="text-3xl font-black leading-tight tracking-wider text-white">9 折</div><div class="text-xs mt-1 font-bold tracking-widest opacity-90 text-green-100">VIP 專屬</div></div><div class="coupon-divider"></div><div class="coupon-right"><div class="watermark">🌿</div><div class="content-z flex flex-col h-full"><div><div class="flex justify-between items-start mb-2"><span class="bg-green-100 text-green-800 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">錄托邦住客專屬</span><i class="fas fa-leaf text-green-500 text-lg"></i></div><h3 class="font-black text-gray-800 text-lg mb-1 leading-tight">山珊蔬食</h3><p class="text-sm text-gray-600 font-bold mb-2">憑此券享「總價打 9 折」優惠</p><ul class="text-[10px] text-gray-400 list-disc pl-3 mb-2 space-y-0.5"><li>全植全食！必嚐韌性日常餐、秘醬燒烤串</li><li>共農共食的純粹美味，結帳前請出示予店員</li></ul></div><div class="mt-auto pt-2 border-t border-dashed border-gray-200 flex justify-between items-end"><div class="pb-0.5"><div class="text-[10px] text-gray-500 flex items-center gap-1 mb-1.5"><i class="fas fa-map-marker-alt text-red-500"></i> 搜尋：<span class="font-bold text-gray-700">都蘭 山珊蔬食</span></div><a href="https://www.google.com/maps/search/?api=1&query=都蘭+山珊蔬食" target="_blank" class="inline-flex items-center justify-center bg-gray-100 hover:bg-gray-200 text-gray-600 text-[10px] font-bold px-2 py-1.5 rounded transition-colors shadow-sm"><i class="fas fa-location-arrow mr-1 text-blue-500"></i> 點擊導航</a></div><div class="flex flex-col items-center justify-center border border-gray-200 bg-white p-0.5 rounded shadow-sm"><img src="https://api.qrserver.com/v1/create-qr-code/?size=60x60&data=https://www.google.com/maps/search/?api=1%26query=都蘭+山珊蔬食" alt="QR" class="w-8 h-8 opacity-90"><span class="text-[7px] text-gray-500 mt-0.5 tracking-tighter">掃碼導航</span></div></div></div></div></div>
+                <div class="coupon-card"><div class="coupon-left bg-gradient-to-br from-blue-400 to-blue-700"><i class="fas fa-ice-cream text-4xl mb-2 opacity-90 text-blue-100"></i><div class="text-3xl font-black leading-tight tracking-wider text-white">9 折</div><div class="text-xs mt-1 font-bold tracking-widest opacity-90 text-blue-100">VIP 專屬</div></div><div class="coupon-divider"></div><div class="coupon-right"><div class="watermark">☕</div><div class="content-z flex flex-col h-full"><div><div class="flex justify-between items-start mb-2"><span class="bg-blue-100 text-blue-800 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">錄托邦住客專屬</span><i class="fas fa-coffee text-blue-500 text-lg"></i></div><h3 class="font-black text-gray-800 text-lg mb-1 leading-tight">ELO Cafe 怡樂優格</h3><p class="text-sm text-gray-600 font-bold mb-2">憑此券享「總價打 9 折」優惠</p><ul class="text-[10px] text-gray-400 list-disc pl-3 mb-2 space-y-0.5"><li>牧場優格、早午餐、晚餐、甜點與咖啡</li><li>點餐或結帳時請交予店員，恕不併用優惠</li></ul></div><div class="mt-auto pt-2 border-t border-dashed border-gray-200 flex justify-between items-end"><div class="pb-0.5"><div class="text-[10px] text-gray-500 flex items-center gap-1 mb-1.5"><i class="fas fa-map-marker-alt text-red-500"></i> 搜尋：<span class="font-bold text-gray-700">都蘭 ELO Cafe</span></div><a href="https://www.google.com/maps/search/?api=1&query=都蘭+ELO+Cafe" target="_blank" class="inline-flex items-center justify-center bg-gray-100 hover:bg-gray-200 text-gray-600 text-[10px] font-bold px-2 py-1.5 rounded transition-colors shadow-sm"><i class="fas fa-location-arrow mr-1 text-blue-500"></i> 點擊導航</a></div><div class="flex flex-col items-center justify-center border border-gray-200 bg-white p-0.5 rounded shadow-sm"><img src="https://api.qrserver.com/v1/create-qr-code/?size=60x60&data=https://www.google.com/maps/search/?api=1%26query=都蘭+ELO+Cafe" alt="QR" class="w-8 h-8 opacity-90"><span class="text-[7px] text-gray-500 mt-0.5 tracking-tighter">掃碼導航</span></div></div></div></div></div>
+                <div class="coupon-card"><div class="coupon-left bg-gradient-to-br from-orange-500 to-red-700"><i class="fas fa-fire text-4xl mb-2 opacity-90 text-orange-100"></i><div class="text-3xl font-black leading-tight tracking-wider text-white">9 折</div><div class="text-xs mt-1 font-bold tracking-widest opacity-90 text-orange-100">VIP 專屬</div></div><div class="coupon-divider"></div><div class="coupon-right"><div class="watermark">🥩</div><div class="content-z flex flex-col h-full"><div><div class="flex justify-between items-start mb-2"><span class="bg-orange-100 text-orange-800 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">錄托邦住客專屬</span><i class="fas fa-fire-alt text-orange-500 text-lg"></i></div><h3 class="font-black text-gray-800 text-lg mb-1 leading-tight">院子大BBQ</h3><p class="text-sm text-gray-600 font-bold mb-2">憑此券享「總價打 9 折」優惠</p><ul class="text-[10px] text-gray-400 list-disc pl-3 mb-2 space-y-0.5"><li>大院子裡的熱血烤肉派對，露營大口吃肉最對味</li><li>點餐或結帳時請出示此票券畫面，恕不併用優惠</li></ul></div><div class="mt-auto pt-2 border-t border-dashed border-gray-200 flex justify-between items-end"><div class="pb-0.5"><div class="text-[10px] text-gray-500 flex items-center gap-1 mb-1.5"><i class="fas fa-map-marker-alt text-red-500"></i> 搜尋：<span class="font-bold text-gray-700">都蘭 院子大BBQ</span></div><a href="https://www.google.com/maps/search/?api=1&query=都蘭+院子大BBQ" target="_blank" class="inline-flex items-center justify-center bg-gray-100 hover:bg-gray-200 text-gray-600 text-[10px] font-bold px-2 py-1.5 rounded transition-colors shadow-sm"><i class="fas fa-location-arrow mr-1 text-blue-500"></i> 點擊導航</a></div><div class="flex flex-col items-center justify-center border border-gray-200 bg-white p-0.5 rounded shadow-sm"><img src="https://api.qrserver.com/v1/create-qr-code/?size=60x60&data=https://www.google.com/maps/search/?api=1%26query=都蘭+院子大BBQ" alt="QR" class="w-8 h-8 opacity-90"><span class="text-[7px] text-gray-500 mt-0.5 tracking-tighter">掃碼導航</span></div></div></div></div></div>
             </div>
             
             <div style="text-align: center; margin-top: 15px;">
@@ -594,7 +585,722 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/zh.js"></script>
+    <script>
+    /* ==========================================
+       0. 全域變數與設定
+    ========================================== */
+    let currentLang = 'zh';
+    let selectedDates = []; 
+
+    let GLOBAL_BLOCKED_DATA = { full: [], starcraft: [], dt392: [], room: [] };
+
+    // ⚠️ 請確認這是您最新的網址
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwE4JzNMfmaLDF997ZphXIZklweAqwkKiij-jueG_AhQHGuiV1mAHaUG70zt2RLWpjo7g/exec";
+
+    const hideElements = (ids) => ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add('hidden');
+    });
+
+    const showElements = (ids) => ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove('hidden');
+    });
+
+    let VISIT_TIME_ORIGINAL_OPTIONS = null;
+
+    function cacheVisitTimeOptions() {
+      const sel = document.getElementById('visitTime');
+      if (!sel || VISIT_TIME_ORIGINAL_OPTIONS) return;
+      VISIT_TIME_ORIGINAL_OPTIONS = Array.from(sel.options).map(o => ({
+        value: o.value, text: o.text
+      }));
+    }
+
+    function restoreVisitTimeOptions() {
+      const sel = document.getElementById('visitTime');
+      if (!sel || !VISIT_TIME_ORIGINAL_OPTIONS) return;
+      Array.from(sel.options).forEach(opt => {
+        const found = VISIT_TIME_ORIGINAL_OPTIONS.find(x => x.value === opt.value);
+        if (found) opt.text = found.text;
+        opt.disabled = false; opt.hidden = false;
+      });
+    }
+
+    function stripNightRushLabels() {
+      const sel = document.getElementById('visitTime');
+      if (!sel) return;
+      const re = /\s*[\(\（]\s*(夜衝開始|夜衝結束|最晚入場|Night Rush Start|Night Rush End|Latest Entry|前泊開始|前泊終了)\s*[\)\）]\s*/g;
+      Array.from(sel.options).forEach(opt => {
+        opt.text = String(opt.text || '').replace(re, '');
+      });
+    }
+
+    const TRANSLATIONS = {
+      zh: {
+        loading: "資料載入中...", calc_title: "🌲 露營/場地/周邊服務費用試算", basic_unit: "基本單位：4人 / 1車 / 1帳 / 1車邊帳or車尾帳",
+        important_notice: "重要提醒：", checkin_time_val: "⏰ 紮營時間：下午 14:00 以後 (請勿提早)", checkin_time_val_room: "🏡 錄托邦住宿入住時間：下午 15:00 以後 (請勿提早，可以提早放置行李，請先告知)",
+        dont_early: "(請勿提早)", eco_policy_label: "環保旅宿：", eco_policy_desc: "♻️ 環保旅宿：不提供一次性備品 (請自備毛巾、牙刷)", checkin_time_label: "入住時間：",
+        label_type: "類型選擇：", select_placeholder: "請選擇類型...", label_unit_qty: "預訂數量 (帳/車/間)：",
+        group_camping: "⛺ 露營模式", group_rental: "🚐 免裝備租賃/民宿", group_full: "🎉 包場住宿", group_venue: "🎪 場地活動租借", group_bike: "🚲 周邊服務",
+        opt_tent: "自搭帳篷", opt_moto: "機車、單車露營", opt_solo: "單人小帳棚", opt_car: "車宿、車泊、車露、加掛式車", opt_camper: "自備拖車/自走式露營車",
+        opt_starcraft: "錄托邦 StarCraft 美式復古拖車", opt_dt392: "錄托邦 大馳 DT392 露營車", opt_room: "錄托邦民宿房間",
+        opt_full_basic: "純場地包場", opt_full_vans: "包場+2台露營車", opt_full_all: "包場+2台露營車+房間", opt_venue_hourly: "場地租借 (按時數計費)", opt_bicycle: "單車租借",
+        label_date: "預約日期：", date_placeholder: "請點擊選擇日期...", label_time: "預計抵達/取車時間：", time_placeholder: "請選擇時間...",
+        label_nights: "住宿晚數 (自動)：", label_rental_scheme: "租借時數方案：", label_bike_qty: "租借數量 (台)：", label_bike_scheme: "租借方案：",
+        addon_title: "➕ 一般加購 (人/訪客)", label_extra_people: "加人 ($300/人) <br><small style='color:#888;'>*小一以下免費</small>", label_visitor: "訪客 ($100/人，23:00離場)：",
+        cb_night_rush: "我要夜衝 (20:00-23:00入場)", cb_ac: "使用冷氣 (+200元/晚)", cb_pet: "攜帶寵物 (+100元/晚)",
+        btn_calc: "更新費用", btn_reset: "重新填寫", result_title: "試算結果", res_base: "基本費用：", res_addon: "加購費用：", res_rush: "夜衝費用：", res_ac: "冷氣加價：", res_discount: "符合折扣：", res_total: "總計金額：",
+        customer_info_title: "📝 預訂資料填寫", ph_name: "您的姓名 (必填)", ph_phone: "聯絡電話 (必填)", ph_note: "其他備註需求 (例如：露營相關、租單車者身高...)", btn_submit: "🚀 確認預訂並送出", alert_fill: "請務必填寫「姓名」與「電話」才能送出訂單喔！",
+        confirm_room_policy: "🛑【訂位前請確認】\n\n1. 🏡 錄托邦住宿入住時間：下午 15:00 以後。\n   (請勿提早，可以提早放置行李，請先告知)\n\n2. ♻️ 環保旅宿：不提供一次性備品。\n   (請自備毛巾、牙刷)\n\n請問您是否接受並繼續訂位？",
+        rule_title_basic: "🔷 收費標準與營區規定", rule_sub_price: "💰 營位計費標準", rule_li_unit: "基本單位：4人 / 1車 / 1帳 / 1炊事帳。", rule_li_add_person: "加人：多1人加 $300 (國小一年級以下免費)。", rule_li_add_car: "加車：多停一台車加收 $300 (拖車不在此限)。", rule_li_visitor: "訪客：每人 $100，需於 23:00 前離場。", rule_sub_tent: "⛺ 搭帳與冷氣規範", rule_li_big_tent: "大型帳篷：神殿、怪獸、5x8天幕等請訂2個營位。", rule_li_ac_fee: "冷氣使用：車上/帳內使用冷氣接電，酌收 $200/晚。", rule_li_warning: "未告知搭設大帳者，現場將禁止搭設。", rule_sub_rush: "🌙 夜衝服務 (限自搭帳)", rule_li_rush_time: "時間：20:00 後入場，23:30 前搭完。", rule_li_rush_price: "費用：夜衝價格依各營位有所不同，請以系統試算為準。", rule_li_rush_rv: "🚐 自備露營車夜衝依金額打 8 折。",
+        rule_noise_title: "🚫 噪音管制 (嚴格執行)", rule_noise_head: "⚠️ 晚間 10:30 過後<br>非常嚴厲禁止使用：", rule_noise_list: "❌ 卡啦OK唱歌<br>❌ 放音樂<br>❌ 大聲喧嘩", rule_noise_punish: "‼️ 違者將強制要求離場 ‼️<br>🚫 並且不會退費",
+        rule_title_policy: "⚠️ 住宿取消政策與付款", rule_sub_refund: "📅 取消退費標準", ref_14: "14天前", ref_desc_14: "退 100% (扣手續費) 或改期", ref_10: "10-13天前", ref_desc_10: "退 70% (2日內補差額)", ref_7: "7-9天前", ref_desc_7: "退 50%",
+        pricing_title: "全區獨享包場方案", pricing_desc: "選擇適合您的規模，平日/假日/連假皆有不同優惠", plan_a_title: "方案 A：純場地自由配", plan_b_title: "方案 B：場地 + 露營車", plan_c_title: "方案 C：豪華全配版", btn_book_a: "預約方案 A", btn_book_b: "預約方案 B", btn_book_c: "預約方案 C",
+        opt_inc_dt392: "(含 大馳 DT392)", opt_inc_starcraft: "(含 StarCraft 美式復古拖車)", opt_inc_room: "(含 錄托邦民宿房間)", opt_inc_both_rv: "(含 StarCraft + DT392)", opt_inc_room_starcraft: "(含 StarCraft + 民宿房間)", opt_inc_room_dt392: "(含 DT392 + 民宿房間)", opt_group_contact: "(團體請洽官方)"
+      },
+      en: {
+        loading: "Loading...", calc_title: "🌲 Camping Calculator", basic_unit: "Unit: 4 pax / 1 car / 1 tent",
+        important_notice: "Important Notice:", checkin_time_val: "⏰ Check-in: After 14:00", checkin_time_val_room: "🏡 Check-in: After 15:00",
+        dont_early: "(No early check-in)", eco_policy_label: "Eco-friendly:", eco_policy_desc: "No disposable amenities.",
+        label_type: "Type:", select_placeholder: "Select...", label_unit_qty: "Quantity:",
+        group_camping: "⛺ Camping", group_rental: "🚐 Rental", group_full: "🎉 Full Booking", group_venue: "🎪 Venue", group_bike: "🚲 Services",
+        label_date: "Date:", date_placeholder: "Select dates...", label_time: "Time:", time_placeholder: "Select time...",
+        label_nights: "Nights:", addon_title: "➕ Add-ons",
+        btn_calc: "Calculate", btn_reset: "Reset", result_title: "Result",
+        res_base: "Base Price:", res_addon: "Add-ons:", res_rush: "Night Rush:", res_ac: "AC Fee:", res_discount: "Discount:", res_total: "Total:",
+        customer_info_title: "📝 Customer Info", btn_submit: "Submit Order",
+        confirm_room_policy: "🛑【Please Confirm】\n\n1. Check-in: After 15:00.\n2. Eco-friendly: No disposable amenities.\n\nDo you accept and wish to proceed?"
+      },
+      jp: {
+        loading: "読み込み中...", calc_title: "🌲 キャンプ料金計算", basic_unit: "単位：4人 / 1車 / 1テント",
+        important_notice: "重要なお知らせ：", checkin_time_val: "⏰ チェックイン：14:00以降", checkin_time_val_room: "🏡 チェックイン：15:00以降",
+        dont_early: "(アーリーチェックイン不可)", eco_policy_label: "エコポリシー：", eco_policy_desc: "使い捨てアメニティなし",
+        label_type: "タイプ：", select_placeholder: "選択...", label_unit_qty: "数量：",
+        group_camping: "⛺ キャンプ", group_rental: "🚐 レンタル", group_full: "🎉 貸切", group_venue: "🎪 会場", group_bike: "🚲 サービス",
+        label_date: "日付：", date_placeholder: "日付を選択...", label_time: "時間：", time_placeholder: "時間を選択...",
+        label_nights: "宿泊数：", addon_title: "➕ 追加オプション",
+        btn_calc: "計算する", btn_reset: "リセット", result_title: "計算結果",
+        res_base: "基本料金：", res_addon: "追加料金：", res_rush: "前泊料金：", res_ac: "エアコン：", res_discount: "割引：", res_total: "合計金額：",
+        customer_info_title: "📝 予約情報", btn_submit: "予約を確定する",
+        confirm_room_policy: "🛑【ご確認ください】\n\n1. チェックイン: 15:00以降。\n2. エコポリシー: 使い捨てアメニティなし。\n\n同意して予約を続行しますか？"
+      }
+    };
+
+    const HOLIDAYS = [
+        "2026-01-01", "2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17", "2026-02-18", "2026-02-19", "2026-02-20", "2026-02-21", "2026-02-22", 
+        "2026-02-27", "2026-02-28", "2026-03-01", "2026-04-03", "2026-04-04", "2026-04-05", "2026-04-06", "2026-05-01", "2026-05-02", "2026-05-03",
+        "2026-06-19", "2026-06-20", "2026-06-21", "2026-09-25", "2026-09-26", "2026-09-27", "2026-10-09", "2026-10-10", "2026-10-11", "2026-12-31"
+    ];
+    const MAKEUP_DAYS = [ "2026-02-07", "2026-02-21" ];
+    const CNY_DAYS = [ "2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17", "2026-02-18", "2026-02-19", "2026-02-20", "2026-02-21", "2026-02-22" ];
+    const HOLIDAY_BLOCKS = [
+        ["2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17", "2026-02-18", "2026-02-19", "2026-02-20", "2026-02-21"], 
+        ["2026-02-27", "2026-02-28"], ["2026-04-03", "2026-04-04", "2026-04-05"], ["2026-05-01", "2026-05-02"], 
+        ["2026-06-19", "2026-06-20"], ["2026-09-25", "2026-09-26"], ["2026-10-09", "2026-10-10"]  
+    ];
+
+    function changeLanguage(lang) {
+      currentLang = lang;
+      const t = TRANSLATIONS[lang] || TRANSLATIONS['zh'];
+      document.querySelectorAll('[data-i18n]').forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        if (t && t[key]) {
+          if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') element.placeholder = t[key];
+          else element.innerHTML = t[key];
+        }
+      });
+      toggleInputs(); calculateTotal();
+    }
+    window.changeLanguage = changeLanguage;
+
+    window.onload = function () {
+      const visitTimeSelect = document.getElementById('visitTime');
+      if (visitTimeSelect) { cacheVisitTimeOptions(); visitTimeSelect.addEventListener('change', calculateTotal); }
+
+      fetch(GOOGLE_SCRIPT_URL)
+        .then(response => { if (!response.ok) throw new Error("Network response was not ok"); return response.json(); })
+        .then(data => {
+          if (data.msg && data.msg !== "") { const marquee = document.getElementById('marquee-text'); if (marquee) marquee.innerText = data.msg; }
+          if (data.blockedDates) { GLOBAL_BLOCKED_DATA = data.blockedDates; updateCalendarBlocking(); }
+        })
+        .catch(error => { console.error('資料讀取失敗:', error); });
+    };
+
+    let hasShownDateNotice = false;
+    try {
+        flatpickr("#dateRange", {
+          mode: "range", minDate: "today", dateFormat: "Y-m-d (D)", locale: "zh",
+          onOpen: function() {
+            if (!hasShownDateNotice) { alert("⚠️ 【預約日期選擇提醒】\n\n請務必點選「進場日期」與「退場日期」！\n(不然無法算出價格唷，請點選出進、退場時間)"); hasShownDateNotice = true; }
+          },
+          onChange: function (dates) { updateNights(dates); checkCarBedVipAvailability(); calculateTotal(); }
+        });
+    } catch(e) { console.error("Flatpickr 初始化失敗", e); }
+
+    function checkCarBedVipAvailability() {
+        const carBedOption = document.querySelector('option[value="car_bed_vip"]');
+        if (!carBedOption) return;
+        let hasHoliday = false;
+        if (selectedDates.length >= 2) {
+            let currentDate = new Date(selectedDates[0]);
+            const endDate = new Date(selectedDates[1]);
+            while (currentDate < endDate) {
+                const dateStr = formatDate(currentDate);
+                if ((HOLIDAYS.includes(dateStr) || CNY_DAYS.includes(dateStr)) && !MAKEUP_DAYS.includes(dateStr)) { hasHoliday = true; break; }
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
+        }
+        const campTypeSelect = document.getElementById('campType');
+        if (hasHoliday) {
+            carBedOption.disabled = true; carBedOption.text = "🚙 車床天地特約 (連假不適用)";
+            if (campTypeSelect.value === 'car_bed_vip') { alert("⚠️ 抱歉，車床天地特約方案「連假期間」不適用，請改選一般車泊或其他方案。"); campTypeSelect.value = ""; toggleInputs(); }
+        } else {
+            carBedOption.disabled = false; carBedOption.text = "🚙 車床天地特約會員 (需驗證編號)";
+        }
+    }
+
+    const CAMPING_CONFIG = {
+      tent: { rates: { weekday: 700, weekend: 800, holiday: 1000, cny: 1200 }, nightRush: { weekday: 500, weekend: 600, holiday: 600, cny: 800 }, discountType: "fixed_amount" },
+      moto: { rates: { weekday: 400, weekend: 500, holiday: 600, cny: 800 }, nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 }, discountType: "fixed_amount" },
+      solo: { rates: { weekday: 400, weekend: 500, holiday: 600, cny: 800 }, nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 }, discountType: "fixed_amount" },
+      car: { rates: { weekday: 600, weekend: 700, holiday: 800, cny: 1100 }, nightRush: { weekday: 500, weekend: 600, holiday: 600, cny: 800 }, discountType: "fixed_amount" },
+      car_bed_vip: { people_rates: { 1: { weekday: 250, weekend: 350, holiday: 350, cny: 350 }, 2: { weekday: 300, weekend: 400, holiday: 400, cny: 400 }, 3: { weekday: 400, weekend: 500, holiday: 500, cny: 500 }, 4: { weekday: 500, weekend: 600, holiday: 600, cny: 600 } }, tent_add_on: { weekday: 50, weekend: 50, holiday: 50, cny: 50 }, ac_fee: 50, nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 }, discountType: "none" },
+      camper: { rates: { weekday: 800, weekend: 1000, holiday: 1200, cny: 1500 }, nightRush: { weekday: 600, weekend: 700, holiday: 800, cny: 800 }, discountType: "fixed_amount_premium" },
+      starcraft: { rates: { weekday: 1800, weekend: 2000, holiday: 2600, cny: 2800 }, discountType: "percentage" },
+      dt392: { rates: { weekday: 1600, weekend: 1800, holiday: 2000, cny: 2400 }, discountType: "percentage" },
+      room: { rates: { weekday: 2200, weekend: 2400, holiday: 2500, cny: 2600 }, discountType: "percentage" },
+      full_basic: { rates: { weekday: 7000, weekend: 10000, holiday: 15000, cny: 15000 }, discountType: "full_venue_promo" },
+      full_vans: { rates: { weekday: 10000, weekend: 16000, holiday: 18000, cny: 18000 }, discountType: "full_venue_promo" },
+      full_all: { rates: { weekday: 13000, weekend: 18000, holiday: 20000, cny: 20000 }, discountType: "full_venue_promo" },
+      venue_hourly: { type: "venue_hourly", weekdayRates: { '3hr': 3000, '5hr': 4500, '6hr': 6000, '8hr': 7500, 'day': 12000 }, holidayRates: { '3hr': 4500, '5hr': null, '6hr': 5500, '8hr': 7000, 'day': 15000 } },
+      bicycle: { type: "bicycle", rates: { '2hr': 150, '4hr': 250, 'day': 400, '24hr': 600, '15day': 2500, '30day': 3500 } }
+    };
+
+    const TYPE_RULES = {
+        room: { unitText: "基本單位：2人 / 1間 (第三人起需加購)", extraLabel: "加人 ($300/人)", maxExtra: 2 },
+        starcraft: { unitText: "基本單位：2人 / 1車 (最多可加2人)", extraLabel: "加人 ($200/人)", maxExtra: 2 },
+        dt392: { unitText: "基本單位：2人 / 1車 (最多可加1人)", extraLabel: "加人 ($200/人)", maxExtra: 1 }
+    };
+
+    function toggleInputs() {
+      const type = document.getElementById('campType').value;
+      const t = TRANSLATIONS[currentLang] || TRANSLATIONS['zh'];
+      const unitQtySelect = document.getElementById('unitQty');
+
+      let newOptions = "";
+      if (type === 'room') { newOptions = `<option value="1">1</option><option value="2">2 ${t.opt_inc_starcraft}</option><option value="3">3 ${t.opt_inc_dt392}</option><option value="4">4 ${t.opt_inc_both_rv}</option>`; } 
+      else if (type === 'starcraft') { newOptions = `<option value="1">1</option><option value="2">2 ${t.opt_inc_room}</option><option value="3">3 ${t.opt_inc_dt392}</option><option value="4">4 ${t.opt_inc_room_dt392}</option>`; } 
+      else if (type === 'dt392') { newOptions = `<option value="1">1</option><option value="2">2 ${t.opt_inc_room}</option><option value="3">3 ${t.opt_inc_starcraft}</option><option value="4">4 ${t.opt_inc_room_starcraft}</option>`; } 
+      else { newOptions = `<option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10 ${t.opt_group_contact}</option>`; }
+      unitQtySelect.innerHTML = newOptions;
+
+      if ((['starcraft', 'dt392', 'room'].includes(type)) && parseInt(unitQtySelect.value) > 4) { unitQtySelect.value = 1; } 
+      else if (!unitQtySelect.value) { unitQtySelect.value = 1; }
+
+      hideElements([
+          'nightsBlock', 'rentalDurationBlock', 'bikeBlock', 'extraOptions',
+          'addonBlock', 'premiumAddonBlock', 'unitNotice', 'policyNotice', 'campingRules',
+          'carBedBlock', 'rowRush', 'rowAC', 'rowAddons', 'rowPremium'
+      ]);
+
+      if (!type || type === "") { hideResult(); showElements(['campingRules']); return; }
+
+      if (type === 'venue_hourly') { showElements(['rentalDurationBlock']); } 
+      else if (type === 'bicycle') { showElements(['bikeBlock']); } 
+      else {
+        showElements(['nightsBlock', 'campingRules', 'policyNotice']);
+        
+        if (type === 'car_bed_vip') {
+            showElements(['carBedBlock', 'extraOptions']);
+            const acSpan = document.querySelector('[data-i18n="cb_ac"]'); if(acSpan) acSpan.innerText = "使用冷氣 (+50元/晚)";
+        } else {
+            showElements(['addonBlock', 'premiumAddonBlock']); 
+            const acSpan = document.querySelector('[data-i18n="cb_ac"]'); if(acSpan) acSpan.innerText = TRANSLATIONS[currentLang].cb_ac || "使用冷氣 (+200元/晚)";
+        }
+
+        if (!type.includes('full')) showElements(['unitNotice']);
+
+        const checkInText = document.getElementById('checkInTimeText');
+        const visitTimeSelect = document.getElementById('visitTime');
+        restoreVisitTimeOptions();
+
+        if (['room', 'starcraft', 'dt392'].includes(type)) {
+          if (checkInText) { checkInText.innerText = TRANSLATIONS[currentLang].checkin_time_val_room; checkInText.style.color = "#800080"; checkInText.style.fontWeight = "bold"; }
+          if (visitTimeSelect) {
+            let opt1400 = visitTimeSelect.querySelector('option[value="14:00"]'); let opt1430 = visitTimeSelect.querySelector('option[value="14:30"]');
+            if (opt1400) { opt1400.disabled = true; opt1400.hidden = true; } if (opt1430) { opt1430.disabled = true; opt1430.hidden = true; }
+            let opt1500 = visitTimeSelect.querySelector('option[value="15:00"]'); if (opt1500) opt1500.text = "15:00 (check in time)";
+            if (visitTimeSelect.value === "14:00" || visitTimeSelect.value === "14:30") visitTimeSelect.value = "";
+          }
+          stripNightRushLabels();
+        } else {
+          if (checkInText) { checkInText.innerText = TRANSLATIONS[currentLang].checkin_time_val; checkInText.style.color = ""; checkInText.style.fontWeight = ""; }
+        }
+
+        const extraPeopleLabel = document.getElementById('extraPeopleLabel');
+        const extraPeopleInput = document.getElementById('extraPeople');
+        const basicUnitDesc = document.getElementById('basicUnitDesc');
+
+        if (TYPE_RULES[type]) {
+            if (basicUnitDesc) basicUnitDesc.innerText = TYPE_RULES[type].unitText;
+            if (extraPeopleLabel) extraPeopleLabel.innerHTML = `${TYPE_RULES[type].extraLabel} <br><small style='color:#888;'>*小一以下免費</small>`;
+            if (extraPeopleInput) { extraPeopleInput.max = TYPE_RULES[type].maxExtra; extraPeopleInput.placeholder = `最多加 ${TYPE_RULES[type].maxExtra} 人`; if (parseInt(extraPeopleInput.value) > TYPE_RULES[type].maxExtra) extraPeopleInput.value = TYPE_RULES[type].maxExtra; }
+        } else {
+            if (basicUnitDesc) basicUnitDesc.innerText = t.basic_unit;
+            if (extraPeopleLabel) extraPeopleLabel.innerHTML = `${t.label_extra_people} <br><small style='color:#888;'>*小一以下免費</small>`;
+            if (extraPeopleInput) { extraPeopleInput.removeAttribute('max'); extraPeopleInput.placeholder = "0"; }
+        }
+
+        if (['tent', 'car', 'camper', 'moto', 'solo', 'car_bed_vip'].includes(type)) { showElements(['extraOptions']); } 
+        else { ['useAC', 'bringPet'].forEach(id => { const box = document.getElementById(id); if (box) box.checked = false; }); }
+      }
+
+      if (type.includes('full') || ['bicycle', 'venue_hourly'].includes(type)) {
+        hideElements(['qtyBlock', 'guestListBlock']); document.getElementById('unitQty').value = 1;
+      } else {
+        showElements(['qtyBlock']); generateGuestInputs();
+      }
+
+      updateCalendarBlocking(); calculateTotal();
+    }
+
+    function updateCalendarBlocking() {
+      const type = document.getElementById('campType').value;
+      const pickerElement = document.querySelector("#dateRange");
+      if (!pickerElement || !pickerElement._flatpickr) return;
+      const picker = pickerElement._flatpickr;
+
+      let datesToDisable = [...(GLOBAL_BLOCKED_DATA.full || [])];
+      if (type === 'starcraft' && GLOBAL_BLOCKED_DATA.starcraft) datesToDisable = datesToDisable.concat(GLOBAL_BLOCKED_DATA.starcraft);
+      else if (type === 'dt392' && GLOBAL_BLOCKED_DATA.dt392) datesToDisable = datesToDisable.concat(GLOBAL_BLOCKED_DATA.dt392);
+      else if (type === 'room' && GLOBAL_BLOCKED_DATA.room) datesToDisable = datesToDisable.concat(GLOBAL_BLOCKED_DATA.room);
+      else if (type && type.includes('full')) datesToDisable = datesToDisable.concat(GLOBAL_BLOCKED_DATA.starcraft || [], GLOBAL_BLOCKED_DATA.dt392 || [], GLOBAL_BLOCKED_DATA.room || []);
+      picker.set('disable', datesToDisable);
+    }
+
+    function onQtyChange() { generateGuestInputs(); calculateTotal(); }
+
+    function generateGuestInputs() {
+      const qty = parseInt(document.getElementById('unitQty').value);
+      const container = document.getElementById('guestInputsContainer');
+      const block = document.getElementById('guestListBlock');
+      if (!container || !block) return;
+
+      container.innerHTML = "";
+      if (qty > 1) {
+        block.classList.remove('hidden');
+        for (let i = 2; i <= qty; i++) {
+          const div = document.createElement('div'); div.style.marginBottom = "10px";
+          div.innerHTML = `<label style="font-size:0.9rem; color:#555;">第 ${i} 位代表姓名：</label><input type="text" class="guest-name-input" placeholder="請輸入第 ${i} 帳/車的代表姓名" style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">`;
+          container.appendChild(div);
+        }
+      } else { block.classList.add('hidden'); }
+    }
+
+    function updateNights(dates) {
+      selectedDates = Array.isArray(dates) ? dates : [];
+      if (dates.length === 2) {
+        const diffDays = Math.ceil(Math.abs(dates[1] - dates[0]) / (1000 * 60 * 60 * 24));
+        document.getElementById('nights').value = diffDays;
+      } else { document.getElementById('nights').value = 0; }
+    }
+
+    function formatDate(date) { return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`; }
+
+    function verifyVendor(checkbox) {
+        if (checkbox.checked) {
+            const code = prompt("請輸入『攤商專屬解鎖碼』🔒\n(提示：填寫完報名表單後會顯示！)");
+            if (code === "BOSS888") { 
+                alert("✅ 解鎖成功！已套用攤商專屬優惠報價。");
+                calculateTotal(); return true;
+            } else {
+                alert("❌ 解鎖碼錯誤！請先完成報名表單獲取密碼。");
+                checkbox.checked = false; return false;
+            }
+        } else { calculateTotal(); return true; }
+    }
+    function openTribalModal() { document.getElementById('tribalModal').classList.remove('hidden'); document.getElementById('tribalModal').style.display = 'flex'; }
+    function closeTribalModal() { document.getElementById('tribalModal').classList.add('hidden'); document.getElementById('tribalModal').style.display = 'none'; }
+    function bookTribalPackage() {
+        closeTribalModal();
+        const cb = document.getElementById('enableTribal'); if(cb) cb.checked = true;
+        toggleTribal(); calculateTotal();
+        document.getElementById('calculatorSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    function toggleTribal() {
+        const isChecked = document.getElementById('enableTribal').checked;
+        const block = document.getElementById('tribalInputBlock');
+        if (isChecked) { block.classList.remove('hidden'); validateTribalPeople(); } else { block.classList.add('hidden'); }
+    }
+    function validateTribalPeople() {
+        const input = document.getElementById('tribalPeople');
+        if (!input.value || parseInt(input.value) < 4) { alert("⚠️ 部落慢活體驗包最低需 4 人成行！"); input.value = 4; }
+    }
+    function scrollToAddonAndAddPass() {
+        const type = document.getElementById('campType').value;
+        if (!type || type === "") { alert("💡 請先在上方選擇您的「預約日期」與「營位類型」，系統才能幫您加入喔！"); document.getElementById('calculatorSection').scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+        const passQtyInput = document.getElementById('dulanPassQty');
+        if (passQtyInput) { passQtyInput.value = parseInt(passQtyInput.value || 0) + 1; calculateTotal(); }
+        const addonBlock = document.getElementById('premiumAddonBlock');
+        if (addonBlock) {
+            addonBlock.classList.remove('hidden'); addonBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            addonBlock.style.transition = "background-color 0.5s"; addonBlock.style.backgroundColor = "#f3e5f5";
+            setTimeout(() => { addonBlock.style.background = "linear-gradient(to right, #fdfbfb, #ebedee)"; }, 800);
+        }
+    }
+
+    function calculateTotal() {
+      const type = document.getElementById('campType').value;
+      if (!type || type === "") { hideResult(); return; }
+      const config = CAMPING_CONFIG[type];
+      if (!config) { hideResult(); return; }
+
+      const visitTime = document.getElementById('visitTime').value;
+      const rushCheckbox = document.getElementById('isNightRush');
+      let isNightRush = false;
+      if (rushCheckbox && rushCheckbox.checked && !document.getElementById('extraOptions').classList.contains('hidden')) {
+          isNightRush = true;
+      }
+      if (visitTime && !document.getElementById('extraOptions').classList.contains('hidden')) {
+          const hour = parseInt(visitTime.split(':')[0]);
+          if (hour >= 20 && !rushCheckbox.checked) { rushCheckbox.checked = true; isNightRush = true; }
+      }
+
+      hideElements(['rowAddons', 'rowPremium', 'rowRush', 'rowAC', 'rowCoupon', 'rowTribal']);
+      const discountRow = document.getElementById('discountPrice')?.parentElement;
+      if (discountRow) discountRow.classList.remove('hidden');
+
+      if (type === 'bicycle' || type === 'venue_hourly') {
+        if (selectedDates.length < 1) { hideResult(); return; }
+        ['useAC', 'bringPet'].forEach(id => { const b = document.getElementById(id); if(b) b.checked = false; });
+        
+        let finalPrice = 0;
+        if (type === 'bicycle') {
+            const qty = parseInt(document.getElementById('bikeQty').value) || 1;
+            const scheme = document.getElementById('bikeScheme').value;
+            finalPrice = (config.rates[scheme] || 0) * qty;
+        } else {
+            const scheme = document.getElementById('rentalScheme').value;
+            const checkInDate = new Date(selectedDates[0]);
+            let isVenueHoliday = ([0,5,6].includes(checkInDate.getDay()) || HOLIDAYS.includes(formatDate(checkInDate))) && !MAKEUP_DAYS.includes(formatDate(checkInDate));
+            if (isVenueHoliday && scheme === '5hr') { alert("假日無 5 小時方案，將為您切換為 3 小時方案。"); document.getElementById('rentalScheme').value = '3hr'; finalPrice = config.holidayRates['3hr']; } 
+            else { finalPrice = isVenueHoliday ? config.holidayRates[scheme] : config.weekdayRates[scheme]; }
+        }
+        
+        document.getElementById('basePrice').innerText = finalPrice;
+        ['addonPrice', 'premiumPrice', 'rushPrice', 'acPrice', 'discountPrice'].forEach(id => document.getElementById(id).innerText = 0);
+        document.getElementById('finalTotal').innerText = finalPrice;
+        if (discountRow) discountRow.classList.add('hidden');
+        showElements(['resultBox']);
+        return;
+      }
+
+      if (selectedDates.length < 2) { hideResult(); return; }
+      const nights = parseInt(document.getElementById('nights').value);
+      if (nights < 1) { hideResult(); return; }
+
+      let qty = 1;
+      const qtyBlock = document.getElementById('qtyBlock');
+      if (qtyBlock && !qtyBlock.classList.contains('hidden')) qty = parseInt(document.getElementById('unitQty').value) || 1;
+
+      const useAC = document.getElementById('useAC')?.checked || false;
+      const bringPet = document.getElementById('bringPet')?.checked || false;
+      const isVendorMode = document.getElementById('isVendor') && document.getElementById('isVendor').checked;
+
+      let basePrice = 0, rushPrice = 0, acPrice = 0, hasSaturday = false, isHolidayForDiscount = false, hasTuesday = false;
+      let currentDate = new Date(selectedDates[0]);
+
+      let isLongStay = false;
+      if (nights >= 7 && !type.includes('full') && type !== 'car_bed_vip') {
+          let lsConfig = { 'tent': {7: 3000, 14: 5000, 30: 6000}, 'car': {7: 3000, 14: 5000, 30: 6000}, 'solo': {7: 3000, 14: 5000, 30: 6000}, 'moto': {7: 3000, 14: 5000, 30: 6000},
+                           'camper': {7: 4000, 14: 6500, 30: 9000}, 'starcraft': {7: 6500, 14: 10000}, 'dt392': {7: 6000, 14: 9000}, 'room': {7: 7500, 14: 11200} };
+          
+          if (lsConfig[type]) {
+              isLongStay = true;
+              let pricingTier = nights >= 30 && lsConfig[type][30] ? 30 : (nights >= 14 && lsConfig[type][14] ? 14 : 7);
+              let extraNights = nights % pricingTier;
+              let tierCount = Math.floor(nights / pricingTier);
+              
+              basePrice = (lsConfig[type][pricingTier] * tierCount) * qty;
+              
+              if (extraNights > 0) {
+                  basePrice += (extraNights * (config.rates['weekday'] || 0)) * qty;
+              }
+          }
+      }
+
+      if (!isLongStay) {
+          for (let i = 0; i < nights; i++) {
+            const dateStr = formatDate(currentDate);
+            const dayOfWeek = currentDate.getDay();
+            const isMakeup = MAKEUP_DAYS.includes(dateStr);
+            let rateType = CNY_DAYS.includes(dateStr) ? 'cny' : (isMakeup ? 'weekday' : (HOLIDAYS.includes(dateStr) ? 'holiday' : ([5,6].includes(dayOfWeek) ? 'weekend' : 'weekday')));
+
+            if (dayOfWeek === 6 && !isMakeup) hasSaturday = true;
+            if (dayOfWeek === 2 && !isMakeup) hasTuesday = true;
+            if (HOLIDAYS.includes(dateStr) || CNY_DAYS.includes(dateStr)) isHolidayForDiscount = true;
+
+            if (i === 0 && isNightRush && config.nightRush) {
+                let rushRate = config.nightRush[rateType] || config.nightRush['holiday'] || config.nightRush['weekday'];
+                if (type === 'camper') rushRate = rushRate * 0.8;
+                basePrice += rushRate * qty; rushPrice = rushRate * qty; 
+            } else {
+                let dailyBase = 0;
+                let rate_room = config.rates && config.rates[rateType] !== undefined ? config.rates[rateType] : (config.rates ? config.rates['holiday'] : 0);
+                let rate_star = CAMPING_CONFIG.starcraft.rates[rateType] || CAMPING_CONFIG.starcraft.rates['holiday'];
+                let rate_dt = CAMPING_CONFIG.dt392.rates[rateType] || CAMPING_CONFIG.dt392.rates['holiday'];
+                let rate_grass = config.rates && config.rates[rateType] !== undefined ? config.rates[rateType] : 0;
+
+                if (dayOfWeek === 2 && !isMakeup) {
+                    rate_room = 2400; rate_star = 2200; rate_dt = 2000; 
+                    if (type === 'tent') rate_grass = 800;
+                    else if (type === 'moto' || type === 'solo') rate_grass = 500;
+                    else if (type === 'car') rate_grass = 800;
+                    else if (type === 'camper') rate_grass = 1000;
+                    else rate_grass = 800;
+                    
+                    if (isVendorMode) { rate_dt = 1400; rate_star = 1500; rate_grass = 500; }
+                }
+
+                if (type === 'car_bed_vip') {
+                    const pQty = parseInt(document.getElementById('carBedPeople').value) || 2;
+                    let personPrice = config.people_rates[pQty][rateType] !== undefined ? config.people_rates[pQty][rateType] : config.people_rates[pQty]['weekend'];
+                    
+                    if (dayOfWeek === 2 && !isMakeup) {
+                        personPrice = 600;
+                    }
+
+                    let tentFee = document.getElementById('carBedTent').checked ? (config.tent_add_on[rateType] || 50) : 0;
+                    dailyBase = (personPrice + tentFee) * qty; 
+                } else if (type === 'room') {
+                    if (qty === 1) dailyBase = rate_room; else if (qty === 2) dailyBase = rate_room + rate_star; else if (qty === 3) dailyBase = rate_room + rate_dt; else if (qty === 4) dailyBase = rate_room + rate_star + rate_dt;
+                } else if (type === 'starcraft') {
+                    if (qty === 1) dailyBase = rate_star; else if (qty === 2) dailyBase = rate_star + rate_room; else if (qty === 3) dailyBase = rate_star + rate_dt; else if (qty === 4) dailyBase = rate_star + rate_room + rate_dt;
+                } else if (type === 'dt392') {
+                    if (qty === 1) dailyBase = rate_dt; else if (qty === 2) dailyBase = rate_dt + rate_room; else if (qty === 3) dailyBase = rate_dt + rate_star; else if (qty === 4) dailyBase = rate_dt + rate_room + rate_star;
+                } else {
+                    dailyBase = rate_grass * qty;
+                }
+                basePrice += dailyBase;
+            }
+
+            if (useAC) acPrice += (type === 'car_bed_vip' ? 50 : 200) * qty; 
+            currentDate.setDate(currentDate.getDate() + 1);
+          }
+      } else {
+          if (useAC) acPrice += 200 * qty * nights;
+      }
+
+      let extraPersonPrice = ['starcraft', 'dt392'].includes(type) ? 200 : 300;
+      const extraPeople = parseInt(document.getElementById('extraPeople').value) || 0;
+      const visitors = parseInt(document.getElementById('visitors').value) || 0;
+      const totalAddonCost = (extraPeople * extraPersonPrice * nights) + (visitors * 100) + (bringPet ? 100 * qty * nights : 0);
+
+      const barPackageQty = parseInt(document.getElementById('barPackageQty')?.value) || 0;
+      const dulanPassQty = parseInt(document.getElementById('dulanPassQty')?.value) || 0;
+      const premiumCost = (barPackageQty * 699) + (dulanPassQty * 199);
+      
+      let tribalPrice = 0;
+      const enableTribal = document.getElementById('enableTribal');
+      if (enableTribal && enableTribal.checked) {
+          const tp = parseInt(document.getElementById('tribalPeople').value) || 4;
+          tribalPrice = tp * 1200;
+      }
+
+      if (totalAddonCost > 0) { showElements(['rowAddons']); document.getElementById('addonPrice').innerText = totalAddonCost; } 
+      else { document.getElementById('addonPrice').innerText = 0; }
+
+      if (premiumCost > 0) { showElements(['rowPremium']); document.getElementById('premiumPrice').innerText = premiumCost; }
+      else { document.getElementById('premiumPrice').innerText = 0; }
+      
+      if (tribalPrice > 0) { showElements(['rowTribal']); document.getElementById('tribalTotal').innerText = tribalPrice; }
+      else { document.getElementById('tribalTotal').innerText = 0; }
+
+      let isFullHoliday = false;
+      const stayDatesStr = [];
+      let tempDate = new Date(selectedDates[0]);
+      for (let i = 0; i < nights; i++) { stayDatesStr.push(formatDate(tempDate)); tempDate.setDate(tempDate.getDate() + 1); }
+      for (let block of HOLIDAY_BLOCKS) { if (block.every(d => stayDatesStr.includes(d))) { isFullHoliday = true; break; } }
+
+      let discount = 0;
+      const totalPriceForDiscount = basePrice + acPrice;
+      let hasCoupon = false;
+      let couponText = "";
+
+      if (type === 'car_bed_vip' || isLongStay) { 
+          discount = 0; 
+          if (isLongStay) { hasCoupon = true; couponText = "已為您套用最優惠之長住專案價！"; }
+      } 
+      else if (config.discountType === 'full_venue_promo') {
+          if (nights >= 2) discount = totalPriceForDiscount * 0.15;
+      } else if (config.discountType === 'percentage') {
+          if (isHolidayForDiscount && nights >= 3) discount = totalPriceForDiscount * 0.15;
+          else if (nights >= 2) discount = totalPriceForDiscount * 0.10;
+      } else if (config.discountType === 'fixed_amount' || config.discountType === 'fixed_amount_premium') {
+          if (nights >= 2) {
+              discount = Math.min(nights * 100, 500) * qty;
+          }
+      }
+      
+      if (isFullHoliday && type !== 'car_bed_vip') discount += (totalPriceForDiscount * 0.05);
+
+      if (!isLongStay && type !== 'car_bed_vip' && !type.includes('full')) {
+          if (isVendorMode && hasTuesday) {
+              hasCoupon = true; couponText = "🤝 攤商專屬優惠已套用，恕不疊加其他折價券";
+          } else if (hasTuesday) {
+              hasCoupon = true; couponText = `贈 $200 週二夜市折價券🎫 x ${qty}張`;
+          } else if (nights >= 2) {
+              hasCoupon = true; couponText = `贈 $200 水煙酒吧微醺券🍹 x ${qty}張`;
+          }
+      }
+
+      const total = Math.round(basePrice + acPrice + totalAddonCost + premiumCost + tribalPrice - discount);
+
+      document.getElementById('basePrice').innerText = Math.round(basePrice);
+      document.getElementById('rushPrice').innerText = isNightRush ? " (已含)" : 0;
+      document.getElementById('acPrice').innerText = Math.round(acPrice);
+      document.getElementById('discountPrice').innerText = Math.round(discount);
+      document.getElementById('finalTotal').innerText = total;
+
+      if (hasCoupon && couponText !== "") {
+          showElements(['rowCoupon']);
+          document.getElementById('couponText').innerText = couponText;
+      }
+
+      if (!document.getElementById('extraOptions').classList.contains('hidden')) {
+        if (isNightRush) showElements(['rowRush']);
+        if (Math.round(acPrice) > 0) showElements(['rowAC']);
+      }
+
+      showElements(['resultBox']);
+    }
+
+    function submitOrder() {
+      if (selectedDates.length < 1 && !['bicycle', 'venue_hourly'].includes(document.getElementById('campType').value)) {
+          alert("⚠️ 請先選擇預約日期！"); return;
+      }
+        
+      const currentTranslations = TRANSLATIONS[currentLang] || TRANSLATIONS['zh'];
+      const confirmMsg = currentTranslations.confirm_room_policy || TRANSLATIONS['zh'].confirm_room_policy;
+
+      if (!confirm("⚠️抵達營區入口時，請勿直接入場，請先撥電話告知營主！非常重要❗️感謝配合🙏\n\n確認送出訂單？")) return;
+
+      const name = document.getElementById('customerName').value.trim();
+      const phone = document.getElementById('customerPhone').value.trim();
+      const line = document.getElementById('customerLine').value.trim();
+      const note = document.getElementById('customerNote').value.trim();
+      const visitTime = document.getElementById('visitTime').value;
+
+      if (!name || !phone) { alert(currentTranslations.alert_fill || TRANSLATIONS['zh'].alert_fill); return; }
+
+      const typeSelect = document.getElementById('campType');
+      const typeValue = typeSelect.value;
+      if (['room', 'starcraft', 'dt392'].includes(typeValue) && !confirm(confirmMsg)) return;
+
+      let details = `【${typeSelect.options[typeSelect.selectedIndex].text}】`;
+
+      let qty = 1;
+      if (!document.getElementById('qtyBlock').classList.contains('hidden')) {
+        qty = parseInt(document.getElementById('unitQty').value);
+        details += ` / 數量:${document.getElementById('unitQty').options[document.getElementById('unitQty').selectedIndex].text}`;
+      }
+
+      if (['bicycle', 'venue_hourly'].includes(typeValue)) {
+        const schemeId = typeValue === 'bicycle' ? 'bikeScheme' : 'rentalScheme';
+        details += ` / 方案:${document.getElementById(schemeId).options[document.getElementById(schemeId).selectedIndex].text}`;
+      } else {
+        details += ` / ${document.getElementById('nights').value}晚`;
+        const ep = parseInt(document.getElementById('extraPeople').value) || 0;
+        const vs = parseInt(document.getElementById('visitors').value) || 0;
+        if (ep > 0) details += ` / 加人:${ep}`; if (vs > 0) details += ` / 訪客:${vs}`;
+
+        const passQty = parseInt(document.getElementById('dulanPassQty')?.value) || 0;
+        const barQty = parseInt(document.getElementById('barPackageQty')?.value) || 0;
+        if (passQty > 0) details += ` / 🎟️通行證:${passQty}本`;
+        if (barQty > 0) details += ` / 🍹微醺套餐:${barQty}組`;
+
+        if (document.getElementById('enableTribal') && document.getElementById('enableTribal').checked) {
+            details += ` / 🌿部落體驗:${document.getElementById('tribalPeople').value}人`;
+        }
+
+        if (typeValue === 'car_bed_vip') {
+            const carBedId = document.getElementById('carBedId').value.trim();
+            if (!carBedId) { alert("⚠️ 請輸入「車床天地會員編號」才能享優惠價格喔！"); return; }
+            details += ` / 🆔車床編號:${carBedId} / ${document.getElementById('carBedPeople').value}人` + (document.getElementById('carBedTent').checked ? " (有搭帳)" : "");
+        }
+
+        if (!document.getElementById('extraOptions').classList.contains('hidden')) {
+          const isNightRush = document.getElementById('isNightRush').checked;
+          if ((visitTime && parseInt(visitTime.split(':')[0]) >= 20) || isNightRush) details += " (含夜衝)";
+          if (document.getElementById('useAC').checked) details += " (含冷氣)";
+          if (document.getElementById('bringPet').checked) details += " (含寵物)";
+        }
+
+        const guestInputs = document.querySelectorAll('.guest-name-input');
+        let guestNames = [];
+        guestInputs.forEach((input, index) => {
+          if (input.value.trim() !== "") { guestNames.push(`(第${index + 2}位: ${input.value.trim()})`); }
+        });
+        if (guestNames.length > 0) { details += `\n同行：${guestNames.join('、')}`; }
+      }
+
+      if (visitTime) details += ` / 預計時間:${visitTime}`;
+
+      const btn = document.getElementById('submitBtn');
+      const originalText = btn.innerText; btn.innerText = "⏳ 處理中..."; btn.disabled = true;
+      const last5 = document.getElementById('last5').value.trim(); 
+      const noteCombined = (last5 ? `[末五碼:${last5}] ` : "") + note;
+
+      const orderData = {
+        name: name, phone: phone, line: line, dateRange: document.getElementById('dateRange').value,
+        itemDetails: details, totalPrice: document.getElementById('finalTotal').innerText, note: noteCombined, last5: last5 
+      };
+
+      fetch(GOOGLE_SCRIPT_URL, { method: "POST", body: JSON.stringify(orderData), headers: { "Content-Type": "text/plain" } })
+        .then(() => {
+            alert("🎉 預訂資料已送出！\n\n【請務必完成匯款以保留營位】\n🏦 合作金庫 (006)\n💰 帳號：5492988007780\n\n⚠️ 系統將自動開啟 LINE，請務必「貼上」剛剛複製的帳號或截圖回傳給營主確認！");
+            openLineApp(orderData); 
+            ['customerName', 'customerPhone', 'customerLine', 'customerNote', 'last5'].forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
+            btn.innerText = "✅ 完成"; setTimeout(() => { btn.innerText = originalText; btn.disabled = false; }, 3000);
+        }).catch(error => { console.error('Error:', error); alert("連線忙碌中，請稍後再試。"); btn.innerText = originalText; btn.disabled = false; });
+    }
+
+    function openLineApp(formData) {
+      const BANK_INFO = `【匯款資訊】\n銀行代碼：006 (合作金庫)\n銀行帳號：5492-9880-07780\n戶名：錄托邦露營區`;
+      const message = `Hi 錄托邦，我剛剛在官網下單了！\n\n👤 姓名：${formData.name}\n📞 電話：${formData.phone}\n📅 日期：${formData.dateRange}\n⛺ 項目：${formData.itemDetails}\n💰 總金額：$${formData.totalPrice}\n🏧 帳號末五碼：${formData.last5 || "尚未匯款"}\n📝 備註：${formData.note || "無"}\n\n${BANK_INFO}\n\n請幫我保留營位，謝謝！`;
+      window.location.href = `https://line.me/R/oaMessage/@lutopia/?${encodeURIComponent(message)}`;
+    }
+
+    function hideResult() { hideElements(['resultBox']); }
+
+    function resetForm() {
+      const flatpickrEl = document.querySelector("#dateRange");
+      if (flatpickrEl && flatpickrEl._flatpickr) flatpickrEl._flatpickr.clear(); 
+      selectedDates = [];
+      document.getElementById('campType').value = ""; toggleInputs();
+      document.getElementById('nights').value = '0';
+      ['useAC', 'bringPet', 'carBedTent', 'isNightRush', 'enableTribal', 'isVendor'].forEach(id => { const el = document.getElementById(id); if(el) el.checked = false; });
+      
+      ['bikeQty', 'extraPeople', 'visitors', 'barPackageQty', 'dulanPassQty'].forEach(id => { const el = document.getElementById(id); if(el) el.value = (id==='bikeQty'?1:0); });
+      if (document.getElementById('tribalPeople')) document.getElementById('tribalPeople').value = 4;
+      if (document.getElementById('tribalInputBlock')) document.getElementById('tribalInputBlock').classList.add('hidden');
+
+      document.getElementById('visitTime').selectedIndex = 0;
+      ['carBedId', 'last5'].forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
+      hideResult();
+    }
+
+    function selectPlan(planValue) {
+      document.getElementById('campType').value = planValue; toggleInputs();
+      const target = document.getElementById('calculatorSection'); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function copyBankInfo() {
+        const account = document.getElementById('bankAccount').innerText;
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(account).then(() => alert("✅ 帳號已複製！\n請開啟您的銀行 APP 進行轉帳。")).catch(() => prompt("請長按複製帳號：", account));
+        else prompt("請長按複製帳號：", account);
+    }
+    </script>
 </body>
 </html>
