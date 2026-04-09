@@ -64,11 +64,11 @@ const TRANSLATIONS = {
     label_date: "預約日期：", date_placeholder: "請點擊選擇日期...", label_time: "預計抵達/取車時間：", time_placeholder: "請選擇時間...",
     label_nights: "住宿晚數 (自動)：", label_rental_scheme: "租借時數方案：", label_bike_qty: "租借數量 (台)：", label_bike_scheme: "租借方案：",
     addon_title: "➕ 一般加購 (人/訪客)", label_extra_people: "加人 ($300/人/晚)", label_kid_free: "*小一以下免費", label_visitor: "訪客 ($100/人，23:00離場)：",
-    cb_night_rush: "我要夜衝 (20:00-23:00入場)", cb_ac: "使用冷氣 (+200元/晚)", cb_pet: "攜帶寵物 (+100元/晚)",
+    cb_night_rush: "我要夜衝 (20:00-23:00入場)", cb_ac: "使用冷氣 (+100元/晚)", cb_pet: "攜帶寵物 (+100元/晚)",
     btn_calc: "更新費用", btn_reset: "重新填寫", result_title: "試算結果", res_base: "基本費用：", res_addon: "加購費用：", res_rush: "夜衝費用：", res_ac: "冷氣加價：", res_discount: "符合折扣：", res_total: "總計金額：",
     customer_info_title: "📝 預訂資料填寫", ph_name: "您的姓名 (必填)", ph_phone: "聯絡電話 (必填)", ph_note: "其他備註需求 (例如：露營相關、租單車者身高...)", btn_submit: "🚀 確認預訂並送出", alert_fill: "請務必填寫「姓名」與「電話」才能送出訂單喔！",
     confirm_room_policy: "🛑【訂位前請確認】\n\n1. 🏡 錄托邦住宿入住時間：下午 15:00 以後。\n   (請勿提早，可以提早放置行李，請先告知)\n\n2. ♻️ 環保旅宿：不提供一次性備品。\n   (請自備毛巾、牙刷)\n\n請問您是否接受並繼續訂位？",
-    rule_title_basic: "🔷 收費標準與營區規定", rule_sub_price: "💰 營位計費標準", rule_li_unit: "基本單位：4人 / 1車 / 1帳 / 1炊事帳。", rule_li_add_person: "加人：多1人加 $300 (國小一年級以下免費)。", rule_li_add_car: "加車：多停一台車加收 $300 (拖車不在此限)。", rule_li_visitor: "訪客：每人 $100，需於 23:00 前離場。", rule_sub_tent: "⛺ 搭帳與冷氣規範", rule_li_big_tent: "大型帳篷：神殿、怪獸、5x8天幕等請訂2個營位。", rule_li_ac_fee: "冷氣使用：車上/帳內使用冷氣接電，酌收 $200/晚。", rule_li_warning: "未告知搭設大帳者，現場將禁止搭設。", rule_sub_rush: "🌙 夜衝服務 (限自搭帳)", rule_li_rush_time: "時間：20:00 後入場，23:30 前搭完。", rule_li_rush_price: "費用：夜衝價格依各營位有所不同，請以系統試算為準。", rule_li_rush_rv: "🚐 自備露營車夜衝依金額打 8 折。",
+    rule_title_basic: "🔷 收費標準與營區規定", rule_sub_price: "💰 營位計費標準", rule_li_unit: "基本單位：4人 / 1車 / 1帳 / 1炊事帳。", rule_li_add_person: "加人：多1人加 $300 (國小一年級以下免費)。", rule_li_add_car: "加車：多停一台車加收 $300 (拖車不在此限)。", rule_li_visitor: "訪客：每人 $100，需於 23:00 前離場。", rule_sub_tent: "⛺ 搭帳與冷氣規範", rule_li_big_tent: "大型帳篷：神殿、怪獸、5x8天幕等請訂2個營位。", rule_li_ac_fee: "冷氣使用：車上/帳內使用冷氣接電，酌收 $100/晚。", rule_li_warning: "未告知搭設大帳者，現場將禁止搭設。", rule_sub_rush: "🌙 夜衝服務 (限自搭帳)", rule_li_rush_time: "時間：20:00 後入場，23:30 前搭完。", rule_li_rush_price: "費用：夜衝價格依各營位有所不同，請以系統試算為準。", rule_li_rush_rv: "🚐 自備露營車夜衝依金額打 8 折。",
     rule_noise_title: "🚫 噪音管制 (嚴格執行)", rule_noise_head: "⚠️ 晚間 10:30 過後<br>非常嚴厲禁止使用：", rule_noise_list: "❌ 卡啦OK唱歌<br>❌ 放音樂<br>❌ 大聲喧嘩", rule_noise_punish: "‼️ 違者將強制要求離場 ‼️<br>🚫 並且不會退費",
     rule_title_policy: "⚠️ 住宿取消政策與付款", rule_sub_refund: "📅 取消退費標準", ref_14: "14天前", ref_desc_14: "退 100% (扣手續費) 或改期", ref_10: "10-13天前", ref_desc_10: "退 70% (2日內補差額)", ref_7: "7-9天前", ref_desc_7: "退 50%",
     pricing_title: "全區獨享包場方案", pricing_desc: "選擇適合您的規模，平日/假日/連假皆有不同優惠", plan_a_title: "方案 A：純場地自由配", plan_b_title: "方案 B：場地 + 露營車", plan_c_title: "方案 C：豪華全配版", btn_book_a: "預約方案 A", btn_book_b: "預約方案 B", btn_book_c: "預約方案 C",
@@ -235,7 +235,7 @@ function toggleInputs() {
     } else {
         // ✅ 顯示 VVIP 聯名加購與一般加購
         showElements(['addonBlock', 'premiumAddonBlock']); 
-        const acSpan = document.querySelector('[data-i18n="cb_ac"]'); if(acSpan) acSpan.innerText = TRANSLATIONS[currentLang].cb_ac || "使用冷氣 (+200元/晚)";
+        const acSpan = document.querySelector('[data-i18n="cb_ac"]'); if(acSpan) acSpan.innerText = TRANSLATIONS[currentLang].cb_ac || "使用冷氣 (+100元/晚)";
     }
 
     if (!type.includes('full')) showElements(['unitNotice']);
