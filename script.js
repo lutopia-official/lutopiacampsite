@@ -84,7 +84,8 @@ const TRANSLATIONS = {
     label_nights: "Nights:", addon_title: "➕ Add-ons",
     btn_calc: "Calculate", btn_reset: "Reset", result_title: "Result",
     res_base: "Base Price:", res_addon: "Add-ons:", res_rush: "Night Rush:", res_ac: "AC Fee:", res_discount: "Discount:", res_total: "Total:",
-    customer_info_title: "📝 Customer Info", btn_submit: "Submit Order"
+    customer_info_title: "📝 Customer Info", btn_submit: "Submit Order",
+    confirm_room_policy: "🛑【Please Confirm】\n\n1. Check-in: After 15:00.\n2. Eco-friendly: No disposable amenities.\n\nDo you accept and wish to proceed?"
   },
   jp: {
     loading: "読み込み中...", calc_title: "🌲 キャンプ料金計算", basic_unit: "単位：4人 / 1車 / 1テント",
@@ -96,7 +97,8 @@ const TRANSLATIONS = {
     label_nights: "宿泊数：", addon_title: "➕ 追加オプション",
     btn_calc: "計算する", btn_reset: "リセット", result_title: "計算結果",
     res_base: "基本料金：", res_addon: "追加料金：", res_rush: "前泊料金：", res_ac: "エアコン：", res_discount: "割引：", res_total: "合計金額：",
-    customer_info_title: "📝 予約情報", btn_submit: "予約を確定する"
+    customer_info_title: "📝 予約情報", btn_submit: "予約を確定する",
+    confirm_room_policy: "🛑【ご確認ください】\n\n1. チェックイン: 15:00以降。\n2. エコポリシー: 使い捨てアメニティなし。\n\n同意して予約を続行しますか？"
   }
 };
 
@@ -127,13 +129,10 @@ function changeLanguage(lang) {
 }
 window.changeLanguage = changeLanguage;
 
+// 修復 3: 移除 window.onload 內多餘的語言綁定
 window.onload = function () {
   const visitTimeSelect = document.getElementById('visitTime');
   if (visitTimeSelect) { cacheVisitTimeOptions(); visitTimeSelect.addEventListener('change', calculateTotal); }
-
-  const btnZh = document.getElementById('btn-zh'); if (btnZh) btnZh.addEventListener('click', () => changeLanguage('zh'));
-  const btnEn = document.getElementById('btn-en'); if (btnEn) btnEn.addEventListener('click', () => changeLanguage('en'));
-  const btnJp = document.getElementById('btn-jp'); if (btnJp) btnJp.addEventListener('click', () => changeLanguage('jp'));
 
   fetch(GOOGLE_SCRIPT_URL)
     .then(response => { if (!response.ok) throw new Error("Network response was not ok"); return response.json(); })
@@ -146,6 +145,7 @@ window.onload = function () {
 
 let hasShownDateNotice = false;
 try {
+    // 修復 2: 呼叫 zh 語言包設定
     flatpickr("#dateRange", {
       mode: "range", minDate: "today", dateFormat: "Y-m-d (D)", locale: "zh",
       onOpen: function() {
@@ -327,20 +327,68 @@ function updateNights(dates) {
 
 function formatDate(date) { return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`; }
 
+// 修復 1: 補齊所有未定義的 UI 互動函式
+function verifyVendor(checkbox) {
+    if (checkbox.checked) {
+        const code = prompt("請輸入『攤商專屬解鎖碼』🔒\n(提示：填寫完報名表單後會顯示！)");
+        if (code === "BOSS888") { 
+            alert("✅ 解鎖成功！已套用攤商專屬優惠報價。");
+            calculateTotal(); return true;
+        } else {
+            alert("❌ 解鎖碼錯誤！請先完成報名表單獲取密碼。");
+            checkbox.checked = false; return false;
+        }
+    } else { calculateTotal(); return true; }
+}
+function openTribalModal() { document.getElementById('tribalModal').classList.remove('hidden'); document.getElementById('tribalModal').style.display = 'flex'; }
+function closeTribalModal() { document.getElementById('tribalModal').classList.add('hidden'); document.getElementById('tribalModal').style.display = 'none'; }
+function bookTribalPackage() {
+    closeTribalModal();
+    const cb = document.getElementById('enableTribal'); if(cb) cb.checked = true;
+    toggleTribal(); calculateTotal();
+    document.getElementById('calculatorSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function toggleTribal() {
+    const isChecked = document.getElementById('enableTribal').checked;
+    const block = document.getElementById('tribalInputBlock');
+    if (isChecked) { block.classList.remove('hidden'); validateTribalPeople(); } else { block.classList.add('hidden'); }
+}
+function validateTribalPeople() {
+    const input = document.getElementById('tribalPeople');
+    if (!input.value || parseInt(input.value) < 4) { alert("⚠️ 部落慢活體驗包最低需 4 人成行！"); input.value = 4; }
+}
+function scrollToAddonAndAddPass() {
+    const type = document.getElementById('campType').value;
+    if (!type || type === "") { alert("💡 請先在上方選擇您的「預約日期」與「營位類型」，系統才能幫您加入喔！"); document.getElementById('calculatorSection').scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+    const passQtyInput = document.getElementById('dulanPassQty');
+    if (passQtyInput) { passQtyInput.value = parseInt(passQtyInput.value || 0) + 1; calculateTotal(); }
+    const addonBlock = document.getElementById('premiumAddonBlock');
+    if (addonBlock) {
+        addonBlock.classList.remove('hidden'); addonBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        addonBlock.style.transition = "background-color 0.5s"; addonBlock.style.backgroundColor = "#f3e5f5";
+        setTimeout(() => { addonBlock.style.background = "linear-gradient(to right, #fdfbfb, #ebedee)"; }, 800);
+    }
+}
+
 function calculateTotal() {
   const type = document.getElementById('campType').value;
   if (!type || type === "") { hideResult(); return; }
   const config = CAMPING_CONFIG[type];
   if (!config) { hideResult(); return; }
 
+  // 修復 8: isNightRush 的正確判斷邏輯
   const visitTime = document.getElementById('visitTime').value;
   const rushCheckbox = document.getElementById('isNightRush');
-  if (visitTime && rushCheckbox && !rushCheckbox.parentElement.classList.contains('hidden')) {
+  let isNightRush = false;
+  if (rushCheckbox && rushCheckbox.checked && !document.getElementById('extraOptions').classList.contains('hidden')) {
+      isNightRush = true;
+  }
+  if (visitTime && !document.getElementById('extraOptions').classList.contains('hidden')) {
       const hour = parseInt(visitTime.split(':')[0]);
-      if (hour >= 20 && !rushCheckbox.checked) rushCheckbox.checked = true;
+      if (hour >= 20 && !rushCheckbox.checked) { rushCheckbox.checked = true; isNightRush = true; }
   }
 
-  hideElements(['rowAddons', 'rowPremium', 'rowRush', 'rowAC']);
+  hideElements(['rowAddons', 'rowPremium', 'rowRush', 'rowAC', 'rowCoupon', 'rowTribal']);
   const discountRow = document.getElementById('discountPrice')?.parentElement;
   if (discountRow) discountRow.classList.remove('hidden');
 
@@ -377,70 +425,111 @@ function calculateTotal() {
   const qtyBlock = document.getElementById('qtyBlock');
   if (qtyBlock && !qtyBlock.classList.contains('hidden')) qty = parseInt(document.getElementById('unitQty').value) || 1;
 
-  let isNightRush = (rushCheckbox && rushCheckbox.checked && !rushCheckbox.parentElement.classList.contains('hidden'));
   const useAC = document.getElementById('useAC')?.checked || false;
   const bringPet = document.getElementById('bringPet')?.checked || false;
+  const isVendorMode = document.getElementById('isVendor') && document.getElementById('isVendor').checked;
 
-  let basePrice = 0, rushPrice = 0, acPrice = 0, hasSaturday = false, isHolidayForDiscount = false;
+  let basePrice = 0, rushPrice = 0, acPrice = 0, hasSaturday = false, isHolidayForDiscount = false, hasTuesday = false;
   let currentDate = new Date(selectedDates[0]);
 
-  for (let i = 0; i < nights; i++) {
-    const dateStr = formatDate(currentDate);
-    const dayOfWeek = currentDate.getDay();
-    const isMakeup = MAKEUP_DAYS.includes(dateStr);
-    let rateType = CNY_DAYS.includes(dateStr) ? 'cny' : (isMakeup ? 'weekday' : (HOLIDAYS.includes(dateStr) ? 'holiday' : ([5,6].includes(dayOfWeek) ? 'weekend' : 'weekday')));
-
-    if (dayOfWeek === 6 && !isMakeup) hasSaturday = true;
-    if (HOLIDAYS.includes(dateStr) || CNY_DAYS.includes(dateStr)) isHolidayForDiscount = true;
-
-    if (i === 0 && isNightRush && config.nightRush) {
-        let rushRate = config.nightRush[rateType] || config.nightRush['holiday'] || config.nightRush['weekday'];
-        if (type === 'camper') rushRate = rushRate * 0.8;
-        basePrice += rushRate * qty; rushPrice = rushRate * qty; 
-    } else {
-        let dailyBase = 0;
-        let rate_room = config.rates && config.rates[rateType] !== undefined ? config.rates[rateType] : (config.rates ? config.rates['holiday'] : 0);
-        let rate_star = CAMPING_CONFIG.starcraft.rates[rateType] || CAMPING_CONFIG.starcraft.rates['holiday'];
-        let rate_dt = CAMPING_CONFIG.dt392.rates[rateType] || CAMPING_CONFIG.dt392.rates['holiday'];
-        let rate_grass = config.rates && config.rates[rateType] !== undefined ? config.rates[rateType] : 0;
-
-        if (type === 'car_bed_vip') {
-            const pQty = parseInt(document.getElementById('carBedPeople').value) || 2;
-            let personPrice = config.people_rates[pQty][rateType] !== undefined ? config.people_rates[pQty][rateType] : config.people_rates[pQty]['weekend'];
-            let tentFee = document.getElementById('carBedTent').checked ? (config.tent_add_on[rateType] || 50) : 0;
-            dailyBase = (personPrice + tentFee) * qty; 
-        } else if (type === 'room') {
-            if (qty === 1) dailyBase = rate_room; else if (qty === 2) dailyBase = rate_room + rate_star; else if (qty === 3) dailyBase = rate_room + rate_dt; else if (qty === 4) dailyBase = rate_room + rate_star + rate_dt;
-        } else if (type === 'starcraft') {
-            if (qty === 1) dailyBase = rate_star; else if (qty === 2) dailyBase = rate_star + rate_room; else if (qty === 3) dailyBase = rate_star + rate_dt; else if (qty === 4) dailyBase = rate_star + rate_room + rate_dt;
-        } else if (type === 'dt392') {
-            if (qty === 1) dailyBase = rate_dt; else if (qty === 2) dailyBase = rate_dt + rate_room; else if (qty === 3) dailyBase = rate_dt + rate_star; else if (qty === 4) dailyBase = rate_dt + rate_room + rate_star;
-        } else {
-            dailyBase = rate_grass * qty;
-        }
-        basePrice += dailyBase;
-    }
-
-    if (useAC) acPrice += (type === 'car_bed_vip' ? 50 : 200) * qty; 
-    currentDate.setDate(currentDate.getDate() + 1);
+  // 修復 6: 長住 7 天自動升級邏輯
+  let isLongStay = false;
+  if (nights >= 7 && !type.includes('full') && type !== 'car_bed_vip') {
+      let lsConfig = { 'tent': {7: 3000, 14: 5000, 30: 6000}, 'car': {7: 3000, 14: 5000, 30: 6000}, 'solo': {7: 3000, 14: 5000, 30: 6000}, 'moto': {7: 3000, 14: 5000, 30: 6000},
+                       'camper': {7: 4000, 14: 6500, 30: 9000}, 'starcraft': {7: 6500, 14: 10000}, 'dt392': {7: 6000, 14: 9000}, 'room': {7: 7500, 14: 11200} };
+      
+      if (lsConfig[type]) {
+          isLongStay = true;
+          let pricingTier = nights >= 30 && lsConfig[type][30] ? 30 : (nights >= 14 && lsConfig[type][14] ? 14 : 7);
+          let extraNights = nights % pricingTier;
+          let tierCount = Math.floor(nights / pricingTier);
+          
+          basePrice = (lsConfig[type][pricingTier] * tierCount) * qty;
+          
+          // 如果有無法被長住專案整除的天數，剩餘天數依平日價計算
+          if (extraNights > 0) {
+              basePrice += (extraNights * (config.rates['weekday'] || 0)) * qty;
+          }
+      }
   }
 
-  // 1. 計算一般加購
+  // 若非長住專案，執行每日累加計算
+  if (!isLongStay) {
+      for (let i = 0; i < nights; i++) {
+        const dateStr = formatDate(currentDate);
+        const dayOfWeek = currentDate.getDay();
+        const isMakeup = MAKEUP_DAYS.includes(dateStr);
+        let rateType = CNY_DAYS.includes(dateStr) ? 'cny' : (isMakeup ? 'weekday' : (HOLIDAYS.includes(dateStr) ? 'holiday' : ([5,6].includes(dayOfWeek) ? 'weekend' : 'weekday')));
+
+        if (dayOfWeek === 6 && !isMakeup) hasSaturday = true;
+        if (dayOfWeek === 2 && !isMakeup) hasTuesday = true;
+        if (HOLIDAYS.includes(dateStr) || CNY_DAYS.includes(dateStr)) isHolidayForDiscount = true;
+
+        if (i === 0 && isNightRush && config.nightRush) {
+            let rushRate = config.nightRush[rateType] || config.nightRush['holiday'] || config.nightRush['weekday'];
+            if (type === 'camper') rushRate = rushRate * 0.8;
+            basePrice += rushRate * qty; rushPrice = rushRate * qty; 
+        } else {
+            let dailyBase = 0;
+            let rate_room = config.rates && config.rates[rateType] !== undefined ? config.rates[rateType] : (config.rates ? config.rates['holiday'] : 0);
+            let rate_star = CAMPING_CONFIG.starcraft.rates[rateType] || CAMPING_CONFIG.starcraft.rates['holiday'];
+            let rate_dt = CAMPING_CONFIG.dt392.rates[rateType] || CAMPING_CONFIG.dt392.rates['holiday'];
+            let rate_grass = config.rates && config.rates[rateType] !== undefined ? config.rates[rateType] : 0;
+
+            if (dayOfWeek === 2 && !isMakeup) {
+                rate_room = 2400; rate_star = 2200; rate_dt = 2000; rate_grass = 500;
+                if (isVendorMode) { rate_dt = 1400; rate_star = 1500; rate_grass = 500; }
+            }
+
+            if (type === 'car_bed_vip') {
+                const pQty = parseInt(document.getElementById('carBedPeople').value) || 2;
+                let personPrice = config.people_rates[pQty][rateType] !== undefined ? config.people_rates[pQty][rateType] : config.people_rates[pQty]['weekend'];
+                let tentFee = document.getElementById('carBedTent').checked ? (config.tent_add_on[rateType] || 50) : 0;
+                dailyBase = (personPrice + tentFee) * qty; 
+            } else if (type === 'room') {
+                if (qty === 1) dailyBase = rate_room; else if (qty === 2) dailyBase = rate_room + rate_star; else if (qty === 3) dailyBase = rate_room + rate_dt; else if (qty === 4) dailyBase = rate_room + rate_star + rate_dt;
+            } else if (type === 'starcraft') {
+                if (qty === 1) dailyBase = rate_star; else if (qty === 2) dailyBase = rate_star + rate_room; else if (qty === 3) dailyBase = rate_star + rate_dt; else if (qty === 4) dailyBase = rate_star + rate_room + rate_dt;
+            } else if (type === 'dt392') {
+                if (qty === 1) dailyBase = rate_dt; else if (qty === 2) dailyBase = rate_dt + rate_room; else if (qty === 3) dailyBase = rate_dt + rate_star; else if (qty === 4) dailyBase = rate_dt + rate_room + rate_star;
+            } else {
+                dailyBase = rate_grass * qty;
+            }
+            basePrice += dailyBase;
+        }
+
+        if (useAC) acPrice += (type === 'car_bed_vip' ? 50 : 200) * qty; 
+        currentDate.setDate(currentDate.getDate() + 1);
+      }
+  } else {
+      // 若為長住專案，依舊需計算冷氣費用
+      if (useAC) acPrice += 200 * qty * nights;
+  }
+
   let extraPersonPrice = ['starcraft', 'dt392'].includes(type) ? 200 : 300;
   const extraPeople = parseInt(document.getElementById('extraPeople').value) || 0;
   const visitors = parseInt(document.getElementById('visitors').value) || 0;
   const totalAddonCost = (extraPeople * extraPersonPrice * nights) + (visitors * 100) + (bringPet ? 100 * qty * nights : 0);
 
-  // 2. ✅ 計算 VVIP 聯名套餐加購 ($699) & 通行證加購 ($199)
   const barPackageQty = parseInt(document.getElementById('barPackageQty')?.value) || 0;
   const dulanPassQty = parseInt(document.getElementById('dulanPassQty')?.value) || 0;
   const premiumCost = (barPackageQty * 699) + (dulanPassQty * 199);
+  
+  let tribalPrice = 0;
+  const enableTribal = document.getElementById('enableTribal');
+  if (enableTribal && enableTribal.checked) {
+      const tp = parseInt(document.getElementById('tribalPeople').value) || 4;
+      tribalPrice = tp * 1200;
+  }
 
   if (totalAddonCost > 0) { showElements(['rowAddons']); document.getElementById('addonPrice').innerText = totalAddonCost; } 
-  else { hideElements(['rowAddons']); document.getElementById('addonPrice').innerText = 0; }
+  else { document.getElementById('addonPrice').innerText = 0; }
 
   if (premiumCost > 0) { showElements(['rowPremium']); document.getElementById('premiumPrice').innerText = premiumCost; }
-  else { hideElements(['rowPremium']); document.getElementById('premiumPrice').innerText = 0; }
+  else { document.getElementById('premiumPrice').innerText = 0; }
+  
+  if (tribalPrice > 0) { showElements(['rowTribal']); document.getElementById('tribalTotal').innerText = tribalPrice; }
+  else { document.getElementById('tribalTotal').innerText = 0; }
 
   let isFullHoliday = false;
   const stayDatesStr = [];
@@ -450,22 +539,40 @@ function calculateTotal() {
 
   let discount = 0;
   const totalPriceForDiscount = basePrice + acPrice;
+  let hasCoupon = false;
+  let couponText = "";
 
-  if (type === 'car_bed_vip') { discount = 0; } 
+  if (type === 'car_bed_vip' || isLongStay) { 
+      // 車床天地與長住專案不疊加一般折扣
+      discount = 0; 
+      if (isLongStay) { hasCoupon = true; couponText = "已為您套用最優惠之長住專案價！"; }
+  } 
   else if (config.discountType === 'full_venue_promo') {
-    if (nights >= 2) discount = totalPriceForDiscount * 0.15;
+      if (nights >= 2) discount = totalPriceForDiscount * 0.15;
   } else if (config.discountType === 'percentage') {
-    if (isHolidayForDiscount && nights >= 3) discount = totalPriceForDiscount * 0.15;
-    else if (nights >= 2) discount = totalPriceForDiscount * 0.10;
+      if (isHolidayForDiscount && nights >= 3) discount = totalPriceForDiscount * 0.15;
+      else if (nights >= 2) discount = totalPriceForDiscount * 0.10;
   } else if (config.discountType === 'fixed_amount' || config.discountType === 'fixed_amount_premium') {
-    let perUnitDiscount = 0;
-    if (nights >= 3) perUnitDiscount += 300;
-    if (hasSaturday && nights >= 2) perUnitDiscount += 200;
-    discount = Math.min(perUnitDiscount * qty, Math.round(totalPriceForDiscount * 0.2));
+      // 修復 4: 連住折扣計算邏輯對齊文案
+      if (nights >= 2) {
+          discount = Math.min(nights * 100, 500) * qty;
+      }
   }
+  
   if (isFullHoliday && type !== 'car_bed_vip') discount += (totalPriceForDiscount * 0.05);
 
-  const total = Math.round(basePrice + acPrice + totalAddonCost + premiumCost - discount);
+  // 修復 5: 實作贈品/優惠券顯示邏輯
+  if (!isLongStay && type !== 'car_bed_vip' && !type.includes('full')) {
+      if (isVendorMode && hasTuesday) {
+          hasCoupon = true; couponText = "🤝 攤商專屬優惠已套用，恕不疊加其他折價券";
+      } else if (hasTuesday) {
+          hasCoupon = true; couponText = `贈 $200 週二夜市折價券🎫 x ${qty}張`;
+      } else if (nights >= 2) {
+          hasCoupon = true; couponText = `贈 $200 水煙酒吧微醺券🍹 x ${qty}張`;
+      }
+  }
+
+  const total = Math.round(basePrice + acPrice + totalAddonCost + premiumCost + tribalPrice - discount);
 
   document.getElementById('basePrice').innerText = Math.round(basePrice);
   document.getElementById('rushPrice').innerText = isNightRush ? " (已含)" : 0;
@@ -473,9 +580,13 @@ function calculateTotal() {
   document.getElementById('discountPrice').innerText = Math.round(discount);
   document.getElementById('finalTotal').innerText = total;
 
+  if (hasCoupon && couponText !== "") {
+      showElements(['rowCoupon']);
+      document.getElementById('couponText').innerText = couponText;
+  }
+
   if (!document.getElementById('extraOptions').classList.contains('hidden')) {
     if (isNightRush) showElements(['rowRush']);
-    else hideElements(['rowRush']);
     if (Math.round(acPrice) > 0) showElements(['rowAC']);
   }
 
@@ -483,6 +594,15 @@ function calculateTotal() {
 }
 
 function submitOrder() {
+  // 修復 9: 驗證日期是否已選取
+  if (selectedDates.length < 1 && !['bicycle', 'venue_hourly'].includes(document.getElementById('campType').value)) {
+      alert("⚠️ 請先選擇預約日期！"); return;
+  }
+    
+  // 修復 7: 確保 Confirm 翻譯存在預設值
+  const currentTranslations = TRANSLATIONS[currentLang] || TRANSLATIONS['zh'];
+  const confirmMsg = currentTranslations.confirm_room_policy || TRANSLATIONS['zh'].confirm_room_policy;
+
   if (!confirm("⚠️抵達營區入口時，請勿直接入場，請先撥電話告知營主！非常重要❗️感謝配合🙏\n\n確認送出訂單？")) return;
 
   const name = document.getElementById('customerName').value.trim();
@@ -491,11 +611,11 @@ function submitOrder() {
   const note = document.getElementById('customerNote').value.trim();
   const visitTime = document.getElementById('visitTime').value;
 
-  if (!name || !phone) { alert("請務必填寫「姓名」與「電話」！"); return; }
+  if (!name || !phone) { alert(currentTranslations.alert_fill || TRANSLATIONS['zh'].alert_fill); return; }
 
   const typeSelect = document.getElementById('campType');
   const typeValue = typeSelect.value;
-  if (['room', 'starcraft', 'dt392'].includes(typeValue) && !confirm(TRANSLATIONS[currentLang].confirm_room_policy)) return;
+  if (['room', 'starcraft', 'dt392'].includes(typeValue) && !confirm(confirmMsg)) return;
 
   let details = `【${typeSelect.options[typeSelect.selectedIndex].text}】`;
 
@@ -514,11 +634,14 @@ function submitOrder() {
     const vs = parseInt(document.getElementById('visitors').value) || 0;
     if (ep > 0) details += ` / 加人:${ep}`; if (vs > 0) details += ` / 訪客:${vs}`;
 
-    // ✅ 將聯名套餐與通行證加購寫入訂單明細
     const passQty = parseInt(document.getElementById('dulanPassQty')?.value) || 0;
     const barQty = parseInt(document.getElementById('barPackageQty')?.value) || 0;
     if (passQty > 0) details += ` / 🎟️通行證:${passQty}本`;
     if (barQty > 0) details += ` / 🍹微醺套餐:${barQty}組`;
+
+    if (document.getElementById('enableTribal') && document.getElementById('enableTribal').checked) {
+        details += ` / 🌿部落體驗:${document.getElementById('tribalPeople').value}人`;
+    }
 
     if (typeValue === 'car_bed_vip') {
         const carBedId = document.getElementById('carBedId').value.trim();
@@ -571,14 +694,17 @@ function openLineApp(formData) {
 function hideResult() { hideElements(['resultBox']); }
 
 function resetForm() {
-  document.querySelector("#dateRange")._flatpickr.clear(); selectedDates = [];
+  const flatpickrEl = document.querySelector("#dateRange");
+  if (flatpickrEl && flatpickrEl._flatpickr) flatpickrEl._flatpickr.clear(); 
+  selectedDates = [];
   document.getElementById('campType').value = ""; toggleInputs();
   document.getElementById('nights').value = '0';
-  ['useAC', 'bringPet', 'carBedTent', 'isNightRush'].forEach(id => { const el = document.getElementById(id); if(el) el.checked = false; });
+  ['useAC', 'bringPet', 'carBedTent', 'isNightRush', 'enableTribal', 'isVendor'].forEach(id => { const el = document.getElementById(id); if(el) el.checked = false; });
   
-  // ✅ 重置 VVIP 加購項目
   ['bikeQty', 'extraPeople', 'visitors', 'barPackageQty', 'dulanPassQty'].forEach(id => { const el = document.getElementById(id); if(el) el.value = (id==='bikeQty'?1:0); });
-  
+  if (document.getElementById('tribalPeople')) document.getElementById('tribalPeople').value = 4;
+  if (document.getElementById('tribalInputBlock')) document.getElementById('tribalInputBlock').classList.add('hidden');
+
   document.getElementById('visitTime').selectedIndex = 0;
   ['carBedId', 'last5'].forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
   hideResult();
