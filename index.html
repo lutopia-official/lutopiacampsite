@@ -805,9 +805,15 @@
 
       if (!type || type === "") { hideResult(); showElements(['campingRules']); return; }
 
-      if (type === 'venue_hourly') { showElements(['rentalDurationBlock']); } 
-      else if (type === 'bicycle') { showElements(['bikeBlock']); } 
+      const _picker = document.querySelector("#dateRange")?._flatpickr;
+      if (type === 'venue_hourly') {
+        showElements(['rentalDurationBlock']);
+        if (_picker && _picker.config.mode !== 'single') { _picker.set('mode', 'single'); _picker.clear(); selectedDates = []; }
+      } else if (type === 'bicycle') { showElements(['bikeBlock']);
+        if (_picker && _picker.config.mode !== 'range') { _picker.set('mode', 'range'); _picker.clear(); selectedDates = []; }
+      }
       else {
+        if (_picker && _picker.config.mode !== 'range') { _picker.set('mode', 'range'); _picker.clear(); selectedDates = []; }
         showElements(['nightsBlock', 'campingRules', 'policyNotice']);
         
         if (type === 'car_bed_vip') {
@@ -902,6 +908,8 @@
       if (dates.length === 2) {
         const diffDays = Math.ceil(Math.abs(dates[1] - dates[0]) / (1000 * 60 * 60 * 24));
         document.getElementById('nights').value = diffDays;
+      } else if (dates.length === 1) {
+        document.getElementById('nights').value = 1;
       } else { document.getElementById('nights').value = 0; }
     }
 
@@ -963,7 +971,8 @@
       }
       if (visitTime && !document.getElementById('extraOptions').classList.contains('hidden')) {
           const hour = parseInt(visitTime.split(':')[0]);
-          if (hour >= 20 && !rushCheckbox.checked) { rushCheckbox.checked = true; isNightRush = true; }
+          if (hour >= 20) { rushCheckbox.checked = true; isNightRush = true; }
+          else { rushCheckbox.checked = false; isNightRush = false; }
       }
 
       hideElements(['rowAddons', 'rowPremium', 'rowRush', 'rowAC', 'rowCoupon', 'rowTribal']);
@@ -1007,7 +1016,7 @@
       const bringPet = document.getElementById('bringPet')?.checked || false;
       const isVendorMode = document.getElementById('isVendor') && document.getElementById('isVendor').checked;
 
-      let basePrice = 0, rushPrice = 0, acPrice = 0, hasSaturday = false, isHolidayForDiscount = false, hasTuesday = false;
+      let basePrice = 0, acPrice = 0, hasSaturday = false, isHolidayForDiscount = false, hasTuesday = false;
       let currentDate = new Date(selectedDates[0]);
 
       let isLongStay = false;
@@ -1028,12 +1037,31 @@
               let pricingTier = nights >= 30 && lsConfig[type][30] ? 30 : (nights >= 14 && lsConfig[type][14] ? 14 : 7);
               let extraNights = nights % pricingTier;
               let tierCount = Math.floor(nights / pricingTier);
-              
+
+              // Bug 3 修正：複合訂房 (room/starcraft/dt392 qty>1) 分別加總各單位長住費率
+              const getComboLsTierRate = (t, q, tier) => {
+                  const r = lsConfig['room']?.[tier] || 0;
+                  const s = lsConfig['starcraft']?.[tier] || 0;
+                  const d = lsConfig['dt392']?.[tier] || 0;
+                  if (t === 'room')      { if(q===1) return r; if(q===2) return r+s; if(q===3) return r+d; return r+s+d; }
+                  if (t === 'starcraft') { if(q===1) return s; if(q===2) return s+r; if(q===3) return s+d; return s+r+d; }
+                  if (t === 'dt392')     { if(q===1) return d; if(q===2) return d+r; if(q===3) return d+s; return d+r+s; }
+                  return (lsConfig[t]?.[tier] || 0) * q;
+              };
+              const getComboWeekdayRate = (t, q) => {
+                  const r = CAMPING_CONFIG['room'].rates['weekday'];
+                  const s = CAMPING_CONFIG['starcraft'].rates['weekday'];
+                  const d = CAMPING_CONFIG['dt392'].rates['weekday'];
+                  if (t === 'room')      { if(q===1) return r; if(q===2) return r+s; if(q===3) return r+d; return r+s+d; }
+                  if (t === 'starcraft') { if(q===1) return s; if(q===2) return s+r; if(q===3) return s+d; return s+r+d; }
+                  if (t === 'dt392')     { if(q===1) return d; if(q===2) return d+r; if(q===3) return d+s; return d+r+s; }
+                  return (config.rates['weekday'] || 0) * q;
+              };
+
               // 1. 先算出基礎的長住總價
-              basePrice = (lsConfig[type][pricingTier] * tierCount) * qty;
-              
+              basePrice = getComboLsTierRate(type, qty, pricingTier) * tierCount;
               if (extraNights > 0) {
-                  basePrice += (extraNights * (config.rates['weekday'] || 0)) * qty;
+                  basePrice += extraNights * getComboWeekdayRate(type, qty);
               }
 
               // 2. 檢查這幾天裡面有沒有碰到「連假 (holiday)」
@@ -1041,10 +1069,7 @@
               let tempCheckDate = new Date(selectedDates[0]);
               for (let i = 0; i < nights; i++) {
                   const checkDateStr = formatDate(tempCheckDate);
-                  // 如果這天是定義在 HOLIDAYS 裡面的連假（且不是春節），就計入加價天數
-                  if (HOLIDAYS.includes(checkDateStr)) {
-                      holidayCountInLongStay++;
-                  }
+                  if (HOLIDAYS.includes(checkDateStr)) { holidayCountInLongStay++; }
                   tempCheckDate.setDate(tempCheckDate.getDate() + 1);
               }
 
@@ -1069,7 +1094,7 @@
             if (i === 0 && isNightRush && config.nightRush) {
                 let rushRate = config.nightRush[rateType] || config.nightRush['holiday'] || config.nightRush['weekday'];
                 if (type === 'camper') rushRate = rushRate * 0.8;
-                basePrice += rushRate * qty; rushPrice = rushRate * qty; 
+                basePrice += rushRate * qty;
             } else {
                 let dailyBase = 0;
                 let rate_room = config.rates && config.rates[rateType] !== undefined ? config.rates[rateType] : (config.rates ? config.rates['holiday'] : 0);
@@ -1196,7 +1221,7 @@
       }
 
       if (!document.getElementById('extraOptions').classList.contains('hidden')) {
-        if (isNightRush) showElements(['rowRush']);
+        if (isNightRush && !isLongStay) showElements(['rowRush']);
         if (Math.round(acPrice) > 0) showElements(['rowAC']);
       }
 
