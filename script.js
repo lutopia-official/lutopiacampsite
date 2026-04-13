@@ -483,10 +483,10 @@ function calculateTotal() {
                 rate_dt = 2000; 
                 
                 // ⛺ 露營模式週二精準報價
-                if (type === 'tent') rate_grass = 800;
-                else if (type === 'moto' || type === 'solo') rate_grass = 500;
-                else if (type === 'car') rate_grass = 800;
-                else if (type === 'camper') rate_grass = 1000;
+                if (type === 'tent') rate_grass = 1000;
+                else if (type === 'moto' || type === 'solo') rate_grass = 600;
+                else if (type === 'car') rate_grass = 1000;
+                else if (type === 'camper') rate_grass = 1200;
                 else rate_grass = 800; // 預設防呆
 
                 // 攤商模式覆蓋 (攤商的大馳、StarCraft、以及攤商營位500元優惠)
@@ -588,7 +588,7 @@ function calculateTotal() {
       if (isVendorMode && hasTuesday) {
           hasCoupon = true; couponText = "🤝 攤商專屬優惠已套用，恕不疊加其他折價券";
       } else if (hasTuesday) {
-          hasCoupon = true; couponText = `贈 $100 週二夜市折價券🎫 x ${qty}張`;
+          hasCoupon = true; couponText = `贈 $200 週二夜市折價券🎫 x ${qty}張`;
       } else if (nights >= 2) {
           hasCoupon = true; couponText = `贈 $200 水煙酒吧微醺券🍹 x ${qty}張`;
       }
