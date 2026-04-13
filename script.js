@@ -588,7 +588,7 @@ function calculateTotal() {
       if (isVendorMode && hasTuesday) {
           hasCoupon = true; couponText = "🤝 攤商專屬優惠已套用，恕不疊加其他折價券";
       } else if (hasTuesday) {
-          hasCoupon = true; couponText = `贈 $200 週二夜市折價券🎫 x ${qty}張`;
+          hasCoupon = true; couponText = `贈 $100 週二夜市折價券🎫 x ${qty}張`;
       } else if (nights >= 2) {
           hasCoupon = true; couponText = `贈 $200 水煙酒吧微醺券🍹 x ${qty}張`;
       }
