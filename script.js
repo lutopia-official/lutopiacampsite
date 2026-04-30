@@ -64,11 +64,11 @@ const TRANSLATIONS = {
     label_date: "預約日期：", date_placeholder: "請點擊選擇日期...", label_time: "預計抵達/取車時間：", time_placeholder: "請選擇時間...",
     label_nights: "住宿晚數 (自動)：", label_rental_scheme: "租借時數方案：", label_bike_qty: "租借數量 (台)：", label_bike_scheme: "租借方案：",
     addon_title: "➕ 一般加購 (人/訪客)", label_extra_people: "加人 ($300/人/晚)", label_kid_free: "*小一以下免費", label_visitor: "訪客 ($100/人，23:00離場)：",
-    cb_night_rush: "我要夜衝 (20:00-23:00入場)", cb_ac: "使用冷氣 (+100元/晚)", cb_pet: "攜帶寵物 (+100元/晚)",
+    cb_night_rush: "我要夜衝 (20:00-23:00入場)", cb_ac: "車用冷氣 (+100元/晚)", cb_pet: "攜帶寵物 (+100元/晚)",
     btn_calc: "更新費用", btn_reset: "重新填寫", result_title: "試算結果", res_base: "基本費用：", res_addon: "加購費用：", res_rush: "夜衝費用：", res_ac: "冷氣加價：", res_discount: "符合折扣：", res_total: "總計金額：",
     customer_info_title: "📝 預訂資料填寫", ph_name: "您的姓名 (必填)", ph_phone: "聯絡電話 (必填)", ph_note: "其他備註需求 (例如：露營相關、租單車者身高...)", btn_submit: "🚀 確認預訂並送出", alert_fill: "請務必填寫「姓名」與「電話」才能送出訂單喔！",
     confirm_room_policy: "🛑【訂位前請確認】\n\n1. 🏡 錄托邦住宿入住時間：下午 15:00 以後。\n   (請勿提早，可以提早放置行李，請先告知)\n\n2. ♻️ 環保旅宿：不提供一次性備品。\n   (請自備毛巾、牙刷)\n\n請問您是否接受並繼續訂位？",
-    rule_title_basic: "🔷 收費標準與營區規定", rule_sub_price: "💰 營位計費標準", rule_li_unit: "基本單位：4人 / 1車 / 1帳 / 1炊事帳。", rule_li_add_person: "加人：多1人加 $300 (國小一年級以下免費)。", rule_li_add_car: "加車：多停一台車加收 $300 (拖車不在此限)。", rule_li_visitor: "訪客：每人 $100，需於 23:00 前離場。", rule_sub_tent: "⛺ 搭帳與冷氣規範", rule_li_big_tent: "大型帳篷：神殿、怪獸、5x8天幕等請訂2個營位。", rule_li_ac_fee: "冷氣使用：車上/帳內使用冷氣接電，酌收 $100/晚。", rule_li_warning: "未告知搭設大帳者，現場將禁止搭設。", rule_sub_rush: "🌙 夜衝服務 (限自搭帳)", rule_li_rush_time: "時間：20:00 後入場，23:30 前搭完。", rule_li_rush_price: "費用：夜衝價格依各營位有所不同，請以系統試算為準。", rule_li_rush_rv: "🚐 自備露營車夜衝依金額打 8 折。",
+    rule_title_basic: "🔷 收費標準與營區規定", rule_sub_price: "💰 營位計費標準", rule_li_unit: "基本單位：4人 / 1車 / 1帳 / 1炊事帳。", rule_li_add_person: "加人：多1人加 $300 (國小一年級以下免費)。", rule_li_add_car: "加車：多停一台車加收 $300 (拖車不在此限)。", rule_li_visitor: "訪客：每人 $100，需於 23:00 前離場。", rule_sub_tent: "⛺ 搭帳與冷氣規範", rule_li_big_tent: "大型帳篷：神殿、怪獸、5x8天幕等請訂2個營位。", rule_li_ac_fee: "車用冷氣：接電使用車輛冷氣，酌收 $100/晚。", rule_li_warning: "未告知搭設大帳者，現場將禁止搭設。", rule_sub_rush: "🌙 夜衝服務 (限自搭帳)", rule_li_rush_time: "時間：20:00 後入場，23:30 前搭完。", rule_li_rush_price: "費用：夜衝價格依各營位有所不同，請以系統試算為準。", rule_li_rush_rv: "🚐 自備露營車夜衝依金額打 8 折。",
     rule_noise_title: "🚫 噪音管制 (嚴格執行)", rule_noise_head: "⚠️ 晚間 10:30 過後<br>非常嚴厲禁止使用：", rule_noise_list: "❌ 卡啦OK唱歌<br>❌ 放音樂<br>❌ 大聲喧嘩", rule_noise_punish: "‼️ 違者將強制要求離場 ‼️<br>🚫 並且不會退費",
     rule_title_policy: "⚠️ 住宿取消政策與付款", rule_sub_refund: "📅 取消退費標準", ref_14: "14天前", ref_desc_14: "退 100% (扣手續費) 或改期", ref_10: "10-13天前", ref_desc_10: "退 70% (2日內補差額)", ref_7: "7-9天前", ref_desc_7: "退 50%",
     pricing_title: "全區獨享包場方案", pricing_desc: "選擇適合您的規模，平日/假日/連假皆有不同優惠", plan_a_title: "方案 A：純場地自由配", plan_b_title: "方案 B：場地 + 露營車", plan_c_title: "方案 C：豪華全配版", btn_book_a: "預約方案 A", btn_book_b: "預約方案 B", btn_book_c: "預約方案 C",
@@ -102,17 +102,56 @@ const TRANSLATIONS = {
   }
 };
 
+// ==========================================
+// 📅 錄托邦連假定義規則（2026）
+//   ✅ 連假費用從「國定假日前一晚」開始算
+//   ✅ 國定假日的「最後一晚」不算連假（退帳日前一晚不加價）
+//   ✅ 春節另以 CNY_DAYS 管理，邏輯相同
+// ==========================================
 const HOLIDAYS = [
-    "2026-01-01", "2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17", "2026-02-18", "2026-02-19", "2026-02-20", "2026-02-21", "2026-02-22", 
-    "2026-02-27", "2026-02-28", "2026-03-01", "2026-04-03", "2026-04-04", "2026-04-05", "2026-04-06", "2026-05-01", "2026-05-02", "2026-05-03",
-    "2026-06-19", "2026-06-20", "2026-06-21", "2026-09-25", "2026-09-26", "2026-09-27", "2026-10-09", "2026-10-10", "2026-10-11", "2026-12-31"
+    // 元旦
+    "2026-01-01",
+    // 228連假 (2/27～3/1 放假 3天)：連假費用夜 2/26+2/27+2/28，最後一晚(3/1)不計
+    "2026-02-26", "2026-02-27", "2026-02-28",
+    // 清明節連假 (4/3～4/6 放假 4天)：連假費用夜 4/2+4/3+4/4+4/5，最後一晚(4/6)不計
+    "2026-04-02", "2026-04-03", "2026-04-04", "2026-04-05",
+    // 勞動節連假 (5/1～5/3 放假 3天)：連假費用夜 4/30+5/1+5/2，最後一晚(5/3)不計
+    "2026-04-30", "2026-05-01", "2026-05-02",
+    // 端午節連假 (6/19～6/21 放假 3天)：連假費用夜 6/18+6/19+6/20，最後一晚(6/21)不計
+    "2026-06-18", "2026-06-19", "2026-06-20",
+    // 中秋節及教師節連假 (9/25～9/28 放假 4天)：連假費用夜 9/24+9/25+9/26+9/27，最後一晚(9/28)不計
+    "2026-09-24", "2026-09-25", "2026-09-26", "2026-09-27",
+    // 國慶日連假 (10/9～10/11 放假 3天)：連假費用夜 10/8+10/9+10/10，最後一晚(10/11)不計
+    "2026-10-08", "2026-10-09", "2026-10-10",
+    // 光復節連假 (10/24～10/26 放假 3天)：連假費用夜 10/23+10/24+10/25，最後一晚(10/26)不計
+    "2026-10-23", "2026-10-24", "2026-10-25",
+    // 行憲紀念日連假 (12/25～12/27 放假 3天)：連假費用夜 12/24+12/25+12/26，最後一晚(12/27)不計
+    "2026-12-24", "2026-12-25", "2026-12-26",
+    // 元旦前夕
+    "2026-12-31"
 ];
 const MAKEUP_DAYS = [ "2026-02-07", "2026-02-21" ];
-const CNY_DAYS = [ "2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17", "2026-02-18", "2026-02-19", "2026-02-20", "2026-02-21", "2026-02-22" ];
+// 春節 (2/14～2/22 放假 9天)
+//   連假費用夜：2/13(前夕) + 2/14～2/20；
+//   最後一晚 2/21 為補班日（平日價）；退帳日 2/22 不計
+const CNY_DAYS = [
+    "2026-02-13",
+    "2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17",
+    "2026-02-18", "2026-02-19", "2026-02-20"
+    // 2/21：MAKEUP_DAY（補班日），已自動降為平日價，此處不列入
+    // 2/22：退帳日，不算連假費用
+];
+// 住滿連假折扣區間（含前夕、不含最後一晚，與 HOLIDAYS/CNY_DAYS 一致）
 const HOLIDAY_BLOCKS = [
-    ["2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17", "2026-02-18", "2026-02-19", "2026-02-20", "2026-02-21"], 
-    ["2026-02-27", "2026-02-28"], ["2026-04-03", "2026-04-04", "2026-04-05"], ["2026-05-01", "2026-05-02"], 
-    ["2026-06-19", "2026-06-20"], ["2026-09-25", "2026-09-26"], ["2026-10-09", "2026-10-10"]  
+    ["2026-02-13", "2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17", "2026-02-18", "2026-02-19", "2026-02-20"],
+    ["2026-02-26", "2026-02-27", "2026-02-28"],
+    ["2026-04-02", "2026-04-03", "2026-04-04", "2026-04-05"],
+    ["2026-04-30", "2026-05-01", "2026-05-02"],
+    ["2026-06-18", "2026-06-19", "2026-06-20"],
+    ["2026-09-24", "2026-09-25", "2026-09-26", "2026-09-27"],
+    ["2026-10-08", "2026-10-09", "2026-10-10"],
+    ["2026-10-23", "2026-10-24", "2026-10-25"],
+    ["2026-12-24", "2026-12-25", "2026-12-26"]
 ];
 
 function changeLanguage(lang) {
@@ -168,24 +207,33 @@ function checkCarBedVipAvailability() {
             currentDate.setDate(currentDate.getDate() + 1);
         }
     }
-    const campTypeSelect = document.getElementById('campType');
+    // ✅ 連假期間不再鎖定日曆，改為顯示提示並以一律 $600 計算
+    carBedOption.disabled = false;
     if (hasHoliday) {
-        carBedOption.disabled = true; carBedOption.text = "🚙 車床天地特約 (連假不適用)";
-        if (campTypeSelect.value === 'car_bed_vip') { alert("⚠️ 抱歉，車床天地特約方案「連假期間」不適用，請改選一般車泊或其他方案。"); campTypeSelect.value = ""; toggleInputs(); }
+        carBedOption.text = "🚙 車床天地特約會員 (連假一律 $600)";
+        const campTypeSelect = document.getElementById('campType');
+        if (campTypeSelect.value === 'car_bed_vip') {
+            // 切換至車床天地時提示連假特殊定價
+            const notice = document.getElementById('carBedHolidayNotice');
+            if (notice) notice.classList.remove('hidden');
+        }
     } else {
-        carBedOption.disabled = false; carBedOption.text = "🚙 車床天地特約會員 (需驗證編號)";
+        carBedOption.text = "🚙 車床天地特約會員 (需驗證編號)";
+        const notice = document.getElementById('carBedHolidayNotice');
+        if (notice) notice.classList.add('hidden');
     }
 }
 
 const CAMPING_CONFIG = {
   tent: { rates: { weekday: 700, weekend: 800, holiday: 1000, cny: 1200 }, nightRush: { weekday: 500, weekend: 600, holiday: 600, cny: 800 }, discountType: "fixed_amount" },
-  moto: { rates: { weekday: 400, weekend: 500, holiday: 600, cny: 800 }, nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 }, discountType: "fixed_amount" },
-  solo: { rates: { weekday: 400, weekend: 500, holiday: 600, cny: 800 }, nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 }, discountType: "fixed_amount" },
-  car: { rates: { weekday: 600, weekend: 700, holiday: 800, cny: 1100 }, nightRush: { weekday: 500, weekend: 600, holiday: 600, cny: 800 }, discountType: "fixed_amount" },
-  car_bed_vip: { people_rates: { 1: { weekday: 250, weekend: 350, holiday: 350, cny: 350 }, 2: { weekday: 300, weekend: 400, holiday: 400, cny: 400 }, 3: { weekday: 400, weekend: 500, holiday: 500, cny: 500 }, 4: { weekday: 500, weekend: 600, holiday: 600, cny: 600 } }, tent_add_on: { weekday: 50, weekend: 50, holiday: 50, cny: 50 }, ac_fee: 50, nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 }, discountType: "none" },
+  moto: { rates: { weekday: 400, weekend: 500, holiday: 500, cny: 800 }, nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 }, discountType: "fixed_amount" },
+  solo: { rates: { weekday: 400, weekend: 500, holiday: 500, cny: 800 }, nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 }, discountType: "fixed_amount" },
+  car: { rates: { weekday: 600, weekend: 700, holiday: 1000, cny: 1100 }, nightRush: { weekday: 500, weekend: 600, holiday: 600, cny: 800 }, discountType: "fixed_amount" },
+  // 車床天地：連假期間不鎖定日曆，一律收 $600（holiday/cny 各人數均設為 600）
+  car_bed_vip: { people_rates: { 1: { weekday: 250, weekend: 350, holiday: 600, cny: 600 }, 2: { weekday: 300, weekend: 400, holiday: 600, cny: 600 }, 3: { weekday: 400, weekend: 500, holiday: 600, cny: 600 }, 4: { weekday: 500, weekend: 600, holiday: 600, cny: 600 } }, tent_add_on: { weekday: 50, weekend: 50, holiday: 50, cny: 50 }, ac_fee: 50, nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 }, discountType: "none" },
   camper: { rates: { weekday: 800, weekend: 1000, holiday: 1200, cny: 1500 }, nightRush: { weekday: 600, weekend: 700, holiday: 800, cny: 800 }, discountType: "fixed_amount_premium" },
-  starcraft: { rates: { weekday: 1800, weekend: 2000, holiday: 2600, cny: 2800 }, discountType: "percentage" },
-  dt392: { rates: { weekday: 1600, weekend: 1800, holiday: 2000, cny: 2400 }, discountType: "percentage" },
+  starcraft: { rates: { weekday: 1800, weekend: 2000, holiday: 2400, cny: 2800 }, discountType: "percentage" },
+  dt392: { rates: { weekday: 1600, weekend: 1800, holiday: 2200, cny: 2400 }, discountType: "percentage" },
   room: { rates: { weekday: 2200, weekend: 2400, holiday: 2500, cny: 2600 }, discountType: "percentage" },
   full_basic: { rates: { weekday: 7000, weekend: 10000, holiday: 15000, cny: 15000 }, discountType: "full_venue_promo" },
   full_vans: { rates: { weekday: 10000, weekend: 16000, holiday: 18000, cny: 18000 }, discountType: "full_venue_promo" },
@@ -231,11 +279,11 @@ function toggleInputs() {
     
     if (type === 'car_bed_vip') {
         showElements(['carBedBlock', 'extraOptions']);
-        const acSpan = document.querySelector('[data-i18n="cb_ac"]'); if(acSpan) acSpan.innerText = "使用冷氣 (+50元/晚)";
+        const acSpan = document.querySelector('[data-i18n="cb_ac"]'); if(acSpan) acSpan.innerText = "車用冷氣 (+50元/晚)";
     } else {
         // ✅ 顯示 VVIP 聯名加購與一般加購
         showElements(['addonBlock', 'premiumAddonBlock']); 
-        const acSpan = document.querySelector('[data-i18n="cb_ac"]'); if(acSpan) acSpan.innerText = TRANSLATIONS[currentLang].cb_ac || "使用冷氣 (+100元/晚)";
+        const acSpan = document.querySelector('[data-i18n="cb_ac"]'); if(acSpan) acSpan.innerText = TRANSLATIONS[currentLang].cb_ac || "車用冷氣 (+100元/晚)";
     }
 
     if (!type.includes('full')) showElements(['unitNotice']);
@@ -520,12 +568,12 @@ function calculateTotal() {
             basePrice += dailyBase;
         }
 
-        if (useAC) acPrice += (type === 'car_bed_vip' ? 50 : 200) * qty; 
+        if (useAC) acPrice += (type === 'car_bed_vip' ? 50 : 100) * qty;
         currentDate.setDate(currentDate.getDate() + 1);
       }
   } else {
       // 若為長住專案，依舊需計算冷氣費用
-      if (useAC) acPrice += 200 * qty * nights;
+      if (useAC) acPrice += 100 * qty * nights;
   }
 
   let extraPersonPrice = ['starcraft', 'dt392'].includes(type) ? 200 : 300;

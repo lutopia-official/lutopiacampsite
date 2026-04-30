@@ -281,7 +281,7 @@
 
                 <div id="extraOptions" class="checkbox-group hidden">
                     <label><input type="checkbox" id="isNightRush" onchange="calculateTotal()"> <span data-i18n="cb_night_rush">我要夜衝 (20:00-23:00入場)</span></label>
-                    <label><input type="checkbox" id="useAC" value="100" onchange="calculateTotal()"> <span data-i18n="cb_ac">使用冷氣 (+100元/晚)</span></label>
+                    <label><input type="checkbox" id="useAC" value="100" onchange="calculateTotal()"> <span data-i18n="cb_ac">車用冷氣 (+100元/晚)</span></label>
                     <label><input type="checkbox" id="bringPet" value="100" onchange="calculateTotal()"> <span data-i18n="cb_pet">攜帶寵物 (+100元/晚)</span></label>
                 </div>
 
@@ -648,7 +648,7 @@
         label_date: "預約日期：", date_placeholder: "請點擊選擇日期...", label_time: "預計抵達/取車時間：", time_placeholder: "請選擇時間...",
         label_nights: "住宿晚數 (自動)：", label_rental_scheme: "租借時數方案：", label_bike_qty: "租借數量 (台)：", label_bike_scheme: "租借方案：",
         addon_title: "➕ 一般加購 (人/訪客)", label_extra_people: "加人 ($300/人) <br><small style='color:#888;'>*小一以下免費</small>", label_visitor: "訪客 ($100/人，23:00離場)：",
-        cb_night_rush: "我要夜衝 (20:00-23:00入場)", cb_ac: "使用冷氣 (+100元/晚)", cb_pet: "攜帶寵物 (+100元/晚)",
+        cb_night_rush: "我要夜衝 (20:00-23:00入場)", cb_ac: "車用冷氣 (+100元/晚)", cb_pet: "攜帶寵物 (+100元/晚)",
         btn_calc: "更新費用", btn_reset: "重新填寫", result_title: "試算結果", res_base: "基本費用：", res_addon: "加購費用：", res_rush: "夜衝費用：", res_ac: "冷氣加價：", res_discount: "符合折扣：", res_total: "總計金額：",
         customer_info_title: "📝 預訂資料填寫", ph_name: "您的姓名 (必填)", ph_phone: "聯絡電話 (必填)", ph_note: "其他備註需求 (例如：露營相關、租單車者身高...)", btn_submit: "🚀 確認預訂並送出", alert_fill: "請務必填寫「姓名」與「電話」才能送出訂單喔！",
         confirm_room_policy: "🛑【訂位前請確認】\n\n1. 🏡 錄托邦住宿入住時間：下午 15:00 以後。\n   (請勿提早，可以提早放置行李，請先告知)\n\n2. ♻️ 環保旅宿：不提供一次性備品。\n   (請自備毛巾、牙刷)\n\n請問您是否接受並繼續訂位？",
@@ -687,16 +687,29 @@
     };
 
     const HOLIDAYS = [
-        "2026-01-01", "2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17", "2026-02-18", "2026-02-19", "2026-02-20", "2026-02-21", "2026-02-22", 
-        "2026-02-27", "2026-02-28", "2026-03-01", "2026-04-03", "2026-04-04", "2026-04-05", "2026-04-06", "2026-05-01", "2026-05-02", "2026-05-03",
-        "2026-06-19", "2026-06-20", "2026-06-21", "2026-09-25", "2026-09-26", "2026-09-27", "2026-10-09", "2026-10-10", "2026-10-11", "2026-12-31"
+        "2026-01-01",
+        "2026-02-26", "2026-02-27", "2026-02-28",
+        "2026-04-02", "2026-04-03", "2026-04-04", "2026-04-05",
+        "2026-04-30", "2026-05-01", "2026-05-02",
+        "2026-06-18", "2026-06-19", "2026-06-20",
+        "2026-09-24", "2026-09-25", "2026-09-26", "2026-09-27",
+        "2026-10-08", "2026-10-09", "2026-10-10",
+        "2026-10-23", "2026-10-24", "2026-10-25",
+        "2026-12-24", "2026-12-25", "2026-12-26",
+        "2026-12-31"
     ];
     const MAKEUP_DAYS = [ "2026-02-07", "2026-02-21" ];
-    const CNY_DAYS = [ "2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17", "2026-02-18", "2026-02-19", "2026-02-20", "2026-02-21", "2026-02-22" ];
+    const CNY_DAYS = [ "2026-02-13", "2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17", "2026-02-18", "2026-02-19", "2026-02-20" ];
     const HOLIDAY_BLOCKS = [
-        ["2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17", "2026-02-18", "2026-02-19", "2026-02-20", "2026-02-21"], 
-        ["2026-02-27", "2026-02-28"], ["2026-04-03", "2026-04-04", "2026-04-05"], ["2026-05-01", "2026-05-02"], 
-        ["2026-06-19", "2026-06-20"], ["2026-09-25", "2026-09-26"], ["2026-10-09", "2026-10-10"]  
+        ["2026-02-13", "2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17", "2026-02-18", "2026-02-19", "2026-02-20"],
+        ["2026-02-26", "2026-02-27", "2026-02-28"],
+        ["2026-04-02", "2026-04-03", "2026-04-04", "2026-04-05"],
+        ["2026-04-30", "2026-05-01", "2026-05-02"],
+        ["2026-06-18", "2026-06-19", "2026-06-20"],
+        ["2026-09-24", "2026-09-25", "2026-09-26", "2026-09-27"],
+        ["2026-10-08", "2026-10-09", "2026-10-10"],
+        ["2026-10-23", "2026-10-24", "2026-10-25"],
+        ["2026-12-24", "2026-12-25", "2026-12-26"]
     ];
 
     function changeLanguage(lang) {
@@ -750,24 +763,31 @@
                 currentDate.setDate(currentDate.getDate() + 1);
             }
         }
-        const campTypeSelect = document.getElementById('campType');
+        // 連假期間不鎖定日曆，改為顯示提示並以一律 $600 計算
+        carBedOption.disabled = false;
         if (hasHoliday) {
-            carBedOption.disabled = true; carBedOption.text = "🚙 車床天地特約 (連假不適用)";
-            if (campTypeSelect.value === 'car_bed_vip') { alert("⚠️ 抱歉，車床天地特約方案「連假期間」不適用，請改選一般車泊或其他方案。"); campTypeSelect.value = ""; toggleInputs(); }
+            carBedOption.text = "🚙 車床天地特約會員 (連假一律 $600)";
+            const campTypeSelect = document.getElementById('campType');
+            if (campTypeSelect.value === 'car_bed_vip') {
+                const notice = document.getElementById('carBedHolidayNotice');
+                if (notice) notice.classList.remove('hidden');
+            }
         } else {
-            carBedOption.disabled = false; carBedOption.text = "🚙 車床天地特約會員 (需驗證編號)";
+            carBedOption.text = "🚙 車床天地特約會員 (需驗證編號)";
+            const notice = document.getElementById('carBedHolidayNotice');
+            if (notice) notice.classList.add('hidden');
         }
     }
 
     const CAMPING_CONFIG = {
       tent: { rates: { weekday: 700, weekend: 800, holiday: 1000, cny: 1200 }, nightRush: { weekday: 500, weekend: 600, holiday: 600, cny: 800 }, discountType: "fixed_amount" },
-      moto: { rates: { weekday: 400, weekend: 500, holiday: 600, cny: 800 }, nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 }, discountType: "fixed_amount" },
-      solo: { rates: { weekday: 400, weekend: 500, holiday: 600, cny: 800 }, nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 }, discountType: "fixed_amount" },
-      car: { rates: { weekday: 600, weekend: 700, holiday: 800, cny: 1100 }, nightRush: { weekday: 500, weekend: 600, holiday: 600, cny: 800 }, discountType: "fixed_amount" },
-      car_bed_vip: { people_rates: { 1: { weekday: 250, weekend: 350, holiday: 350, cny: 350 }, 2: { weekday: 300, weekend: 400, holiday: 400, cny: 400 }, 3: { weekday: 400, weekend: 500, holiday: 500, cny: 500 }, 4: { weekday: 500, weekend: 600, holiday: 600, cny: 600 } }, tent_add_on: { weekday: 50, weekend: 50, holiday: 50, cny: 50 }, ac_fee: 50, nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 }, discountType: "none" },
+      moto: { rates: { weekday: 400, weekend: 500, holiday: 500, cny: 800 }, nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 }, discountType: "fixed_amount" },
+      solo: { rates: { weekday: 400, weekend: 500, holiday: 500, cny: 800 }, nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 }, discountType: "fixed_amount" },
+      car: { rates: { weekday: 600, weekend: 700, holiday: 1000, cny: 1100 }, nightRush: { weekday: 500, weekend: 600, holiday: 600, cny: 800 }, discountType: "fixed_amount" },
+      car_bed_vip: { people_rates: { 1: { weekday: 250, weekend: 350, holiday: 600, cny: 600 }, 2: { weekday: 300, weekend: 400, holiday: 600, cny: 600 }, 3: { weekday: 400, weekend: 500, holiday: 600, cny: 600 }, 4: { weekday: 500, weekend: 600, holiday: 600, cny: 600 } }, tent_add_on: { weekday: 50, weekend: 50, holiday: 50, cny: 50 }, ac_fee: 50, nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 }, discountType: "none" },
       camper: { rates: { weekday: 800, weekend: 1000, holiday: 1200, cny: 1500 }, nightRush: { weekday: 600, weekend: 700, holiday: 800, cny: 800 }, discountType: "fixed_amount_premium" },
-      starcraft: { rates: { weekday: 1800, weekend: 2000, holiday: 2600, cny: 2800 }, discountType: "percentage" },
-      dt392: { rates: { weekday: 1600, weekend: 1800, holiday: 2000, cny: 2400 }, discountType: "percentage" },
+      starcraft: { rates: { weekday: 1800, weekend: 2000, holiday: 2400, cny: 2800 }, discountType: "percentage" },
+      dt392: { rates: { weekday: 1600, weekend: 1800, holiday: 2200, cny: 2400 }, discountType: "percentage" },
       room: { rates: { weekday: 2200, weekend: 2400, holiday: 2500, cny: 2600 }, discountType: "percentage" },
       full_basic: { rates: { weekday: 7000, weekend: 10000, holiday: 15000, cny: 15000 }, discountType: "full_venue_promo" },
       full_vans: { rates: { weekday: 10000, weekend: 16000, holiday: 18000, cny: 18000 }, discountType: "full_venue_promo" },
@@ -812,10 +832,10 @@
         
         if (type === 'car_bed_vip') {
             showElements(['carBedBlock', 'extraOptions']);
-            const acSpan = document.querySelector('[data-i18n="cb_ac"]'); if(acSpan) acSpan.innerText = "使用冷氣 (+50元/晚)";
+            const acSpan = document.querySelector('[data-i18n="cb_ac"]'); if(acSpan) acSpan.innerText = "車用冷氣 (+50元/晚)";
         } else {
             showElements(['addonBlock', 'premiumAddonBlock']); 
-            const acSpan = document.querySelector('[data-i18n="cb_ac"]'); if(acSpan) acSpan.innerText = TRANSLATIONS[currentLang].cb_ac || "使用冷氣 (+100元/晚)";
+            const acSpan = document.querySelector('[data-i18n="cb_ac"]'); if(acSpan) acSpan.innerText = TRANSLATIONS[currentLang].cb_ac || "車用冷氣 (+100元/晚)";
         }
 
         if (!type.includes('full')) showElements(['unitNotice']);
