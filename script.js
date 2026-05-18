@@ -424,16 +424,11 @@ function calculateTotal() {
   const config = CAMPING_CONFIG[type];
   if (!config) { hideResult(); return; }
 
-  // 修復 8: isNightRush 的正確判斷邏輯
   const visitTime = document.getElementById('visitTime').value;
-  const rushCheckbox = document.getElementById('isNightRush');
   let isNightRush = false;
-  if (rushCheckbox && rushCheckbox.checked && !document.getElementById('extraOptions').classList.contains('hidden')) {
-      isNightRush = true;
-  }
   if (visitTime && !document.getElementById('extraOptions').classList.contains('hidden')) {
       const hour = parseInt(visitTime.split(':')[0]);
-      if (hour >= 20 && !rushCheckbox.checked) { rushCheckbox.checked = true; isNightRush = true; }
+      if (hour >= 20) { isNightRush = true; }
   }
 
   hideElements(['rowAddons', 'rowPremium', 'rowRush', 'rowAC', 'rowCoupon', 'rowTribal']);
@@ -637,7 +632,7 @@ function calculateTotal() {
           hasCoupon = true; couponText = "🤝 攤商專屬優惠已套用，恕不疊加其他折價券";
       } else if (hasTuesday) {
           const isCampingType = ['tent', 'moto', 'solo', 'car', 'camper'].includes(type);
-          hasCoupon = true; couponText = isCampingType ? `贈 $100 週二夜市折價券🎫 x ${qty}張` : `贈 $200 週二夜市折價券🎫 x ${qty}張`;
+          if (!isCampingType) { hasCoupon = true; couponText = `贈 $100 週二夜市折價券🎫 x ${qty}張`; }
       } else if (nights >= 2) {
           hasCoupon = true; couponText = `贈 $200 水煙酒吧微醺券🍹 x ${qty}張`;
       }
@@ -721,8 +716,7 @@ function submitOrder() {
     }
 
     if (!document.getElementById('extraOptions').classList.contains('hidden')) {
-      const isNightRush = document.getElementById('isNightRush').checked;
-      if ((visitTime && parseInt(visitTime.split(':')[0]) >= 20) || isNightRush) details += " (含夜衝)";
+      if (visitTime && parseInt(visitTime.split(':')[0]) >= 20) details += " (含夜衝)";
       if (document.getElementById('useAC').checked) details += " (含冷氣)";
       if (document.getElementById('bringPet').checked) details += " (含寵物)";
     }
