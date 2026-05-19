@@ -526,7 +526,7 @@ function calculateTotal() {
                 rate_dt = 2000; 
                 
                 // ⛺ 露營模式週二精準報價
-                if (type === 'tent') rate_grass = 1000;
+                if (type === 'tent') rate_grass = 600;
                 else if (type === 'moto' || type === 'solo') rate_grass = 600;
                 else if (type === 'car') rate_grass = 600;
                 else if (type === 'camper') rate_grass = 800;
