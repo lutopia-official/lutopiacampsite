@@ -528,8 +528,8 @@ function calculateTotal() {
                 // ⛺ 露營模式週二精準報價
                 if (type === 'tent') rate_grass = 1000;
                 else if (type === 'moto' || type === 'solo') rate_grass = 600;
-                else if (type === 'car') rate_grass = 1000;
-                else if (type === 'camper') rate_grass = 1200;
+                else if (type === 'car') rate_grass = 600;
+                else if (type === 'camper') rate_grass = 800;
                 else rate_grass = 800; // 預設防呆
 
                 // 攤商模式覆蓋 (攤商的大馳、StarCraft、以及攤商營位500元優惠)
