@@ -359,7 +359,7 @@ function generateGuestInputs() {
     block.classList.remove('hidden');
     for (let i = 2; i <= qty; i++) {
       const div = document.createElement('div'); div.style.marginBottom = "10px";
-      div.innerHTML = `<label style="font-size:0.9rem; color:#555;">第 ${i} 位代表姓名：</label><input type="text" class="guest-name-input" placeholder="請輸入第 ${i} 帳/車的代表姓名" style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">`;
+      div.innerHTML = `<label style="font-size:0.9rem; color:#555;">第 ${i} 位代表姓名：</label><input type="text" class="guest-name-input" placeholder="請輸入第 ${i} 帳/車的代表姓名" style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px; margin-bottom:6px;"><label style="font-size:0.9rem; color:#555;">第 ${i} 位露營類型：</label><select class="guest-type-select" style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;"><option value="">請選擇類型...</option><option value="tent">自搭帳篷</option><option value="moto">機車、單車露營</option><option value="solo">單人小帳篷</option><option value="car">車宿、車泊、車露、加掛式車</option><option value="camper">自備拖車/自走式露營車</option><option value="starcraft">StarCraft 美式復古拖車</option><option value="dt392">大馳 DT392 露營車</option><option value="room">民宿房間</option></select>`;
       container.appendChild(div);
     }
   } else { block.classList.add('hidden'); }
@@ -722,9 +722,14 @@ function submitOrder() {
     }
 
     const guestInputs = document.querySelectorAll('.guest-name-input');
+    const guestTypeSelects = document.querySelectorAll('.guest-type-select');
     let guestNames = [];
     guestInputs.forEach((input, index) => {
-      if (input.value.trim() !== "") { guestNames.push(`(第${index + 2}位: ${input.value.trim()})`); }
+      if (input.value.trim() !== "") {
+        const typeSelect = guestTypeSelects[index];
+        const typeText = typeSelect && typeSelect.value ? ` [${typeSelect.options[typeSelect.selectedIndex].text}]` : '';
+        guestNames.push(`(第${index + 2}位: ${input.value.trim()}${typeText})`);
+      }
     });
     if (guestNames.length > 0) { details += `\n同行：${guestNames.join('、')}`; }
   }
