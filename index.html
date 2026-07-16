@@ -1189,6 +1189,10 @@
       
       if (isFullHoliday && type !== 'car_bed_vip') discount += (totalPriceForDiscount * 0.05);
 
+      if (qty > 1 && !isLongStay && type !== 'car_bed_vip' && !type.includes('full')) {
+          discount += totalPriceForDiscount * 0.05;
+      }
+
       if (!isLongStay && type !== 'car_bed_vip' && !type.includes('full')) {
           if (isVendorMode && hasTuesday) {
               hasCoupon = true; couponText = "🤝 攤商專屬優惠已套用，恕不疊加其他折價券";

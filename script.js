@@ -626,6 +626,10 @@ function calculateTotal() {
   
   if (isFullHoliday && type !== 'car_bed_vip') discount += (totalPriceForDiscount * 0.05);
 
+  if (qty > 1 && !isLongStay && type !== 'car_bed_vip' && !type.includes('full')) {
+      discount += totalPriceForDiscount * 0.05;
+  }
+
   // 修復 5: 實作贈品/優惠券顯示邏輯
   if (!isLongStay && type !== 'car_bed_vip' && !type.includes('full')) {
       if (isVendorMode && hasTuesday) {
