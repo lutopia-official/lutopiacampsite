@@ -479,7 +479,7 @@ function calculateTotal() {
   let isLongStay = false;
   if (nights >= 7 && !type.includes('full') && type !== 'car_bed_vip') {
       let lsConfig = { 'tent': {7: 3000, 14: 5000, 30: 6000}, 'car': {7: 3000, 14: 5000, 30: 6000}, 'solo': {7: 3000, 14: 5000, 30: 6000}, 'moto': {7: 3000, 14: 5000, 30: 6000},
-                       'camper': {7: 4000, 14: 6500, 30: 9000}, 'starcraft': {7: 8600, 14: 12000, 30: 19500}, 'dt392': {7: 8400, 14: 11900, 30: 18000}, 'room': {7: 7500, 14: 11200} };
+                       'camper': {7: 4000, 14: 6500, 30: 9000}, 'starcraft': {7: 8600, 14: 12000, 30: 19500}, 'dt392': {7: 8400, 14: 11900, 30: 18000}, 'room': {7: 9100, 14: 14000, 30: 22000} };
       
       if (lsConfig[type]) {
           isLongStay = true;
