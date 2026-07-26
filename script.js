@@ -233,7 +233,7 @@ const CAMPING_CONFIG = {
   car_bed_vip: { people_rates: { 1: { weekday: 250, weekend: 350, holiday: 600, cny: 600 }, 2: { weekday: 300, weekend: 400, holiday: 600, cny: 600 }, 3: { weekday: 400, weekend: 500, holiday: 600, cny: 600 }, 4: { weekday: 500, weekend: 600, holiday: 600, cny: 600 } }, tent_add_on: { weekday: 50, weekend: 50, holiday: 50, cny: 50 }, ac_fee: 50, nightRush: { weekday: 300, weekend: 400, holiday: 500, cny: 500 }, discountType: "none" },
   camper: { rates: { weekday: 800, weekend: 1000, holiday: 1200, cny: 1500 }, nightRush: { weekday: 600, weekend: 700, holiday: 800, cny: 800 }, discountType: "fixed_amount_premium" },
   starcraft: { rates: { weekday: 1800, weekend: 2000, holiday: 2400, cny: 2800 }, discountType: "percentage" },
-  dt392: { rates: { weekday: 1600, weekend: 1800, holiday: 2200, cny: 2400 }, discountType: "percentage" },
+  dt392: { rates: { weekday: 1800, weekend: 2000, holiday: 2200, cny: 2400 }, discountType: "percentage" },
   room: { rates: { weekday: 2200, weekend: 2400, holiday: 2500, cny: 2600 }, discountType: "percentage" },
   full_basic: { rates: { weekday: 7000, weekend: 10000, holiday: 15000, cny: 15000 }, discountType: "full_venue_promo" },
   full_vans: { rates: { weekday: 10000, weekend: 16000, holiday: 18000, cny: 18000 }, discountType: "full_venue_promo" },
