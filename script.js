@@ -266,8 +266,8 @@ function toggleInputs() {
   // 隱藏區塊
   hideElements([
       'nightsBlock', 'rentalDurationBlock', 'bikeBlock', 'extraOptions',
-      'addonBlock', 'premiumAddonBlock', 'unitNotice', 'policyNotice', 'campingRules',
-      'carBedBlock', 'rowRush', 'rowAC', 'rowAddons', 'rowPremium'
+      'addonBlock', 'unitNotice', 'policyNotice', 'campingRules',
+      'carBedBlock', 'rowRush', 'rowAC', 'rowAddons'
   ]);
 
   if (!type || type === "") { hideResult(); showElements(['campingRules']); return; }
@@ -281,8 +281,7 @@ function toggleInputs() {
         showElements(['carBedBlock', 'extraOptions']);
         const acSpan = document.querySelector('[data-i18n="cb_ac"]'); if(acSpan) acSpan.innerText = "車用冷氣 (+50元/晚)";
     } else {
-        // ✅ 顯示 VVIP 聯名加購與一般加購
-        showElements(['addonBlock', 'premiumAddonBlock']); 
+        showElements(['addonBlock']);
         const acSpan = document.querySelector('[data-i18n="cb_ac"]'); if(acSpan) acSpan.innerText = TRANSLATIONS[currentLang].cb_ac || "車用冷氣 (+100元/晚)";
     }
 
@@ -405,18 +404,6 @@ function validateTribalPeople() {
     const input = document.getElementById('tribalPeople');
     if (!input.value || parseInt(input.value) < 4) { alert("⚠️ 部落慢活體驗包最低需 4 人成行！"); input.value = 4; }
 }
-function scrollToAddonAndAddPass() {
-    const type = document.getElementById('campType').value;
-    if (!type || type === "") { alert("💡 請先在上方選擇您的「預約日期」與「營位類型」，系統才能幫您加入喔！"); document.getElementById('calculatorSection').scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
-    const passQtyInput = document.getElementById('dulanPassQty');
-    if (passQtyInput) { passQtyInput.value = parseInt(passQtyInput.value || 0) + 1; calculateTotal(); }
-    const addonBlock = document.getElementById('premiumAddonBlock');
-    if (addonBlock) {
-        addonBlock.classList.remove('hidden'); addonBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        addonBlock.style.transition = "background-color 0.5s"; addonBlock.style.backgroundColor = "#f3e5f5";
-        setTimeout(() => { addonBlock.style.background = "linear-gradient(to right, #fdfbfb, #ebedee)"; }, 800);
-    }
-}
 
 function calculateTotal() {
   const type = document.getElementById('campType').value;
@@ -431,7 +418,7 @@ function calculateTotal() {
       if (hour >= 20) { isNightRush = true; }
   }
 
-  hideElements(['rowAddons', 'rowPremium', 'rowRush', 'rowAC', 'rowCoupon', 'rowTribal']);
+  hideElements(['rowAddons', 'rowRush', 'rowAC', 'rowCoupon', 'rowTribal']);
   const discountRow = document.getElementById('discountPrice')?.parentElement;
   if (discountRow) discountRow.classList.remove('hidden');
 
@@ -453,7 +440,7 @@ function calculateTotal() {
     }
     
     document.getElementById('basePrice').innerText = finalPrice;
-    ['addonPrice', 'premiumPrice', 'rushPrice', 'acPrice', 'discountPrice'].forEach(id => document.getElementById(id).innerText = 0);
+    ['addonPrice', 'rushPrice', 'acPrice', 'discountPrice'].forEach(id => document.getElementById(id).innerText = 0);
     document.getElementById('finalTotal').innerText = finalPrice;
     if (discountRow) discountRow.classList.add('hidden');
     showElements(['resultBox']);
@@ -576,10 +563,6 @@ function calculateTotal() {
   const visitors = parseInt(document.getElementById('visitors').value) || 0;
   const totalAddonCost = (extraPeople * extraPersonPrice * nights) + (visitors * 100) + (bringPet ? 100 * qty * nights : 0);
 
-  const barPackageQty = parseInt(document.getElementById('barPackageQty')?.value) || 0;
-  const dulanPassQty = parseInt(document.getElementById('dulanPassQty')?.value) || 0;
-  const premiumCost = (barPackageQty * 699) + (dulanPassQty * 199);
-  
   let tribalPrice = 0;
   const enableTribal = document.getElementById('enableTribal');
   if (enableTribal && enableTribal.checked) {
@@ -590,9 +573,6 @@ function calculateTotal() {
   if (totalAddonCost > 0) { showElements(['rowAddons']); document.getElementById('addonPrice').innerText = totalAddonCost; } 
   else { document.getElementById('addonPrice').innerText = 0; }
 
-  if (premiumCost > 0) { showElements(['rowPremium']); document.getElementById('premiumPrice').innerText = premiumCost; }
-  else { document.getElementById('premiumPrice').innerText = 0; }
-  
   if (tribalPrice > 0) { showElements(['rowTribal']); document.getElementById('tribalTotal').innerText = tribalPrice; }
   else { document.getElementById('tribalTotal').innerText = 0; }
 
@@ -704,11 +684,6 @@ function submitOrder() {
     const vs = parseInt(document.getElementById('visitors').value) || 0;
     if (ep > 0) details += ` / 加人:${ep}`; if (vs > 0) details += ` / 訪客:${vs}`;
 
-    const passQty = parseInt(document.getElementById('dulanPassQty')?.value) || 0;
-    const barQty = parseInt(document.getElementById('barPackageQty')?.value) || 0;
-    if (passQty > 0) details += ` / 🎟️通行證:${passQty}本`;
-    if (barQty > 0) details += ` / 🍹微醺套餐:${barQty}組`;
-
     if (document.getElementById('enableTribal') && document.getElementById('enableTribal').checked) {
         details += ` / 🌿部落體驗:${document.getElementById('tribalPeople').value}人`;
     }
@@ -775,7 +750,7 @@ function resetForm() {
   document.getElementById('nights').value = '0';
   ['useAC', 'bringPet', 'carBedTent', 'isNightRush', 'enableTribal', 'isVendor'].forEach(id => { const el = document.getElementById(id); if(el) el.checked = false; });
   
-  ['bikeQty', 'extraPeople', 'visitors', 'barPackageQty', 'dulanPassQty'].forEach(id => { const el = document.getElementById(id); if(el) el.value = (id==='bikeQty'?1:0); });
+  ['bikeQty', 'extraPeople', 'visitors'].forEach(id => { const el = document.getElementById(id); if(el) el.value = (id==='bikeQty'?1:0); });
   if (document.getElementById('tribalPeople')) document.getElementById('tribalPeople').value = 4;
   if (document.getElementById('tribalInputBlock')) document.getElementById('tribalInputBlock').classList.add('hidden');
 

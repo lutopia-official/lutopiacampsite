@@ -244,27 +244,6 @@
                 <div id="rentalDurationBlock" class="hidden"><div class="form-group"><label for="rentalScheme" data-i18n="label_rental_scheme">租借時數方案：</label><select id="rentalScheme" onchange="calculateTotal()"><option value="3hr">3hr</option><option value="5hr">5hr</option><option value="6hr">6hr</option><option value="8hr">8hr</option><option value="day">Full Day</option></select></div></div>
                 <div id="bikeBlock" class="hidden"><div class="form-group two-col"><div><label for="bikeQty" data-i18n="label_bike_qty">租借數量 (台)：</label><input type="number" id="bikeQty" value="1" min="1" max="20" onchange="calculateTotal()"></div><div><label for="bikeScheme" data-i18n="label_bike_scheme">租借方案：</label><select id="bikeScheme" onchange="calculateTotal()"><option value="2hr">2hr ($150)</option><option value="4hr">4hr ($250)</option><option value="day">Day ($400)</option><option value="24hr">24H ($600)</option><option value="15day">15 Days ($2,500)</option><option value="30day">30 Days ($3,500)</option></select></div></div></div>
 
-                <div id="premiumAddonBlock" class="hidden" style="background: linear-gradient(to right, #fdfbfb, #ebedee); padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 2px solid #ab47bc; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
-                    <h4 style="margin: 0 0 10px 0; color: #6a1b9a; font-size: 1.05rem;"><i class="fas fa-crown text-purple-600"></i> ✨ VVIP 專屬升級體驗 (加購)</h4>
-                    
-                    <div class="form-group" style="display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom:0;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 10px; border-radius: 6px; border: 1px solid #ffd54f;">
-                            <div>
-                                <strong style="color: #f57f17; font-size: 0.95rem;">🎟️ 都蘭秘境通行證 ($199/本)</strong>
-                                <p style="margin: 3px 0 0 0; font-size: 0.8rem; color: #7f8c8d;"> 內含 8 大都蘭特色店 VIP 優惠券 </p>
-                            </div>
-                            <input type="number" id="dulanPassQty" value="0" min="0" onchange="calculateTotal()" style="width:60px; padding:8px; text-align:center; border:1px solid #ccc; border-radius:4px; background:#fafafa;">
-                        </div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 10px; border-radius: 6px; border: 1px solid #ce93d8;">
-                            <div>
-                                <strong style="color: #8e44ad; font-size: 0.95rem;">🍹 暗夜雙人微醺套餐 ($699/組)</strong>
-                                <p style="margin: 3px 0 0 0; font-size: 0.8rem; color: #7f8c8d;">含特製小水煙 1 支 ＋ 經典調酒 2 杯 </p>
-                            </div>
-                            <input type="number" id="barPackageQty" value="0" min="0" onchange="calculateTotal()" style="width:60px; padding:8px; text-align:center; border:1px solid #ccc; border-radius:4px; background:#fafafa;">
-                        </div>
-                    </div>
-                </div>
-
                 <div id="addonBlock" class="hidden" style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px dashed #ced4da;">
                     <h4 style="margin: 0 0 10px 0; color: #495057; font-size: 0.95rem;" data-i18n="addon_title">➕ 一般加購 (人/訪客)</h4>
                     <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
@@ -296,8 +275,7 @@
                     <div class="result-row hidden" id="rowTribal"><span style="color:#2e7d32; font-weight:bold;">🌿 部落體驗包：</span> <span><span id="tribalTotal">0</span> 元</span></div>
                     <div class="result-row" id="rowRush"><span data-i18n="res_rush">夜衝費用：</span> <span><span id="rushPrice">0</span> 元</span></div>
                     <div class="result-row" id="rowAddons"><span data-i18n="res_addon">加購費用：</span> <span><span id="addonPrice">0</span> 元</span></div>
-                    <div class="result-row" id="rowPremium"><span style="color:#8e44ad; font-weight:bold;">✨ VVIP升級體驗：</span> <span><span id="premiumPrice">0</span> 元</span></div>
-                    <div class="result-row" id="rowAC"><span data-i18n="res_ac">冷氣加價：</span> <span><span id="acPrice">0</span> 元</span></div>
+<div class="result-row" id="rowAC"><span data-i18n="res_ac">冷氣加價：</span> <span><span id="acPrice">0</span> 元</span></div>
                     <div class="result-row discount"><span data-i18n="res_discount">符合折扣：</span> <span>-<span id="discountPrice">0</span> 元</span></div>
                     
                     <div class="result-row discount hidden" id="rowCoupon" style="background:#fff3e0; padding:8px; border-radius:5px; margin-top:5px;">
@@ -514,28 +492,6 @@
             </div>
         </div>
 
-        <div class="coupon-zone-wrapper wide-layout" style="margin-top: 40px; background: white; padding: 30px 20px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.05);">
-            <div style="text-align: center; margin-bottom: 25px;">
-                <h2 style="color: #8e44ad; border: none; margin-bottom: 8px; font-size: 1.8rem;"><i class="fas fa-ticket-alt text-fuchsia-500"></i> 🎟️ 都蘭秘境通行證 (實體折價券本)</h2>
-                <p style="color: #666; font-weight: bold; margin-bottom: 15px;">入住即享都蘭最強生態圈！打包 8 大都蘭強力店家 VIP 券 <br><span style="color:#d35400; font-size: 1.2rem;">🔥 加購價只要 $199 / 本 🔥</span></p>
-                <button onclick="scrollToAddonAndAddPass()" style="background: linear-gradient(135deg, #8e44ad, #d35400); color: white; padding: 12px 25px; border: none; border-radius: 30px; font-size: 1.1rem; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(211, 84, 0, 0.4); animation: pulse-btn 2s infinite;"><i class="fas fa-cart-plus"></i> 點我立即加購通行證</button>
-            </div>
-            
-            <div class="coupon-scroll-container">
-                <div class="coupon-card"><div class="coupon-left bg-gradient-to-br from-indigo-800 to-purple-900"><i class="fas fa-cocktail text-4xl mb-2 opacity-90 text-indigo-100"></i><div class="text-3xl font-black leading-tight tracking-wider text-white"><span class="text-lg mr-1">$</span>200</div><div class="text-xs mt-1 font-bold tracking-widest opacity-90 text-indigo-100">微醺折抵券</div></div><div class="coupon-divider"></div><div class="coupon-right"><div class="watermark">BAR</div><div class="content-z flex flex-col h-full"><div><div class="flex justify-between items-start mb-2"><span class="bg-indigo-100 text-indigo-800 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">連住福利</span><i class="fas fa-cocktail text-indigo-500 text-lg"></i></div><h3 class="font-black text-gray-800 text-lg mb-1 leading-tight">吐煙怪獸 水煙酒吧</h3><p class="text-sm text-gray-600 font-bold mb-2">憑券折抵飲品/水煙200元</p><ul class="text-[10px] text-gray-400 list-disc pl-3 mb-2 space-y-0.5"><li>限入住錄托邦期間使用，不可兌現</li><li>每人每次消費限用乙張，恕不併用優惠</li></ul></div><div class="mt-auto pt-2 border-t border-dashed border-gray-200 flex justify-between items-end"><div class="pb-0.5"><div class="text-[10px] text-gray-500 flex items-center gap-1 mb-1.5"><i class="fas fa-map-marker-alt text-red-500"></i> 搜尋：<span class="font-bold text-gray-700">吐煙怪獸水煙酒吧</span></div><a href="https://www.google.com/maps/search/?api=1&query=吐煙怪獸水煙酒吧" target="_blank" class="inline-flex items-center justify-center bg-gray-100 hover:bg-gray-200 text-gray-600 text-[10px] font-bold px-2 py-1.5 rounded transition-colors shadow-sm"><i class="fas fa-location-arrow mr-1 text-blue-500"></i> 點擊導航</a></div><div class="flex flex-col items-center justify-center border border-gray-200 bg-white p-0.5 rounded shadow-sm"><img src="https://api.qrserver.com/v1/create-qr-code/?size=60x60&data=https://www.google.com/maps/search/?api=1%26query=吐煙怪獸水煙酒吧" alt="QR" class="w-8 h-8 opacity-90"><span class="text-[7px] text-gray-500 mt-0.5 tracking-tighter">掃碼導航</span></div></div></div></div></div>
-                <div class="coupon-card"><div class="coupon-left bg-gradient-to-br from-violet-700 to-purple-800"><i class="fas fa-glass-cheers text-4xl mb-2 opacity-90 text-violet-100"></i><div class="text-3xl font-black leading-tight tracking-wider text-white"><span class="text-lg mr-1">$</span>100</div><div class="text-xs mt-1 font-bold tracking-widest opacity-90 text-violet-100">VIP 專屬券</div></div><div class="coupon-divider"></div><div class="coupon-right"><div class="watermark">BAR</div><div class="content-z flex flex-col h-full"><div><div class="flex justify-between items-start mb-2"><span class="bg-violet-100 text-violet-800 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">錄托邦住客專屬</span><i class="fas fa-moon text-purple-400 text-lg"></i></div><h3 class="font-black text-gray-800 text-lg mb-1 leading-tight">吐煙怪獸 水煙酒吧</h3><p class="text-sm text-gray-600 font-bold mb-2">憑此券可折抵飲品/水煙消費 100 元</p><ul class="text-[10px] text-gray-400 list-disc pl-3 mb-2 space-y-0.5"><li>限入住錄托邦期間使用，不可兌現</li><li>每人每次消費限用乙張，恕不併用優惠</li></ul></div><div class="mt-auto pt-2 border-t border-dashed border-gray-200 flex justify-between items-end"><div class="pb-0.5"><div class="text-[10px] text-gray-500 flex items-center gap-1 mb-1.5"><i class="fas fa-map-marker-alt text-red-500"></i> 搜尋：<span class="font-bold text-gray-700">吐煙怪獸水煙酒吧</span></div><a href="https://www.google.com/maps/search/?api=1&query=吐煙怪獸水煙酒吧" target="_blank" class="inline-flex items-center justify-center bg-gray-100 hover:bg-gray-200 text-gray-600 text-[10px] font-bold px-2 py-1.5 rounded transition-colors shadow-sm"><i class="fas fa-location-arrow mr-1 text-blue-500"></i> 點擊導航</a></div><div class="flex flex-col items-center justify-center border border-gray-200 bg-white p-0.5 rounded shadow-sm"><img src="https://api.qrserver.com/v1/create-qr-code/?size=60x60&data=https://www.google.com/maps/search/?api=1%26query=吐煙怪獸水煙酒吧" alt="QR" class="w-8 h-8 opacity-90"><span class="text-[7px] text-gray-500 mt-0.5 tracking-tighter">掃碼導航</span></div></div></div></div></div>
-                <div class="coupon-card"><div class="coupon-left bg-gradient-to-br from-fuchsia-600 to-pink-600"><i class="fas fa-drumstick-bite text-4xl mb-2 opacity-90 text-fuchsia-100"></i><div class="text-3xl font-black leading-tight tracking-wider text-white">9 折</div><div class="text-xs mt-1 font-bold tracking-widest opacity-90 text-fuchsia-100">VIP 專屬</div></div><div class="coupon-divider"></div><div class="coupon-right"><div class="watermark">🍖</div><div class="content-z flex flex-col h-full"><div><div class="flex justify-between items-start mb-2"><span class="bg-fuchsia-100 text-fuchsia-800 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">錄托邦住客專屬</span><i class="fas fa-beer text-fuchsia-500 text-lg"></i></div><h3 class="font-black text-gray-800 text-lg mb-1 leading-tight">部落聚滷 神級下酒菜</h3><p class="text-sm text-gray-600 font-bold mb-2">憑此券享「總價打 9 折」優惠</p><ul class="text-[10px] text-gray-400 list-disc pl-3 mb-2 space-y-0.5"><li>最下酒的露營宵夜！招牌鴨翅、米血必點</li><li>請截圖私訊點餐，可請滷娘外送至營區</li></ul></div><div class="mt-auto pt-2 border-t border-dashed border-gray-200 flex justify-between items-end"><div class="pb-0.5"><div class="text-[10px] text-gray-500 flex items-center gap-1 mb-1.5"><i class="fab fa-instagram text-fuchsia-600"></i> IG：<span class="font-bold text-gray-700">gather02111130</span></div><a href="https://www.instagram.com/gather02111130" target="_blank" class="inline-flex items-center justify-center bg-fuchsia-50 hover:bg-fuchsia-100 text-fuchsia-700 text-[10px] font-bold px-2 py-1.5 rounded transition-colors shadow-sm border border-fuchsia-100"><i class="fas fa-motorcycle mr-1 text-fuchsia-600"></i> 點擊私訊 (可外送)</a></div><div class="flex flex-col items-center justify-center border border-gray-200 bg-white p-0.5 rounded shadow-sm"><img src="https://api.qrserver.com/v1/create-qr-code/?size=60x60&data=https://www.instagram.com/gather02111130" alt="QR" class="w-8 h-8 opacity-90"><span class="text-[7px] text-gray-500 mt-0.5 tracking-tighter">掃碼看菜單</span></div></div></div></div></div>
-                <div class="coupon-card"><div class="coupon-left bg-gradient-to-br from-teal-600 to-emerald-800"><i class="fas fa-mug-hot text-4xl mb-2 opacity-90 text-teal-100"></i><div class="text-3xl font-black leading-tight tracking-wider text-white">9 折</div><div class="text-xs mt-1 font-bold tracking-widest opacity-90 text-teal-100">VIP 專屬</div></div><div class="coupon-divider"></div><div class="coupon-right"><div class="watermark">☕</div><div class="content-z flex flex-col h-full"><div><div class="flex justify-between items-start mb-2"><span class="bg-teal-100 text-teal-800 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">錄托邦住客專屬</span><i class="fas fa-leaf text-teal-500 text-lg"></i></div><h3 class="font-black text-gray-800 text-lg mb-1 leading-tight">都蘭有意思 咖啡廳</h3><p class="text-sm text-gray-600 font-bold mb-2">憑此券享「總價打 9 折」優惠</p><ul class="text-[10px] text-gray-400 list-disc pl-3 mb-2 space-y-0.5"><li>帶本書，來享受老屋的慢活午後時光</li><li>點餐或結帳時請出示此票券畫面</li></ul></div><div class="mt-auto pt-2 border-t border-dashed border-gray-200 flex justify-between items-end"><div class="pb-0.5"><div class="text-[10px] text-gray-500 flex items-center gap-1 mb-1.5"><i class="fas fa-map-marker-alt text-red-500"></i> 搜尋：<span class="font-bold text-gray-700">都蘭有意思咖啡</span></div><a href="https://www.google.com/maps/search/?api=1&query=都蘭有意思咖啡" target="_blank" class="inline-flex items-center justify-center bg-gray-100 hover:bg-gray-200 text-gray-600 text-[10px] font-bold px-2 py-1.5 rounded transition-colors shadow-sm"><i class="fas fa-location-arrow mr-1 text-blue-500"></i> 點擊導航</a></div><div class="flex flex-col items-center justify-center border border-gray-200 bg-white p-0.5 rounded shadow-sm"><img src="https://api.qrserver.com/v1/create-qr-code/?size=60x60&data=https://www.google.com/maps/search/?api=1%26query=都蘭有意思咖啡" alt="QR" class="w-8 h-8 opacity-90"><span class="text-[7px] text-gray-500 mt-0.5 tracking-tighter">掃碼導航</span></div></div></div></div></div>
-                <div class="coupon-card"><div class="coupon-left bg-gradient-to-br from-pink-600 to-rose-700"><i class="fas fa-gift text-4xl mb-2 opacity-90 text-pink-100"></i><div class="text-3xl font-black leading-tight tracking-wider text-white">贈禮</div><div class="text-xs mt-1 font-bold tracking-widest opacity-90 text-pink-100">VIP 專屬</div></div><div class="coupon-divider"></div><div class="coupon-right"><div class="watermark">🌸</div><div class="content-z flex flex-col h-full"><div><div class="flex justify-between items-start mb-2"><span class="bg-pink-100 text-pink-800 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">錄托邦住客專屬</span><i class="fas fa-seedling text-pink-500 text-lg"></i></div><h3 class="font-black text-gray-800 text-lg mb-1 leading-tight">江克白在花園</h3><p class="text-sm text-gray-600 font-bold mb-2">憑此券點餐「免費贈送小點心一份」</p><ul class="text-[10px] text-gray-400 list-disc pl-3 mb-2 space-y-0.5"><li>隱身花園的美味秘境，享受都蘭慢活步調</li><li>點餐或結帳時請交予店員，恕不併用優惠</li></ul></div><div class="mt-auto pt-2 border-t border-dashed border-gray-200 flex justify-between items-end"><div class="pb-0.5"><div class="text-[10px] text-gray-500 flex items-center gap-1 mb-1.5"><i class="fas fa-map-marker-alt text-red-500"></i> 搜尋：<span class="font-bold text-gray-700">江克白在花園</span></div><a href="https://www.google.com/maps/search/?api=1&query=江克白在花園" target="_blank" class="inline-flex items-center justify-center bg-gray-100 hover:bg-gray-200 text-gray-600 text-[10px] font-bold px-2 py-1.5 rounded transition-colors shadow-sm"><i class="fas fa-location-arrow mr-1 text-blue-500"></i> 點擊導航</a></div><div class="flex flex-col items-center justify-center border border-gray-200 bg-white p-0.5 rounded shadow-sm"><img src="https://api.qrserver.com/v1/create-qr-code/?size=60x60&data=https://www.google.com/maps/search/?api=1%26query=江克白在花園" alt="QR" class="w-8 h-8 opacity-90"><span class="text-[7px] text-gray-500 mt-0.5 tracking-tighter">掃碼導航</span></div></div></div></div></div>
-                <div class="coupon-card"><div class="coupon-left bg-gradient-to-br from-green-500 to-emerald-700"><i class="fas fa-seedling text-4xl mb-2 opacity-90 text-green-100"></i><div class="text-3xl font-black leading-tight tracking-wider text-white">9 折</div><div class="text-xs mt-1 font-bold tracking-widest opacity-90 text-green-100">VIP 專屬</div></div><div class="coupon-divider"></div><div class="coupon-right"><div class="watermark">🌿</div><div class="content-z flex flex-col h-full"><div><div class="flex justify-between items-start mb-2"><span class="bg-green-100 text-green-800 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">錄托邦住客專屬</span><i class="fas fa-leaf text-green-500 text-lg"></i></div><h3 class="font-black text-gray-800 text-lg mb-1 leading-tight">山珊蔬食</h3><p class="text-sm text-gray-600 font-bold mb-2">憑此券享「總價打 9 折」優惠</p><ul class="text-[10px] text-gray-400 list-disc pl-3 mb-2 space-y-0.5"><li>全植全食！必嚐韌性日常餐、秘醬燒烤串</li><li>共農共食的純粹美味，結帳前請出示予店員</li></ul></div><div class="mt-auto pt-2 border-t border-dashed border-gray-200 flex justify-between items-end"><div class="pb-0.5"><div class="text-[10px] text-gray-500 flex items-center gap-1 mb-1.5"><i class="fas fa-map-marker-alt text-red-500"></i> 搜尋：<span class="font-bold text-gray-700">都蘭 山珊蔬食</span></div><a href="https://www.google.com/maps/search/?api=1&query=都蘭+山珊蔬食" target="_blank" class="inline-flex items-center justify-center bg-gray-100 hover:bg-gray-200 text-gray-600 text-[10px] font-bold px-2 py-1.5 rounded transition-colors shadow-sm"><i class="fas fa-location-arrow mr-1 text-blue-500"></i> 點擊導航</a></div><div class="flex flex-col items-center justify-center border border-gray-200 bg-white p-0.5 rounded shadow-sm"><img src="https://api.qrserver.com/v1/create-qr-code/?size=60x60&data=https://www.google.com/maps/search/?api=1%26query=都蘭+山珊蔬食" alt="QR" class="w-8 h-8 opacity-90"><span class="text-[7px] text-gray-500 mt-0.5 tracking-tighter">掃碼導航</span></div></div></div></div></div>
-                <div class="coupon-card"><div class="coupon-left bg-gradient-to-br from-blue-400 to-blue-700"><i class="fas fa-ice-cream text-4xl mb-2 opacity-90 text-blue-100"></i><div class="text-3xl font-black leading-tight tracking-wider text-white">9 折</div><div class="text-xs mt-1 font-bold tracking-widest opacity-90 text-blue-100">VIP 專屬</div></div><div class="coupon-divider"></div><div class="coupon-right"><div class="watermark">☕</div><div class="content-z flex flex-col h-full"><div><div class="flex justify-between items-start mb-2"><span class="bg-blue-100 text-blue-800 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">錄托邦住客專屬</span><i class="fas fa-coffee text-blue-500 text-lg"></i></div><h3 class="font-black text-gray-800 text-lg mb-1 leading-tight">ELO Cafe 怡樂優格</h3><p class="text-sm text-gray-600 font-bold mb-2">憑此券享「總價打 9 折」優惠</p><ul class="text-[10px] text-gray-400 list-disc pl-3 mb-2 space-y-0.5"><li>牧場優格、早午餐、晚餐、甜點與咖啡</li><li>點餐或結帳時請交予店員，恕不併用優惠</li></ul></div><div class="mt-auto pt-2 border-t border-dashed border-gray-200 flex justify-between items-end"><div class="pb-0.5"><div class="text-[10px] text-gray-500 flex items-center gap-1 mb-1.5"><i class="fas fa-map-marker-alt text-red-500"></i> 搜尋：<span class="font-bold text-gray-700">都蘭 ELO Cafe</span></div><a href="https://www.google.com/maps/search/?api=1&query=都蘭+ELO+Cafe" target="_blank" class="inline-flex items-center justify-center bg-gray-100 hover:bg-gray-200 text-gray-600 text-[10px] font-bold px-2 py-1.5 rounded transition-colors shadow-sm"><i class="fas fa-location-arrow mr-1 text-blue-500"></i> 點擊導航</a></div><div class="flex flex-col items-center justify-center border border-gray-200 bg-white p-0.5 rounded shadow-sm"><img src="https://api.qrserver.com/v1/create-qr-code/?size=60x60&data=https://www.google.com/maps/search/?api=1%26query=都蘭+ELO+Cafe" alt="QR" class="w-8 h-8 opacity-90"><span class="text-[7px] text-gray-500 mt-0.5 tracking-tighter">掃碼導航</span></div></div></div></div></div>
-                <div class="coupon-card"><div class="coupon-left bg-gradient-to-br from-orange-500 to-red-700"><i class="fas fa-fire text-4xl mb-2 opacity-90 text-orange-100"></i><div class="text-3xl font-black leading-tight tracking-wider text-white">9 折</div><div class="text-xs mt-1 font-bold tracking-widest opacity-90 text-orange-100">VIP 專屬</div></div><div class="coupon-divider"></div><div class="coupon-right"><div class="watermark">🥩</div><div class="content-z flex flex-col h-full"><div><div class="flex justify-between items-start mb-2"><span class="bg-orange-100 text-orange-800 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">錄托邦住客專屬</span><i class="fas fa-fire-alt text-orange-500 text-lg"></i></div><h3 class="font-black text-gray-800 text-lg mb-1 leading-tight">院子大BBQ</h3><p class="text-sm text-gray-600 font-bold mb-2">憑此券享「總價打 9 折」優惠</p><ul class="text-[10px] text-gray-400 list-disc pl-3 mb-2 space-y-0.5"><li>大院子裡的熱血烤肉派對，露營大口吃肉最對味</li><li>點餐或結帳時請出示此票券畫面，恕不併用優惠</li></ul></div><div class="mt-auto pt-2 border-t border-dashed border-gray-200 flex justify-between items-end"><div class="pb-0.5"><div class="text-[10px] text-gray-500 flex items-center gap-1 mb-1.5"><i class="fas fa-map-marker-alt text-red-500"></i> 搜尋：<span class="font-bold text-gray-700">都蘭 院子大BBQ</span></div><a href="https://www.google.com/maps/search/?api=1&query=都蘭+院子大BBQ" target="_blank" class="inline-flex items-center justify-center bg-gray-100 hover:bg-gray-200 text-gray-600 text-[10px] font-bold px-2 py-1.5 rounded transition-colors shadow-sm"><i class="fas fa-location-arrow mr-1 text-blue-500"></i> 點擊導航</a></div><div class="flex flex-col items-center justify-center border border-gray-200 bg-white p-0.5 rounded shadow-sm"><img src="https://api.qrserver.com/v1/create-qr-code/?size=60x60&data=https://www.google.com/maps/search/?api=1%26query=都蘭+院子大BBQ" alt="QR" class="w-8 h-8 opacity-90"><span class="text-[7px] text-gray-500 mt-0.5 tracking-tighter">掃碼導航</span></div></div></div></div></div>
-            </div>
-            
-            <div style="text-align: center; margin-top: 15px;">
-                <p class="text-xs text-gray-400"><i class="fas fa-hand-pointer"></i> 左右滑動查看通行證內含優惠</p>
-            </div>
-        </div>
 
     </div>
 
@@ -820,8 +776,8 @@
 
       hideElements([
           'nightsBlock', 'rentalDurationBlock', 'bikeBlock', 'extraOptions',
-          'addonBlock', 'premiumAddonBlock', 'unitNotice', 'policyNotice', 'campingRules',
-          'carBedBlock', 'rowRush', 'rowAC', 'rowAddons', 'rowPremium'
+          'addonBlock', 'unitNotice', 'policyNotice', 'campingRules',
+          'carBedBlock', 'rowRush', 'rowAC', 'rowAddons'
       ]);
 
       if (!type || type === "") { hideResult(); showElements(['campingRules']); return; }
@@ -835,7 +791,7 @@
             showElements(['carBedBlock', 'extraOptions']);
             const acSpan = document.querySelector('[data-i18n="cb_ac"]'); if(acSpan) acSpan.innerText = "車用冷氣 (+50元/晚)";
         } else {
-            showElements(['addonBlock', 'premiumAddonBlock']); 
+            showElements(['addonBlock']);
             const acSpan = document.querySelector('[data-i18n="cb_ac"]'); if(acSpan) acSpan.innerText = TRANSLATIONS[currentLang].cb_ac || "車用冷氣 (+100元/晚)";
         }
 
@@ -957,18 +913,7 @@
         const input = document.getElementById('tribalPeople');
         if (!input.value || parseInt(input.value) < 4) { alert("⚠️ 部落慢活體驗包最低需 4 人成行！"); input.value = 4; }
     }
-    function scrollToAddonAndAddPass() {
-        const type = document.getElementById('campType').value;
-        if (!type || type === "") { alert("💡 請先在上方選擇您的「預約日期」與「營位類型」，系統才能幫您加入喔！"); document.getElementById('calculatorSection').scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
-        const passQtyInput = document.getElementById('dulanPassQty');
-        if (passQtyInput) { passQtyInput.value = parseInt(passQtyInput.value || 0) + 1; calculateTotal(); }
-        const addonBlock = document.getElementById('premiumAddonBlock');
-        if (addonBlock) {
-            addonBlock.classList.remove('hidden'); addonBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            addonBlock.style.transition = "background-color 0.5s"; addonBlock.style.backgroundColor = "#f3e5f5";
-            setTimeout(() => { addonBlock.style.background = "linear-gradient(to right, #fdfbfb, #ebedee)"; }, 800);
-        }
-    }
+
 
     function calculateTotal() {
       const type = document.getElementById('campType').value;
@@ -983,7 +928,7 @@
           if (hour >= 20) { isNightRush = true; }
       }
 
-      hideElements(['rowAddons', 'rowPremium', 'rowRush', 'rowAC', 'rowCoupon', 'rowTribal']);
+      hideElements(['rowAddons', 'rowRush', 'rowAC', 'rowCoupon', 'rowTribal']);
       const discountRow = document.getElementById('discountPrice')?.parentElement;
       if (discountRow) discountRow.classList.remove('hidden');
 
@@ -1005,7 +950,7 @@
         }
         
         document.getElementById('basePrice').innerText = finalPrice;
-        ['addonPrice', 'premiumPrice', 'rushPrice', 'acPrice', 'discountPrice'].forEach(id => document.getElementById(id).innerText = 0);
+        ['addonPrice', 'rushPrice', 'acPrice', 'discountPrice'].forEach(id => document.getElementById(id).innerText = 0);
         document.getElementById('finalTotal').innerText = finalPrice;
         if (discountRow) discountRow.classList.add('hidden');
         showElements(['resultBox']);
@@ -1141,9 +1086,6 @@
       const visitors = parseInt(document.getElementById('visitors').value) || 0;
       const totalAddonCost = (extraPeople * extraPersonPrice * nights) + (visitors * 100) + (bringPet ? 100 * qty * nights : 0);
 
-      const barPackageQty = parseInt(document.getElementById('barPackageQty')?.value) || 0;
-      const dulanPassQty = parseInt(document.getElementById('dulanPassQty')?.value) || 0;
-      const premiumCost = (barPackageQty * 699) + (dulanPassQty * 199);
       
       let tribalPrice = 0;
       const enableTribal = document.getElementById('enableTribal');
@@ -1155,9 +1097,6 @@
       if (totalAddonCost > 0) { showElements(['rowAddons']); document.getElementById('addonPrice').innerText = totalAddonCost; } 
       else { document.getElementById('addonPrice').innerText = 0; }
 
-      if (premiumCost > 0) { showElements(['rowPremium']); document.getElementById('premiumPrice').innerText = premiumCost; }
-      else { document.getElementById('premiumPrice').innerText = 0; }
-      
       if (tribalPrice > 0) { showElements(['rowTribal']); document.getElementById('tribalTotal').innerText = tribalPrice; }
       else { document.getElementById('tribalTotal').innerText = 0; }
 
@@ -1264,11 +1203,6 @@
         const vs = parseInt(document.getElementById('visitors').value) || 0;
         if (ep > 0) details += ` / 加人:${ep}`; if (vs > 0) details += ` / 訪客:${vs}`;
 
-        const passQty = parseInt(document.getElementById('dulanPassQty')?.value) || 0;
-        const barQty = parseInt(document.getElementById('barPackageQty')?.value) || 0;
-        if (passQty > 0) details += ` / 🎟️通行證:${passQty}本`;
-        if (barQty > 0) details += ` / 🍹微醺套餐:${barQty}組`;
-
         if (document.getElementById('enableTribal') && document.getElementById('enableTribal').checked) {
             details += ` / 🌿部落體驗:${document.getElementById('tribalPeople').value}人`;
         }
@@ -1335,7 +1269,7 @@
       document.getElementById('nights').value = '0';
       ['useAC', 'bringPet', 'carBedTent', 'isNightRush', 'enableTribal', 'isVendor'].forEach(id => { const el = document.getElementById(id); if(el) el.checked = false; });
       
-      ['bikeQty', 'extraPeople', 'visitors', 'barPackageQty', 'dulanPassQty'].forEach(id => { const el = document.getElementById(id); if(el) el.value = (id==='bikeQty'?1:0); });
+      ['bikeQty', 'extraPeople', 'visitors'].forEach(id => { const el = document.getElementById(id); if(el) el.value = (id==='bikeQty'?1:0); });
       if (document.getElementById('tribalPeople')) document.getElementById('tribalPeople').value = 4;
       if (document.getElementById('tribalInputBlock')) document.getElementById('tribalInputBlock').classList.add('hidden');
 
