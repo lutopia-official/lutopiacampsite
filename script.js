@@ -375,18 +375,6 @@ function updateNights(dates) {
 function formatDate(date) { return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`; }
 
 // 修復 1: 補齊所有未定義的 UI 互動函式
-function verifyVendor(checkbox) {
-    if (checkbox.checked) {
-        const code = prompt("請輸入『攤商專屬解鎖碼』🔒\n(提示：填寫完報名表單後會顯示！)");
-        if (code === "BOSS888") { 
-            alert("✅ 解鎖成功！已套用攤商專屬優惠報價。");
-            calculateTotal(); return true;
-        } else {
-            alert("❌ 解鎖碼錯誤！請先完成報名表單獲取密碼。");
-            checkbox.checked = false; return false;
-        }
-    } else { calculateTotal(); return true; }
-}
 function openTribalModal() { document.getElementById('tribalModal').classList.remove('hidden'); document.getElementById('tribalModal').style.display = 'flex'; }
 function closeTribalModal() { document.getElementById('tribalModal').classList.add('hidden'); document.getElementById('tribalModal').style.display = 'none'; }
 function bookTribalPackage() {
@@ -457,9 +445,7 @@ function calculateTotal() {
 
   const useAC = document.getElementById('useAC')?.checked || false;
   const bringPet = document.getElementById('bringPet')?.checked || false;
-  const isVendorMode = document.getElementById('isVendor') && document.getElementById('isVendor').checked;
-
-  let basePrice = 0, rushPrice = 0, acPrice = 0, hasSaturday = false, isHolidayForDiscount = false, hasTuesday = false;
+  let basePrice = 0, rushPrice = 0, acPrice = 0, hasSaturday = false, isHolidayForDiscount = false;
   let currentDate = new Date(selectedDates[0]);
 
   // 修復 6: 長住 7 天自動升級邏輯
@@ -492,7 +478,6 @@ function calculateTotal() {
         let rateType = CNY_DAYS.includes(dateStr) ? 'cny' : (isMakeup ? 'weekday' : (HOLIDAYS.includes(dateStr) ? 'holiday' : ([5,6].includes(dayOfWeek) ? 'weekend' : 'weekday')));
 
         if (dayOfWeek === 6 && !isMakeup) hasSaturday = true;
-        if (dayOfWeek === 2 && !isMakeup) hasTuesday = true;
         if (HOLIDAYS.includes(dateStr) || CNY_DAYS.includes(dateStr)) isHolidayForDiscount = true;
 
         if (i === 0 && isNightRush && config.nightRush) {
@@ -506,36 +491,10 @@ function calculateTotal() {
             let rate_dt = CAMPING_CONFIG.dt392.rates[rateType] || CAMPING_CONFIG.dt392.rates['holiday'];
             let rate_grass = config.rates && config.rates[rateType] !== undefined ? config.rates[rateType] : 0;
 
-            if (dayOfWeek === 2 && !isMakeup) {
-                // 免裝備住宿週二價
-                rate_room = 2400; 
-                rate_star = 2200; 
-                rate_dt = 2000; 
-                
-                // ⛺ 露營模式週二精準報價
-                if (type === 'tent') rate_grass = 600;
-                else if (type === 'moto' || type === 'solo') rate_grass = 600;
-                else if (type === 'car') rate_grass = 600;
-                else if (type === 'camper') rate_grass = 800;
-                else rate_grass = 800; // 預設防呆
-
-                // 攤商模式覆蓋 (攤商的大馳、StarCraft、以及攤商營位500元優惠)
-                if (isVendorMode) { 
-                    rate_dt = 1400; 
-                    rate_star = 1500; 
-                    rate_grass = 500; 
-                }
-            }
-            
             if (type === 'car_bed_vip') {
                 const pQty = parseInt(document.getElementById('carBedPeople').value) || 2;
                 let personPrice = config.people_rates[pQty][rateType] !== undefined ? config.people_rates[pQty][rateType] : config.people_rates[pQty]['weekend'];
                 
-                // ✨ 車床週二價：不管幾人，一律 600 元
-                if (dayOfWeek === 2 && !isMakeup) {
-                    personPrice = 600;
-                }
-
                 let tentFee = document.getElementById('carBedTent').checked ? (config.tent_add_on[rateType] || 50) : 0;
                 dailyBase = (personPrice + tentFee) * qty;
             } else if (type === 'room') {
@@ -610,14 +569,8 @@ function calculateTotal() {
       discount += totalPriceForDiscount * 0.05;
   }
 
-  // 修復 5: 實作贈品/優惠券顯示邏輯
   if (!isLongStay && type !== 'car_bed_vip' && !type.includes('full')) {
-      if (isVendorMode && hasTuesday) {
-          hasCoupon = true; couponText = "🤝 攤商專屬優惠已套用，恕不疊加其他折價券";
-      } else if (hasTuesday) {
-          const isCampingType = ['tent', 'moto', 'solo', 'car', 'camper'].includes(type);
-          if (!isCampingType) { hasCoupon = true; couponText = `贈 $100 週二夜市折價券🎫 x ${qty}張`; }
-      } else if (nights >= 2) {
+      if (nights >= 2) {
           hasCoupon = true; couponText = `贈 $200 水煙酒吧微醺券🍹 x ${qty}張`;
       }
   }
@@ -748,7 +701,7 @@ function resetForm() {
   selectedDates = [];
   document.getElementById('campType').value = ""; toggleInputs();
   document.getElementById('nights').value = '0';
-  ['useAC', 'bringPet', 'carBedTent', 'isNightRush', 'enableTribal', 'isVendor'].forEach(id => { const el = document.getElementById(id); if(el) el.checked = false; });
+  ['useAC', 'bringPet', 'carBedTent', 'isNightRush', 'enableTribal'].forEach(id => { const el = document.getElementById(id); if(el) el.checked = false; });
   
   ['bikeQty', 'extraPeople', 'visitors'].forEach(id => { const el = document.getElementById(id); if(el) el.value = (id==='bikeQty'?1:0); });
   if (document.getElementById('tribalPeople')) document.getElementById('tribalPeople').value = 4;

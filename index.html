@@ -103,40 +103,6 @@
                     </div>
                 </div>
 
-                <div id="nightMarketNotice" class="notice-box" style="background-color: #f3e5f5; color: #4a148c; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 5px solid #9c27b0; box-shadow: 0 2px 8px rgba(0,0,0,0.05); position: relative;">
-                    <i class="fas fa-store"></i> <strong>✨ 錄托邦星空草地夜市 (每週二限定) ⛺</strong>
-                    <p style="margin: 8px 0 5px 0; font-size: 0.95rem; line-height: 1.6; font-weight: bold;">
-                        🏕️ 【週二 限定！逛夜市配滿天星斗住宿方案】
-                    </p>
-                    <ul style="margin: 0 0 0 20px; padding: 0; font-size: 0.9rem; line-height: 1.6;">
-                        <li><span style="color:#d35400; font-weight:bold;">⛺️ 營位</span> 贈 $200 夜市折價券 (僅釋出 8 格)</li>
-                        <li><span style="color:#d35400; font-weight:bold;">🚐 大馳露營車</span> 贈 $200 夜市折價券 (僅 1 台)</li>
-                        <li><span style="color:#d35400; font-weight:bold;">🚐 StarCraft</span> 贈 $200 夜市折價券 (僅 1 台)</li>
-                        <li><span style="color:#d35400; font-weight:bold;">🛏️ 溫馨四人房</span> 贈 $200 夜市折價券 (僅 1 間)</li>
-                    </ul>
-                    
-                    <div style="margin-top: 15px; padding: 15px; background: rgba(255,255,255,0.7); border-radius: 8px; border: 2px dashed #ab47bc;">
-                        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;">
-                            <div>
-                                <strong style="color: #6a1b9a; font-size: 1rem;"><i class="fas fa-handshake"></i> 攤商招募中！【頭家睏霸專屬套票】</strong>
-                                <p style="margin: 3px 0 0 0; font-size: 0.85rem; color: #555;">填完報名表解鎖密碼，營位只收500元！大馳只要 $1,400！不只大馳，還有 StarCraft 也可享 $1,500 優惠！</p>
-                            </div>
-                            <label style="display: flex; align-items: center; cursor: pointer; font-weight: bold; color: #8e24aa; margin-top: 8px; background: #fff; padding: 5px 10px; border-radius: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-                                <span class="vendor-toggle">
-                                    <input type="checkbox" id="isVendor" onclick="return verifyVendor(this)">
-                                    <span class="slider"></span>
-                                </span>
-                                我是市集攤商
-                            </label>
-                        </div>
-                        <div style="text-align: right; margin-top: 8px;">
-                            <a href="https://forms.gle/VDD6b8o2aBLtppuf9" target="_blank" style="display: inline-block; background: linear-gradient(135deg, #8e24aa, #6a1b9a); color: white; padding: 6px 12px; border-radius: 15px; text-decoration: none; font-size: 0.85rem; font-weight: bold; box-shadow: 0 3px 6px rgba(106, 27, 154, 0.4); transition: opacity 0.2s;">
-                                <i class="fas fa-pencil-alt"></i> 去填寫報名表獲取密碼
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
                 <div id="unitNotice" class="notice-box" style="background-color: #e3f2fd; color: #0d47a1; padding: 12px; border-radius: 6px; margin-bottom: 15px; border-left: 5px solid #2196F3; font-size: 0.95rem;">
                     <i class="fas fa-info-circle"></i> <strong id="basicUnitDesc" data-i18n="basic_unit">基本單位：4人 / 1車 / 1帳 / 1車邊帳or車尾帳</strong>
                 </div>
@@ -884,18 +850,6 @@
 
     function formatDate(date) { return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`; }
 
-    function verifyVendor(checkbox) {
-        if (checkbox.checked) {
-            const code = prompt("請輸入『攤商專屬解鎖碼』🔒\n(提示：填寫完報名表單後會顯示！)");
-            if (code === "BOSS888") { 
-                alert("✅ 解鎖成功！已套用攤商專屬優惠報價。");
-                calculateTotal(); return true;
-            } else {
-                alert("❌ 解鎖碼錯誤！請先完成報名表單獲取密碼。");
-                checkbox.checked = false; return false;
-            }
-        } else { calculateTotal(); return true; }
-    }
     function openTribalModal() { document.getElementById('tribalModal').classList.remove('hidden'); document.getElementById('tribalModal').style.display = 'flex'; }
     function closeTribalModal() { document.getElementById('tribalModal').classList.add('hidden'); document.getElementById('tribalModal').style.display = 'none'; }
     function bookTribalPackage() {
@@ -967,9 +921,7 @@
 
       const useAC = document.getElementById('useAC')?.checked || false;
       const bringPet = document.getElementById('bringPet')?.checked || false;
-      const isVendorMode = document.getElementById('isVendor') && document.getElementById('isVendor').checked;
-
-      let basePrice = 0, rushPrice = 0, acPrice = 0, hasSaturday = false, isHolidayForDiscount = false, hasTuesday = false;
+      let basePrice = 0, rushPrice = 0, acPrice = 0, hasSaturday = false, isHolidayForDiscount = false;
       let currentDate = new Date(selectedDates[0]);
 
       let isLongStay = false;
@@ -1025,7 +977,6 @@
             let rateType = CNY_DAYS.includes(dateStr) ? 'cny' : (isMakeup ? 'weekday' : (HOLIDAYS.includes(dateStr) ? 'holiday' : ([5,6].includes(dayOfWeek) ? 'weekend' : 'weekday')));
 
             if (dayOfWeek === 6 && !isMakeup) hasSaturday = true;
-            if (dayOfWeek === 2 && !isMakeup) hasTuesday = true;
             if (HOLIDAYS.includes(dateStr) || CNY_DAYS.includes(dateStr)) isHolidayForDiscount = true;
 
             if (i === 0 && isNightRush && config.nightRush) {
@@ -1039,25 +990,9 @@
                 let rate_dt = CAMPING_CONFIG.dt392.rates[rateType] || CAMPING_CONFIG.dt392.rates['holiday'];
                 let rate_grass = config.rates && config.rates[rateType] !== undefined ? config.rates[rateType] : 0;
 
-                if (dayOfWeek === 2 && !isMakeup) {
-                    rate_room = 2400; rate_star = 2200; rate_dt = 2000; 
-                    if (type === 'tent') rate_grass = 600;
-                    else if (type === 'moto' || type === 'solo') rate_grass = 600;
-                    else if (type === 'car') rate_grass = 600;
-                    else if (type === 'camper') rate_grass = 800;
-                    else rate_grass = 800;
-                    
-                    if (isVendorMode) { rate_dt = 1400; rate_star = 1500; rate_grass = 500; }
-                }
-
                 if (type === 'car_bed_vip') {
                     const pQty = parseInt(document.getElementById('carBedPeople').value) || 2;
                     let personPrice = config.people_rates[pQty][rateType] !== undefined ? config.people_rates[pQty][rateType] : config.people_rates[pQty]['weekend'];
-                    
-                    if (dayOfWeek === 2 && !isMakeup) {
-                        personPrice = 600;
-                    }
-
                     let tentFee = document.getElementById('carBedTent').checked ? (config.tent_add_on[rateType] || 50) : 0;
                     dailyBase = (personPrice + tentFee) * qty; 
                 } else if (type === 'room') {
@@ -1133,12 +1068,7 @@
       }
 
       if (!isLongStay && type !== 'car_bed_vip' && !type.includes('full')) {
-          if (isVendorMode && hasTuesday) {
-              hasCoupon = true; couponText = "🤝 攤商專屬優惠已套用，恕不疊加其他折價券";
-          } else if (hasTuesday) {
-              const isCampingType = ['tent', 'moto', 'solo', 'car', 'camper'].includes(type);
-              if (!isCampingType) { hasCoupon = true; couponText = `贈 $100 週二夜市折價券🎫 x ${qty}張`; }
-          } else if (nights >= 2) {
+          if (nights >= 2) {
               hasCoupon = true; couponText = `贈 $100 水煙酒吧微醺券🍹 x ${qty}張`;
           }
       }
@@ -1267,7 +1197,7 @@
       selectedDates = [];
       document.getElementById('campType').value = ""; toggleInputs();
       document.getElementById('nights').value = '0';
-      ['useAC', 'bringPet', 'carBedTent', 'isNightRush', 'enableTribal', 'isVendor'].forEach(id => { const el = document.getElementById(id); if(el) el.checked = false; });
+      ['useAC', 'bringPet', 'carBedTent', 'isNightRush', 'enableTribal'].forEach(id => { const el = document.getElementById(id); if(el) el.checked = false; });
       
       ['bikeQty', 'extraPeople', 'visitors'].forEach(id => { const el = document.getElementById(id); if(el) el.value = (id==='bikeQty'?1:0); });
       if (document.getElementById('tribalPeople')) document.getElementById('tribalPeople').value = 4;
