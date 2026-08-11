@@ -254,12 +254,10 @@ function toggleInputs() {
   const unitQtySelect = document.getElementById('unitQty');
 
   let newOptions = "";
-  if (['room', 'starcraft', 'dt392'].includes(type)) { newOptions = `<option value="1">1</option>`; }
-  else { newOptions = `<option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10 ${t.opt_group_contact}</option>`; }
+  newOptions = `<option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option>`;
   unitQtySelect.innerHTML = newOptions;
 
-  if ((['starcraft', 'dt392', 'room'].includes(type)) && parseInt(unitQtySelect.value) > 4) { unitQtySelect.value = 1; } 
-  else if (!unitQtySelect.value) { unitQtySelect.value = 1; }
+  if (!unitQtySelect.value) { unitQtySelect.value = 1; }
 
   // 隱藏區塊
   hideElements([
@@ -496,11 +494,11 @@ function calculateTotal() {
                 let tentFee = document.getElementById('carBedTent').checked ? (config.tent_add_on[rateType] || 50) : 0;
                 dailyBase = (personPrice + tentFee) * qty;
             } else if (type === 'room') {
-                if (qty === 1) dailyBase = rate_room; else if (qty === 2) dailyBase = rate_room + rate_star; else if (qty === 3) dailyBase = rate_room + rate_dt; else if (qty === 4) dailyBase = rate_room + rate_star + rate_dt;
+                if (qty === 1) dailyBase = rate_room; else if (qty === 2) dailyBase = rate_room + rate_star; else if (qty === 3) dailyBase = rate_room + rate_dt; else dailyBase = rate_room + rate_star + rate_dt;
             } else if (type === 'starcraft') {
-                if (qty === 1) dailyBase = rate_star; else if (qty === 2) dailyBase = rate_star + rate_room; else if (qty === 3) dailyBase = rate_star + rate_dt; else if (qty === 4) dailyBase = rate_star + rate_room + rate_dt;
+                if (qty === 1) dailyBase = rate_star; else if (qty === 2) dailyBase = rate_star + rate_room; else if (qty === 3) dailyBase = rate_star + rate_dt; else dailyBase = rate_star + rate_room + rate_dt;
             } else if (type === 'dt392') {
-                if (qty === 1) dailyBase = rate_dt; else if (qty === 2) dailyBase = rate_dt + rate_room; else if (qty === 3) dailyBase = rate_dt + rate_star; else if (qty === 4) dailyBase = rate_dt + rate_room + rate_star;
+                if (qty === 1) dailyBase = rate_dt; else if (qty === 2) dailyBase = rate_dt + rate_room; else if (qty === 3) dailyBase = rate_dt + rate_star; else dailyBase = rate_dt + rate_room + rate_star;
             } else {
                 dailyBase = rate_grass * qty;
             }
