@@ -254,7 +254,7 @@ function toggleInputs() {
   const unitQtySelect = document.getElementById('unitQty');
 
   let newOptions = "";
-  if (['room', 'starcraft', 'dt392'].includes(type)) { newOptions = `<option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option>`; }
+  if (['room', 'starcraft', 'dt392'].includes(type)) { newOptions = `<option value="1">1</option>`; }
   else { newOptions = `<option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10 ${t.opt_group_contact}</option>`; }
   unitQtySelect.innerHTML = newOptions;
 
@@ -573,7 +573,7 @@ function calculateTotal() {
       }
   }
 
-  const total = Math.round(basePrice + acPrice + totalAddonCost + premiumCost + tribalPrice - discount);
+  const total = Math.round(basePrice + acPrice + totalAddonCost + tribalPrice - discount);
 
   document.getElementById('basePrice').innerText = Math.round(basePrice);
   document.getElementById('rushPrice').innerText = isNightRush ? " (已含)" : 0;
