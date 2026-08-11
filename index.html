@@ -731,10 +731,19 @@
       const unitQtySelect = document.getElementById('unitQty');
 
       let newOptions = "";
-      newOptions = `<option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option>`;
+      if (type === 'room') {
+        newOptions = `<option value="1">1</option><option value="2">2 (另含 StarCraft)</option><option value="3">3 (另含 大馳 DT392)</option><option value="4">4 (另含 StarCraft + 大馳 DT392)</option>`;
+      } else if (type === 'starcraft') {
+        newOptions = `<option value="1">1</option><option value="2">2 (另含 民宿房間)</option><option value="3">3 (另含 大馳 DT392)</option><option value="4">4 (另含 民宿房間 + 大馳 DT392)</option>`;
+      } else if (type === 'dt392') {
+        newOptions = `<option value="1">1</option><option value="2">2 (另含 民宿房間)</option><option value="3">3 (另含 StarCraft)</option><option value="4">4 (另含 民宿房間 + StarCraft)</option>`;
+      } else {
+        newOptions = `<option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option>`;
+      }
       unitQtySelect.innerHTML = newOptions;
 
-      if (!unitQtySelect.value) { unitQtySelect.value = 1; }
+      if (['starcraft', 'dt392', 'room'].includes(type) && parseInt(unitQtySelect.value) > 4) { unitQtySelect.value = 1; }
+      else if (!unitQtySelect.value) { unitQtySelect.value = 1; }
 
       hideElements([
           'nightsBlock', 'rentalDurationBlock', 'bikeBlock', 'extraOptions',
@@ -1059,7 +1068,10 @@
       
       if (isFullHoliday && type !== 'car_bed_vip') discount += (totalPriceForDiscount * 0.05);
 
-      if (qty > 1 && !isLongStay && type !== 'car_bed_vip' && !type.includes('full')) {
+      const isRentalType = ['starcraft', 'dt392', 'room'].includes(type);
+      if (isRentalType && !isLongStay && (qty > 1 || extraPeople > 0)) {
+          discount += totalPriceForDiscount * 0.05;
+      } else if (!isRentalType && qty > 1 && !isLongStay && type !== 'car_bed_vip' && !type.includes('full')) {
           discount += totalPriceForDiscount * 0.05;
       }
 
