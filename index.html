@@ -97,10 +97,7 @@
                         <li><span style="color:#16a085; font-weight:bold;">🌊 滿 7 天自動升級長住專案：</span> <strong style="color:red;">「 系統自動套用包週/半月一口價 」</strong></li>
                         <li style="list-style-type: none;"><small style="color:#555; font-weight:bold;">👉 (住滿 7 天以上，系統自動幫您換算下方最便宜的組合包！)</small></li>
                     </ul>
-                    <div style="margin-top: 10px; background: #fff; padding: 8px; border-radius: 6px; border: 1px dashed #4caf50;">
-                        🍹 <strong style="color:#d35400;">加碼再送：</strong>短期連住皆贈送 <strong>$100 水煙酒吧微醺券</strong>！<br>
-                        <small style="color:#666; display: block; margin-top: 4px;">(⚠️若日期包含『週二』，將自動轉換為『週二夜市券』！長住一口價方案因已享極大折扣，恕不疊加贈券)</small>
-                    </div>
+
                 </div>
 
                 <div id="unitNotice" class="notice-box" style="background-color: #e3f2fd; color: #0d47a1; padding: 12px; border-radius: 6px; margin-bottom: 15px; border-left: 5px solid #2196F3; font-size: 0.95rem;">
@@ -244,10 +241,6 @@
 <div class="result-row" id="rowAC"><span data-i18n="res_ac">冷氣加價：</span> <span><span id="acPrice">0</span> 元</span></div>
                     <div class="result-row discount"><span data-i18n="res_discount">符合折扣：</span> <span>-<span id="discountPrice">0</span> 元</span></div>
                     
-                    <div class="result-row discount hidden" id="rowCoupon" style="background:#fff3e0; padding:8px; border-radius:5px; margin-top:5px;">
-                        <span style="color:#d35400; font-weight:bold;">🎁 贈品/專案：</span> 
-                        <span style="color:#d35400; font-weight:bold; text-align:right;" id="couponText"></span>
-                    </div>
 
                     <hr style="margin: 10px 0; border: none; border-top: 1px dashed #ccc;">
                     <div class="total-row">
@@ -730,20 +723,9 @@
       const t = TRANSLATIONS[currentLang] || TRANSLATIONS['zh'];
       const unitQtySelect = document.getElementById('unitQty');
 
-      let newOptions = "";
-      if (type === 'room') {
-        newOptions = `<option value="1">1</option><option value="2">2 (另含 StarCraft)</option><option value="3">3 (另含 大馳 DT392)</option><option value="4">4 (另含 StarCraft + 大馳 DT392)</option>`;
-      } else if (type === 'starcraft') {
-        newOptions = `<option value="1">1</option><option value="2">2 (另含 民宿房間)</option><option value="3">3 (另含 大馳 DT392)</option><option value="4">4 (另含 民宿房間 + 大馳 DT392)</option>`;
-      } else if (type === 'dt392') {
-        newOptions = `<option value="1">1</option><option value="2">2 (另含 民宿房間)</option><option value="3">3 (另含 StarCraft)</option><option value="4">4 (另含 民宿房間 + StarCraft)</option>`;
-      } else {
-        newOptions = `<option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option>`;
-      }
-      unitQtySelect.innerHTML = newOptions;
+      unitQtySelect.innerHTML = `<option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option>`;
 
-      if (['starcraft', 'dt392', 'room'].includes(type) && parseInt(unitQtySelect.value) > 4) { unitQtySelect.value = 1; }
-      else if (!unitQtySelect.value) { unitQtySelect.value = 1; }
+      if (!unitQtySelect.value) { unitQtySelect.value = 1; }
 
       hideElements([
           'nightsBlock', 'rentalDurationBlock', 'bikeBlock', 'extraOptions',
@@ -887,7 +869,7 @@
           if (hour >= 20) { isNightRush = true; }
       }
 
-      hideElements(['rowAddons', 'rowRush', 'rowAC', 'rowCoupon', 'rowTribal']);
+      hideElements(['rowAddons', 'rowRush', 'rowAC', 'rowTribal']);
       const discountRow = document.getElementById('discountPrice')?.parentElement;
       if (discountRow) discountRow.classList.remove('hidden');
 
@@ -1048,12 +1030,9 @@
 
       let discount = 0;
       const totalPriceForDiscount = basePrice + acPrice;
-      let hasCoupon = false;
-      let couponText = "";
 
-      if (type === 'car_bed_vip' || isLongStay) { 
-          discount = 0; 
-          if (isLongStay) { hasCoupon = true; couponText = "已為您套用最優惠之長住專案價！"; }
+      if (type === 'car_bed_vip' || isLongStay) {
+          discount = 0;
       } 
       else if (config.discountType === 'full_venue_promo') {
           if (nights >= 2) discount = totalPriceForDiscount * 0.15;
@@ -1075,12 +1054,6 @@
           discount += totalPriceForDiscount * 0.05;
       }
 
-      if (!isLongStay && type !== 'car_bed_vip' && !type.includes('full')) {
-          if (nights >= 2) {
-              hasCoupon = true; couponText = `贈 $100 水煙酒吧微醺券🍹 x ${qty}張`;
-          }
-      }
-
       const total = Math.round(basePrice + acPrice + totalAddonCost + tribalPrice - discount);
 
       document.getElementById('basePrice').innerText = Math.round(basePrice);
@@ -1088,11 +1061,6 @@
       document.getElementById('acPrice').innerText = Math.round(acPrice);
       document.getElementById('discountPrice').innerText = Math.round(discount);
       document.getElementById('finalTotal').innerText = total;
-
-      if (hasCoupon && couponText !== "") {
-          showElements(['rowCoupon']);
-          document.getElementById('couponText').innerText = couponText;
-      }
 
       if (!document.getElementById('extraOptions').classList.contains('hidden')) {
         if (isNightRush) showElements(['rowRush']);

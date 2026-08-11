@@ -253,20 +253,9 @@ function toggleInputs() {
   const t = TRANSLATIONS[currentLang] || TRANSLATIONS['zh'];
   const unitQtySelect = document.getElementById('unitQty');
 
-  let newOptions = "";
-  if (type === 'room') {
-    newOptions = `<option value="1">1</option><option value="2">2 (另含 StarCraft)</option><option value="3">3 (另含 大馳 DT392)</option><option value="4">4 (另含 StarCraft + 大馳 DT392)</option>`;
-  } else if (type === 'starcraft') {
-    newOptions = `<option value="1">1</option><option value="2">2 (另含 民宿房間)</option><option value="3">3 (另含 大馳 DT392)</option><option value="4">4 (另含 民宿房間 + 大馳 DT392)</option>`;
-  } else if (type === 'dt392') {
-    newOptions = `<option value="1">1</option><option value="2">2 (另含 民宿房間)</option><option value="3">3 (另含 StarCraft)</option><option value="4">4 (另含 民宿房間 + StarCraft)</option>`;
-  } else {
-    newOptions = `<option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option>`;
-  }
-  unitQtySelect.innerHTML = newOptions;
+  unitQtySelect.innerHTML = `<option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option>`;
 
-  if (['starcraft', 'dt392', 'room'].includes(type) && parseInt(unitQtySelect.value) > 4) { unitQtySelect.value = 1; }
-  else if (!unitQtySelect.value) { unitQtySelect.value = 1; }
+  if (!unitQtySelect.value) { unitQtySelect.value = 1; }
 
   // 隱藏區塊
   hideElements([
@@ -411,7 +400,7 @@ function calculateTotal() {
       if (hour >= 20) { isNightRush = true; }
   }
 
-  hideElements(['rowAddons', 'rowRush', 'rowAC', 'rowCoupon', 'rowTribal']);
+  hideElements(['rowAddons', 'rowRush', 'rowAC', 'rowTribal']);
   const discountRow = document.getElementById('discountPrice')?.parentElement;
   if (discountRow) discountRow.classList.remove('hidden');
 
@@ -548,13 +537,9 @@ function calculateTotal() {
 
   let discount = 0;
   const totalPriceForDiscount = basePrice + acPrice;
-  let hasCoupon = false;
-  let couponText = "";
 
-  if (type === 'car_bed_vip' || isLongStay) { 
-      // 車床天地與長住專案不疊加一般折扣
-      discount = 0; 
-      if (isLongStay) { hasCoupon = true; couponText = "已為您套用最優惠之長住專案價！"; }
+  if (type === 'car_bed_vip' || isLongStay) {
+      discount = 0;
   } 
   else if (config.discountType === 'full_venue_promo') {
       if (nights >= 2) discount = totalPriceForDiscount * 0.15;
@@ -577,12 +562,6 @@ function calculateTotal() {
       discount += totalPriceForDiscount * 0.05;
   }
 
-  if (!isLongStay && type !== 'car_bed_vip' && !type.includes('full')) {
-      if (nights >= 2) {
-          hasCoupon = true; couponText = `贈 $200 水煙酒吧微醺券🍹 x ${qty}張`;
-      }
-  }
-
   const total = Math.round(basePrice + acPrice + totalAddonCost + tribalPrice - discount);
 
   document.getElementById('basePrice').innerText = Math.round(basePrice);
@@ -591,10 +570,6 @@ function calculateTotal() {
   document.getElementById('discountPrice').innerText = Math.round(discount);
   document.getElementById('finalTotal').innerText = total;
 
-  if (hasCoupon && couponText !== "") {
-      showElements(['rowCoupon']);
-      document.getElementById('couponText').innerText = couponText;
-  }
 
   if (!document.getElementById('extraOptions').classList.contains('hidden')) {
     if (isNightRush) showElements(['rowRush']);
