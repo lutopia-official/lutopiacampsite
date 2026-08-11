@@ -731,9 +731,7 @@
       const unitQtySelect = document.getElementById('unitQty');
 
       let newOptions = "";
-      if (type === 'room') { newOptions = `<option value="1">1</option><option value="2">2 ${t.opt_inc_starcraft}</option><option value="3">3 ${t.opt_inc_dt392}</option><option value="4">4 ${t.opt_inc_both_rv}</option>`; } 
-      else if (type === 'starcraft') { newOptions = `<option value="1">1</option><option value="2">2 ${t.opt_inc_room}</option><option value="3">3 ${t.opt_inc_dt392}</option><option value="4">4 ${t.opt_inc_room_dt392}</option>`; } 
-      else if (type === 'dt392') { newOptions = `<option value="1">1</option><option value="2">2 ${t.opt_inc_room}</option><option value="3">3 ${t.opt_inc_starcraft}</option><option value="4">4 ${t.opt_inc_room_starcraft}</option>`; } 
+      if (['room', 'starcraft', 'dt392'].includes(type)) { newOptions = `<option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option>`; }
       else { newOptions = `<option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10 ${t.opt_group_contact}</option>`; }
       unitQtySelect.innerHTML = newOptions;
 
