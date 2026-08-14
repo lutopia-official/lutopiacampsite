@@ -1146,9 +1146,12 @@
       const last5 = document.getElementById('last5').value.trim(); 
       const noteCombined = (last5 ? `[末五碼:${last5}] ` : "") + note;
 
+      const nightsVal = document.getElementById('nights').value || 0;
+      const qtyVal = !document.getElementById('qtyBlock').classList.contains('hidden') ? (parseInt(document.getElementById('unitQty').value) || 1) : 1;
       const orderData = {
         name: name, phone: phone, line: line, dateRange: document.getElementById('dateRange').value,
-        itemDetails: details, totalPrice: document.getElementById('finalTotal').innerText, note: noteCombined, last5: last5 
+        itemDetails: details, totalPrice: document.getElementById('finalTotal').innerText,
+        nights: nightsVal, qty: qtyVal, note: noteCombined, last5: last5
       };
 
       fetch(GOOGLE_SCRIPT_URL, { method: "POST", body: JSON.stringify(orderData), headers: { "Content-Type": "text/plain" } })
