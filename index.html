@@ -1098,14 +1098,12 @@
       let qty = 1;
       if (!document.getElementById('qtyBlock').classList.contains('hidden')) {
         qty = parseInt(document.getElementById('unitQty').value);
-        details += ` / 數量:${document.getElementById('unitQty').options[document.getElementById('unitQty').selectedIndex].text}`;
       }
 
       if (['bicycle', 'venue_hourly'].includes(typeValue)) {
         const schemeId = typeValue === 'bicycle' ? 'bikeScheme' : 'rentalScheme';
         details += ` / 方案:${document.getElementById(schemeId).options[document.getElementById(schemeId).selectedIndex].text}`;
       } else {
-        details += ` / ${document.getElementById('nights').value}晚`;
         const ep = parseInt(document.getElementById('extraPeople').value) || 0;
         const vs = parseInt(document.getElementById('visitors').value) || 0;
         if (ep > 0) details += ` / 加人:${ep}`; if (vs > 0) details += ` / 訪客:${vs}`;
