@@ -234,7 +234,7 @@ const CAMPING_CONFIG = {
   camper: { rates: { weekday: 800, weekend: 1000, holiday: 1200, cny: 1500 }, nightRush: { weekday: 600, weekend: 700, holiday: 800, cny: 800 }, discountType: "fixed_amount_premium" },
   starcraft: { rates: { weekday: 1800, weekend: 2000, holiday: 2400, cny: 2800 }, discountType: "percentage" },
   dt392: { rates: { weekday: 1800, weekend: 2000, holiday: 2200, cny: 2400 }, discountType: "percentage" },
-  room: { rates: { weekday: 2200, weekend: 2400, holiday: 2500, cny: 2600 }, discountType: "percentage" },
+  room: { rates: { weekday: 2500, weekend: 2500, holiday: 2500, cny: 2500 }, discountType: "percentage" },
   full_basic: { rates: { weekday: 7000, weekend: 10000, holiday: 15000, cny: 15000 }, discountType: "full_venue_promo" },
   full_vans: { rates: { weekday: 10000, weekend: 16000, holiday: 18000, cny: 18000 }, discountType: "full_venue_promo" },
   full_all: { rates: { weekday: 13000, weekend: 18000, holiday: 20000, cny: 20000 }, discountType: "full_venue_promo" },
@@ -243,7 +243,7 @@ const CAMPING_CONFIG = {
 };
 
 const TYPE_RULES = {
-    room: { unitText: "基本單位：2人 / 1間 (第三人起需加購)", extraLabel: "加人 ($300/人)", maxExtra: 2 },
+    room: { unitText: "基本單位：2人 / 1間 (最多容納 4 人)", extraLabel: "加人 ($600/人)", maxExtra: 2 },
     starcraft: { unitText: "基本單位：2人 / 1車 (最多可加2人)", extraLabel: "加人 ($200/人)", maxExtra: 2 },
     dt392: { unitText: "基本單位：2人 / 1車 (最多可加1人)", extraLabel: "加人 ($200/人)", maxExtra: 1 }
 };
@@ -511,7 +511,7 @@ function calculateTotal() {
       if (useAC) acPrice += 100 * qty * nights;
   }
 
-  let extraPersonPrice = ['starcraft', 'dt392'].includes(type) ? 200 : 300;
+  let extraPersonPrice = type === 'room' ? 600 : (['starcraft', 'dt392'].includes(type) ? 200 : 300);
   const extraPeople = parseInt(document.getElementById('extraPeople').value) || 0;
   const visitors = parseInt(document.getElementById('visitors').value) || 0;
   const totalAddonCost = (extraPeople * extraPersonPrice * nights) + (visitors * 100) + (bringPet ? 100 * qty * nights : 0);
