@@ -704,7 +704,7 @@
       camper: { rates: { weekday: 800, weekend: 1000, holiday: 1200, cny: 1500 }, nightRush: { weekday: 600, weekend: 700, holiday: 800, cny: 800 }, discountType: "fixed_amount_premium" },
       starcraft: { rates: { weekday: 1800, weekend: 2000, holiday: 2400, cny: 2800 }, discountType: "percentage" },
       dt392: { rates: { weekday: 1800, weekend: 2000, holiday: 2200, cny: 2400 }, discountType: "percentage" },
-      room: { rates: { weekday: 2600, weekend: 2600, holiday: 2600, cny: 2600 }, discountType: "percentage" },
+      room: { rates: { weekday: 2600, weekend: 2800, holiday: 2800, cny: 2800 }, discountType: "percentage" },
       full_basic: { rates: { weekday: 7000, weekend: 10000, holiday: 15000, cny: 15000 }, discountType: "full_venue_promo" },
       full_vans: { rates: { weekday: 10000, weekend: 16000, holiday: 18000, cny: 18000 }, discountType: "full_venue_promo" },
       full_all: { rates: { weekday: 13000, weekend: 18000, holiday: 20000, cny: 20000 }, discountType: "full_venue_promo" },
@@ -973,6 +973,7 @@
             } else {
                 let dailyBase = 0;
                 let rate_room = config.rates && config.rates[rateType] !== undefined ? config.rates[rateType] : (config.rates ? config.rates['holiday'] : 0);
+                if (type === 'room' && dayOfWeek === 0 && !['cny', 'holiday'].includes(rateType)) { rate_room = CAMPING_CONFIG.room.rates['weekend']; }
                 let rate_star = CAMPING_CONFIG.starcraft.rates[rateType] || CAMPING_CONFIG.starcraft.rates['holiday'];
                 let rate_dt = CAMPING_CONFIG.dt392.rates[rateType] || CAMPING_CONFIG.dt392.rates['holiday'];
                 let rate_grass = config.rates && config.rates[rateType] !== undefined ? config.rates[rateType] : 0;
