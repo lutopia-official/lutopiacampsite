@@ -186,7 +186,7 @@ let hasShownDateNotice = false;
 try {
     // 修復 2: 呼叫 zh 語言包設定
     flatpickr("#dateRange", {
-      mode: "range", minDate: "today", dateFormat: "Y-m-d (D)", locale: "zh",
+      mode: "range", minDate: "today", maxDate: "2027-02-28", dateFormat: "Y-m-d (D)", locale: "zh",
       onOpen: function() {
         if (!hasShownDateNotice) { alert("⚠️ 【預約日期選擇提醒】\n\n請務必點選「進場日期」與「退場日期」！\n(不然無法算出價格唷，請點選出進、退場時間)"); hasShownDateNotice = true; }
       },
