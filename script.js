@@ -545,8 +545,7 @@ function calculateTotal() {
   else if (config.discountType === 'full_venue_promo') {
       if (nights >= 2) discount = totalPriceForDiscount * 0.15;
   } else if (config.discountType === 'percentage') {
-      if (isHolidayForDiscount && nights >= 3) discount = totalPriceForDiscount * 0.15;
-      else if (nights >= 2) discount = totalPriceForDiscount * 0.10;
+      if (nights >= 2) discount = totalPriceForDiscount * 0.20;
   } else if (config.discountType === 'fixed_amount' || config.discountType === 'fixed_amount_premium') {
       // 修復 4: 連住折扣計算邏輯對齊文案
       if (nights >= 2) {
