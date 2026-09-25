@@ -234,6 +234,7 @@
 
                 <div id="resultBox" class="result-box hidden">
                     <h3 data-i18n="result_title">試算結果</h3>
+                    <div class="result-row hidden" id="rowUnitInfo"><span id="unitInfoText" style="color:#555; font-size:0.9em;"></span></div>
                     <div class="result-row"><span data-i18n="res_base">基本費用：</span> <span><span id="basePrice">0</span> 元</span></div>
                     <div class="result-row hidden" id="rowTribal"><span style="color:#2e7d32; font-weight:bold;">🌿 部落體驗包：</span> <span><span id="tribalTotal">0</span> 元</span></div>
                     <div class="result-row" id="rowRush"><span data-i18n="res_rush">夜衝費用：</span> <span><span id="rushPrice">0</span> 元</span></div>
@@ -869,7 +870,7 @@
           if (hour >= 20) { isNightRush = true; }
       }
 
-      hideElements(['rowAddons', 'rowRush', 'rowAC', 'rowTribal']);
+      hideElements(['rowAddons', 'rowRush', 'rowAC', 'rowTribal', 'rowUnitInfo']);
       const discountRow = document.getElementById('discountPrice')?.parentElement;
       if (discountRow) discountRow.classList.remove('hidden');
 
@@ -1065,6 +1066,11 @@
       if (!document.getElementById('extraOptions').classList.contains('hidden')) {
         if (isNightRush) showElements(['rowRush']);
         if (Math.round(acPrice) > 0) showElements(['rowAC']);
+      }
+
+      if (TYPE_RULES[type]) {
+        document.getElementById('unitInfoText').innerText = TYPE_RULES[type].unitText;
+        showElements(['rowUnitInfo']);
       }
 
       showElements(['resultBox']);

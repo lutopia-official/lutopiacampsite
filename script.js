@@ -400,7 +400,7 @@ function calculateTotal() {
       if (hour >= 20) { isNightRush = true; }
   }
 
-  hideElements(['rowAddons', 'rowRush', 'rowAC', 'rowTribal']);
+  hideElements(['rowAddons', 'rowRush', 'rowAC', 'rowTribal', 'rowUnitInfo']);
   const discountRow = document.getElementById('discountPrice')?.parentElement;
   if (discountRow) discountRow.classList.remove('hidden');
 
@@ -574,6 +574,11 @@ function calculateTotal() {
   if (!document.getElementById('extraOptions').classList.contains('hidden')) {
     if (isNightRush) showElements(['rowRush']);
     if (Math.round(acPrice) > 0) showElements(['rowAC']);
+  }
+
+  if (TYPE_RULES[type]) {
+    document.getElementById('unitInfoText').innerText = TYPE_RULES[type].unitText;
+    showElements(['rowUnitInfo']);
   }
 
   showElements(['resultBox']);
