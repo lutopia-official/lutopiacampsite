@@ -446,11 +446,11 @@ function calculateTotal() {
   let isLongStay = false;
   if (nights >= 7 && !type.includes('full') && type !== 'car_bed_vip') {
       let lsConfig = { 'tent': {7: 3000, 14: 5000, 30: 6000}, 'car': {7: 3000, 14: 5000, 30: 6000}, 'solo': {7: 3000, 14: 5000, 30: 6000}, 'moto': {7: 3000, 14: 5000, 30: 6000},
-                       'camper': {7: 4000, 14: 6500, 30: 9000}, 'starcraft': {7: 8600, 14: 12000, 30: 13000}, 'dt392': {7: 8400, 14: 11900, 30: 12000}, 'room': {7: 9100, 14: 14000, 30: 19800} };
-      
+                       'camper': {7: 4000, 14: 6500, 30: 9000}, 'starcraft': {7: 8600, 14: 12000, 21: 12500, 30: 13000}, 'dt392': {7: 8400, 14: 11900, 21: 12000, 30: 12000}, 'room': {7: 9100, 14: 14000, 21: 16500, 30: 19800} };
+
       if (lsConfig[type]) {
           isLongStay = true;
-          let pricingTier = nights >= 30 && lsConfig[type][30] ? 30 : (nights >= 14 && lsConfig[type][14] ? 14 : 7);
+          let pricingTier = nights >= 30 && lsConfig[type][30] ? 30 : (nights >= 21 && lsConfig[type][21] ? 21 : (nights >= 14 && lsConfig[type][14] ? 14 : 7));
           let extraNights = nights % pricingTier;
           let tierCount = Math.floor(nights / pricingTier);
           
