@@ -322,8 +322,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr><td><strong>⛺ 自搭帳 / 車泊</strong></td><td>$3,000</td><td>$5,000</td><td>—</td><td class="price-highlight" style="font-size: 1.1rem;">$6,000</td></tr>
-                                <tr><td><strong>🚐 自備露營車</strong></td><td>$4,000</td><td>$6,500</td><td>—</td><td class="price-highlight" style="font-size: 1.1rem;">$9,000</td></tr>
+                                <tr><td><strong>⛺ 自搭帳 / 車泊</strong></td><td>$3,000</td><td>$5,000</td><td class="price-highlight">$5,500</td><td class="price-highlight" style="font-size: 1.1rem;">$6,000</td></tr>
+                                <tr><td><strong>🚐 自備露營車</strong></td><td>$4,000</td><td>$6,500</td><td class="price-highlight">$7,500</td><td class="price-highlight" style="font-size: 1.1rem;">$9,000</td></tr>
                                 <tr><td><strong>🚐 大馳 DT392</strong></td><td>$8,400</td><td>$11,900</td><td class="price-highlight">$12,000</td><td class="price-highlight" style="font-size: 1.1rem;">$12,000</td></tr>
                                 <tr><td><strong>🚐 StarCraft</strong></td><td>$8,600</td><td>$12,000</td><td class="price-highlight">$12,500</td><td class="price-highlight" style="font-size: 1.1rem;">$13,000</td></tr>
                                 <tr><td><strong>🏡 民宿房間</strong></td><td>$9,100</td><td>$14,000</td><td class="price-highlight">$16,500</td><td class="price-highlight" style="font-size: 1.1rem;">$19,800</td></tr>
@@ -918,7 +918,7 @@
       let isLongStay = false;
       if (nights >= 7 && !type.includes('full') && type !== 'car_bed_vip') {
           let lsConfig = { 'tent': {7: 3000, 14: 5000, 30: 6000}, 'car': {7: 3000, 14: 5000, 30: 6000}, 'solo': {7: 3000, 14: 5000, 30: 6000}, 'moto': {7: 3000, 14: 5000, 30: 6000},
-                           'camper': {7: 4000, 14: 6500, 30: 9000}, 'starcraft': {7: 8600, 14: 12000, 21: 12500, 30: 13000}, 'dt392': {7: 8400, 14: 11900, 21: 12000, 30: 12000}, 'room': {7: 9100, 14: 14000, 21: 16500, 30: 19800} };
+                           'camper': {7: 4000, 14: 6500, 21: 7500, 30: 9000}, 'starcraft': {7: 8600, 14: 12000, 21: 12500, 30: 13000}, 'dt392': {7: 8400, 14: 11900, 21: 12000, 30: 12000}, 'room': {7: 9100, 14: 14000, 21: 16500, 30: 19800} };
           
           // ✨ 設定長住期間若跨到連假，每晚的「加價金額」
       let lsHolidaySurcharge = { 
