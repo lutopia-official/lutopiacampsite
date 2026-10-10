@@ -190,7 +190,30 @@ try {
       onOpen: function() {
         if (!hasShownDateNotice) { alert("⚠️ 【預約日期選擇提醒】\n\n請務必點選「進場日期」與「退場日期」！\n(不然無法算出價格唷，請點選出進、退場時間)"); hasShownDateNotice = true; }
       },
-      onChange: function (dates) { updateNights(dates); checkCarBedVipAvailability(); calculateTotal(); }
+      onChange: function (dates) {
+        if (dates.length === 2) {
+          const type = document.getElementById('campType').value;
+          let blocked = [...(GLOBAL_BLOCKED_DATA.full || [])];
+          if (type === 'starcraft') blocked = blocked.concat(GLOBAL_BLOCKED_DATA.starcraft || []);
+          else if (type === 'dt392') blocked = blocked.concat(GLOBAL_BLOCKED_DATA.dt392 || []);
+          else if (type === 'room') blocked = blocked.concat(GLOBAL_BLOCKED_DATA.room || []);
+          if (blocked.length > 0) {
+            const blockedSet = new Set(blocked);
+            let cur = new Date(dates[0].getFullYear(), dates[0].getMonth(), dates[0].getDate());
+            const endD = new Date(dates[1].getFullYear(), dates[1].getMonth(), dates[1].getDate());
+            while (cur < endD) {
+              const key = cur.getFullYear() + '-' + String(cur.getMonth()+1).padStart(2,'0') + '-' + String(cur.getDate()).padStart(2,'0');
+              if (blockedSet.has(key)) {
+                alert('⚠️ 所選日期範圍內有已被預訂的日期，請重新選擇！');
+                this.clear();
+                return;
+              }
+              cur.setDate(cur.getDate() + 1);
+            }
+          }
+        }
+        updateNights(dates); checkCarBedVipAvailability(); calculateTotal();
+      }
     });
 } catch(e) { console.error("Flatpickr 初始化失敗", e); }
 
@@ -331,11 +354,13 @@ function updateCalendarBlocking() {
   if (!pickerElement || !pickerElement._flatpickr) return;
   const picker = pickerElement._flatpickr;
 
-  let datesToDisable = [...(GLOBAL_BLOCKED_DATA.full || [])];
-  if (type === 'starcraft' && GLOBAL_BLOCKED_DATA.starcraft) datesToDisable = datesToDisable.concat(GLOBAL_BLOCKED_DATA.starcraft);
-  else if (type === 'dt392' && GLOBAL_BLOCKED_DATA.dt392) datesToDisable = datesToDisable.concat(GLOBAL_BLOCKED_DATA.dt392);
-  else if (type === 'room' && GLOBAL_BLOCKED_DATA.room) datesToDisable = datesToDisable.concat(GLOBAL_BLOCKED_DATA.room);
-  else if (type && type.includes('full')) datesToDisable = datesToDisable.concat(GLOBAL_BLOCKED_DATA.starcraft || [], GLOBAL_BLOCKED_DATA.dt392 || [], GLOBAL_BLOCKED_DATA.room || []);
+  let dateStrings = [...(GLOBAL_BLOCKED_DATA.full || [])];
+  if (type === 'starcraft') dateStrings = dateStrings.concat(GLOBAL_BLOCKED_DATA.starcraft || []);
+  else if (type === 'dt392') dateStrings = dateStrings.concat(GLOBAL_BLOCKED_DATA.dt392 || []);
+  else if (type === 'room') dateStrings = dateStrings.concat(GLOBAL_BLOCKED_DATA.room || []);
+  else if (type && type.includes('full')) dateStrings = dateStrings.concat(GLOBAL_BLOCKED_DATA.starcraft || [], GLOBAL_BLOCKED_DATA.dt392 || [], GLOBAL_BLOCKED_DATA.room || []);
+  // 轉為本地 Date 物件，避免 UTC 字串造成時區偏移（台灣 UTC+8 會差一天）
+  const datesToDisable = dateStrings.map(s => { const [y,m,d] = s.split('-').map(Number); return new Date(y, m-1, d); });
   picker.set('disable', datesToDisable);
 }
 
