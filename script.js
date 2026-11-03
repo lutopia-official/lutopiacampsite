@@ -412,6 +412,18 @@ function validateTribalPeople() {
     if (!input.value || parseInt(input.value) < 4) { alert("⚠️ 部落慢活體驗包最低需 4 人成行！"); input.value = 4; }
 }
 
+// 依類型取得單一晚的費率（考量週日民宿特例）
+function getUnitNightlyRate(uType, rateType, dayOfWeek) {
+    const uCfg = CAMPING_CONFIG[uType];
+    if (!uCfg || !uCfg.rates) return 0;
+    let rate = uCfg.rates[rateType] !== undefined ? uCfg.rates[rateType] : (uCfg.rates['holiday'] || 0);
+    // 民宿週日按週末計價
+    if (uType === 'room' && dayOfWeek === 0 && !['cny', 'holiday'].includes(rateType)) {
+        rate = CAMPING_CONFIG.room.rates['weekend'];
+    }
+    return rate;
+}
+
 function calculateTotal() {
   const type = document.getElementById('campType').value;
   if (!type || type === "") { hideResult(); return; }
@@ -499,32 +511,41 @@ function calculateTotal() {
         if (dayOfWeek === 6 && !isMakeup) hasSaturday = true;
         if (HOLIDAYS.includes(dateStr) || CNY_DAYS.includes(dateStr)) isHolidayForDiscount = true;
 
-        if (i === 0 && isNightRush && config.nightRush) {
-            let rushRate = config.nightRush[rateType] || config.nightRush['holiday'] || config.nightRush['weekday'];
-            if (type === 'camper') rushRate = rushRate * 0.8;
-            basePrice += rushRate * qty; rushPrice = rushRate * qty; 
+        // 收集各單位的類型：主類型 + 同行者各自選的類型
+        const guestSelects = document.querySelectorAll('.guest-type-select');
+        const unitTypes = [type];
+        guestSelects.forEach(sel => { unitTypes.push(sel.value || type); });
+
+        if (i === 0 && isNightRush) {
+            // 第一晚即到費：依各單位分別計算
+            let totalRush = 0;
+            for (let u = 0; u < qty; u++) {
+                const uType = unitTypes[u] || type;
+                const uCfg = CAMPING_CONFIG[uType];
+                if (uCfg && uCfg.nightRush) {
+                    let uRush = uCfg.nightRush[rateType] || uCfg.nightRush['holiday'] || uCfg.nightRush['weekday'];
+                    if (uType === 'camper') uRush = uRush * 0.8;
+                    totalRush += uRush;
+                } else {
+                    // 無即到費設定的類型（如 starcraft/room）以正常費率計
+                    totalRush += getUnitNightlyRate(uType, rateType, dayOfWeek);
+                }
+            }
+            basePrice += totalRush; rushPrice = totalRush;
         } else {
             let dailyBase = 0;
-            let rate_room = config.rates && config.rates[rateType] !== undefined ? config.rates[rateType] : (config.rates ? config.rates['holiday'] : 0);
-            if (type === 'room' && dayOfWeek === 0 && !['cny', 'holiday'].includes(rateType)) { rate_room = CAMPING_CONFIG.room.rates['weekend']; }
-            let rate_star = CAMPING_CONFIG.starcraft.rates[rateType] || CAMPING_CONFIG.starcraft.rates['holiday'];
-            let rate_dt = CAMPING_CONFIG.dt392.rates[rateType] || CAMPING_CONFIG.dt392.rates['holiday'];
-            let rate_grass = config.rates && config.rates[rateType] !== undefined ? config.rates[rateType] : 0;
-
             if (type === 'car_bed_vip') {
+                // 車床天地依人數計價，維持原邏輯
                 const pQty = parseInt(document.getElementById('carBedPeople').value) || 2;
                 let personPrice = config.people_rates[pQty][rateType] !== undefined ? config.people_rates[pQty][rateType] : config.people_rates[pQty]['weekend'];
-                
                 let tentFee = document.getElementById('carBedTent').checked ? (config.tent_add_on[rateType] || 50) : 0;
                 dailyBase = (personPrice + tentFee) * qty;
-            } else if (type === 'room') {
-                if (qty === 1) dailyBase = rate_room; else if (qty === 2) dailyBase = rate_room + rate_star; else if (qty === 3) dailyBase = rate_room + rate_dt; else dailyBase = rate_room + rate_star + rate_dt;
-            } else if (type === 'starcraft') {
-                if (qty === 1) dailyBase = rate_star; else if (qty === 2) dailyBase = rate_star + rate_room; else if (qty === 3) dailyBase = rate_star + rate_dt; else dailyBase = rate_star + rate_room + rate_dt;
-            } else if (type === 'dt392') {
-                if (qty === 1) dailyBase = rate_dt; else if (qty === 2) dailyBase = rate_dt + rate_room; else if (qty === 3) dailyBase = rate_dt + rate_star; else dailyBase = rate_dt + rate_room + rate_star;
             } else {
-                dailyBase = rate_grass * qty;
+                // 每個單位依自己的類型分別取費率，不受選擇順序影響
+                for (let u = 0; u < qty; u++) {
+                    const uType = unitTypes[u] || type;
+                    dailyBase += getUnitNightlyRate(uType, rateType, dayOfWeek);
+                }
             }
             basePrice += dailyBase;
         }
