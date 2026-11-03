@@ -501,6 +501,8 @@ function calculateTotal() {
   }
 
   // 若非長住專案，執行每日累加計算
+  const unitBasePrices = new Array(qty).fill(0);
+
   if (!isLongStay) {
       for (let i = 0; i < nights; i++) {
         const dateStr = formatDate(currentDate);
@@ -544,7 +546,9 @@ function calculateTotal() {
                 // 每個單位依自己的類型分別取費率，不受選擇順序影響
                 for (let u = 0; u < qty; u++) {
                     const uType = unitTypes[u] || type;
-                    dailyBase += getUnitNightlyRate(uType, rateType, dayOfWeek);
+                    const uRate = getUnitNightlyRate(uType, rateType, dayOfWeek);
+                    dailyBase += uRate;
+                    unitBasePrices[u] = (unitBasePrices[u] || 0) + uRate;
                 }
             }
             basePrice += dailyBase;
@@ -590,24 +594,28 @@ function calculateTotal() {
   } 
   else if (config.discountType === 'full_venue_promo') {
       if (nights >= 2) discount = totalPriceForDiscount * 0.15;
-  } else if (config.discountType === 'percentage') {
-      if      (nights >= 5) discount = totalPriceForDiscount * 0.20;
-      else if (nights === 4) discount = totalPriceForDiscount * 0.15;
-      else if (nights === 3) discount = totalPriceForDiscount * 0.10;
-      else if (nights === 2) discount = totalPriceForDiscount * 0.05;
-  } else if (config.discountType === 'fixed_amount' || config.discountType === 'fixed_amount_premium') {
-      // 修復 4: 連住折扣計算邏輯對齊文案
-      if (nights >= 2) {
-          discount = Math.min(nights * 100, 500) * qty;
+  } else {
+      // 各單位依自己的類型套用折扣，與選擇順序無關
+      for (let u = 0; u < qty; u++) {
+          const uType = unitTypes[u] || type;
+          const uCfg = CAMPING_CONFIG[uType];
+          if (!uCfg) continue;
+          const uBase = isLongStay ? 0 : (unitBasePrices[u] || 0);
+          if (uCfg.discountType === 'percentage') {
+              if      (nights >= 5) discount += uBase * 0.20;
+              else if (nights === 4) discount += uBase * 0.15;
+              else if (nights === 3) discount += uBase * 0.10;
+              else if (nights === 2) discount += uBase * 0.05;
+          } else if (uCfg.discountType === 'fixed_amount' || uCfg.discountType === 'fixed_amount_premium') {
+              if (nights >= 2) discount += Math.min(nights * 100, 500);
+          }
       }
   }
-  
+
   if (isFullHoliday && type !== 'car_bed_vip') discount += (totalPriceForDiscount * 0.05);
 
-  const isRentalType = ['starcraft', 'dt392', 'room'].includes(type);
-  if (isRentalType && !isLongStay && (qty > 1 || extraPeople > 0)) {
-      discount += totalPriceForDiscount * 0.05;
-  } else if (!isRentalType && qty > 1 && !isLongStay && type !== 'car_bed_vip' && !type.includes('full')) {
+  // 同行者 95折：任一單位為租賃型，或全為一般露營且數量 > 1，皆享有
+  if (!isLongStay && type !== 'car_bed_vip' && !type.includes('full') && (qty > 1 || extraPeople > 0)) {
       discount += totalPriceForDiscount * 0.05;
   }
 

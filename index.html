@@ -884,6 +884,16 @@
     }
 
 
+    function getUnitNightlyRate(uType, rateType, dayOfWeek) {
+        const uCfg = CAMPING_CONFIG[uType];
+        if (!uCfg || !uCfg.rates) return 0;
+        let rate = uCfg.rates[rateType] !== undefined ? uCfg.rates[rateType] : (uCfg.rates['holiday'] || 0);
+        if (uType === 'room' && dayOfWeek === 0 && !['cny', 'holiday'].includes(rateType)) {
+            rate = CAMPING_CONFIG.room.rates['weekend'];
+        }
+        return rate;
+    }
+
     function calculateTotal() {
       const type = document.getElementById('campType').value;
       if (!type || type === "") { hideResult(); return; }
@@ -984,6 +994,8 @@
           }
       }
       
+      const unitBasePrices = new Array(qty).fill(0);
+
       if (!isLongStay) {
           for (let i = 0; i < nights; i++) {
             const dateStr = formatDate(currentDate);
@@ -994,41 +1006,36 @@
             if (dayOfWeek === 6 && !isMakeup) hasSaturday = true;
             if (HOLIDAYS.includes(dateStr) || CNY_DAYS.includes(dateStr)) isHolidayForDiscount = true;
 
+            const guestSelects = document.querySelectorAll('.guest-type-select');
+            const unitTypes = [type];
+            guestSelects.forEach(sel => { unitTypes.push(sel.value || type); });
+
             if (i === 0 && isNightRush && config.nightRush) {
                 let rushRate = config.nightRush[rateType] || config.nightRush['holiday'] || config.nightRush['weekday'];
                 if (type === 'camper') rushRate = rushRate * 0.8;
-                basePrice += rushRate * qty; rushPrice = rushRate * qty; 
+                basePrice += rushRate * qty; rushPrice = rushRate * qty;
             } else {
                 let dailyBase = 0;
-                let rate_room = config.rates && config.rates[rateType] !== undefined ? config.rates[rateType] : (config.rates ? config.rates['holiday'] : 0);
-                if (type === 'room' && dayOfWeek === 0 && !['cny', 'holiday'].includes(rateType)) { rate_room = CAMPING_CONFIG.room.rates['weekend']; }
-                let rate_star = CAMPING_CONFIG.starcraft.rates[rateType] || CAMPING_CONFIG.starcraft.rates['holiday'];
-                let rate_dt = CAMPING_CONFIG.dt392.rates[rateType] || CAMPING_CONFIG.dt392.rates['holiday'];
-                let rate_grass = config.rates && config.rates[rateType] !== undefined ? config.rates[rateType] : 0;
-
                 if (type === 'car_bed_vip') {
                     const pQty = parseInt(document.getElementById('carBedPeople').value) || 2;
                     let personPrice = config.people_rates[pQty][rateType] !== undefined ? config.people_rates[pQty][rateType] : config.people_rates[pQty]['weekend'];
                     let tentFee = document.getElementById('carBedTent').checked ? (config.tent_add_on[rateType] || 50) : 0;
-                    dailyBase = (personPrice + tentFee) * qty; 
-                } else if (type === 'room') {
-                    if (qty === 1) dailyBase = rate_room; else if (qty === 2) dailyBase = rate_room + rate_star; else if (qty === 3) dailyBase = rate_room + rate_dt; else dailyBase = rate_room + rate_star + rate_dt;
-                } else if (type === 'starcraft') {
-                    if (qty === 1) dailyBase = rate_star; else if (qty === 2) dailyBase = rate_star + rate_room; else if (qty === 3) dailyBase = rate_star + rate_dt; else dailyBase = rate_star + rate_room + rate_dt;
-                } else if (type === 'dt392') {
-                    if (qty === 1) dailyBase = rate_dt; else if (qty === 2) dailyBase = rate_dt + rate_room; else if (qty === 3) dailyBase = rate_dt + rate_star; else dailyBase = rate_dt + rate_room + rate_star;
+                    dailyBase = (personPrice + tentFee) * qty;
                 } else {
-                    dailyBase = rate_grass * qty;
+                    for (let u = 0; u < qty; u++) {
+                        const uType = unitTypes[u] || type;
+                        const uRate = getUnitNightlyRate(uType, rateType, dayOfWeek);
+                        dailyBase += uRate;
+                        unitBasePrices[u] = (unitBasePrices[u] || 0) + uRate;
+                    }
                 }
                 basePrice += dailyBase;
             }
 
-            // ✨ 修改處：一般露營冷氣費改為 100
-            if (useAC) acPrice += (type === 'car_bed_vip' ? 50 : 100) * qty; 
+            if (useAC) acPrice += (type === 'car_bed_vip' ? 50 : 100) * qty;
             currentDate.setDate(currentDate.getDate() + 1);
           }
       } else {
-          // ✨ 修改處：長住專案冷氣費改為 100
           if (useAC) acPrice += 100 * qty * nights;
       }
 
@@ -1062,26 +1069,32 @@
 
       if (type === 'car_bed_vip' || isLongStay) {
           discount = 0;
-      } 
+      }
       else if (config.discountType === 'full_venue_promo') {
           if (nights >= 2) discount = totalPriceForDiscount * 0.15;
-      } else if (config.discountType === 'percentage') {
-          if      (nights >= 5) discount = totalPriceForDiscount * 0.20;
-          else if (nights === 4) discount = totalPriceForDiscount * 0.15;
-          else if (nights === 3) discount = totalPriceForDiscount * 0.10;
-          else if (nights === 2) discount = totalPriceForDiscount * 0.05;
-      } else if (config.discountType === 'fixed_amount' || config.discountType === 'fixed_amount_premium') {
-          if (nights >= 2) {
-              discount = Math.min(nights * 100, 500) * qty;
+      } else {
+          const guestSelects2 = document.querySelectorAll('.guest-type-select');
+          const unitTypes2 = [type];
+          guestSelects2.forEach(sel => { unitTypes2.push(sel.value || type); });
+          for (let u = 0; u < qty; u++) {
+              const uType = unitTypes2[u] || type;
+              const uCfg = CAMPING_CONFIG[uType];
+              if (!uCfg) continue;
+              const uBase = unitBasePrices[u] || 0;
+              if (uCfg.discountType === 'percentage') {
+                  if      (nights >= 5) discount += uBase * 0.20;
+                  else if (nights === 4) discount += uBase * 0.15;
+                  else if (nights === 3) discount += uBase * 0.10;
+                  else if (nights === 2) discount += uBase * 0.05;
+              } else if (uCfg.discountType === 'fixed_amount' || uCfg.discountType === 'fixed_amount_premium') {
+                  if (nights >= 2) discount += Math.min(nights * 100, 500);
+              }
           }
       }
-      
+
       if (isFullHoliday && type !== 'car_bed_vip') discount += (totalPriceForDiscount * 0.05);
 
-      const isRentalType = ['starcraft', 'dt392', 'room'].includes(type);
-      if (isRentalType && !isLongStay && (qty > 1 || extraPeople > 0)) {
-          discount += totalPriceForDiscount * 0.05;
-      } else if (!isRentalType && qty > 1 && !isLongStay && type !== 'car_bed_vip' && !type.includes('full')) {
+      if (!isLongStay && type !== 'car_bed_vip' && !type.includes('full') && (qty > 1 || extraPeople > 0)) {
           discount += totalPriceForDiscount * 0.05;
       }
 
