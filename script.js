@@ -716,10 +716,11 @@ function submitOrder() {
   const last5 = document.getElementById('last5').value.trim(); 
   const noteCombined = (last5 ? `[末五碼:${last5}] ` : "") + note;
 
+  const nightsVal = document.getElementById('nights') ? document.getElementById('nights').value : 0;
   const orderData = {
     name: name, phone: phone, line: line, dateRange: document.getElementById('dateRange').value,
     itemDetails: details, totalPrice: document.getElementById('finalTotal').innerText, note: noteCombined, last5: last5,
-    type: typeValue
+    type: typeValue, nights: nightsVal, qty: qty
   };
 
   fetch(GOOGLE_SCRIPT_URL, { method: "POST", body: JSON.stringify(orderData), headers: { "Content-Type": "text/plain" } })
